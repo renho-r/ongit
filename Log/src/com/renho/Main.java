@@ -19,5 +19,6 @@ public class Main {
 		logger.info(StringUtils.trim("   renho"));
 		logger.debug("1111");
 		logger.info(StringUtils.trim("    renho").length() + "");
+		logger.info("test git");
 	}
 }
