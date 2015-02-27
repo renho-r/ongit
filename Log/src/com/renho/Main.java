@@ -21,5 +21,6 @@ public class Main {
 		logger.info(StringUtils.trim("    renho").length() + "");
 		logger.info("test git");
 		logger.info("test git dev-renho");
+		logger.info("test git dev-renho-sec");
 	}
 }
