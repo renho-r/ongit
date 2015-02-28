@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>投诉建议</title>
+<link rel="stylesheet" type="text/css" href="../css/citytravel.css">
+<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+<style type="text/css">
+div.all{
+	width:1226px;
+}
+div.trafficinfo{
+	height:28px;
+	float:right;
+	padding:4px 20px 0px;
+}
+div.main{
+	width:910px;
+}
+div.main-top {
+	width:910px;
+	height:50px;
+	margin-top: 15px;
+}
+div.main-top span{
+	font-size: 12px;
+	line-height:15px;
+	margin-left: 10px;
+	display:inline-block;
+}
+div.main-form{
+	width: 535px;
+	height: 435px;
+	margin: 0 auto;
+}
+td.title{
+	 width:60px;
+	 height:25px;
+	 text-align:right;
+}
+.textcss{
+	width:310px;
+}
+.textareacss{
+	width:385px;
+	height:67px;
+}
+.main .button{
+	width:535px;
+	height:30px;
+	margin:0 auto;
+	margin-top:15px;
+}
+.button .subbutton{
+	float:left;
+	width:255px;
+	text-align:right;
+	margin-right:10px;
+}
+.button .resetbutton{
+	float:left;
+	width:255px;
+	margin-left:10px;
+}
+
+</style>
+</head>
+<body>
+<div class="all">
+	<div id="tools" style="width:910px">
+		<div id="MapInfoNav" class="tools_r" style="background: none">
+			<a id="btn_home" class="toolBtn toolBtn--link toolBtn--img toolBtn--img--home" ><span class="toolBtn-cont"><span class="toolBtn-img"></span>首页 - 投诉建议</span></a>
+		</div>
+	</div>
+	<div class="main">
+		<div class="main-top">
+			<span>1.按照相关规定反应问题。向各级党政机关反应问题是您的合法权利,为提高办事效率、明确责任，请按问题归属向各主管部门反应，并依据管辖权限自下而上逐级进行，有效表达意见和反应问题。</span><br/>
+			<span>2.维护自己及他人的合法权益。请实事求是、客观公正地反映问题，蓄意对他人进行污蔑、陷害、诽谤或打击报复的，必须承担由此引起的一切法律后果。</span>
+		</div>
+		<div class="main-form">
+		  <form name="form1" method="post" action="">
+		    <table width="535px" border="1" cellspacing="0px" style="border-collapse:collapse" bordercolor="#000000">
+              <tr>
+                <td class="title"><span>提交部门:</span></td>
+                <td style="width:470px;" colspan="2">
+					<label>
+					  <input class="textcss" type="text" name="textfield">
+					</label>
+				</td>
+              </tr>
+              <tr>
+                <td class="title">主题:</td>
+                <td colspan="2">
+					<label>
+					  <input class="textcss" type="text" name="textfield">
+					</label>
+					<span style=" color:#FF0000">*</span>
+				</td>
+              </tr>
+              <tr>
+                <td class="title">真实姓名:</td>
+                <td colspan="2">
+					<label>
+					  <input class="textcss" type="text" name="textfield">
+					</label>
+					<span style=" color:#FF0000">*</span>
+				</td>
+              </tr>
+              <tr>
+                <td class="title">性别:</td>
+                <td width="216px">
+					<label>
+                  		<input type="radio" name="radiosex" value="0">男
+                	</label>
+					<label>
+                  		<input type="radio" name="radiosex" value="1">女
+                	</label>
+				</td>
+                <td width="216px">&nbsp;</td>
+              </tr>
+              <tr>
+                <td class="title">身份证:</td>
+                <td colspan="2">
+					<label>
+					  <input class="textcss" type="text" name="textfield" maxlength="18">
+					</label>
+					<span style=" color:#FF0000">*</span>
+				</td>
+              </tr>
+              <tr>
+                <td class="title">Email地址:</td>
+                <td colspan="2">
+					<label>
+					  <input class="textcss" type="text" name="textfield">
+					</label>
+					<span style=" color:#FF0000">*</span>
+				</td>
+              </tr>
+              <tr>
+                <td class="title">通信地址:</td>
+                <td colspan="2">
+					<label>
+					  <input class="textcss" type="text" name="textfield">
+					</label>
+				</td>
+              </tr>
+              <tr>
+                <td class="title">邮政编码:</td>
+                <td colspan="2">
+					<label>
+					  <input class="textcss" type="text" name="textfield">
+					</label>
+				</td>
+              </tr>
+              <tr>
+                <td class="title">手机号码:</td>
+                <td colspan="2">
+					<label>
+					  <input class="textcss" type="text" name="textfield">
+					</label>
+					<span style=" color:#FF0000">*</span>
+				</td>
+              </tr>
+              <tr>
+                <td class="title">电话号码:</td>
+                <td colspan="2">
+					<label>
+					  <input class="textcss" type="text" name="textfield">
+					</label>
+				</td>
+              </tr>
+              <tr>
+                <td  class="title" style="height:67px">内容:</td>
+                <td colspan="2">
+					<label>
+						<textarea class="textareacss" name="" cols="" rows=""></textarea>
+					</label>
+					<span style=" color:#FF0000">*</span>
+				</td>
+              </tr>
+              <tr>
+                <td class="title">同意公开:</td>
+                <td>
+					<label>
+					  <input type="radio" name="radioagree" value="1">是
+					</label>
+					<label>
+					  <input type="radio" name="radioagree" value="0">否
+					</label>
+				</td>
+                <td>
+					<span style="font-size:9px; color:#0000FF">如果您不希望在网上公开您的问题，可以选择否选项，提交后只能凭系统反馈给您的查询号进行查询。</span>
+				</td>
+              </tr>
+              <tr>
+                <td class="title">验证码:</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+              </tr>
+            </table>
+		  </form>
+	    </div>
+		<div class="button">
+		  	<div class="subbutton">
+				<input id="subbutton" type="button" style="margin-top:1px; width:70px; height:25px; text-align:center; background-color:#2F95D3; border-color:#11527C; color:#FFFFFF" value="提交"/>
+			</div>
+		  	<div class="resetbutton">
+				<input id="resetbutton" type="button" style="margin-top:1px; width:70px; height:25px; text-align:center; background-color:#2F95D3; border-color:#11527C; color:#FFFFFF" value="重填"/>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

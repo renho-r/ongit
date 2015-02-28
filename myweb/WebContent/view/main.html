@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>珠海市交通</title>
+<style type="text/css">
+body a{outline:none;blr:expression(this.onFocus=this.blur());}
+div.all{
+	width:1226px;
+	margin:0px auto;
+}
+
+div.divimg {
+	width:260px;
+	height:15px;
+	margin:0 auto;
+	margin-top:17px;
+}
+
+div.top{
+		width: 1226px;
+		height: 65px;
+		margin-bottom:15px;
+}
+div.main{
+		width: 1226px;
+		min-height: 500px;
+}
+div.foot{
+		width: 1000px;
+		height: 50px;
+}
+div.logo{
+	width:175px;
+	height: 65px;
+	background:url(../img/smallogo.png) no-repeat;
+	float:left;
+	margin-right:20px;
+}
+
+div.top-main{
+	width:1030px;
+	height:65px;
+	float:left;
+}
+div.top-main-top{
+	width:100%;
+	height:20px;
+}
+div.top-right-top{
+	width:100%;
+	height:20px;
+}
+
+div.top-right-top span{
+	font-size:13px;
+}
+div.top-main-bottom{
+	width:100%;
+	height:60px;
+}
+
+div.top-main-bottom-left{
+	width:715px;
+	height:45px;
+	background:url(../img/top-main-bottom.png) no-repeat;
+	float:left;
+}
+div.top-main-bottom-right{
+	width:235px;
+	height:45px;
+	background:url(../img/dz.png) no-repeat;
+	float:right;
+}
+div.top-right{
+	width:235px;
+	height:20px;
+	float:right;
+}
+div.top-main-top a{
+	margin-left:0px;
+	margin-right:1px;
+}
+
+div.top-main-top a span{
+	font-size:13px;
+}
+
+.tmta1{
+	text-decoration:none; 
+	background:url(../img/at1.png) no-repeat;
+	display: inline-block; 
+	padding-left: 30px;
+}
+.tmta2{
+	text-decoration:none; 
+	background:url(../img/at2.png) no-repeat;
+	display: inline-block; 
+	padding-left: 30px;
+}
+.tmta3{
+	text-decoration:none; 
+	background:url(../img/at3.png) no-repeat;
+	display: inline-block; 
+	padding-left: 30px;
+}
+.tmta4{
+	text-decoration:none; 
+	background:url(../img/at4.png) no-repeat;
+	display: inline-block; 
+	padding-left: 30px;
+}
+.tmta5{
+	text-decoration:none; 
+	background:url(../img/at5.png) no-repeat;
+	display: inline-block; 
+	padding-left: 30px;
+}
+.tmta6{
+	text-decoration:none; 
+	background:url(../img/at6.png) no-repeat;
+	display: inline-block; 
+	padding-left: 30px;
+}
+.tmta7{
+	text-decoration:none; 
+	background:url(../img/at7.png) no-repeat;
+	display: inline-block; 
+	padding-left: 30px;
+}
+div.top-main-top span{
+	font-size: 15px;
+	height:20px;
+	line-height: 20px;
+	color:#0000FF;
+}
+</style>
+<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript">
+	function getQueryStringV(vhref, name) {
+	    // 如果链接没有参数，或者链接中不存在我们要获取的参数，直接返回空 
+	    if (vhref.indexOf("?") == -1 || vhref.indexOf(name + '=') == -1) {
+	        return '';
+	    }
+	    // 获取链接中参数部分 
+	    var queryString = vhref.substring(vhref.indexOf("?") + 1);
+	    // 分离参数对 ?key=value&key2=value2 
+	    var parameters = queryString.split("&");
+	    var pos, paraName, paraValue;
+	    for (var i = 0; i < parameters.length; i++) {
+	        // 获取等号位置 
+	        pos = parameters[i].indexOf('=');
+	        if (pos == -1) {
+	            continue;
+	        }
+	        // 获取name 和 value 
+	        paraName = parameters[i].substring(0, pos);
+	        paraValue = parameters[i].substring(pos + 1);
+	 
+	        if (paraName == name) {
+	            return unescape(paraValue.replace(/\+/g, " "));
+	        }
+	    }
+	    return '';
+	}
+ 	
+	$(function() {
+		var str1 = getQueryStringV(location.href, "menu");
+		if(null != str1 && "" != str1) {
+			$(".tmta" + (parseInt(str1) + 1) + ">span").click();
+		}
+		setColor();
+		setIframe();
+	});
+	function setColor() {
+		var i = $("#selected").val();
+		$($("span").get(i)).css("color", "#FF0000");
+	}
+	function setHidValue(i) {
+		var temp = $("#selected").val();
+		$($("span").get(temp)).css("color", "#0000FF");
+		$("#selected").val(i);
+		setColor();
+		if(5 == i) {
+			var temp = 100;
+			var hgt = window.screen.availHeight;
+			var height = hgt - 120 - temp;
+			$("#mainiframe").css("height", height>580?height:580);
+		}else{
+			setIframe();
+		}
+	}
+	function iFrameHeight() {    
+	    var ifm= document.getElementById("mainiframe");    
+	    var subWeb = document.frames ? document.frames["mainiframe"].document : ifm.contentDocument;    
+	    if(ifm != null && subWeb != null) { 
+	       ifm.height = subWeb.body.scrollHeight; 
+	    }    
+	}
+	function reinitIframe(){  
+        var iframe = document.getElementById("mainiframe");  
+        try{  
+            var bHeight = iframe.contentWindow.document.body.scrollHeight;  
+            var dHeight = iframe.contentWindow.document.documentElement.scrollHeight;  
+            var height = Math.max(bHeight, dHeight);  
+            iframe.height =  height;  
+        }catch (ex){}  
+    }  
+  	function setIframe(){  
+		//var hgt = document.body.scrollHeight;
+		var temp = 100;
+		var hgt = window.screen.availHeight;
+		var height = hgt - 120 - temp;
+		$("#mainiframe").css("height", height>480?height:480);
+	}
+	
+    window.setInterval("reinitIframe()", 200); 
+</script>
+
+</head>
+<body>
+<div class="all">
+		<div class="top">
+			<div class="logo"></div>
+			<div class="top-main">
+				<div class="top-main-top">
+					<div style="width:715px; float:left">
+						<a href="citytravel.html" target="mainiframe" onClick="setHidValue(0)" class="tmta1"><span>市内出行</span></a>
+						<a href="buyticketmain.html" onClick="setHidValue(1)" target="mainiframe" class="tmta2"><span>我要买票</span></a>
+						<a href="roadshow.html" onClick="setHidValue(2)" target="mainiframe" class="tmta3"><span>路况展示</span></a>
+						<a href="serviceforp.html" onClick="setHidValue(3)" target="mainiframe" class="tmta4"><span>便民服务</span></a>
+						<a href="javascript:void(0)" onClick="setHidValue(4)" target="mainiframe" class="tmta5"><span>定制服务</span></a>
+						<a href="complaintsproposal.html" onClick="setHidValue(5)" target="mainiframe" class="tmta6"><span>投诉建议</span></a>
+						<a href="javascript:void(0)" onClick="setHidValue(6)" target="mainiframe" class="tmta7"><span>行业管理</span></a>
+					</div>
+					<div class="top-right">
+						<div class="top-right-top"><span>您好,LiYing(3)|我的订单|退出</span></div>
+					</div>
+				</div>
+				
+				<div class="top-main-bottom">
+				  <div class="top-main-bottom-left"></div>
+				  <div class="top-main-bottom-right"></div>
+				</div>
+			</div>
+			
+		</div>
+		
+		<div class="main">
+				<!-- <div class="querypa">
+						<div class="querypa-top">
+								<span>出发城市/岛屿</span>
+								<input type="text" class="inputtextf"></input>
+								<span>到达城市/岛屿</span>
+								<input type="text" class="inputtextf"></input>
+								<span>出发日期</span>
+								<input type="text"></input>
+								<input id="seach" type="button" style="margin-top:1px; width:70px; height:30px; text-align:center; background-color:#2F95D3; border:0px" value="搜索"/>
+						</div>
+						<div class="querypa-bottom">
+								<div style="float: left;"><span>出发时间</span></div>
+								<div class="checkmar"><input type="checkbox">上午(6:00-12:00)</div>
+								<div class="checkmar"><input type="checkbox">下午(12:00-18:00)</div>
+								<div class="checkmar"><input type="checkbox">晚上(18:00-6:00)</div>
+						</div>
+				</div>
+				-->
+			<iframe id="mainiframe" onload="iFrameHeight();"  name="mainiframe" frameborder=0 width=1226px height=600px marginheight=0 marginwidth=0 scrolling=no src="buyticketmain.html"></iframe> 
+		</div>
+</div>
+<input type="hidden" id="selected" value="0">
+</body>
+</html>
