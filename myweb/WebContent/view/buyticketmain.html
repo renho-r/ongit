@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>我要买票</title>
+<style type="text/css">
+div.all-buy{
+	width:1226px;
+	height:600px;
+	min-height:600px;
+	float:left;
+}
+div.left{
+	width:910px;
+	float:left;
+}
+div.querypa{
+	width:100%;
+	height:70px;
+}
+div.querypa-top{
+	width:100%;
+	height:30px;
+}
+div.querypa-bottom{
+	width:100%;
+	height: 30px;
+	margin-top:10px;
+}
+div.checkmar{
+	float:left;
+}
+
+.querypa-top-span{
+	display:-moz-inline-box;
+	display:inline-block;
+	width:80px;
+	font-size:12px;
+}
+div.querypa-bottom span{
+	margin-right:50px;
+}
+
+div.infodiv{
+	min-height:530px;
+	float: none;
+	background:#F6F7F9;
+	padding-top:1px;
+}
+div.stationtitle{
+	height:20px; 
+	background: #F6F7F9;
+	/*background:#999999;*/
+	border:0;
+	line-height: 20px;
+	margin-top: 10px;
+}
+
+.sta1{
+	text-decoration:none;
+	background:url(../img/close.png) no-repeat;
+	display: inline-block;
+	padding-left: 20px;
+	line-height: 20px;
+	height: 10px;
+	border:0;
+}
+
+.sts1 {
+	display:-moz-inline-box;
+	display:inline-block;
+	width:150px;
+}
+
+div.stationinfodiv{
+	width:770px; 
+	height:300px; 
+	border:0;
+	padding:0px;
+}
+div.stationinfodiv tr{
+	border:0;
+	
+}
+div.stationinfodiv td{
+	border:0;
+	
+}
+
+div.datagrid-view tr{
+	border:0;
+	
+}
+div.datagrid-view td{
+	border:0;
+	
+}
+.inputtextf{
+	width:130px; 
+	height:15px;
+	margin-right:10px;
+}
+.seachbutton {
+	display:-moz-inline-box;
+	display:inline-block;
+	margin-top:1px; 
+	margin-right:1px; 
+	width:60px; 
+	height:25px; 
+	text-align:center; 
+	background-color:#2F95D3; 
+	border:0px
+}
+div.right{
+	width:235px;
+	min-height:465px;
+	float:right;
+	display:block;
+}
+div.apponly{
+	width:230px;
+}
+.app1 {
+	width:230px;
+	height:70px;
+	background:url(../img/app1.png) no-repeat;
+	text-indent:-99999px;
+	overflow:hidden;
+	margin-bottom:5px;
+	display:block;
+}
+.app2 {
+	width:230px;
+	height:44px;
+	background:url(../img/app2.png) no-repeat;
+	text-indent:-99999px;
+	overflow:hidden;
+	display:block;
+}
+.app3 {
+	width:230px;
+	height:44px;
+	background:url(../img/app3.png) no-repeat;
+	text-indent:-99999px;
+	overflow:hidden;
+	display:block;
+	margin-bottom:20px;
+}
+.appmar {
+	float:none;
+	height:65px;
+	margin-bottom:5px;
+}
+.app4 {
+	width:70px;
+	height:66px;
+	display:block;
+	text-indent:-99999px;
+	overflow:hidden;
+}
+.app41 {
+	width:160px;
+	height:33px;
+	display:block;
+	text-indent:-99999px;
+	overflow:hidden;
+}
+div.right-foot{
+	margin-top:15px;
+	padding-top:15px;
+	border-top:solid #E4E9EC 1px;
+}
+</style>
+<link rel="stylesheet" type="text/css" href="../jquery-easyui-1.4/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css" href="../jquery-easyui-1.4/themes/icon.css">
+<link rel="stylesheet" type="text/css" href="../css/ifram.css">
+<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../js/top.js" charset="utf-8"></script>
+<script type="text/javascript" src="../jquery-easyui-1.4/jquery.min.js"></script>
+<script type="text/javascript" src="../jquery-easyui-1.4/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="../jquery-easyui-1.4/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript">
+	
+	function rowformater(value,row,index) {
+		return "<a href='"+row.id+"' target='_blank'>网上售票</a>";
+	} 
+	function setImg(value,row,index) {
+		return "<img src='../img/at1.png'/>";
+	} 
+	function pagerFilter(data){
+		if (typeof data.length == 'number' && typeof data.splice == 'function'){	// is array
+			data = {
+				total: data.length,
+				rows: data
+			}
+		}
+		var dg = $(this);
+		var opts = dg.datagrid('options');
+		var pager = dg.datagrid('getPager');
+		pager.pagination({
+			onSelectPage:function(pageNum, pageSize){
+				opts.pageNumber = pageNum;
+				opts.pageSize = pageSize;
+				pager.pagination('refresh',{
+					pageNumber:pageNum,
+					pageSize:pageSize
+				});
+				dg.datagrid('loadData',data);
+			}
+		});
+		if (!data.originalRows){
+			data.originalRows = (data.rows);
+		}
+		var start = (opts.pageNumber-1)*parseInt(opts.pageSize);
+		var end = start + parseInt(opts.pageSize);
+		data.rows = (data.originalRows.slice(start, end));
+		return data;
+	}
+	$(function() {
+		   $.ajax({
+				type: "POST",
+				url: "/myweb/defticketbusiness/queryall",
+				data: {},
+				dataType:'json',
+				success: function(data, msg){
+					showData(data);
+					
+				},
+				error:function(XMLHttpRequest, textStatus, errorThrown){
+					this;//调用本次ajax请求时传递的options参数
+				}
+			});
+			$("#seach").click(function() {
+				alert($("#timeinput").datebox('isValid'));
+				var startPlace = $("#startPlace").textbox("getText");
+				var endPlace = $("#endPlace").textbox("getText");
+				var startDate = $("#timeinput").datebox("getText");
+				console.info(startPlace + ":" + endPlace + ":" + startDate);
+				 $.ajax({
+				 type: "POST",
+				 url: "/myweb/ticketbusiness/queryall",
+				 data: {startplace:"珠海", endplace:"北京", stt:true/false, tte:true/false, ets:true/false,time:'2014-08-01'},
+				 dataType:'json',
+				 success: function(data, msg){
+					showData(data);
+					
+				},
+				error:function(XMLHttpRequest, textStatus, errorThrown){
+					this;//调用本次ajax请求时传递的options参数
+				}
+			});
+			});
+		});
+	
+	function showData(data) {
+		var rootKey;
+		var infoKey;
+		var i = 0;
+		for(rootKey in data) {
+			for(infoKey in data[rootKey]) {
+				for(stationKey in data[rootKey][infoKey]) {
+					if("info" != stationKey) {
+						//console.info("车站:" + data[rootKey][infoKey][stationKey]);
+			  	 		var titlestr = "<div id='xx" + i + "' onclick='setShow(" + i + ")' class='stationtitle'><a class='sta1'/></a><span class='sts1'>";
+			   			titlestr += data[rootKey][infoKey][stationKey];
+			  			titlestr += "</span>";
+			  			titlestr += "<span class='sts1'>";
+						titlestr += "105个班次";
+						titlestr += "</span>";
+							
+						titlestr += "<span class='sts1'>";
+						titlestr += "最低票价119.5￥";
+						titlestr += "</span>";
+						   
+						titlestr += "<span class='sts1'>";
+						titlestr += "全程最短用时8:00";
+						titlestr += "</span>";
+						   
+						titlestr += "<span class='sts1'>";
+						titlestr += "天气";
+						titlestr += "</span>";
+						   
+						titlestr += "</div>"
+						$(".infodiv").append(titlestr);
+						$(".infodiv").append("<div id='d" + i + "' class='easyui-panel'></div>");
+						$('#d' + i).panel({
+							width:910,
+							height:300,
+							border:false
+						});
+						$("#d" + i).append("<div id='g" + i + "'></div>");
+						$('#g' + i).datagrid({
+							columns:[[
+								{field:'flightsx',width:100, align:'right',formatter:setImg},
+								{field:'flights',width:80,align:'center', title:'<b>班次</b>'},
+								{field:'startingtime',width:80,align:'center', title:'<b>出发时间</b>'},
+								{field:'esttime',width:80,align:'center', title:'<b>到达时间</b>'},
+								{field:'ticket',width:80,align:'center', title:'<b>到达位置</b>'},
+								{field:'flights',width:60,align:'center', title:'<b>舱位</b>'},
+								{field:'fare',width:60,align:'center', title:'<b>票价</b>'},
+								{field:'ticket',width:60,align:'center', title:'<b>余票</b>'},
+								{field:'i',width:210,formatter:rowformater, title:''}
+						    ]],
+						    height:300,
+						    border:false
+						});
+						$("#g" + i).datagrid({loadFilter:pagerFilter}).datagrid('loadData',  data[rootKey][infoKey]['info']);
+						$("#d" + i).panel("collapse");
+						i++;
+					}
+				}
+			}
+		}
+	}
+	function setShow(i) {
+		if(!$("#d" + i).is(":hidden")) {
+			$("#d" + i).panel("collapse", true);
+			$("#xx" + i + " > img").css("background");
+			$("#xx" + i + " > a").css("background", "url(../img/close.png) no-repeat");
+		}else{
+			$("#d" + i).panel("expand", true);
+			$("td").unbind('mouseenter').unbind('mouseleave');
+			$(".datagrid-body-inner").unbind('mouseout').unbind('mouseover');
+			$(".datagrid-body").unbind('mouseout').unbind('mouseover');
+			$(".datagrid-body-inner").unbind('click');
+			$(".datagrid-body").unbind('click');
+			$("#xx" + i + " > a").css("background", "url(../img/open.png) no-repeat");
+		}
+	}
+	
+</script>
+</head>
+<body>
+<div class="all-buy">
+	<div class="left">
+		<div class="querypa">
+		  <div class="querypa-top">
+					<span class="querypa-top-span">出发城市/岛屿</span>
+					<input class="easyui-textbox" style="width:130px; height:25px;" id="startPlace">
+					<span class="querypa-top-span" style="margin-left:30px;">到达城市/岛屿</span>
+					<input class="easyui-textbox" style="width:130px; height:25px;"  id="endPlace">
+					<span class="querypa-top-span" style="margin-left:30px;">出发日期</span>
+					<input id="timeinput" class="easyui-datebox" style="width:130px; height:25px;">
+					<input id="seach" type="button" class="seachbutton" value="搜索"/>
+			</div>
+			<div class="querypa-bottom">
+					<div style="float: left;"><span>出发时间</span></div>
+					<div class="checkmar"><input type="checkbox"><span>上午(6:00-12:00)</span></div>
+					<div class="checkmar"><input type="checkbox"><span>下午(12:00-18:00)</span></div>
+					<div class="checkmar"><input type="checkbox"><span>晚上(18:00-6:00)</span></div>
+			</div>
+		</div>
+		<div style="float: none"></div>
+		<div class="infodiv"></div>
+	</div>
+	<div class="right">
+		<div class="apponly"><a href="javascript:void(0)" class="app1" onClick="alert(1)"></a></div>
+		<div class="apponly"><a href="javascript:void(0)" class="app2" onClick="alert(1)"></a></div>
+		<div class="apponly"><a href="javascript:void(0)" class="app3" onClick="alert(1)"></a></div>
+		<div class="appmar">
+			<div style="float:left"><a href="javascript:void(0)" class="app4" style="background:url(../img/app4.png) no-repeat;" onClick="alert(1)"></a></div>
+			<div style="float:left">
+				<div><a href="javascript:void(0)" class="app41" style="background:url(../img/app41.png) no-repeat;" onClick="alert(1)"></a></div>
+				<div><a href="javascript:void(0)" class="app41" style="background:url(../img/app42.png) no-repeat;" onClick="alert(1)"></a></div>
+			</div>
+		</div>
+		<div class="appmar">
+			<div style="float:left"><a href="javascript:void(0)" class="app4" style="background:url(../img/app5.png) no-repeat;" onClick="alert(1)"></a></div>
+			<div style="float:left">
+				<div><a href="javascript:void(0)" class="app41" style="background:url(../img/app51.png) no-repeat;" onClick="alert(1)"></a></div>
+				<div><a href="javascript:void(0)" class="app41" style="background:url(../img/app52.png) no-repeat;" onClick="alert(1)"></a></div>
+			</div>
+		</div>
+		<div class="appmar">
+			<div style="float:left"><a href="javascript:void(0)" class="app4" style="background:url(../img/app6.png) no-repeat;" onClick="alert(1)"></a></div>
+			<div style="float:left">
+				<div><a href="javascript:void(0)" class="app41" style="background:url(../img/app61.png) no-repeat;" onClick="alert(1)"></a></div>
+				<div><a href="javascript:void(0)" class="app41" style="background:url(../img/app62.png) no-repeat;" onClick="alert(1)"></a></div>
+			</div>
+		</div>
+		<div class="right-foot">
+			<span style="font-size:13px; display:block; margin-bottom:10px"><b>友情链接:</b></span>
+				<a href="http://www.zhjt.gov.cn/" target="_blank" style="text-decoration:none; background:url(../img/zhuhai.png) no-repeat;display: block; padding-left: 17px; margin-bottom:5px; text-decoration:none"><span style="font-size:12px">珠海市交通运输局</span>				
+				</a>	
+				<a href="http://www.zuche.com/" target="_blank" style="text-decoration:none; background:url(../img/szlogo.png) no-repeat;display: block; padding-left: 27px;"><span style="font-size:12px">神州租车</span>				
+				</a>
+		 </div>
+	</div>
+</div>
+
+</body>
+</html>
+<!-- <div class="station">
+						<table id="station1" class="easyui-datagrid" style="width:1000px;height:250px;" title="1"
+								data-options="singleSelect:true,collapsible:true,method:'get',url:'datagrid_data1.json', collapsed:true, border:false">
+							<thead border="0">
+								<tr>
+									<th data-options="field:'a', width:200, align:'right',formatter:setImg"></th>
+									<th data-options="field:'b',width:80,align:'center'">班次</th>
+									<th data-options="field:'c',width:80,align:'center'">出发时间</th>
+									<th data-options="field:'d',width:80,align:'center'">到达时间</th>
+									<th data-options="field:'e',width:100,align:'center'">到达位置</th>
+									<th data-options="field:'f',width:60,align:'center'">舱位</th>
+									<th data-options="field:'g',width:60,align:'center'">票价</th>
+									<th data-options="field:'h',width:60,align:'center'">余票</th>
+									<th data-options="field:'i',width:180,formatter:rowformater"></th>
+								</tr>
+							</thead>
+					  </table>
+					</div>
+					<div>
+						<table class="easyui-datagrid" title="珠海市香洲长途汽车站" style="width:1000px;height:250px"
+								data-options="singleSelect:true,collapsible:true,method:'get',url:'datagrid_data1.json', collapsed:true">
+							<thead>
+								<tr>
+									<th data-options="field:'itemid',width:80">Item ID</th>
+									<th data-options="field:'productid',width:100">Product</th>
+									<th data-options="field:'listprice',width:80,align:'right'">List Price</th>
+									<th data-options="field:'unitcost',width:80,align:'right'">Unit Cost</th>
+									<th data-options="field:'attr1',width:250">Attribute</th>
+									<th data-options="field:'status',width:60,align:'center'">Status</th>
+								</tr>
+							</thead>
+						</table>
+					</div>-->

@@ -1,0 +1,103 @@
+{
+    'land': [
+        {
+            'stationname': '拱北汽车客运站',
+            'info': [
+                {
+                    'flights': 1001,
+                    'startingtime': '2014-08-01',
+                    'esttime': '2014-08-01',
+                    'fare': 100,
+                    'ticket': '充足'
+                },
+                {
+                    'flights': 1002,
+                    'startingtime': '2014-08-01',
+                    'esttingtime': '2014-08-01',
+                    'fare': 100,
+                    'ticket': '充足'
+                },
+                {'flights': 1003},
+                {'flights': 1004},
+                {'flights': 1005},
+                {'flights': 1006},
+                {'flights': 1007},
+                {'flights': 1008},
+                {'flights': 1009},
+                {'flights': 1010},
+                {'flights': 1011},
+                {'flights': 1012},
+                {'flights': 1013},
+                {'flights': 1014},
+                {'flights': 1015},
+                {'flights': 1016}
+            ]
+        },
+        {
+            'stationname': '岐关汽车客运站',
+            'info': [
+                {
+                    'flights': 1001,
+                    'startingtime': '2014-08-01',
+                    'esttingtime': '2014-08-01',
+                    'fare': 100,
+                    'ticket': '充足'
+                }
+            ]
+        },
+        {
+            'stationname': '香洲长途汽车客运站',
+            'info': [
+                {
+                    'flights': 1231,
+                    'startingtime': '2014-08-01',
+                    'esttingtime': '2014-08-01',
+                    'fare': 100,
+                    'ticket': '充足'
+                }
+            ]
+        }
+    ],
+    'air航空': [
+        {
+            'airportname': '珠海机场',
+            'info': [
+                {
+                    'flights': 1231,
+                    'startingtime出发时间': '2014-08-01',
+                    'esttingtime预计到达时间': '2014-08-01',
+                    'fare': 100,
+                    'ticket': '充足'
+                }
+            ]
+        }
+    ],
+    'cityrail城轨': [
+        {
+            'cityrailname': '城轨',
+            'info': [
+                {
+                    'flights': 1231,
+                    'startingtime出发时间': '2014-08-01',
+                    'esttingtime预计到达时间': '2014-08-01',
+                    'fare': 100,
+                    'ticket': '充足'
+                }
+            ]
+        }
+    ],
+    'shipping城轨': [
+        {
+            'shippingname': '九州港',
+            'info': [
+                {
+                    'flights': 1231,
+                    'startingtime出发时间': '2014-08-01',
+                    'esttingtime预计到达时间': '2014-08-01',
+                    'fare': 100,
+                    'ticket': '充足'
+                }
+            ]
+        }
+    ]
+}
