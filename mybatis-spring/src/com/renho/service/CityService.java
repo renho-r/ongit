@@ -1,6 +1,8 @@
 package com.renho.service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Properties;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -8,9 +10,42 @@ import org.apache.ibatis.session.SqlSessionFactory;
 import com.renho.dao.CityMapper;
 import com.renho.pojo.City;
 
+@SuppressWarnings("rawtypes")
 public class CityService {
 
 	private SqlSessionFactory sessionFactory;
+	private int renho;
+	private int integerProperty;
+	private Properties adminEmails;
+	private Map someMap;
+	
+	public Properties getAdminEmails() {
+		return adminEmails;
+	}
+
+	public void setAdminEmails(Properties adminEmails) {
+		this.adminEmails = adminEmails;
+	}
+
+	public Map getSomeMap() {
+		return someMap;
+	}
+
+	public void setSomeMap(Map someMap) {
+		this.someMap = someMap;
+	}
+
+	public int getIntegerProperty() {
+		return integerProperty;
+	}
+
+	public void setIntegerProperty(int integerProperty) {
+		this.integerProperty = integerProperty;
+	}
+
+	public CityService(int renho) {
+		this.renho = renho;
+	}
 	
 	public void find() {
 		
@@ -27,9 +62,14 @@ public class CityService {
 					+ "      " + c.getPopulation());
 		}
 		System.out.println("----------------------select end-----------------------");
+		System.out.println(renho);
+		System.out.println("integerProperty:" + integerProperty);
+		System.out.println("adminEmails:" + adminEmails.get("administrator"));
+		System.out.println("someMap:" + someMap.get("an entry"));
+		System.out.println("someMap:" + someMap.get("a ref"));
 	}
 	
-	public int addCity() {
+	public int addCity(){
 		System.out.println("----------------------insert start-----------------------");
 		SqlSession sqlSession = sessionFactory.openSession();
 		CityMapper cityMapper = sqlSession.getMapper(CityMapper.class);
@@ -39,9 +79,15 @@ public class CityService {
 		city0.setDistrict("district");
 		city0.setPopulation(9999);
 		int flag = cityMapper.addCity(city0);
+		
+		String s = null;
+		s.equals("renho");
+		
 		System.out.println(flag);
 		System.out.println("id=" + city0.getId());
 		System.out.println("----------------------insert end-----------------------");
+		
+		
 		return flag;
 	}
 	
@@ -79,5 +125,16 @@ public class CityService {
 	public void setSessionFactory(SqlSessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
+
+	public int getRenho() {
+		return renho;
+	}
+
+	public void setRenho(int renho) {
+		this.renho = renho;
+	}
 	
+	public void initExe() {
+		System.out.println("initExe");
+	}
 }

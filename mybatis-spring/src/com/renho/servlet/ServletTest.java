@@ -11,6 +11,7 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.renho.service.CityService;
+import com.renho.spring.renho.service.CountryService;
 
 
 public class ServletTest extends HttpServlet {
@@ -34,6 +35,9 @@ public class ServletTest extends HttpServlet {
 			cityService.deleteByName("renho");
 		}else if("update".equals(method)) {
 			cityService.updateCity();
+		}else if("CountryService".equals(method)) {
+			CountryService countryService = (CountryService)wac.getBean("countryService");
+			countryService.find();
 		}
 	}
 
