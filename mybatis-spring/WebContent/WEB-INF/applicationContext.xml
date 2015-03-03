@@ -14,7 +14,10 @@
             http://www.springframework.org/schema/tx     
             http://www.springframework.org/schema/tx/spring-tx-3.1.xsd     
             http://www.springframework.org/schema/context     
-            http://www.springframework.org/schema/context/spring-context-3.1.xsd">  
+            http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+	  
+  	<context:annotation-config />
+  	<context:component-scan base-package="com.renho.spring"/>
   	
   	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
@@ -26,9 +29,9 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:MyBatis-Configuration.xml"></property>
-		<property name="transactionFactory">
+		<!--<property name="transactionFactory">
 		    <bean class="org.apache.ibatis.transaction.managed.ManagedTransactionFactory" />
-		  </property>
+		</property>-->
 	</bean>
 	
 	<!--创建dao bean（只需提供接口不需提供实现类 ）-->
@@ -44,7 +47,8 @@
   	</bean>
     <!-- Spring Advice -->  
     <tx:advice id="txAdvice" transaction-manager="transactionManager">  
-        <tx:attributes>  
+        <tx:attributes>
+        	<tx:method name="add*" propagation="REQUIRED" />
             <tx:method name="insert*" propagation="REQUIRED" />  
             <tx:method name="update*" propagation="REQUIRED" />  
             <tx:method name="delete*" propagation="REQUIRED" />
@@ -65,10 +69,27 @@
     </aop:config> -->
     <aop:config>  
         <aop:pointcut id="pointcut"  
-            expression="execution(* com.renho.*.*.*Impl.*(..))" />  
+            expression="(execution(* com.renho.spring.renho.service.*.*(..))) or (execution(* com.renho.service.*.*(..)))" />  
         <aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut" />  
     </aop:config>
-    <bean id="cityService" class="com.renho.service.CityService">
+    <!--test start-->
+    <bean id="cityService" class="com.renho.service.CityService" init-method="initExe">
     	<property name="sessionFactory" ref="sqlSessionFactory" />
+    	<constructor-arg name="renho" value="7500000"/>
+    	<property name="integerProperty" value="2"/>
+    	<property name="adminEmails">
+	        <props>
+	            <prop key="administrator">administrator@example.org</prop>
+	            <prop key="support">support@example.org</prop>
+	            <prop key="development">development@example.org</prop>
+	        </props>
+    	</property>
+    	<property name="someMap">
+	        <map>
+	            <entry key="an entry" value="just some string"/>
+	            <entry key ="a ref" value-ref="dataSource"/>
+	        </map>
+	    </property>
     </bean>
+    <!--test end-->
 </beans>
