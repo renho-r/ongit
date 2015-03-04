@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC 
+    "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<!--这块等于dao接口的实现  namespace必须和接口的类路径一样-->
+<mapper namespace="com.renho.dao.CityMapper">
+	<sql id="field">
+		id, name, countryCode, district, population
+	</sql>
+	<!-- findById必须和接口中的方法名一样  返回一个City  就是刚才的别名  如果不弄别名要连类路径一起写 麻烦-->
+	<select id="findById" parameterType="HashMap" resultType="City">
+		select * from world.city where id=#{id}
+    </select>
+    <select id="findAll" resultType="City">
+		select * from world.city
+    </select>
+    <insert id="addCity" parameterType="City" useGeneratedKeys="true" keyProperty="id">
+    	insert into City (name, countryCode, district, population)
+  			values (#{name}, #{countryCode}, #{district}, #{population})
+    </insert>
+    <delete id="deleteByName" parameterType="String">
+    	delete from city where name = #{name}
+    </delete>
+    <update id="updateCity">
+    	update city set name=#{name}, countryCode=#{countryCode}, district=#{district}, population=#{population} where id=#{id}
+    </update>
+</mapper>
