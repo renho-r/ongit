@@ -3,7 +3,7 @@ package com.renho.bean.pojo;
 public class Person {
 
 	public Person() {
-		System.out.println("renho");
+		System.out.println("Person init");
 	}
 	
 }
