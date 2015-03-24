@@ -2,12 +2,10 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
-	
-	<import resource="superbeans.xml"/>
- 	<bean id="personDAO" class="com.renho.bean.dao.PersonDAO">
- 		<property name="person">
- 			<ref bean="person"/>
- 		</property>
- 	</bean>
- 	<bean class="com.renho.test.beanpostprocessor.BeanPostProcessorImpl"/>
+
+	<bean id="person" class="com.renho.bean.pojo.Person"></bean>
+	<bean id="lazyinitPerson" class="com.renho.bean.pojo.LazyinitPerson" 
+		  lazy-init="true"
+		  init-method="init"
+		  ></bean>
 </beans>

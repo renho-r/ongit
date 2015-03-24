@@ -3,11 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	
-	<import resource="superbeans.xml"/>
- 	<bean id="personDAO" class="com.renho.bean.dao.PersonDAO">
- 		<property name="person">
- 			<ref bean="person"/>
- 		</property>
- 	</bean>
- 	<bean class="com.renho.test.beanpostprocessor.BeanPostProcessorImpl"/>
+	<bean id="actionLogic" class="com.renho.test.eventtest.event.ActionLogic"/>
+	<bean id="listener" class="com.renho.test.eventtest.event.ActionListener"/>
+	
 </beans>
