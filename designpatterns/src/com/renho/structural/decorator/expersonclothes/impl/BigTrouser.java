@@ -1,6 +1,6 @@
-package com.renho.structural.decorator.impl;
+package com.renho.structural.decorator.expersonclothes.impl;
 
-import com.renho.structural.decorator.IClothes;
+import com.renho.structural.decorator.expersonclothes.IClothes;
 
 public class BigTrouser extends IClothes {
 
