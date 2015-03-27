@@ -1,4 +1,4 @@
-package com.renho.create.prototype;
+package com.renho.create.prototype.ex;
 
 public class Sample1 extends Sample {
 
