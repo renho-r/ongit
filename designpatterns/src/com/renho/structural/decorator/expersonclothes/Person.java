@@ -1,4 +1,4 @@
-package com.renho.structural.decorator;
+package com.renho.structural.decorator.expersonclothes;
 
 public class Person {
 

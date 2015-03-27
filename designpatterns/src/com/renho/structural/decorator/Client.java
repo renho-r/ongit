@@ -1,19 +1,19 @@
 package com.renho.structural.decorator;
 
-import com.renho.structural.decorator.impl.BigTrouser;
-import com.renho.structural.decorator.impl.TShirts;
-
 public class Client {
 
 	public static void main(String[] args) {
-		Person person = new Person("renho");
+//		Component concreteComponent = new ConcreteComponent();
+//		Component decoratora = new ConcreteDecoratorA(concreteComponent);
+//		Component decoratorb = new ConcreteDecoratorB(decoratora);
+//		decoratorb.operation();
 		
-		IClothes tShirts = new TShirts();
-		IClothes bigTrouser = new BigTrouser();
+		Component concreteComponent = new ConcreteComponent();
+		ConcreteDecoratorA decoratora = new ConcreteDecoratorA();
+		ConcreteDecoratorB decoratorb = new ConcreteDecoratorB();
 		
-		tShirts.decorator(person);
-		bigTrouser.decorator(tShirts);
-		
-		bigTrouser.show();
+		decoratora.setComponent(concreteComponent);
+		decoratorb.setComponent(decoratora);
+		decoratorb.operation();
 	}
 }
