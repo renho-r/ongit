@@ -17,15 +17,23 @@ public class Main {
 //			System.out.print((char)c);
 //		}
 //		lcis.close();
-		InputStream fis = new BufferedInputStream(new FileInputStream(new File("c:\\a.txt")));
-		LowerCaseInputStream0 lcis0 = new LowerCaseInputStreamImpl(fis);
-		LowerCaseInputStream0 lcis1 = new LowerCaseInputStreamImpl0(lcis0);
+//		InputStream fis = new BufferedInputStream(new FileInputStream(new File("c:\\a.txt")));
+//		LowerCaseInputStream0 lcis0 = new LowerCaseInputStreamImpl(fis);
+//		LowerCaseInputStream0 lcis1 = new LowerCaseInputStreamImpl0(lcis0);
+//		int c;
+//		while((c = lcis1.read()) >= 0) {
+//			System.out.print((char)c);
+//			System.out.println("--------------------------------------");
+//		}
+//		lcis1.close();
+		
+		InputStream fis = new BufferedImpl(new FileInputStream(new File("c:\\a.txt")));
 		int c;
-		while((c = lcis1.read()) >= 0) {
+		while((c = fis.read()) >= 0) {
 			System.out.print((char)c);
 			System.out.println("--------------------------------------");
 		}
-		lcis1.close();
+		fis.close();
 	}
 
 }
