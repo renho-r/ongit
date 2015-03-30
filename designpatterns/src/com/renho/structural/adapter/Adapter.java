@@ -1,9 +1,11 @@
 package com.renho.structural.adapter;
 
-public class Adapter extends Person implements Job {
+public class Adapter extends Target{
 
-	@Override
-	public void speakFrench() {
-		System.out.println("I can speak French!");
+	Adaptee adaptee = new Adaptee();
+	
+	public void request() {
+		adaptee.specificRequest();
 	}
+	
 }
