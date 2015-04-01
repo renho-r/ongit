@@ -1,4 +1,4 @@
-package com.renho.structural.adapter;
+package com.renho.structural.adapter.ex;
 
 public interface Job {
 	
