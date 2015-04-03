@@ -33,8 +33,20 @@ public class Test {
 		list.add(new Integer(100));
 		Method method = ArrayList.class.getDeclaredMethod("add", Object.class);
 		method.invoke(list, "renho");
+		
+		Person person = new Person("renho", 100);
+		method.invoke(list, person);
+		
 		for(int i=0; i<list.size(); i++) {
-			System.out.println(list.get(i));
+			//System.out.println(list.get(i) + ":" + (list.get(i) instanceof String));
+			Object object = list.get(i);
+			System.out.println(i + ":type String:" + (object instanceof String));
+			System.out.println(i + ":type Integer:" + (object instanceof Integer));
+			System.out.println(i + ":type Person:" + (object instanceof Person));
+			
+			if(object instanceof Person) {
+				System.out.println("it is Person name:" + ((Person)object).getName());
+			}
 		}
 	}
 }
