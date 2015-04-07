@@ -12,10 +12,14 @@
 
 using namespace std;
 
-int main() {
+int mainb() {
 	Subject* subject = new RealSubject;
 	Proxy* proxy = new Proxy(subject);
 	proxy->request();
+
+	delete subject;
+	delete proxy;
+
 	system("pause");
 	return 0;
 }
