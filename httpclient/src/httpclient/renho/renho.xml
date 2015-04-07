@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dns_probe cfgstatus="0">
+	<task ruleId="36" taskId="601" updatetime="20150402131305">
+		<probe_domain>1</probe_domain>
+		<QTYPE>A</QTYPE>
+		<dns_server_ip>1</dns_server_ip>
+		<probe_intervals>1</probe_intervals>
+		<probe_delay_valve>1</probe_delay_valve>
+		<sample_count>1</sample_count>
+		<probe_type>2</probe_type>
+		<rule_ip_version>0</rule_ip_version>
+	</task>
+	<task ruleId="35" taskId="608" updatetime="20150402133153">
+		<probe_domain>dgbc0</probe_domain>
+		<QTYPE>A</QTYPE>
+		<dns_server_ip>10.1.249.245</dns_server_ip>
+		<probe_intervals>1</probe_intervals>
+		<probe_delay_valve>1</probe_delay_valve>
+		<sample_count>1</sample_count>
+		<probe_type>3</probe_type>
+		<rule_ip_version>0</rule_ip_version>
+	</task>
+	<task ruleId="36" taskId="598" updatetime="20150402131305">
+		<probe_domain>1</probe_domain>
+		<QTYPE>A</QTYPE>
+		<dns_server_ip>1</dns_server_ip>
+		<probe_intervals>1</probe_intervals>
+		<probe_delay_valve>1</probe_delay_valve>
+		<sample_count>1</sample_count>
+		<probe_type>2</probe_type>
+		<rule_ip_version>0</rule_ip_version>
+	</task>
+</dns_probe>

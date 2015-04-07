@@ -17,6 +17,10 @@ int maina() {
 	product->show();
 	product = factory->createProduct(1);
 	product->show();
+
+	delete factory;
+	delete product;
+
 	return 0;
 }
 
