@@ -21,14 +21,15 @@ $(function() {
 	var jsonObject = {
 			userId: 1,
 			userName: "renho",
-			method: "object"
+			method: "object",
+			time: ""
 	};
 	var jsonList = {
 		list:[]
 	};
-	jsonList.list[0] = new User(1, "renho1", "2015-04-01");
-	jsonList.list[1] = new User(2, "renho2", "2015-04-02");
-	jsonList.list[2] = new User(3, "renho3", "2015-04-03");
+	jsonList.list[0] = new User(1, "renho1", "2015-04-01 00:00:00.000");
+	jsonList.list[1] = new User(2, "renho2", "2015-04-02 00:00:00.000");
+	jsonList.list[2] = new User(3, "renho3", "2015-04-03 00:00:00.000");
 	jsonList.list[3] = new User(4);
 	
 	function show() {
@@ -44,6 +45,26 @@ $(function() {
 	//show.call(jsonList.list[0], 11)
 	//info.apply(jsonList.list[0], [22]);
 	jsonList.list[0].showInfo();
+	
+	$("#submitSave").click(function() {
+		var saveJson = {
+			userId: 1,
+			userName: "renho",
+			time: "2015-04-03 00:00:00.000"
+		};
+		$.ajax({
+			type: "POST",
+			url: "userServlet",
+			data: {method: "save", json: JSON.stringify(saveJson)},
+			dataType:'json',
+			success: function(msg){
+				
+			},
+			error:function(XMLHttpRequest, textStatus, errorThrown){
+				this;
+			}
+		});
+	})
 	
 	$("#submitJsonObject").click(function() {
 		$.ajax({
