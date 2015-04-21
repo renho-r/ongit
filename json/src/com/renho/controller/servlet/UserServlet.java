@@ -22,9 +22,15 @@ import net.sf.json.JSONObject;
 import net.sf.json.JsonConfig;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.beanutils.ConvertUtilsBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.renho.model.pojo.impl.User;
+import com.renho.service.IUserService;
 
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -49,9 +55,27 @@ public class UserServlet extends HttpServlet {
 			doMap(request, response);
 		}else if("get".equals(method)) {
 			doNewGet(request, response);
+		}else if("save".equals(method)) {
+			save(request, response);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	private void save(HttpServletRequest request, HttpServletResponse response) {
+		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+		IUserService userService = (IUserService)wac.getBean("userService");
+		String json = request.getParameter("json");
+		JSONObject jsonObject = JSONObject.fromObject(json);
+		User user = new User();
+		try {
+			BeanUtils.populate(user, jsonObject);
+			userService.save(user);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	private void doNewGet(HttpServletRequest request,
 			HttpServletResponse response) {
 		User user = new User();
@@ -79,6 +103,7 @@ public class UserServlet extends HttpServlet {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	private void doList(HttpServletRequest request, HttpServletResponse response) throws ParseException {
 		Map map = request.getParameterMap();
 		String jsonStr = request.getParameter("json");
@@ -91,11 +116,22 @@ public class UserServlet extends HttpServlet {
 		
 		while(it.hasNext()) {
 			JSONObject j = it.next();
+//			User user = new User();
+//			user.setUserId(j.getInt("userId"));
+//			user.setUserName(j.getString("userName"));
+//			if(!StringUtils.isBlank(j.getString("time"))) {
+//				user.setTime(new Timestamp(sdf.parse(j.getString("time")).getTime()));				
+//			}
 			User user = new User();
-			user.setUserId(j.getInt("userId"));
-			user.setUserName(j.getString("userName"));
-			if(!StringUtils.isBlank(j.getString("time"))) {
-				user.setTime(new Timestamp(sdf.parse(j.getString("time")).getTime()));				
+			try {
+				ConvertUtilsBean cub = new ConvertUtilsBean();
+				cub.register(new TimestampConverter(), Timestamp.class);
+				BeanUtilsBean beanUtilsBean = new BeanUtilsBean(cub);
+				beanUtilsBean.populate(user, j);
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (InvocationTargetException e) {
+				e.printStackTrace();
 			}
 			userList.add(user);
 		}
@@ -108,13 +144,8 @@ public class UserServlet extends HttpServlet {
 
 	private void doObject(HttpServletRequest request,
 			HttpServletResponse response) {
-		String userId = request.getParameter("userId");
-		String userName = request.getParameter("userName");
 		
-		User user = new User(Integer.valueOf(userId), userName);
-		user.show();
-		
-		user = new User();
+		User user = new User();
 		try {
 			BeanUtils.populate(user, request.getParameterMap());
 			user.show();
