@@ -24,13 +24,12 @@ import net.sf.json.JsonConfig;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.ConvertUtilsBean;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.renho.model.pojo.impl.User;
 import com.renho.service.IUserService;
+import com.renho.util.AppException;
 
 public class UserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -57,9 +56,66 @@ public class UserServlet extends HttpServlet {
 			doNewGet(request, response);
 		}else if("save".equals(method)) {
 			save(request, response);
+		}else if("saveException".equals(method)) {
+			saveException(request, response);
+		}else if("saveAppException".equals(method)) {
+			saveAppException(request, response);
+		}else if("saveRunningException".equals(method)) {
+			saveRuntimeException(request, response);
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	private void saveException(HttpServletRequest request, HttpServletResponse response) {
+		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+		IUserService userService = (IUserService)wac.getBean("userService");
+		String json = request.getParameter("json");
+		JSONObject jsonObject = JSONObject.fromObject(json);
+		User user = new User();
+		try {
+			BeanUtils.populate(user, jsonObject);
+			userService.saveException(user);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	@SuppressWarnings("unchecked")
+	private void saveAppException(HttpServletRequest request, HttpServletResponse response) {
+		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+		IUserService userService = (IUserService)wac.getBean("userService");
+		String json = request.getParameter("json");
+		JSONObject jsonObject = JSONObject.fromObject(json);
+		User user = new User();
+		try {
+			BeanUtils.populate(user, jsonObject);
+			userService.saveAppException(user);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			if(e instanceof AppException) {
+				AppException ae = (AppException)e;
+				System.out.println(ae.getMsgMap("msg"));
+			}
+		}
+	}
+	@SuppressWarnings("unchecked")
+	private void saveRuntimeException(HttpServletRequest request, HttpServletResponse response) {
+		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
+		IUserService userService = (IUserService)wac.getBean("userService");
+		String json = request.getParameter("json");
+		JSONObject jsonObject = JSONObject.fromObject(json);
+		User user = new User();
+		try {
+			BeanUtils.populate(user, jsonObject);
+			userService.saveRuntimeException(user);
+		} catch (IllegalAccessException | InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@SuppressWarnings("unchecked")
 	private void save(HttpServletRequest request, HttpServletResponse response) {
 		WebApplicationContext wac = WebApplicationContextUtils.getRequiredWebApplicationContext(this.getServletContext());
@@ -103,7 +159,7 @@ public class UserServlet extends HttpServlet {
 	}
 
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes", "unused" })
 	private void doList(HttpServletRequest request, HttpServletResponse response) throws ParseException {
 		Map map = request.getParameterMap();
 		String jsonStr = request.getParameter("json");

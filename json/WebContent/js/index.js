@@ -46,6 +46,66 @@ $(function() {
 	//info.apply(jsonList.list[0], [22]);
 	jsonList.list[0].showInfo();
 	
+	$("#submitSaveException").click(function() {
+		var saveJson = {
+			userId: 1,
+			userName: "Exception",
+			time: "2015-04-03 00:00:00.000"
+		};
+		$.ajax({
+			type: "POST",
+			url: "userServlet",
+			data: {method: "saveException", json: JSON.stringify(saveJson)},
+			dataType:'json',
+			success: function(msg){
+				
+			},
+			error:function(XMLHttpRequest, textStatus, errorThrown){
+				this;
+			}
+		});
+	})
+	
+	$("#submitSaveAppException").click(function() {
+		var saveJson = {
+			userId: 1,
+			userName: "AppException",
+			time: "2015-04-03 00:00:00.000"
+		};
+		$.ajax({
+			type: "POST",
+			url: "userServlet",
+			data: {method: "saveAppException", json: JSON.stringify(saveJson)},
+			dataType:'json',
+			success: function(msg){
+				
+			},
+			error:function(XMLHttpRequest, textStatus, errorThrown){
+				this;
+			}
+		});
+	})
+	
+	$("#submitSaveRuntimeException").click(function() {
+		var saveJson = {
+			userId: 1,
+			userName: "RuntimeException",
+			time: "2015-04-03 00:00:00.000"
+		};
+		$.ajax({
+			type: "POST",
+			url: "userServlet",
+			data: {method: "saveRuntimeException", json: JSON.stringify(saveJson)},
+			dataType:'json',
+			success: function(msg){
+				
+			},
+			error:function(XMLHttpRequest, textStatus, errorThrown){
+				this;
+			}
+		});
+	})
+	
 	$("#submitSave").click(function() {
 		var saveJson = {
 			userId: 1,
