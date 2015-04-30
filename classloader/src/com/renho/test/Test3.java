@@ -4,6 +4,6 @@ public class Test3 implements SuperTest{
 		System.out.println("Test3的静态初始化块执行了！");
 	}
 	public void renho() {
-		System.out.println("Test3 renho BBBBBBBBBBBBBBBB");
+		System.out.println("Test3 renho CCCCCCCCCCCCC");
 	}
 }

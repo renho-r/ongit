@@ -8,8 +8,12 @@ import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
 import java.nio.channels.FileChannel;
 import java.nio.channels.WritableByteChannel;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MyClassLoaderU extends ClassLoader {
+	
+	public static Map<String, Class<?>> classMap = new HashMap<String, Class<?>>();
 	
 	public MyClassLoaderU(String classDataRootPath) {
 		super();
@@ -44,10 +48,21 @@ public class MyClassLoaderU extends ClassLoader {
 				sun.misc.PerfCounter.getFindClassTime().addElapsedTimeFrom(t1);
 				sun.misc.PerfCounter.getFindClasses().increment();
 			}
+			classMap.put(name, c);
             return c;
         }
 	}
 
+	public Class<?> getClass(String name) {
+		Class<?> clazz = classMap.get(name);
+		if(null == clazz) {
+			clazz = null;
+		}else {
+			
+		}
+		return clazz;
+	}
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	protected Class<?> findClass(String name) throws ClassNotFoundException {
