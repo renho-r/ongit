@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_XuLSkPnzEeSd44AgU6WTmA" name="system">
+  <packagedElement xmi:type="uml:Package" xmi:id="_8X_vIPnzEeSd44AgU6WTmA" name="dao">
+    <packagedElement xmi:type="uml:Package" xmi:id="_f4qLQPn0EeSd44AgU6WTmA" name="impl">
+      <packagedElement xmi:type="uml:Class" xmi:id="_D0ze8Pn0EeSd44AgU6WTmA" name="classImpl" isAbstract="true">
+        <generalization xmi:id="_AWB1gPn1EeSd44AgU6WTmA" general="_88-2EPn0EeSd44AgU6WTmA"/>
+        <ownedAttribute xmi:id="_X6zj4Pn0EeSd44AgU6WTmA" name="id" visibility="private"/>
+        <ownedAttribute xmi:id="_WGYY4Pn0EeSd44AgU6WTmA" name="userName" visibility="private"/>
+        <interfaceRealization xmi:id="_NiazwPn0EeSd44AgU6WTmA" client="_D0ze8Pn0EeSd44AgU6WTmA" supplier="_KY7TQPn0EeSd44AgU6WTmA" contract="_KY7TQPn0EeSd44AgU6WTmA"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_KY7TQPn0EeSd44AgU6WTmA" name="superInterface"/>
+    <packagedElement xmi:type="uml:Class" xmi:id="_88-2EPn0EeSd44AgU6WTmA" name="superClass"/>
+  </packagedElement>
+</uml:Model>
