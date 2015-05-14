@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<uml:Model xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xmi:id="_RKSiQPoIEeSYxfcMJlvmug" name="aidns">
+  <packagedElement xmi:type="uml:Package" xmi:id="_D7WUYPoLEeSYxfcMJlvmug" name="com">
+    <packagedElement xmi:type="uml:Package" xmi:id="_FD-wYPoLEeSYxfcMJlvmug" name="action">
+      <packagedElement xmi:type="uml:Package" xmi:id="_nQUL8PoNEeSYxfcMJlvmug" name="impl">
+        <packagedElement xmi:type="uml:Class" xmi:id="_WODPsPoLEeSYxfcMJlvmug" name="DnsZoneConfigAction">
+          <generalization xmi:id="_Y0jX4PoLEeSYxfcMJlvmug" general="_P4OWEPoLEeSYxfcMJlvmug"/>
+          <ownedAttribute xmi:id="_H0IuYPoMEeSYxfcMJlvmug" name="id" visibility="private">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#Integer"/>
+          </ownedAttribute>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_UOZsIPoLEeSYxfcMJlvmug" name="DnsZoneAction">
+          <generalization xmi:id="_YeaIwPoLEeSYxfcMJlvmug" general="_P4OWEPoLEeSYxfcMJlvmug"/>
+          <ownedAttribute xmi:id="_KVIEcPoMEeSYxfcMJlvmug" name="userName" visibility="private">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_ZI_kkPoQEeSYxfcMJlvmug" value="1"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_Y9bNwPoQEeSYxfcMJlvmug" value="1"/>
+          </ownedAttribute>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_5mJwQPoMEeSYxfcMJlvmug" name="DnsZoneActions" memberEnd="_5mJwQfoMEeSYxfcMJlvmug _5mK-YfoMEeSYxfcMJlvmug" navigableOwnedEnd="_5mK-YfoMEeSYxfcMJlvmug">
+          <ownedEnd xmi:id="_5mJwQfoMEeSYxfcMJlvmug" name="dnsZoneActions" type="_UOZsIPoLEeSYxfcMJlvmug" association="_5mJwQPoMEeSYxfcMJlvmug">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5mKXUPoMEeSYxfcMJlvmug"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5mK-YPoMEeSYxfcMJlvmug" value="*"/>
+          </ownedEnd>
+          <ownedEnd xmi:id="_5mK-YfoMEeSYxfcMJlvmug" name="dnsZoneConfigServiceImpls" type="_YmB-QPoMEeSYxfcMJlvmug" association="_5mJwQPoMEeSYxfcMJlvmug">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_5mLlcPoMEeSYxfcMJlvmug"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_5mLlcfoMEeSYxfcMJlvmug" value="*"/>
+          </ownedEnd>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_lRcg8PoMEeSYxfcMJlvmug" name="DnsZoneConfigActions" memberEnd="_lRdIAPoMEeSYxfcMJlvmug _lSH2YPoMEeSYxfcMJlvmug" navigableOwnedEnd="_lSH2YPoMEeSYxfcMJlvmug">
+          <ownedEnd xmi:id="_lRdIAPoMEeSYxfcMJlvmug" name="dnsZoneConfigActions" type="_WODPsPoLEeSYxfcMJlvmug" association="_lRcg8PoMEeSYxfcMJlvmug">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lSHPUPoMEeSYxfcMJlvmug"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lSHPUfoMEeSYxfcMJlvmug" value="*"/>
+          </ownedEnd>
+          <ownedEnd xmi:id="_lSH2YPoMEeSYxfcMJlvmug" name="dnsZoneServiceImpls" type="_yrGCoPoMEeSYxfcMJlvmug" association="_lRcg8PoMEeSYxfcMJlvmug">
+            <lowerValue xmi:type="uml:LiteralInteger" xmi:id="_lSx9sPoMEeSYxfcMJlvmug"/>
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_lSx9sfoMEeSYxfcMJlvmug" value="*"/>
+          </ownedEnd>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Class" xmi:id="_P4OWEPoLEeSYxfcMJlvmug" name="BaseAction"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_YCG8YPoNEeSYxfcMJlvmug" name="service">
+      <packagedElement xmi:type="uml:Package" xmi:id="_qSKzYPoNEeSYxfcMJlvmug" name="impl">
+        <packagedElement xmi:type="uml:Class" xmi:id="_yrGCoPoMEeSYxfcMJlvmug" name="DnsZoneConfigServiceImpl">
+          <generalization xmi:id="_3OhxkPoMEeSYxfcMJlvmug" general="_ZPE7QPoMEeSYxfcMJlvmug"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_YmB-QPoMEeSYxfcMJlvmug" name="DnsZoneServiceImpl">
+          <generalization xmi:id="_gK76IPoMEeSYxfcMJlvmug" general="_ZPE7QPoMEeSYxfcMJlvmug"/>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Interface" xmi:id="_ZPE7QPoMEeSYxfcMJlvmug" name="BaseService"/>
+    </packagedElement>
+  </packagedElement>
+</uml:Model>
