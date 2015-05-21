@@ -16,14 +16,29 @@
             http://www.springframework.org/schema/context     
             http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 	
-	<bean id="realService" class="com.renho.aop.impl.RealService"></bean>
-	<bean id="testLog" class="com.renho.aop.TestLog"></bean>
-	
+	<bean id="realService" class="com.renho.aop.xml.service.impl.RealService"></bean>
+	<bean id="testLog" class="com.renho.aop.xml.TestLog"></bean>
+	<bean id="extended" class="com.renho.aop.xml.service.impl.ExtendedObj"></bean>
 	<aop:config>
-		<aop:aspect id="b" ref="testLog"><!--调用日志类--> 
-	        <aop:pointcut id="log" expression="(execution(* com.renho.aop.impl.*.*(..)))" />
+		<aop:aspect id="b" ref="testLog"><!--调用日志类-->
+			<!--
+	        <aop:pointcut id="log" expression="execution(* com.renho.aop.xml.service.impl.*.*(..))" />
 	        <aop:before pointcut-ref="log" method="before"/>
-	        <aop:after pointcut-ref="log" method="before"/> 
+	        <aop:after pointcut-ref="log" method="after"/>
+	        <aop:after-returning pointcut-ref="log" method="afterReturn"/>
+	        <aop:around pointcut-ref="log" method="around"/>
+	        <aop:after-throwing pointcut-ref="log" method="exception" throwing="e"/>
+	        -->
+	        
+	        <aop:pointcut id="log" expression="execution(* com.renho.aop.xml.service.impl.*.*(String)) and args(str)" />
+	        <aop:before pointcut-ref="log" method="parameterExecuteAfter" arg-names="str" />
+	        
+	        <!--
+	        <aop:declare-parents 
+	        	types-matching="com.renho.aop.xml.service.impl.RealService+" 
+	        	implement-interface="com.renho.aop.xml.service.ExtendedInterface" 
+	        	delegate-ref="extended" />
+	        -->
 		</aop:aspect>
     </aop:config>
 </beans>
