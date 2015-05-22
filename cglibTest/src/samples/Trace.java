@@ -1,6 +1,7 @@
 package samples;
 
 import net.sf.cglib.proxy.*;
+
 import java.util.*;
 
 /**
@@ -33,6 +34,7 @@ public class Trace implements MethodInterceptor {
 	 * @param args
 	 *            the command line arguments
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static void main(String[] args) {
 		List list = (List) newInstance(Vector.class);
 		Object value = "TEST";
