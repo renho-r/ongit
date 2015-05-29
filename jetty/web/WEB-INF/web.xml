@@ -2,12 +2,12 @@
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
-	<!--<servlet>
+	<servlet>
 		<servlet-name>renho</servlet-name>
 		<servlet-class>com.renho.servlet.TestServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>renho</servlet-name>
 		<url-pattern>/renho</url-pattern>
-	</servlet-mapping>-->
+	</servlet-mapping>
 </web-app>
