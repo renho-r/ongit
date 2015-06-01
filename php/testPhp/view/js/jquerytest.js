@@ -1,14 +1,46 @@
-$(function() {
+﻿$(function() {
+	
+	$("#type").click(function() {
+		var r = new R();
+		alert("typeof r:" + $.type(r));
+		alert("typeof []:" + typeof []);
+		alert("$.type([]):" + $.type([]));
+	})
+	
+	function R() {
+		this.id = "1",
+		this.show = function() {
+			alert("show");
+		}
+	}
+	
+	$("#isPlainObject").click(function() {
+		alert($.isPlainObject(renhoObject));
+	})
+	
+	$("#isFunction").click(function() {
+		alert($.isFunction(renhoFunction));
+	})
+	
+	var renhoObject = {id: "1", name: "renho"};
+	
+	function renhoFunction() {
+		console.info("renhoFunction");
+	}
 	
 	$("#ajaxXml").click(function() {
 		$.ajax({
 		url: "/testPhp/php/jqueryPhp.php",
 		data: {method: "getXml", "renho": "vaue-renho"},
 		dataType: "xml",
+		type: "POST",
 		error: function(XMLHttpRequest, textStatus, errorThrown) {
 		},
 		success: function(data, textStatus, jqXHR) {
 			console.info(data);
+			console.info($(data).text());
+			console.info($(data).find("book title").text());
+			console.info($(data).find("book bookName").text());
 		}
 	});
 	})

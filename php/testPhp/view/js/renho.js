@@ -61,6 +61,8 @@ $(function() {
 	    			for(var i in d.order) {
 	    				d.order[i].fieldName = d.columns[i].data;
 	    			}
+	    			var req = {};
+	    			req.jsonStr = JSON.stringify(d);
 	    			return d;
 	    		}
 	    	},
