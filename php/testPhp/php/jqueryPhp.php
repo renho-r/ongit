@@ -1,9 +1,9 @@
-<?php
-	$method = $_GET["method"];
+﻿<?php
+	$method = $_POST["method"];
 	$method();
 
 	function getXml() {
-		echo '<books><book><title>blah</title></book></books>';
+		echo '<?xml version="1.0" encoding="UTF-8"?><books><book><title>blah</title><bookName>书名</bookName></book></books>';
 	}
 
 	function getJson() {
