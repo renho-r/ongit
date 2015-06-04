@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>  
+		<!--给实体类起一个别名 City -->  
+		<typeAlias type="com.renho.pojo.City" alias="City" />
+		<typeAlias type="com.renho.spring.renho.pojo.Country" alias="Country" />
+		<typeAlias type="com.renho.spring.renho.pojo.Renho" alias="Renho" />
+	</typeAliases>
+    <mappers>
+        <mapper resource="mybatis/cityMapper.xml"/>
+        <mapper resource="mybatis/countryMapper.xml"/>
+        <mapper resource="mybatis/renhoMapper.xml"/>
+    </mappers>
+</configuration>

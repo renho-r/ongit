@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC 
+    "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<!--这块等于dao接口的实现  namespace必须和接口的类路径一样-->
+<mapper namespace="com.renho.spring.renho.dao.RenhoMapper">
+	<sql id="field">
+		id, name
+	</sql>
+    <select id="findAll" resultType="Renho">
+		select * from renho
+    </select>
+    <insert id="addRenho" parameterType="Renho" useGeneratedKeys="true" keyProperty="id">
+		insert into renho(name) values(#{name})
+    </insert>
+    
+</mapper>
