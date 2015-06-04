@@ -21,6 +21,8 @@ public class UserTest {
 		Assert.assertEquals(true, b);
 		b = new User().isEmpty(false);
 		Assert.assertEquals(false, b);
+		
+		assert b : "100";
 	}
 
 }

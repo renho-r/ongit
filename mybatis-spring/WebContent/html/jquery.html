@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>renho</title>
+</head>
+<body>
+
+<input type="button" id="ajaxButton" value="requestAjax">
+
+<script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
+<script type="text/javascript">
+	$(function() {
+		$("#ajaxButton").click(function() {
+			$.ajax({
+				url: "/mybatis-spring/renho/backJson.do",
+				data: {},
+				dataType: "json",
+				type: "POST",
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+				},
+				success: function(data, textStatus, jqXHR) {
+					console.info(data);
+				}
+			});
+		})
+	})
+</script>
+</body>
+</html>
