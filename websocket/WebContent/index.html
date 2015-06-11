@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		echoAnnotation
+		<input type="button" id="echoAnnotationConnect" value="Connect">
+		<input type="button" id="echoAnnotationSend" value="send">
+		<input type="button" id="echoAnnotationClose" value="close">
+	</div>
+	<div>
+		chat
+		<input type="text" id="send" style="width: 100%; height: 100px;">
+		<div id="rece" style="width: 100%; height: 100px;"></div>
+		<input type="button" id="chatConnect" value="Connect">
+		<input type="button" id="chatSend" value="send">
+		<input type="button" id="chatClose" value="close">
+	</div>
+	<div style="float: left; width: 900px; height: 200px;">
+		<div style="float: left; width: 300px; height: 200px;">
+			renho0
+			<div id="renho0Receive" style="width: 100%; height: 100px;"></div>
+			<input type="text" id="renho0SendStr" value="">
+			<br>
+			<input type="button" id="renho0Connect" value="connect">
+			<input type="button" id="renho0Send" value="send">
+			<input type="button" id="renho0Close" value="close">
+		</div>
+		<div style="float: left; width: 300px; height: 200px;">
+			renho1
+			<div id="renho1Receive" style="width: 100%; height: 100px;"></div>
+			<input type="text" id="renho1SendStr" value="">
+			<br>
+			<input type="button" id="renho1Connect" value="connect">
+			<input type="button" id="renho1Send" value="send">
+			<input type="button" id="renho1Close" value="close">
+		</div>
+		<div style="float: left; width: 300px; height: 200px;">
+			renho2
+			<div id="renho2Receive" style="width: 100%; height: 100px;"></div>
+			<input type="text" id="renho2SendStr" value="">
+			<br>
+			<input type="button" id="renho2Connect" value="connect">
+			<input type="button" id="renho2Send" value="send">
+			<input type="button" id="renho2Close" value="close">
+		</div>
+	</div>
+	<div style="clear: both;"></div>
+	<input type="button" id="goServlet" value="servlet->sendTo->renho2">
+</body>
+<script type="text/javascript" src="js/jquery-1.11.2.js"></script>
+<script type="text/javascript" src="js/index.js"></script>
+</html>
