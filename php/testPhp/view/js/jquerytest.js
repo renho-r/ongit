@@ -1,5 +1,43 @@
 ﻿$(function() {
 	
+	$("#extend").click(function() {
+		var target = {
+			"targetInt": 0,
+			"targetString": "targetString",
+			"targetObject": {
+				"targetObjectInt": 0,
+				"targetObjectFunction": function() {
+					return "targetObjectFunction";
+				},
+			},
+			"targetFunction": function() {
+				return "targetFunction";
+			},
+			"ajax": {
+				"url": "xxxx"
+			}
+		};
+		var obj = {
+			"objInt": 1,
+			"objString": "objString",
+			"objFunction": function() {
+				return "objFunction";
+			},
+			"targetObject": {
+				"fromObj": "fromObj"
+			},
+			"ajax": {
+				"data": function() {
+					return "ajax.data";
+				}
+			} 
+		};
+		var empty0 = {};
+		var empty1 = {};
+		var extendDefault = $.extend(empty0, target, obj);//非递归,覆盖原结构
+		var extendTrue = $.extend(true, empty1, target, obj);//递归,补充原结构
+	})
+	
 	$("#type").click(function() {
 		var r = new R();
 		alert("typeof r:" + $.type(r));
