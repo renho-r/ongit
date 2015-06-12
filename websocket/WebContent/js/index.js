@@ -1,5 +1,30 @@
 $(function() {
 	
+	$("#echoNoAnnotationConnect").click(function() {
+		var echoNoAnnotationConnect0 = {};
+		var target = "ws://localhost:8080/websocket/websocket/echoProgrammatic";
+		if ('WebSocket' in window) {
+			echoNoAnnotationConnect0.socket = new WebSocket(target);
+		} else if ('MozWebSocket' in window) {
+			echoNoAnnotationConnect0.socket = new MozWebSocket(target);
+		} else {
+			alert('WebSocket is not supported by this browser.');
+			return;
+		}
+		echoNoAnnotationConnect0.socket.onopen = function () {
+			console.info('Info: WebSocket connection opened.');
+		};
+		echoNoAnnotationConnect0.socket.onmessage = function (message) {
+			console.info("receive msg:" + message.data);
+		};
+		echoNoAnnotationConnect0.socket.onclose = function (event) {
+			console.info('Info: WebSocket connection closed, Code: ' + event.code + (event.reason == "" ? "" : ", Reason: " + event.reason));
+		};
+		$("#echoNoAnnotationSend").click(function() {
+			echoNoAnnotationConnect0.socket.send("no annotation");
+		})
+	})
+	
 	$("#goServlet").click(function() {
 		$.ajax({
 			url: "/websocket/renho",
