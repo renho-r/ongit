@@ -1,5 +1,6 @@
 package com.renho.jsonInner;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -8,8 +9,8 @@ import java.util.List;
 
 import com.renho.jsonInner.pojo.DataTableParam;
 import com.renho.jsonInner.pojo.DataTableParam.Columns;
-import com.renho.jsonInner.pojo.Order;
-import com.renho.jsonInner.pojo.Search;
+import com.renho.jsonInner.pojo.DataTableParam.Order;
+import com.renho.jsonInner.pojo.DataTableParam.Search;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -45,7 +46,7 @@ public class DataTableParamUtil {
 	@SuppressWarnings("unchecked")
 	private static <T> void setObject(String key, JSONObject json, DataTableParam dtp, Class<T> clazz) {
 		JSONObject jsonObject = (JSONObject) json.get(key);
-		T t = (T) JSONObject.toBean(jsonObject, clazz);
+		T t = (T) JSONObject.toBean(jsonObject, getT(dtp, clazz), cfg);
 		setInDataTableParam(key, dtp, t, clazz);
 	}
 	
@@ -63,13 +64,31 @@ public class DataTableParamUtil {
 			Iterator<JSONObject> it = jsonArray.iterator();
 			while (it.hasNext()) {
 				JSONObject temp = it.next();
-				T Ttemp = (T) JSONObject.toBean(temp, clazz, cfg);
-				list.add(Ttemp);
+				T tTemp = (T) JSONObject.toBean(temp, getT(dtp, clazz), cfg);
+				list.add(tTemp);
 			}			
 		}
 		setInDataTableParam(key, dtp, list, List.class);
 	}
 
+	@SuppressWarnings("unchecked")
+	private static <T> T getT(DataTableParam dtp, Class<T> clazz) {
+		Constructor<?>[] constructors = clazz.getConstructors();
+		T t = null;
+		try {
+			t = (T) constructors[0].newInstance(dtp);
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		return t;
+	}
+	
 	private static String getMethodName(String key) {
 		return "set" + key.substring(0, 1).toUpperCase() + key.substring(1);
 	}
