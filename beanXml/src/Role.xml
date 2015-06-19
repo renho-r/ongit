@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tables>
+	<table id="ROLE" tableName="ROLE">
+		<field id="roleId" column="ROLEID" length="12" orderAble="true" type="Integer" pk="true"/>
+		<field id="roleName" column="ROLENAME" length="64" orderAble="true" type="String"/>
+	</table>
+</tables>

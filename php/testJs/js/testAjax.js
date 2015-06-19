@@ -1,3 +1,4 @@
+;
 var xmlHttp;
 function initXmlHttp() {
 	try {

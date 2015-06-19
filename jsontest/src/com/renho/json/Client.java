@@ -17,6 +17,8 @@ public class Client {
 		for(Columns columns:columnsList) {
 			System.out.println(columns.getOrderable());
 		}
+		dtp.put("testKey", "testValue");
+		System.out.println(dtp.get("testKey"));
 	}
 
 }

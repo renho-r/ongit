@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.renho.servlet.datatableparam.Columns;
 import com.renho.servlet.datatableparam.DataTableParam;
-import com.renho.servlet.datatableparam.Order;
-import com.renho.servlet.datatableparam.Search;
+import com.renho.servlet.datatableparam.DataTableParam.Columns;
+import com.renho.servlet.datatableparam.DataTableParam.Order;
+import com.renho.servlet.datatableparam.DataTableParam.Search;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;

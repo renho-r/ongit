@@ -18,6 +18,10 @@ public class DataTableParam {
 		return this.paramJson.get(key);
 	}
 	
+	public Object put(Object key, Object value) {
+		return this.paramJson.put(key, value);
+	}
+	
 	public JSONObject getParamJson() {
 		return paramJson;
 	}
