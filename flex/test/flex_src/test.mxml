@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+				creationComplete="init()" layout="absolute" backgroundColor="#ffffff">
+	<mx:Script>
+		<![CDATA[
+			import com.renho.actionscript.J2eeServer;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.rpc.AsyncToken;
+			import mx.rpc.Responder;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.http.HTTPService;
+			
+			private var jserver:J2eeServer = new J2eeServer();
+			//可绑定变量
+			[Bindable]
+			private var serverResponse:String = "";
+			//可绑定变量
+			[Bindable]
+			private var locales:ArrayCollection = new ArrayCollection(
+				[ {label:"en_us", data:"en_us"}, 
+					{label:"zh_cn", data:"zh_cn"}]); 
+			
+			private function init():void
+			{
+				//事件绑定
+				jserver.addEventListener(ResultEvent.RESULT, successHandler);
+				jserver.addEventListener(FaultEvent.FAULT, errorHandler);
+			}
+			private function localeComboxChangeHandler(event:Event):void
+			{
+				jserver.sendRequest(localeCombox.selectedItem.data);
+			}
+			
+			private function successHandler(event:ResultEvent):void
+			{
+				serverResponse = event.result.toString();
+				trace(event.result);
+			}
+			private function errorHandler(event:FaultEvent):void
+			{
+				serverResponse = event.message.toString();
+				trace(event.message);
+			}
+			private function show():void
+			{
+				Alert.show("renho");
+			}
+			private function userLogin():void
+			{
+				var uname:String = userName.text;
+				var pwd:String = password.text;
+				
+				var httpObject:HTTPService = new HTTPService();
+				httpObject.resultFormat = "text";
+				httpObject.url = "http://localhost:8080/test/renho?locale=login&userInfo="+uname+";"+pwd;
+				var responder:mx.rpc.Responder = new mx.rpc.Responder(onS, onF);
+				var call:AsyncToken = httpObject.send();
+				call.addResponder(responder);
+			}
+			private function onS(event:ResultEvent):void
+			{
+				Alert.show(event.result.toString());
+			}
+			
+			private function onF(event:FaultEvent):void
+			{
+				trace("communication failed!");
+				this.dispatchEvent(event); 
+			} 
+		]]>
+	</mx:Script>
+	
+	<mx:Canvas width="500"
+			   height="400"
+			   borderStyle="none">
+		<mx:VBox paddingTop="10">
+			<mx:HBox>
+				<mx:Label text="用户名:" width="50"/>
+				<mx:TextInput
+					id="userName"
+					width="200"
+					height="20"
+					visible="true"
+					toolTip="请输入用户名">
+				</mx:TextInput>
+			</mx:HBox>
+			<mx:HBox>
+				<mx:Label text="密码:" width="50"/>
+				<mx:TextInput
+					displayAsPassword="true"
+					id="password"
+					width="200"
+					height="20"
+					visible="true"
+					toolTip="请输入密码">
+				</mx:TextInput>
+			</mx:HBox>
+			<mx:HBox
+				paddingLeft="58">
+				<mx:Button
+					id="login"
+					click="userLogin()"
+					width="200"
+					height="20"
+					cornerRadius="0"
+					label="login"
+					toolTip="login">
+				</mx:Button>
+			</mx:HBox>
+		</mx:VBox>
+	</mx:Canvas>
+	
+	<mx:HBox x="0"
+			 y="450"
+			 paddingTop="5"
+			 paddingLeft="1"
+			 paddingBottom="5"
+			 horizontalGap="2"
+			 width="100%"
+			 height="33"
+			 borderStyle="solid"
+			 id="btnBox"
+			 horizontalScrollPolicy="off">
+		<mx:Button
+			id="btn_sendReq"
+			click="show()"
+			width="200"
+			height="20"
+			cornerRadius="0"
+			label="sendReq"
+			toolTip="sendReq">
+		</mx:Button>
+	</mx:HBox>
+	<mx:VBox x="0"
+			 y="470"
+			 paddingTop="20"
+		>
+		<mx:Label text="Select your locale:"/>
+		<mx:ComboBox id="localeCombox" width="160" change="localeComboxChangeHandler(event)"
+					 dataProvider="{locales}"/>
+		<mx:Label id="resultLabel" text="The response from server is: {serverResponse}"/>        
+	</mx:VBox>
+</mx:Application>
