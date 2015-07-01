@@ -57,10 +57,10 @@
 		console.info("save:" + this.saveUrl);
 	});
 	
-	$.fn.DataTableExt.aoFeatures.push({
-		"fnInit": function( oDTSettings ) {
-			oDTSettings.saveUrl = "/what/save";
-		},
-		"saveUrl": "/what/save"
-	});
+//	$.fn.DataTableExt.aoFeatures.push({
+//		"fnInit": function( oDTSettings ) {
+//			oDTSettings.saveUrl = "/what/save";
+//		},
+//		"saveUrl": "/what/save"
+//	});
 })(jQuery);
