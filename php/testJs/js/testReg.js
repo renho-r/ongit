@@ -18,4 +18,10 @@ $(function() {
 		$("#result").append(temp);
 		console.info(str);
 	})
+	$("#btn-tempValue").click(function() {
+		var reg = new RegExp($("#regValue").val(), $("#regValueP").val());
+		console.info(reg);
+		var temp = $("#tempValue").val();
+		console.info(reg.test(temp) + ":" + reg.exec(temp));
+	})
 })

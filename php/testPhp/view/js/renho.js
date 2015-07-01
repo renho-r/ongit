@@ -37,7 +37,8 @@ $(function() {
 	
 	var table = $('#table_id').myTable({
 		ajax: {
-    		url: "/testPhp/php/renho.php?method=queryAllAsArray",
+//    		url: "/testPhp/php/renho.php?method=queryAllAsArray",
+			url: "/testPhp/php/renho.php?method=queryOnce",
     		data: function(d) {
     			d.renho = (new Date()).getTime();
     			console.info(d);
@@ -48,6 +49,7 @@ $(function() {
     		},
     		type: "GET"
     	},
+    	serverSide: false,
     	renhoParam: "renhoParam"
 	});
 	$('#table_id').myTable("changeColor");

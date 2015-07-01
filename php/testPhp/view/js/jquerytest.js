@@ -133,4 +133,8 @@
 		success : function(data, textStatus, jqXHR) {
 		}
 	});
+	
+	$("#events-namespace").bind("click.renho", function(e) {
+		console.info($(this));
+	})
 })
