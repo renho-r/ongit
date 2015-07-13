@@ -4,7 +4,7 @@ import com.renho.test.FruitColor.Color;
 
 /*********** ×¢½âÊ¹ÓÃ ***************/
 
-public class Apple {
+public class Apple{
 
 	@FruitName("Apple")
 	private String appleName;
