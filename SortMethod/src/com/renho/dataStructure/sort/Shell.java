@@ -1,4 +1,7 @@
 package com.renho.dataStructure.sort;
+
+import java.util.Arrays;
+
 /**
  * Ï£¶ûÅÅÐò
  * @author renho
@@ -21,8 +24,16 @@ public class Shell implements Sort {
 				}
 				array[j] = temp;
 			}
+			System.out.println(Arrays.toString(array));
 			h = (h - 1)/3;
 		}
 		return array;
+	}
+	
+	public static void main(String[] args) {
+		int[] array = {49, 38, 65, 97, 26, 13, 27, 49, 55, 4};
+		Sort shell = new Shell();
+		shell.sort(array);
+		System.out.println(Arrays.toString(array));
 	}
 }
