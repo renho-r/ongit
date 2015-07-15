@@ -10,6 +10,8 @@
 	<input type="button" value="selection" id="selection">
 	<input type="button" value="bubbling" id="bubbling">
 	<input type="button" value="quick" id="quick">
+	<input type="button" value="head" id="head">
+	<input type="button" value="merge" id="merge">
 	<div id="div-result"></div>
 </body>
 <script type="text/javascript">
@@ -79,6 +81,18 @@
 		$(this).ajax({
 			type: "GET", 
 			url: "php/sort.php?method=quick"
+		});
+	});
+	$("head").on("click", function() {
+		$(this).ajax({
+			type: "GET", 
+			url: "php/sort.php?method=head"
+		});
+	});
+	$("merge").on("click", function() {
+		$(this).ajax({
+			type: "GET", 
+			url: "php/sort.php?method=merge"
 		});
 	});
 })()

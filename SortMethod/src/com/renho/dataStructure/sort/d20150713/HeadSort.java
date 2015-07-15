@@ -2,7 +2,13 @@ package com.renho.dataStructure.sort.d20150713;
 
 import java.util.Arrays;
 
-public class Client {
+/**
+ * 堆排序
+ * 对直接选择排序
+ * @author renho
+ *
+ */
+public class HeadSort {
 
 	public static void main(String[] args) {
 //		int[] data = new int[] { 9, 12, 17, 30, 50, 20, 60, 65, 4, 49 };
