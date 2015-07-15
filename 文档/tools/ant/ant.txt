@@ -1,0 +1,84 @@
+﻿1.下载ant并解压到D:\apache-ant-1.9.4
+	添加环境变量:ANT_HOME:D:\apache-ant-1.9.4
+	添加path:D:\apache-ant-1.9.4\bin
+	测试:ant –version
+2.ant关键元素
+	2.1编写build.xml
+		<?xml version="1.0"?> 
+		<project name="helloWorld">
+			<target name="sayHelloWorld">
+				<echo message="Hello,Amigo"/>        
+			</target> 
+		</project>
+		build.xml路径d:\anttest
+		进入d:盘执行ant sayHelloWorld
+	2.2project元素
+		project元素是Ant构件文件的根元素，Ant构件文件至少应该包含一个project元素，否则会发生错误
+		在每个project元素下，可包含多个target元素。接下来向读者展示一下project元素的各属性
+		2.2.1name属性
+			用于指定project元素的名称
+		2.2.2default属性
+			用于指定project默认执行时所执行的target的名称。
+		2.2.3basedir属性
+			用于指定基路径的位置。该属性没有指定时，使用Ant的构件文件的附目录作为基准目录
+	2.3target元素
+		它为Ant的基本执行单元，它可以包含一个或多个具体的任务。多个target可以存在相互依赖关系。它有如下属性：
+		2.3.1name属性
+			指定target元素的名称，这个属性在一个project元素中是唯一的。我们可以通过指定target元素的名称来指定某个target。
+		2.3.2depends属性
+			用于描述target之间的依赖关系，若与多个target存在依赖关系时，需要以“,”间隔。
+			Ant会依照depends属性中target出现的顺序依次执行每个target。被依赖的target会先执行。
+		2.3.3if属性
+			用于验证指定的属性是否存在，若不存在，所在target将不会被执行。
+		2.3.4unless属性
+			该属性的功能与if属性的功能正好相反，它也用于验证指定的属性是否存在，若不存在，所在target将会被执行。
+		2.3.4description属性
+			该属性是关于target功能的简短描述和说明。
+	2.4property元素
+		该元素可看作参量或者参数的定义，project的属性可以通过property元素来设定，也可在Ant之外设定。
+		若要在外部引入某文件，例如build.properties文件，可以通过如下内容将其引入：
+		<property file=” build.properties”/>
+3.Ant的常用任务
+	3.1copy任务
+		该任务主要用来对文件和目录的复制功能。举例如下：
+		Eg1.复制单个文件：<copy file="file.txt" tofile="copy.txt"/>
+		Eg2.对文件目录进行复制：
+			<copy todir="../newdir/dest_dir">
+				<fileset dir="src_dir"/>
+			</copy>
+			todir:目标文件夹
+			dir:源文件夹
+		Eg3. 将文件复制到另外的目录:
+			<copy file="file.txt" todir="../other/dir"/>
+	3.2delete任务
+		对文件或目录进行删除，举例如下：
+		Eg1. 删除某个文件：<delete file="photo/amigo.jpg"/>
+		Eg2. 删除某个目录：<delete dir="photo"/>
+		Eg3. 删除所有的备份目录或空目录：
+		        <delete includeEmptyDirs="true">
+		             <fileset dir="D:\anttest\basedir" includes="*/"/>
+		        </delete>
+	3.3mkdir任务
+		创建目录。eg：<mkdir dir="build"/>
+	3.4 move任务
+		移动文件或目录，举例如下：
+		Eg1. 移动单个文件：<move file="fromfile" tofile=”tofile”/>
+		Eg2. 移动单个文件到另一个目录：<move file="fromfile" todir=”movedir”/>
+		Eg3. 移动某个目录到另一个目录：
+			<move todir="newdir">
+				<fileset dir="olddir"/>
+			</move>
+	3.5echo任务
+		该任务的作用是根据日志或监控器的级别输出信息。它包括message、file、append和level四个属性，举例如下：
+		<echo message="Hello,Amigo" file="logs/system.log" append="true">
+	3.6concat合并文件
+		<concat destfile="D:\anttest\basedir\out.js">
+			<filelist dir="E:\renho\workspace\ongit\php\testJs\js" files="testClass.js"/>
+			<fileset dir="E:\renho\workspace\ongit\php\testJs\js" includes="*.js" excludes="testClass.js, jquery-1.11.2.js"/>
+		</concat>
+		destfile:目标文件
+		filelist->files:首先包含的文件
+		fileset:之后包含的文件
+			includes:包含文件
+			excludes不包含的文件
+		

@@ -1,0 +1,10 @@
+1.安装路径
+	E:\redis
+2.加入环境变量
+3.启动
+	E:\redis下
+	cmd->run_db.bat
+4.测试
+	cmd->redis-cli -h 127.0.0.1 -p 6379
+	cmd->set keyRenho valueRenho
+	cmd->get keyRenho
