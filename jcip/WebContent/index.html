@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Index</title>
+</head>
+<body>
+	<input type="button" id="btn-longPP" value="btn-longPP">
+</body>
+<script type="text/javascript" src="/jcip/view/js/$.js"></script>
+<script type="text/javascript">
+	var btnLongPP = document.getElementById("btn-longPP");
+	btnLongPP.onclick = function() {
+		$.ajax({
+			type: "GET", 
+			url: "/jcip/renho/atomicLongServlet",
+			success: function() {
+				alert(111);
+			}
+		});
+	}
+</script>
+</html>
