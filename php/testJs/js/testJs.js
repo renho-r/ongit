@@ -1,3 +1,4 @@
+var renho = 0;
 $(function() {
 	$("#testLocation").click(function() {
 		window.location.href = "#name";
@@ -15,4 +16,10 @@ $(function() {
 		$("#changeCss").unbind("click");
 		$("#changeCss").click(changeBlue);
 	}
+	console.info("test.js:" + renho);
+	$("#jqueryLoad").load("/testJs/view/needLoad.html");
+	console.info("test.js:" + renho);
+	setTimeout(function() {
+		console.info("test.js:" + renho);
+	}, 1000);
 })
