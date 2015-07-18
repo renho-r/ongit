@@ -1,0 +1,42 @@
+http://www.linuxidc.com/Linux/2015-01/112029.htm
+http://www.linuxidc.com/Linux/2015-01/112029p2.htm
+
+
+1.测试hadoop
+	1.1 mkdir input
+	1.2 新建file1.txt， file2.txt
+	1.3 cat input/f1 Hello world  bye jj
+	1.4	hdfs上新建文件夹
+		bin/hadoop fs -mkdir /porrylee
+		bin/hadoop fs -mkdir /porrylee/input
+	1.6 把文件拷贝进hdfs
+		bin/hadoop fs  -put input/ /porrylee
+	1.7 查看
+		bin/hadoop fs -ls /porrylee/input/
+	1.8 执行测试程序
+		bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.6.0.jar wordcount /porrylee/input/ /output/wordcount3
+	1.9 查看输出
+		bin/hdfs dfs -cat /output/wordcount3/*
+	1.10删除已经创建的目录
+		bin/hadoop fs -rmr /tmp
+		bin/hadoop fs -rmr /output
+2.eclipse下远程连接hadoop
+	2.1安装eclipse-hadoop插件
+		hadoop-eclipse-plugin-2.6.0.jar拷贝进eclipse插件目录
+	2.2windows下解压hadoop-2.6.0.tar.gz放位置
+	2.3填加环境变量
+		HADOOP_HOME->D:\software\hadoop-2.6.0
+		HADOOP_USER_NAME->root
+		root为远程hadoop上用户
+		PATH添加->D:\software\hadoop-2.6.0\bin
+	2.4解压hadoop_dll2.6.0_64bit.zip并把所有放进D:\software\hadoop-2.6.0\bin
+	2.5eclipse中配置Hadoop Map/Reduce
+		D:\software\hadoop-2.6.0
+	2.6配置Map/Reduce Locations
+		Eclipse远程调试Hadoop集群 - Jackson_Mu的个人空间 - 开源中国社区.htm
+		并修改Advanced parameters
+			hadoop.temp.dir与core-site.xml相同
+	2.7带参数运行testMap
+		参数
+		hdfs://192.168.0.107:9000/porrylee/input/*hdfs中放文件位置*/
+		hdfs://192.168.0.107:9000/output2/*输出位置*/

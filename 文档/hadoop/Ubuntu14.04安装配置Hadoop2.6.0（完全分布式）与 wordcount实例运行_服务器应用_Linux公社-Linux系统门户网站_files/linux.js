@@ -1,0 +1,1 @@
+document.writeln("<a href=\"http://www.yutianedu.cn/news/yutianyeslab.html\" target=\"_blank\"><img src=\"http://www.linuxidc.com/linuxfile/yutian.gif\" alt=\"\" width=\"500\" height=\"60\" /></a>");
