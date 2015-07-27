@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<input type="button" id="hasCache" value="hasCache">
+	<input type="button" id="noCache" value="noCache">
+</body>
+<script type="text/javascript">
+(function() {
+	var hasCache = document.getElementById("hasCache");
+	hasCache.onclick = function() {
+		var xhq = new XMLHttpRequest();
+		xhq.onreadystatechange = function() {
+			if(4 == xhq.readyState) {
+				console.info("hasCache:" + xhq.responseText);
+			}
+		}
+		xhq.open("GET", "/ehcache/hascache/renho", true);
+		xhq.send(null);	
+	};
+	var noCache = document.getElementById("noCache");
+	noCache.onclick = function() {
+		var xhq = new XMLHttpRequest();
+		xhq.onreadystatechange = function() {
+			if(4 == xhq.readyState) {
+				console.info("noCache:" + xhq.responseText);
+			}
+		}
+		xhq.open("GET", "/ehcache/nocache/renho", true);
+		xhq.send(null);	
+	}
+})()
+</script>
+</html>
