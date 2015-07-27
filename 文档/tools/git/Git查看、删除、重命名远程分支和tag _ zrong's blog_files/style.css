@@ -1,0 +1,47 @@
+/*
+Theme Name: Responsive Child
+Template: responsive
+Author: zrong
+Author URI: http://zengrong.net
+ */
+
+@import url("/wp-content/themes/responsive/core/css/style.css");
+@import url("/wp-content/themes/responsive_child/codehilite.css");
+
+.form-allowed-tags {
+	display: none;
+	font-size: 12px;
+}
+
+.top-menu li a {
+	padding: 0 4px 0 8px;
+	border-left: 1px solid #ccc;
+	color: #333;
+	font-size: 12px;
+}
+
+.comment-body .comment-meta a {
+	font-size: 12px;
+}
+
+.small a.button {
+	padding: 3px 6px;
+	font-size: 12px;
+}
+
+@media screen and (max-width:767px) {
+	table.shop_table {
+		font-size: 12px;
+	}
+}
+
+@media screen and (max-width:400px) {
+	table.shop_table {
+		font-size: 2px;
+	}
+}
+
+#footer {
+	font-size: 12px;
+	line-height: 1.5em;
+}

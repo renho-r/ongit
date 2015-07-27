@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html hasbrowserhandlers="true"><head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+  <meta name="viewport" content="width=device-width; user-scalable=0">
+
+  <link rel="stylesheet" href="Ubuntu14.04%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEHadoop2.6.0%EF%BC%88%E5%AE%8C%E5%85%A8%E5%88%86%E5%B8%83%E5%BC%8F%EF%BC%89%E4%B8%8E%20wordcount%E5%AE%9E%E4%BE%8B%E8%BF%90%E8%A1%8C_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/aboutReader.css" type="text/css">
+
+  <script type="text/javascript;version=1.8" src="Ubuntu14.04%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEHadoop2.6.0%EF%BC%88%E5%AE%8C%E5%85%A8%E5%88%86%E5%B8%83%E5%BC%8F%EF%BC%89%E4%B8%8E%20wordcount%E5%AE%9E%E4%BE%8B%E8%BF%90%E8%A1%8C_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/aboutReader.js"></script>
+<title>Ubuntu14.04安装配置Hadoop2.6.0（完全分布式）与 wordcount实例运行_服务器应用_Linux公社-Linux系统门户网站</title></head>
+
+<body class="light sans-serif loaded">
+  <div id="container" class="container font-size5">
+    <div style="display: block;" id="reader-header" class="header">
+      <style scoped="">
+        @import url("chrome://global/skin/aboutReaderControls.css");
+      </style>
+      <a href="http://www.linuxidc.com/Linux/2015-01/112029.htm" id="reader-domain" class="domain">linuxidc.com</a>
+      <div class="domain-border"></div>
+      <h1 id="reader-title">Ubuntu14.04安装配置Hadoop2.6.0（完全分布式）与 wordcount实例运行_服务器应用_Linux公社-Linux系统门户网站</h1>
+      <div id="reader-credits" class="credits"></div>
+    </div>
+
+    <div class="content">
+      <style scoped="">
+        @import url("chrome://global/skin/aboutReaderContent.css");
+      </style>
+      <div style="display: block;" id="moz-reader-content"><div xml:base="http://www.linuxidc.com/Linux/2015-01/112029.htm" id="readability-page-1" class="page"><div id="content"><p>我的环境是：<a title="Ubuntu" target="_blank" href="http://www.linuxidc.com/topicnews.aspx?tid=2">Ubuntu</a>14.04+<a title="Hadoop" target="_blank" href="http://www.linuxidc.com/topicnews.aspx?tid=13">Hadoop</a>2.6.0+JDK1.8.0_25</p><p>官网2.6.0的安装教程：<a href="http://hadoop.apache.org/docs/r2.6.0/hadoop-project-dist/hadoop-common/SingleCluster.html">http://hadoop.apache.org/docs/r2.6.0/hadoop-project-dist/hadoop-common/SingleCluster.html</a></p><p>为了方面配置，我在每台机器上都使用了hadoop用户来操作，这样做的确够方便。</p><p>结点信息：(分布式集群架构：master为主节点，其余为从节点)</p><table class="        ">
+<tbody>
+<tr>
+<td valign="top" width="226">
+<p><span>机器名</span></p>
+</td>
+<td valign="top" width="226">
+<p><span>IP</span></p>
+</td>
+<td valign="top" width="226">
+<p><span>作用</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="226">
+<p><span>master</span></p>
+</td>
+<td valign="top" width="226">
+<p><span>122.205.135.254</span></p>
+</td>
+<td valign="top" width="226">
+<p><span>NameNode</span><span>&nbsp;</span><span>and</span><span>&nbsp;</span><span>JobTracker</span><span>&nbsp;</span></p>
+</td>
+</tr>
+<tr>
+<td valign="top" width="226">
+<p><span><span>slave1</span></span></p>
+</td>
+<td valign="top" width="226">
+<p><span>122.205.135.212</span></p>
+</td>
+<td valign="top" width="226">
+<p><span>DataNode&nbsp;and&nbsp;TaskTracker</span><span>&nbsp;</span></p>
+</td>
+</tr>
+</tbody>
+</table><p>1.JDK的安装</p><p>首先Hadoop运行需要Java的支持，所以必须在集群中所有的节点安装JDK，</p><p>jdk1.8.0_25的详细安装见我的另一篇文章：<a href="http://www.linuxidc.com/Linux/2015-01/112030.htm">http://www.linuxidc.com/Linux/2015-01/112030.htm</a> 注意：最好将集群中的JDK都安装在同一目录下，便于配置。实践中，笔者一般将JDK安装在/usr/java这个目录，但并不是必须的。</p><p>2.配置hosts文件</p><p>修改集群中所有机器的/etc/hosts，打开该文件的命令如下：</p><p>sudo gedit /etc/hosts</p><p>添加：</p><p>122.205.135.254 master</p><p>122.205.135.212 slave1</p><p>如图所示：</p><p><img alt="Ubuntu14.04安装配置Hadoop2.6.0（完全分布式）与 wordcount实例运行" src="Ubuntu14.04%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEHadoop2.6.0%EF%BC%88%E5%AE%8C%E5%85%A8%E5%88%86%E5%B8%83%E5%BC%8F%EF%BC%89%E4%B8%8E%20wordcount%E5%AE%9E%E4%BE%8B%E8%BF%90%E8%A1%8C_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/15011909392661.png" align="middle"></p><p>注意：这里的master、slave1、slave2等等，指的是机器的机器名（使用命令hostname可以查看本机的机器名），切记，如果不是机器名的话会出问题的，并且集群中所有结点的机器名都应该不一样。</p><p>3.SSH无密码登录</p><p>Hadoop主从节点无密码登录的安装配置详细见我的另一篇章：点击打开链接</p><p>4.Hadoop的安装与配置</p><p>(1).下载解压Hadoop稳定版</p><p>我用的是hadoop-2.6.0，下载地址：<a href="http://mirrors.hust.edu.cn/apache/hadoop/common/stable/">http://mirrors.hust.edu.cn/apache/hadoop/common/stable/</a></p><p>将下载后的Hadoop 拷贝到hadoop目录下，解压到master服务器的/hadoop目录下（配置好master结点后再将其复制到其它的服务器上，一般来说，群集中所有的hadoop都安装在同一目录下）：</p><p>解压命令如下：</p><p>tar xzfv hadoop-2.6.0.tar.gz</p><p><img moz-reader-center="true" alt="Ubuntu14.04安装配置Hadoop2.6.0（完全分布式）与 wordcount实例运行" src="Ubuntu14.04%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEHadoop2.6.0%EF%BC%88%E5%AE%8C%E5%85%A8%E5%88%86%E5%B8%83%E5%BC%8F%EF%BC%89%E4%B8%8E%20wordcount%E5%AE%9E%E4%BE%8B%E8%BF%90%E8%A1%8C_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/15011909423743.png" align="middle" vspace="5" width="581"></p><p>（2）.配置Hadoop</p><p>1.修改hadoop-2.6.0/etc/hadoop/hadoop-env.sh，添加JDK支持：</p><p>export JAVA_HOME=/usr/java/jdk1.8.0_25</p><p>如果不知道你的JDK目录，使用命令echo $JAVA_HOME查看。</p><p>2.修改hadoop-2.6.0/etc/hadoop/core-site.xml</p><p>注意：必须加在&lt;configuration&gt;&lt;/configuration&gt;节点内</p><p>&lt;configuration&gt;<br>&lt;property&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &lt;name&gt;hadoop.tmp.dir&lt;/name&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &lt;value&gt;/home/hadoop/hadoop-2.6.0/tmp&lt;/value&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &lt;description&gt;Abase for other temporary directories.&lt;/description&gt;<br>&nbsp; &nbsp; &lt;/property&gt;<br>&nbsp; &nbsp; &lt;property&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &lt;name&gt;fs.default.name&lt;/name&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &lt;value&gt;hdfs://master:9000&lt;/value&gt;<br>&nbsp; &nbsp; &lt;/property&gt;<br>&lt;/configuration&gt;</p><p>3.修改hadoop-2.6.0/etc/hadoop/hdfs-site.xml</p><p>&lt;property&gt;<br>&nbsp; &nbsp; &lt;name&gt;dfs.name.dir&lt;/name&gt;<br>&nbsp; &nbsp; &lt;value&gt;/home/hadoop/hadoop-2.6.0/dfs/name&lt;/value&gt;<br>&nbsp;
+ &nbsp; &lt;description&gt;Path on the local filesystem where the 
+NameNode stores the namespace and transactions logs 
+persistently.&lt;/description&gt;<br>&lt;/property&gt;</p><p>&nbsp;&lt;property&gt;</p><br>&nbsp; &nbsp; &lt;name&gt;dfs.data.dir&lt;/name&gt;<br>&nbsp; &nbsp; &lt;value&gt;/home/hadoop/hadoop-2.6.0/dfs/data&lt;/value&gt;<br>&nbsp;
+ &nbsp; &lt;description&gt;Comma separated list of paths on the local 
+filesystem of a DataNode where it should store its 
+blocks.&lt;/description&gt;<br>&lt;/property&gt;<br>&lt;property&gt;<br>&nbsp; &nbsp; &lt;name&gt;dfs.replication&lt;/name&gt;<br>&nbsp; &nbsp; &lt;value&gt;1&lt;/value&gt;<br>&lt;/property&gt;<p></p><p>4.修改hadoop-2.6.0/etc/hadoop/mapred-site.xml</p><p>&lt;property&gt;<br>&nbsp; &nbsp; &lt;name&gt;mapred.job.tracker&lt;/name&gt;<br>&nbsp; &nbsp; &lt;value&gt;master:9001&lt;/value&gt;<br>&nbsp; &nbsp; &lt;description&gt;Host or IP and port of JobTracker.&lt;/description&gt;<br>&lt;/property&gt;</p><p>5. 修改hadoop-2.6.0/etc/hadoop/masters</p><p>列出所有的master节点：</p><p>master</p><p>6.修改hadoop-2.6.0/etc/hadoop/slaves</p><p>这个是所有datanode的机器，例如：</p><p>slave1</p><p>slave2</p><p>slave3</p><p>slave4</p><p>7.将master结点上配置好的hadoop文件夹拷贝到所有的slave结点上</p><p>以slave1为例：命令如下：</p><p>scp -r&nbsp; ~/hadoop-2.6.0 <a href="mailto:hadoop@slave1:%7E/">hadoop@slave1:~/</a></p><p>安装完成后，我们要格式化HDFS然后启动集群所有节点。</p><p>5.启动Hadoop</p><p>1.格式化HDFS文件系统的namenode</p><p>（这里要进入hadoop-2.6.0目录来格式化好些）：</p><p>cd hadoop-2.6.0&nbsp; //进入hadoop-2.6.0目录</p><p>bin/hdfs namenode -format&nbsp; //格式化</p><p>2.启动Hadoop集群<br>启动hdrs命令如下：</p><p>sbin/start-dfs.sh //开启进程</p><p>成功的话输入jps会出现如下界面：</p><p><img alt="Ubuntu14.04安装配置Hadoop2.6.0（完全分布式）与 wordcount实例运行" src="Ubuntu14.04%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEHadoop2.6.0%EF%BC%88%E5%AE%8C%E5%85%A8%E5%88%86%E5%B8%83%E5%BC%8F%EF%BC%89%E4%B8%8E%20wordcount%E5%AE%9E%E4%BE%8B%E8%BF%90%E8%A1%8C_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/15011909443833.png" align="middle"></p><p>补充，关闭hdfs集群的命令如下：</p><p>sbin/stop-dfs.sh</p><p>我们也可以通过网页来看是否正常安装与配置，地址如下：http://master:50070/</p><p><img moz-reader-center="true" alt="Ubuntu14.04安装配置Hadoop2.6.0（完全分布式）与 wordcount实例运行" src="Ubuntu14.04%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEHadoop2.6.0%EF%BC%88%E5%AE%8C%E5%85%A8%E5%88%86%E5%B8%83%E5%BC%8F%EF%BC%89%E4%B8%8E%20wordcount%E5%AE%9E%E4%BE%8B%E8%BF%90%E8%A1%8C_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/15011909456743.png" align="middle" vspace="5" width="581"></p><p><strong><a title="CentOS" target="_blank" href="http://www.linuxidc.com/topicnews.aspx?tid=14">CentOS</a>安装和配置Hadoop2.2.0</strong>&nbsp; <a href="http://www.linuxidc.com/Linux/2014-01/94685.htm">http://www.linuxidc.com/Linux/2014-01/94685.htm</a></p><p>Ubuntu 13.04上搭建Hadoop环境 <a href="http://www.linuxidc.com/Linux/2013-06/86106.htm">http://www.linuxidc.com/Linux/2013-06/86106.htm</a></p><p>Ubuntu 12.10 +Hadoop 1.2.1版本集群配置 <a href="http://www.linuxidc.com/Linux/2013-09/90600.htm">http://www.linuxidc.com/Linux/2013-09/90600.htm</a></p><p>Ubuntu上搭建Hadoop环境（单机模式+伪分布模式） <a href="http://www.linuxidc.com/Linux/2013-01/77681.htm">http://www.linuxidc.com/Linux/2013-01/77681.htm</a></p><p>Ubuntu下Hadoop环境的配置 <a href="http://www.linuxidc.com/Linux/2012-11/74539.htm">http://www.linuxidc.com/Linux/2012-11/74539.htm</a></p><p>单机版搭建Hadoop环境图文教程详解 <a href="http://www.linuxidc.com/Linux/2012-02/53927.htm">http://www.linuxidc.com/Linux/2012-02/53927.htm</a></p><p>搭建Hadoop环境（在Winodws环境下用虚拟机虚拟两个Ubuntu系统进行搭建） <a href="http://www.linuxidc.com/Linux/2011-12/48894.htm">http://www.linuxidc.com/Linux/2011-12/48894.htm</a></p><p><strong>更多详情见请继续阅读下一页的精彩内容</strong>： <a href="http://www.linuxidc.com/Linux/2015-01/112029p2.htm">http://www.linuxidc.com/Linux/2015-01/112029p2.htm</a></p><a target="_blank" href="http://www.linuxidc.com/"><img alt="linux" src="Ubuntu14.04%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEHadoop2.6.0%EF%BC%88%E5%AE%8C%E5%85%A8%E5%88%86%E5%B8%83%E5%BC%8F%EF%BC%89%E4%B8%8E%20wordcount%E5%AE%9E%E4%BE%8B%E8%BF%90%E8%A1%8C_%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%BA%94%E7%94%A8_Linux%E5%85%AC%E7%A4%BE-Linux%E7%B3%BB%E7%BB%9F%E9%97%A8%E6%88%B7%E7%BD%91%E7%AB%99_files/logo.gif" height="17" width="15"></a></div></div></div>
+    </div>
+
+    <div>
+      <style scoped="">
+        @import url("chrome://global/skin/aboutReaderControls.css");
+      </style>
+      <div style="display: none;" id="reader-message">正在载入...</div>
+    </div>
+
+    <div style="display: none;" id="reader-footer" class="footer">
+      <style scoped="">
+        @import url("chrome://global/skin/aboutReaderControls.css");
+      </style>
+      <button id="remove-button" class="button remove-button">
+    </button></div>
+  </div>
+
+  <ul visible="true" style="display: block;" id="reader-toolbar" class="toolbar">
+    <style scoped="">
+      @import url("chrome://global/skin/aboutReaderControls.css");
+    </style>
+    <li><button title="关闭阅读模式" id="close-button" class="button close-button"></button></li>
+    <li><button title="分享" id="share-button" class="button share-button"></button></li>
+    <ul id="style-dropdown" class="dropdown">
+      <li><button title="字型调控" class="dropdown-toggle button style-button"></button></li>
+      <li id="reader-popup" class="dropdown-popup">
+        <div id="font-type-buttons"><button class="sans-serif-button selected"><div class="name">Aa</div><div class="description">无衬线</div></button><button class="serif-button"><div class="name">Aa</div><div class="description">衬线</div></button></div>
+        <hr>
+        <div id="font-size-buttons">
+          <button id="font-size-minus" class="minus-button">
+          </button><button id="font-size-sample">Aa</button><button id="font-size-plus" class="plus-button">
+        </button></div>
+        <hr>
+        <div id="color-scheme-buttons"><button class="light-button selected"><div class="name">亮色</div></button><button class="dark-button"><div class="name">暗色</div></button><button class="sepia-button"><div class="name">深褐色</div></button></div>
+        <div class="dropdown-arrow">
+      </div></li>
+    </ul>
+    <li><button title="添加到阅读列表" id="toggle-button" class="button toggle-button" hidden="true"></button></li>
+    <li><button title="打开阅读列表" id="list-button" class="button list-button" hidden="true"></button></li>
+    <li><button id="pocket-button" class="button" hidden=""></button></li>
+  </ul>
+
+
+
+
+</body></html>

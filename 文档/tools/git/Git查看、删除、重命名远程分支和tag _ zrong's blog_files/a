@@ -1,0 +1,15 @@
+
+    var douban_badge_width;
+    var douban_badge_font;
+    var douban_style;
+
+    var dou_width = douban_badge_width?'width: '+douban_badge_width+';':'';
+    var dou_fnt = douban_badge_font?'font: '+douban_badge_font+';':'';
+    var dou_style= douban_style? douban_style:'';
+    var dou_bdr= '';
+
+    document.write(decodeURIComponent('%3Cdiv%20style%3D%22'+dou_style+'%22%3E%3Ctable%20cellspacing%3D%220%22%20cellpadding%3D%224%22%20style%3D%22'+dou_width+'%3E'));
+    document.write(decodeURIComponent('%3Ctr%20align%3D%22center%22%3E%3Ctd%20style%3D%22'+dou_fnt+'%22%3E%3Ca%20href%3D%22http%3A//book.douban.com/subject/3420144/%22%20title%3D%22Pro%20Git%0A%0A%22%20target%3D_blank%3E%3Cimg%20src%3D%22http%3A//img4.douban.com/mpic/s4245786.jpg%22%20border%3D%220%22/%3E%3C/a%3E%3C/td%3E%3Ctd%20style%3D%22'+dou_fnt+'%22%3E%3Ca%20href%3D%22http%3A//book.douban.com/subject/1767741/%22%20title%3D%22C%2B%2B%20Primer%20%E4%B8%AD%E6%96%87%E7%89%88%EF%BC%88%E7%AC%AC%204%20%E7%89%88%EF%BC%89%0A%0AC%2B%2B%20Primer%2C%204th%20Edition%22%20target%3D_blank%3E%3Cimg%20src%3D%22http%3A//img3.douban.com/mpic/s1638975.jpg%22%20border%3D%220%22/%3E%3C/a%3E%3C/td%3E%3Ctd%20style%3D%22'+dou_fnt+'%22%3E%3Ca%20href%3D%22http%3A//book.douban.com/subject/1215826/%22%20title%3D%22Essential%20C%2B%2B%E4%B8%AD%E6%96%87%E7%89%88%0A%0A%22%20target%3D_blank%3E%3Cimg%20src%3D%22http%3A//img3.douban.com/mpic/s2502373.jpg%22%20border%3D%220%22/%3E%3C/a%3E%3C/td%3E%3Ctd%20style%3D%22'+dou_fnt+'%22%3E%3Ca%20href%3D%22http%3A//book.douban.com/subject/1258491/%22%20title%3D%22%E5%9F%BA%E5%9C%B0%E4%B8%8E%E5%B8%9D%E5%9B%BD%0A%0A%22%20target%3D_blank%3E%3Cimg%20src%3D%22http%3A//img4.douban.com/mpic/s1328657.jpg%22%20border%3D%220%22/%3E%3C/a%3E%3C/td%3E%3Ctd%20style%3D%22'+dou_fnt+'%22%3E%3Ca%20href%3D%22http%3A//book.douban.com/subject/1258489/%22%20title%3D%22%E7%AC%AC%E4%BA%8C%E5%9F%BA%E5%9C%B0%0A%0A%22%20target%3D_blank%3E%3Cimg%20src%3D%22http%3A//img4.douban.com/mpic/s1328658.jpg%22%20border%3D%220%22/%3E%3C/a%3E%3C/td%3E%3Ctd%20style%3D%22'+dou_fnt+'%22%3E%3Ca%20href%3D%22http%3A//book.douban.com/subject/21323903/%22%20title%3D%22introducing%20starling%0A%0A%22%20target%3D_blank%3E%3Cimg%20src%3D%22http%3A//img3.douban.com/mpic/s24930323.jpg%22%20border%3D%220%22/%3E%3C/a%3E%3C/td%3E%3C/tr%3E'));
+
+    document.write(decodeURIComponent('%3C/table%3E%3C/div%3E'));
+    

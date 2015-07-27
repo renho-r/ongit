@@ -1,0 +1,16 @@
+
+    var douban_badge_width;
+    var douban_badge_font;
+    var douban_style;
+
+    var dou_width = douban_badge_width?'width: '+douban_badge_width+';':'';
+    var dou_fnt = douban_badge_font?'font: '+douban_badge_font+';':'';
+    var dou_style= douban_style? douban_style:'';
+    var dou_bdr= '';
+
+    document.write(decodeURIComponent('%3Cdiv%20style%3D%22'+dou_style+'%22%3E%3Ctable%20cellspacing%3D%220%22%20cellpadding%3D%224%22%20style%3D%22'+dou_width+'%3E'));
+    document.write(decodeURIComponent('%3Ctr%20align%3D%22center%22%3E%3Ctd%20style%3D%22'+dou_fnt+'%22%3E%3Ca%20href%3D%22http%3A//book.douban.com/subject/25848404/%22%20title%3D%22Android%E7%BC%96%E7%A8%8B%E6%9D%83%E5%A8%81%E6%8C%87%E5%8D%97%0A%0AAndroid%20programming%3A%20the%20big%20nerd%20ranch%20guide%22%20target%3D_blank%3E%3Cimg%20src%3D%22http%3A//img3.douban.com/mpic/s27969351.jpg%22%20border%3D%220%22/%3E%3C/a%3E%3C/td%3E%3Ctd%20style%3D%22'+dou_fnt+'%22%3E%3Ca%20href%3D%22http%3A//book.douban.com/subject/26381341/%22%20title%3D%22Python%20Cookbook%20%E4%B8%AD%E6%96%87%E7%89%88%EF%BC%8C%E7%AC%AC%203%20%E7%89%88%0A%0APython%20Cookbook%2C%203rd%20Edtioni%22%20target%3D_blank%3E%3Cimg%20src%3D%22http%3A//img3.douban.com/mpic/s28063681.jpg%22%20border%3D%220%22/%3E%3C/a%3E%3C/td%3E%3C/tr%3E'));
+    document.write(decodeURIComponent('%3Ctr%20align%3D%22center%22%3E%3Ctd%20style%3D%22'+dou_fnt+'%22%3E%3Ca%20href%3D%22http%3A//book.douban.com/subject/26352270/%22%20title%3D%22%E3%80%8A%E4%B8%89%E4%BD%93%E3%80%8B%E4%B8%AD%E7%9A%84%E7%89%A9%E7%90%86%E5%AD%A6%0A%0A%22%20target%3D_blank%3E%3Cimg%20src%3D%22http%3A//img4.douban.com/mpic/s28037668.jpg%22%20border%3D%220%22/%3E%3C/a%3E%3C/td%3E%3Ctd%20style%3D%22'+dou_fnt+'%22%3E%3Ca%20href%3D%22http%3A//book.douban.com/subject/26379590/%22%20title%3D%22Cocos2d-x%20by%20Example%20Beginner%5C%27s%20Guide%20Second%20Edition%0A%0A%22%20target%3D_blank%3E%3Cimg%20src%3D%22http%3A//img3.douban.com/mpic/s28061841.jpg%22%20border%3D%220%22/%3E%3C/a%3E%3C/td%3E%3C/tr%3E'));
+
+    document.write(decodeURIComponent('%3C/table%3E%3C/div%3E'));
+    
