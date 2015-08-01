@@ -1,0 +1,13 @@
+1.查看库
+	show dbs
+2.新建
+	use renhoDb
+3.删除
+	use renhoDb
+	db.dropDatabase()
+4.插入数据
+	use renhoDb
+	db.person.insert({"name": "renho", "age": 100})
+5.查询
+	use renhoDb
+	db.person.find()
