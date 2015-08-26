@@ -15,12 +15,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.GenericOptionsParser;
 import org.apache.log4j.Logger;
 
-/**
- * ‘À––≤‚ ‘≥Ã–Ú
- * 
- * @author yongboy
- * @date 2012-04-16
- */
 public class WordCountTest {
 	private static final Logger log = Logger.getLogger(WordCountTest.class);
 
