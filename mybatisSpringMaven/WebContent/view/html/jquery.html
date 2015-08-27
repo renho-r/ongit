@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>jquery test</title>
+</head>
+<body>
+	<div>
+		function renhoFunction() {
+			console.info("renhoFunction");
+		}
+		<input type="button" id="isFunction" value="isFunction">
+	</div>
+	<div>
+		var renhoObject = {id: "1", name: "renho"}
+		<input type="button" id="isPlainObject" value="isPlainObject">
+	</div>
+	
+	<input type="button" id="callback-test-0" value="callback-test-0">
+	<input type="button" id="click-test-0" value="click-test-0">
+	<input type="button" id="ajaxXml" value="ajaxXml">
+	<div id="div-data-0">
+	</div>
+	<form action="/mybatisSpringMaven/renho/uploadFile.do" method="POST" enctype="multipart/form-data">
+		<input type="file" id="uploadFile" name="fileName">
+		<input type="submit" id="submitUpload" value="确定">
+	</form>
+	<form action="/mybatisSpringMaven/renho?method=uploadFile" method="POST" encType=multipart/form-data>
+		<input type="file" name="fileName">
+		<input type="submit" id="submitUpload" value="确定">
+	</form>
+	
+</body>
+<script type="text/javascript" src="../js/jquery-1.11.2.js"></script>
+<script type="text/javascript" src="../js/jquerytest.js"></script>
+</html>

@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<!--[if !IE]>
+	<html class="no-js non-ie" lang="zh-CN"> <![endif]-->
+<!--[if IE 7 ]>
+	<html class="no-js ie7" lang="zh-CN"> <![endif]-->
+<!--[if IE 8 ]>
+	<html class="no-js ie8" lang="zh-CN"> <![endif]-->
+<!--[if IE 9 ]>
+	<html class="no-js ie9" lang="zh-CN"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class=" js flexbox canvas canvastext webgl no-touch geolocation postmessage no-websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients no-cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths" lang="zh-CN"><!--<![endif]--><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><script id="undefined" src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/inpage_linkid.js" async="" type="text/javascript"></script><script src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/changyan.js" charset="utf-8" type="text/javascript"></script>
+
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+		<title>Git查看、删除、重命名远程分支和tag | zrong's blog</title>
+
+		<link rel="profile" href="http://gmpg.org/xfn/11">
+		<link rel="pingback" href="http://zengrong.net/xmlrpc.php">
+
+		
+<!-- All in One SEO Pack 2.2.7 by Michael Torbert of Semper Fi Web Design[496,531] -->
+<meta name="description" itemprop="description" content="Git查看、删除、重命名远程分支和tag 2015-06-15：加入姊妹篇； 2013-11-06：加入重命名远程分支的内容； 2013-01-09：加入删除远程tag的内容。 姊妹篇：使用Git、Git">
+
+<meta name="keywords" itemprop="keywords" content="git,技术">
+
+<link rel="canonical" href="http://zengrong.net/post/1746.htm">
+<!-- /all in one seo pack -->
+<link rel="alternate" type="application/rss+xml" title="zrong's blog » Feed" href="http://zengrong.net/feed">
+<link rel="alternate" type="application/rss+xml" title="zrong's blog » 评论Feed" href="http://zengrong.net/comments/feed">
+<link rel="alternate" type="application/rss+xml" title="zrong's blog » Git查看、删除、重命名远程分支和tag评论Feed" href="http://zengrong.net/post/1746.htm/feed">
+		<script src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/ga.js" async="" type="text/javascript"></script><script src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/hm.js"></script><script type="text/javascript">
+			window._wpemojiSettings = {"baseUrl":"http:\/\/s.w.org\/images\/core\/emoji\/72x72\/","ext":".png","source":{"concatemoji":"http:\/\/zengrong.net\/wp-includes\/js\/wp-emoji-release.min.js?ver=4.2.2"}};
+			!function(a,b,c){function d(a){var c=b.createElement("canvas"),d=c.getContext&&c.getContext("2d");return d&&d.fillText?(d.textBaseline="top",d.font="600 32px Arial","flag"===a?(d.fillText(String.fromCharCode(55356,56812,55356,56807),0,0),c.toDataURL().length>3e3):(d.fillText(String.fromCharCode(55357,56835),0,0),0!==d.getImageData(16,16,1,1).data[0])):!1}function e(a){var c=b.createElement("script");c.src=a,c.type="text/javascript",b.getElementsByTagName("head")[0].appendChild(c)}var f,g;c.supports={simple:d("simple"),flag:d("flag")},c.DOMReady=!1,c.readyCallback=function(){c.DOMReady=!0},c.supports.simple&&c.supports.flag||(g=function(){c.readyCallback()},b.addEventListener?(b.addEventListener("DOMContentLoaded",g,!1),a.addEventListener("load",g,!1)):(a.attachEvent("onload",g),b.attachEvent("onreadystatechange",function(){"complete"===b.readyState&&c.readyCallback()})),f=c.source||{},f.concatemoji?e(f.concatemoji):f.wpemoji&&f.twemoji&&(e(f.twemoji),e(f.wpemoji)))}(window,document,window._wpemojiSettings);
+		</script><script type="text/javascript" src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/wp-emoji-release.js"></script>
+		<style type="text/css">
+img.wp-smiley,
+img.emoji {
+	display: inline !important;
+	border: none !important;
+	box-shadow: none !important;
+	height: 1em !important;
+	width: 1em !important;
+	margin: 0 .07em !important;
+	vertical-align: -0.1em !important;
+	background: none !important;
+	padding: 0 !important;
+}
+</style>
+<link rel="stylesheet" id="yarppWidgetCss-css" href="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/widget.css" type="text/css" media="all">
+<link rel="stylesheet" id="responsive-style-css" href="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/style_002.css" type="text/css" media="all">
+<link rel="stylesheet" id="responsive-media-queries-css" href="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/responsive.css" type="text/css" media="all">
+<link rel="stylesheet" id="responsive-child-style-css" href="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/style.css" type="text/css" media="all">
+<link rel="stylesheet" id="wp-downloadmanager-css" href="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/download-css.css" type="text/css" media="all">
+<script type="text/javascript" src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/jquery_002.js"></script>
+<script type="text/javascript" src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/jquery-migrate.js"></script>
+<script type="text/javascript" src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/swfobject.js"></script>
+<script type="text/javascript" src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/responsive-modernizr.js"></script>
+
+<script type="text/javascript" charset="utf-8">
+	(function(){
+		try {
+			// Disabling SWFObject's Autohide feature
+			if (typeof swfobject.switchOffAutoHideShow === "function") {
+				swfobject.switchOffAutoHideShow();
+			}
+		} catch(e) {}
+	})();
+</script>
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://zengrong.net/xmlrpc.php?rsd">
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://zengrong.net/wp-includes/wlwmanifest.xml"> 
+<link rel="prev" title="[转]至今听到关于 Lisp 最迷人的故事" href="http://zengrong.net/post/1743.htm">
+<link rel="next" title="Flash Builder 4.7 正式版下载地址" href="http://zengrong.net/post/1754.htm">
+<meta name="generator" content="WordPress 4.2.2">
+<link rel="shortlink" href="http://zengrong.net/?p=1746">
+<!-- We need this for debugging -->
+<!-- Responsive 1.9.7.6 -->
+<!-- Responsive Child  -->
+<!-- for baidu -->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?8159b7b98721e2fa296611608732c888";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<!-- for google -->
+<meta name="google-translate-customization" content="12139d2c6a42beab-30d8a30048fd4991-g5b72f1cb88b7f1b8-c">
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  var pluginUrl = '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+  _gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+  _gaq.push(['_setAccount', 'UA-178999-3']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+	<style id="fit-vids-style">.fluid-width-video-wrapper{width:100%;position:relative;padding:0;}.fluid-width-video-wrapper iframe,.fluid-width-video-wrapper object,.fluid-width-video-wrapper embed {position:absolute;top:0;left:0;width:100%;height:100%;}</style><script src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/version.js" charset="UTF-8" type="text/javascript"></script><script src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/cookie.js" charset="UTF-8" type="text/javascript"></script><script src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/cyrpy0Ose.js" charset="UTF-8" type="text/javascript"></script><script src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/event.js" charset="UTF-8" type="text/javascript"></script><script src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/event_002.js" charset="UTF-8" type="text/javascript"></script><script src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/app-build-iframe.js" charset="UTF-8" type="text/javascript"></script></head>
+
+<body class="single single-post postid-1746 single-format-standard">
+
+<div id="container" class="hfeed">
+
+	<div class="skip-container cf">
+		<a class="skip-link screen-reader-text focusable" href="#content">↓ Skip to Main Content</a>
+	</div><!-- .skip-container -->
+	<div id="header">
+
+		
+		<ul id="menu-%e9%9d%99%e6%80%81%e9%93%be%e6%8e%a5" class="top-menu"><li id="menu-item-2246" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2246"><a href="http://github.com/zrong">zrong@github</a></li>
+<li id="menu-item-2245" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2245"><a href="http://zengrong.net/rss">RSS</a></li>
+<li id="menu-item-2252" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2252"><a href="http://zengrong.net/read">阅读</a></li>
+</ul>
+		
+		
+		
+			<div id="logo">
+				<span class="site-name"><a href="http://zengrong.net/" title="zrong's blog" rel="home">zrong's blog</a></span>
+				<span class="site-description">可能是一个程序员</span>
+			</div><!-- end of #logo -->
+
+		
+			<div id="top-widget" class="top-widget">
+		
+		
+			<div id="search-4" class="widget_search"><form method="get" id="searchform" action="http://zengrong.net/">
+	<label class="screen-reader-text" for="s">Search for:</label>
+	<input class="field" name="s" id="s" placeholder="搜索..." type="text">
+	<input class="submit" name="submit" id="searchsubmit" value="搜" type="submit">
+</form></div>
+		
+			</div><!-- end of #top-widget -->
+		<div class="main-nav"><div id="responsive_current_menu_item">Git查看、删除、重命名远程分支和tag</div><ul id="menu-%e9%87%8d%e8%a6%81%e6%96%87%e7%ab%a0" class="menu"><li id="menu-item-2251" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-home menu-item-2251"><a href="http://zengrong.net/">首页</a></li>
+<li id="menu-item-2016" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2016"><a href="http://zengrong.net/flashassistant">Flash＆Flex大全</a></li>
+<li id="menu-item-2015" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2015"><a href="http://zengrong.net/21-days">十年学会程序设计</a></li>
+<li id="menu-item-2017" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2017"><a href="http://zengrong.net/howtoask">提问的智慧</a></li>
+</ul><a id="responsive_menu_button"></a></div>
+		<ul id="menu-%e9%a1%b9%e7%9b%ae%e8%8f%9c%e5%8d%95" class="sub-header-menu"><li id="menu-item-1627" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1627"><a href="http://zengrong.net/anetoolkit">ANE Toolkit</a></li>
+<li id="menu-item-1907" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1907"><a href="http://zengrong.net/platform-anes">Platform ANEs</a></li>
+<li id="menu-item-1404" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-1404"><a href="http://zengrong.net/sprite_sheet_editor">Sprite Sheet Editor</a></li>
+<li id="menu-item-2279" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2279"><a href="http://zengrong.net/cocos2d-x-filters">cocos2d-x-filters</a></li>
+<li id="menu-item-2322" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-2322"><a href="http://zengrong.net/wpcmd">WPCMD</a></li>
+<li id="menu-item-2253" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2253"><a href="http://github.com/zrong/as3">AS3 Lib</a></li>
+<li id="menu-item-2254" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2254"><a href="http://github.com/zrong/python">Python Lib</a></li>
+<li id="menu-item-2255" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-2255"><a href="http://github.com/zrong/lua">Lua Lib</a></li>
+</ul>
+		
+	</div><!-- end of #header -->
+
+	<div id="wrapper" class="clearfix">
+
+<div id="content" class="grid col-620">
+
+	<div class="breadcrumb-list" xmlns:v="http://rdf.data-vocabulary.org/#"><span class="breadcrumb" typeof="v:Breadcrumb"><a rel="v:url" property="v:title" href="http://zengrong.net/">首页</a></span> <span class="chevron">›</span> <span class="breadcrumb" typeof="v:Breadcrumb"><a rel="v:url" property="v:title" href="http://zengrong.net/post/category/technology">技术</a></span> <span class="chevron">›</span> <span class="breadcrumb-current">Git查看、删除、重命名远程分支和tag</span></div>
+	
+		
+						<div id="post-1746" class="post-1746 post type-post status-publish format-standard hentry category-technology tag-git">
+				
+				
+	<h1 class="entry-title post-title">Git查看、删除、重命名远程分支和tag</h1>
+
+<div class="post-meta">
+	<span class="meta-prep meta-prep-author posted">发表于 </span><a href="http://zengrong.net/post/1746.htm" title="Git查看、删除、重命名远程分支和tag" rel="bookmark"><time class="timestamp updated" datetime="2012-11-17T17:58:25+00:00">11/17/2012</time></a><span class="byline"> 作者 </span><span class="author vcard"><a class="url fn n" href="http://zengrong.net/post/author/zrong" title="查看 zrong 的所有文章">zrong</a></span>
+			<span class="comments-link">
+		<span class="mdash">—</span>
+			<a href="http://zengrong.net/post/1746.htm#comments">6 条评论 ↓</a>		</span>
+		<!-- 2015.03.02 zrong add view -->
+	110,403 次查看</div><!-- end of .post-meta -->
+
+				<div class="post-entry">
+					<div style="margin-top: 15px;color:#FF0000;">
+<ul>
+<li><strong>本站文章除注明转载外，均为本站原创或者翻译。</strong></li>
+<li>本站文章欢迎各种形式的转载，但请18岁以上的转载者注明文章出处，尊重我的劳动，也尊重你的智商；</li>
+<li>本站部分原创和翻译文章提供markdown格式源码，欢迎使用<a href="https://github.com/zrong/blog" target="_blank">文章源码</a>进行转载；</li>
+<li>本文标题：Git查看、删除、重命名远程分支和tag</li>
+<li>本文链接：<a href="http://zengrong.net/post/1746.htm">http://zengrong.net/post/1746.htm</a></li>
+</ul></div>
+<hr>
+
+<p><a href="http://zengrong.net/post/1746.htm">Git查看、删除、重命名远程分支和tag</a></p>
+<ul>
+<li><span style="color:red;">2015-06-15</span>：加入姊妹篇；</li>
+<li><span style="color:red;">2013-11-06</span>：加入重命名远程分支的内容；</li>
+<li><span style="color:red;">2013-01-09</span>：加入删除远程tag的内容。</li>
+</ul>
+<hr>
+<p>姊妹篇：<a href="http://zengrong.net/post/1722.htm">使用Git、Git GUI和TortoiseGit</a></p>
+<hr>
+<p>这篇文章记录我在使用git的过程中碰到远程分支和tag的相关内容，提纲：</p>
+<ol>
+<li>查看远程分支</li>
+<li>删除远程分支和tag</li>
+<li>删除不存在对应远程分支的本地分支</li>
+<li>重命名远程分支</li>
+<li>把本地tag推送到远程</li>
+<li>获取远程tag</li>
+</ol>
+<h2>查看远程分支</h2>
+<p>加上-a参数可以查看远程分支，远程分支会用红色表示出来（如果你开了颜色支持的话）：</p>
+<div class="codehilite">
+<pre><span class="nv">$ </span>git branch -a
+  master
+  remote
+  tungway
+  v1.52
+* zrong
+  remotes/origin/master
+  remotes/origin/tungway
+  remotes/origin/v1.52
+  remotes/origin/zrong
+</pre>
+</div>
+<h2>删除远程分支和tag</h2>
+<p>在Git v1.7.0 之后，可以使用这种语法删除远程分支：</p>
+<div class="codehilite">
+<pre><span class="nv">$ </span>git push origin --delete &lt;branchName&gt;
+</pre>
+</div>
+<p>删除tag这么用：</p>
+<div class="codehilite">
+<pre>git push origin --delete tag &lt;tagname&gt;
+</pre>
+</div>
+<p><span id="more-1746"></span></p>
+<p>否则，可以使用这种语法，推送一个空分支到远程分支，其实就相当于删除远程分支：</p>
+<div class="codehilite">
+<pre>git push origin :&lt;branchName&gt;
+</pre>
+</div>
+<p>这是删除tag的方法，推送一个空tag到远程tag：</p>
+<div class="codehilite">
+<pre>git tag -d &lt;tagname&gt;
+git push origin :refs/tags/&lt;tagname&gt;
+</pre>
+</div>
+<p>两种语法作用完全相同。</p>
+<h2>删除不存在对应远程分支的本地分支</h2>
+<p>假设这样一种情况：</p>
+<ol>
+<li>我创建了本地分支b1并pull到远程分支 <code>origin/b1</code>；</li>
+<li>其他人在本地使用fetch或pull创建了本地的b1分支；</li>
+<li>我删除了 <code>origin/b1</code> 远程分支；</li>
+<li>其他人再次执行fetch或者pull并不会删除这个他们本地的 <code>b1</code> 分支，运行 <code>git branch -a</code> 也不能看出这个branch被删除了，如何处理？</li>
+</ol>
+<p>使用下面的代码查看b1的状态：</p>
+<div class="codehilite">
+<pre><span class="nv">$ </span>git remote show origin
+* remote origin
+  Fetch URL: git@github.com:xxx/xxx.git
+  Push  URL: git@github.com:xxx/xxx.git
+  HEAD branch: master
+  Remote branches:
+    master                 tracked
+    refs/remotes/origin/b1 stale <span class="o">(</span>use <span class="s1">'git remote prune'</span> to remove<span class="o">)</span>
+  Local branch configured <span class="k">for</span> <span class="s1">'git pull'</span>:
+    master merges with remote master
+  Local ref configured <span class="k">for</span> <span class="s1">'git push'</span>:
+    master pushes to master <span class="o">(</span>up to date<span class="o">)</span>
+</pre>
+</div>
+<p>这时候能够看到b1是stale的，使用 <code>git remote prune origin</code> 可以将其从本地版本库中去除。</p>
+<p>更简单的方法是使用这个命令，它在fetch之后删除掉没有与远程分支对应的本地分支：</p>
+<div class="codehilite">
+<pre>git fetch -p
+</pre>
+</div>
+<h2>重命名远程分支</h2>
+<p>在git中重命名远程分支，其实就是先删除远程分支，然后重命名本地分支，再重新提交一个远程分支。</p>
+<p>例如下面的例子中，我需要把 devel 分支重命名为 develop 分支：</p>
+<div class="codehilite">
+<pre><span class="nv">$ </span>git branch -av
+* devel                             752bb84 Merge pull request <span class="c">#158 from Gwill/devel</span>
+  master                            53b27b8 Merge pull request <span class="c">#138 from tdlrobin/master</span>
+  zrong                             2ae98d8 modify CCFileUtils, <span class="nb">export </span>getFileData
+  remotes/origin/HEAD               -&gt; origin/master
+  remotes/origin/add_build_script   d4a8c4f Merge branch <span class="s1">'master'</span> into add_build_script
+  remotes/origin/devel              752bb84 Merge pull request <span class="c">#158 from Gwill/devel</span>
+  remotes/origin/devel_qt51         62208f1 update .gitignore
+  remotes/origin/master             53b27b8 Merge pull request <span class="c">#138 from tdlrobin/master</span>
+  remotes/origin/zrong              2ae98d8 modify CCFileUtils, <span class="nb">export </span>getFileData
+</pre>
+</div>
+<p>删除远程分支：</p>
+<div class="codehilite">
+<pre><span class="nv">$ </span>git push --delete origin devel
+To git@github.com:zrong/quick-cocos2d-x.git
+ - <span class="o">[</span>deleted<span class="o">]</span>         devel
+</pre>
+</div>
+<p>重命名本地分支： </p>
+<div class="codehilite">
+<pre>git branch -m devel develop
+</pre>
+</div>
+<p>推送本地分支：</p>
+<div class="codehilite">
+<pre><span class="nv">$ </span>git push origin develop
+Counting objects: 92, <span class="k">done</span>.
+Delta compression using up to <span class="m">4</span> threads.
+Compressing objects: 100% <span class="o">(</span>48/48<span class="o">)</span>, <span class="k">done</span>.
+Writing objects: 100% <span class="o">(</span>58/58<span class="o">)</span>, 1.38 MiB, <span class="k">done</span>.
+Total <span class="m">58</span> <span class="o">(</span>delta 34<span class="o">)</span>, reused <span class="m">12</span> <span class="o">(</span>delta 5<span class="o">)</span>
+To git@github.com:zrong/quick-cocos2d-x.git
+ * <span class="o">[</span>new branch<span class="o">]</span>      develop -&gt; develop
+</pre>
+</div>
+<p>然而，在 github 上操作的时候，我在删除远程分支时碰到这个错误：</p>
+<div class="codehilite">
+<pre><span class="nv">$ </span>git push --delete origin devel
+remote: error: refusing to delete the current branch: refs/heads/devel
+To git@github.com:zrong/quick-cocos2d-x.git
+ ! <span class="o">[</span>remote rejected<span class="o">]</span> devel <span class="o">(</span>deletion of the current branch prohibited<span class="o">)</span>
+error: failed to push some refs to <span class="s1">'git@github.com:zrong/quick-cocos2d-x.git'</span>
+</pre>
+</div>
+<p>这是由于在 github 中，devel 是项目的默认分支。要解决此问题，这样操作：</p>
+<ol>
+<li>进入 github 中该项目的 Settings 页面；</li>
+<li>设置 Default Branch 为其他的分支（例如 master）；</li>
+<li>重新执行删除远程分支命令。</li>
+</ol>
+<h2>把本地tag推送到远程</h2>
+<div class="codehilite">
+<pre>git push --tags
+</pre>
+</div>
+<h2>获取远程tag</h2>
+<div class="codehilite">
+<pre>git fetch origin tag &lt;tagname&gt;
+</pre>
+</div>
+<h2>参考文章</h2>
+<ul>
+<li><a href="https://makandracards.com/makandra/621-git-delete-a-branch-local-or-remote">https://makandracards.com/makandra/621-git-delete-a-branch-local-or-remote</a></li>
+<li><a href="http://stackoverflow.com/questions/2003505/how-do-i-delete-a-git-branch-both-locally-and-in-github">http://stackoverflow.com/questions/2003505/how-do-i-delete-a-git-branch-both-locally-and-in-github</a></li>
+<li><a href="http://www.cnblogs.com/deepnighttwo/archive/2011/06/18/2084438.html">http://www.cnblogs.com/deepnighttwo/archive/2011/06/18/2084438.html</a></li>
+<li><a href="http://stackoverflow.com/questions/14040754/deleting-remote-master-branch-refused-due-to-being-current-branch">http://stackoverflow.com/questions/14040754/deleting-remote-master-branch-refused-due-to-being-current-branch</a></li>
+<li><a href="http://weli.iteye.com/blog/1441582">http://weli.iteye.com/blog/1441582</a></li>
+</ul>
+<div class="yarpp-related">
+<hr><div class="add-info"><h3>关联文章</h3><ol>
+<li><a href="http://zengrong.net/post/1544.htm" rel="bookmark" title="修改了SSH默认端口之后，如何配置git？">修改了SSH默认端口之后，如何配置git？ </a></li>
+<li><a href="http://zengrong.net/post/1720.htm" rel="bookmark" title="安装gitolite">安装gitolite </a></li>
+<li><a href="http://zengrong.net/post/1674.htm" rel="bookmark" title="在CentOS上编译安装Ruby 1.9">在CentOS上编译安装Ruby 1.9 </a></li>
+<li><a href="http://zengrong.net/post/1628.htm" rel="bookmark" title="读写FREByteArray">读写FREByteArray </a></li>
+<li><a href="http://zengrong.net/post/1483.htm" rel="bookmark" title="对RTMP视频流进行BitmapData.draw()出错的解决办法">对RTMP视频流进行BitmapData.draw()出错的解决办法 </a></li>
+</ol></div>
+</div>
+
+					
+									</div><!-- end of .post-entry -->
+
+				<div class="navigation">
+					<div class="previous">‹ <a href="http://zengrong.net/post/1743.htm" rel="prev">[转]至今听到关于 Lisp 最迷人的故事</a></div>
+					<div class="next"><a href="http://zengrong.net/post/1754.htm" rel="next">Flash Builder 4.7 正式版下载地址</a> ›</div>
+				</div><!-- end of .navigation -->
+
+				
+
+	<div class="post-data">
+		文章分类 <a href="http://zengrong.net/post/category/technology">技术</a>		标签： <a href="http://zengrong.net/post/tag/git" rel="tag">git</a><br>	</div><!-- end of .post-data -->
+
+
+<div class="post-edit"></div>
+							</div><!-- end of #post-1746 -->
+			
+						<a name="comments"></a>
+<div id="SOHUCS" sid="1746"><iframe style="width: 100%; border: 0px none; height: 1756px;" src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/innerpage.htm" frameborder="no"></iframe></div><script>(function(){var appid = 'cyrpy0Ose',conf = 'prod_73c235677a4c8e62e31453be11834285';
+        var doc = document,
+        s = doc.createElement('script'),
+        h = doc.getElementsByTagName('head')[0] || doc.head || doc.documentElement;
+        s.type = 'text/javascript';
+        s.charset = 'utf-8';
+        s.src =  'http://assets.changyan.sohu.com/upload/changyan.js?conf='+ conf +'&appid=' + appid;
+        h.insertBefore(s,h.firstChild);})()</script>
+<div id="ds-ssr" style="display:none">
+		            <ol id="commentlist">
+                        <li class="post pingback">
+		<p>from: <a href="http://zengrong.net/post/1722.htm" rel="external nofollow" class="url">使用Git、Git GUI和TortoiseGit | zrong's blog</a></p>
+        </li><!-- #comment-## -->
+		<li class="comment even thread-even depth-1" id="li-comment-19353">
+			<article id="comment-19353" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">繁华似锦</span> on <a rel="nofollow" href="http://zengrong.net/post/1746.htm/comment-page-1#comment-19353"><time pubdate="" datetime="2015-05-26T13:41:00+00:00">05/26/2015 at 13:41</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>[/给力]</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+        <li class="post pingback">
+		<p>from: <a href="http://www.longlongdream.com/2014/12/09/git%e6%9f%a5%e7%9c%8b%e3%80%81%e5%88%a0%e9%99%a4%e8%bf%9c%e7%a8%8b%e5%88%86%e6%94%af/" rel="external nofollow" class="url">Git查看、删除远程分支 | 南淮月</a></p>
+        </li><!-- #comment-## -->
+		<li class="comment byuser comment-author-zrong bypostauthor odd alt thread-odd thread-alt depth-1" id="li-comment-18444">
+			<article id="comment-18444" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href="http://zengrong.net/" rel="external nofollow" class="url">zrong</a></span> on <a rel="nofollow" href="http://zengrong.net/post/1746.htm/comment-page-1#comment-18444"><time pubdate="" datetime="2014-09-22T08:44:36+00:00">09/22/2014 at 08:44</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>这句话描述很清楚啊。</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment even thread-even depth-1" id="li-comment-18440">
+			<article id="comment-18440" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href="http://g8up.cn/" rel="external nofollow" class="url">Sigma</a></span> on <a rel="nofollow" href="http://zengrong.net/post/1746.htm/comment-page-1#comment-18440"><time pubdate="" datetime="2014-09-20T14:51:15+00:00">09/20/2014 at 14:51</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>它在fetch之后删除掉没有与远程分支对应的本地分支：<br>
+git fetch -p<br>
+====<br>
+没有表明如何“删除本地分支”哦。</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment byuser comment-author-zrong bypostauthor odd alt thread-odd thread-alt depth-1" id="li-comment-16986">
+			<article id="comment-16986" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn"><a href="http://zengrong.net/" rel="external nofollow" class="url">zrong</a></span> on <a rel="nofollow" href="http://zengrong.net/post/1746.htm/comment-page-1#comment-16986"><time pubdate="" datetime="2014-07-31T09:38:49+00:00">07/31/2014 at 09:38</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p><a href="http://code-snippets.bungeshea.com/" target="_blank" rel="nofollow">Code Snippets</a></p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment even thread-even depth-1" id="li-comment-16942">
+			<article id="comment-16942" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">suzhou</span> on <a rel="nofollow" href="http://zengrong.net/post/1746.htm/comment-page-1#comment-16942"><time pubdate="" datetime="2014-07-29T16:53:00+00:00">07/29/2014 at 16:53</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>你的代码高亮的插件是啥？挺好看的</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="li-comment-16224">
+			<article id="comment-16224" class="comment">
+				<footer class="comment-meta">
+					<cite class="comment-author vcard">
+						<span class="fn">jnuc093</span> on <a rel="nofollow" href="http://zengrong.net/post/1746.htm/comment-page-1#comment-16224"><time pubdate="" datetime="2014-05-17T10:27:33+00:00">05/17/2014 at 10:27</time></a> <span class="says">said:</span>					</cite>
+				</footer>
+	
+				<div class="comment-content"><p>写的不错</p>
+</div>
+				
+			</article>
+		</li><!-- #comment-## -->
+        <li class="post pingback">
+		<p>from: <a href="http://openwares.net/linux/git_remote_branch_tag.html" rel="external nofollow" class="url">git操作远程分支和tag | OpenWares | Open Source and Free Matters</a></p>
+        </li><!-- #comment-## -->
+            </ol>
+
+		    </div>
+			
+		
+</div><!-- end of #content -->
+
+
+	<div id="widgets" class="grid col-300 fit">
+		
+		<div id="text-8" class="widget-wrapper widget_text"><div class="widget-title"><h3>联系我</h3></div>			<div class="textwidget"><img src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/me.png">
+<img src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/zrongzrong.png"></div>
+		</div><div id="text-6" class="widget-wrapper widget_text"><div class="widget-title"><h3>订阅</h3></div>			<div class="textwidget"><!--以下是QQ邮件列表订阅嵌入代码--><script>var nId = "d9b9d5ea984c4640558febcd58a2ab50662af7385f6d2a7a",nWidth="auto",sColor="light",sText="订阅zrong's blog更新" ;</script><script src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/qfcode.js" charset="gb18030"></script><style>.rssbook{padding:10px 15px;overflow:hidden;zoom:1;background:#f6f6f6;border:3px solid #ddd;}.light{background:#f6f6f6;border:3px solid #ddd;}.dark{background:#aaa;border:3px solid #666;}.mailInput{margin-top:5px;}.rssbook .info{color:#666;font-size:12px;}.light .info{color:#666;}.dark .info{color:#fff;}.rssbutton{float:left;border:1px solid #698ab4; -moz-border-radius:3px;border-radius:3px;-webkit-border-radius:3px;}.dark .rssbutton{border: 1px solid #585858;}.rssbutton input{background: #77a0d1;border: 1px solid #88b3e6; color: #FFFFFF; cursor: pointer;font-weight: bold;width:90px;display:block;height:22px;line-height:22px;*line-height:19px;text-align:center;}.dark .rssbutton input{background:#676767;border: 1px solid #777;}.rssbutton input:hover{background:#86b4eb;text-decoration:none;}.dark .rssbutton input:hover{background:#797979;border: 1px solid #939393;}input.rsstxt{width:100%;height:20px;font-size:14px;padding:2px 3px;-moz-border-radius:3px;border-radius:3px;-webkit-border-radius:3px;border:1px solid #ccc;;border-color:#7c7c7c #c3c3c3 #c3c3c3 #9a9a9a;margin-bottom:5px;}.dark input.rsstxt{background:#eee;}</style><div class="rssbook light " style="width:auto "><p class="info">订阅zrong's blog更新</p><div class="mailInput"><form action="http://list.qq.com/cgi-bin/qf_compose_send" target="_blank" method="post"><input name="t" value="qf_booked_feedback" type="hidden"><input name="id" value="d9b9d5ea984c4640558febcd58a2ab50662af7385f6d2a7a" type="hidden"><input id="to" name="to" class="rsstxt" type="text"><div class="rssbutton"><input value="订阅" type="submit"></div></form></div></div>
+<br>
+RSS订阅：<a href="http://zengrong.net/feed">http://zengrong.net/feed</a>
+<p><a href="https://github.com/zrong/blog" target="_blank">FORK THIS BLOG</a></p></div>
+		</div><div id="tag_cloud-2" class="widget-wrapper widget_tag_cloud"><div class="widget-title"><h3>标签</h3></div><div class="tagcloud"><a href="http://zengrong.net/post/tag/actionscript" class="tag-link-24" title="41个话题" style="font-size: 17.041666666667pt;">ActionScript</a>
+<a href="http://zengrong.net/post/tag/adobe" class="tag-link-83" title="26个话题" style="font-size: 14.270833333333pt;">Adobe</a>
+<a href="http://zengrong.net/post/tag/air" class="tag-link-138" title="80个话题" style="font-size: 21.270833333333pt;">AIR</a>
+<a href="http://zengrong.net/post/tag/android" class="tag-link-189" title="29个话题" style="font-size: 15pt;">Android</a>
+<a href="http://zengrong.net/post/tag/ane" class="tag-link-248" title="12个话题" style="font-size: 9.6041666666667pt;">ANE</a>
+<a href="http://zengrong.net/post/tag/as3" class="tag-link-30" title="91个话题" style="font-size: 22pt;">AS3</a>
+<a href="http://zengrong.net/post/tag/bash" class="tag-link-222" title="13个话题" style="font-size: 10.1875pt;">bash</a>
+<a href="http://zengrong.net/post/tag/bitmapdata" class="tag-link-39" title="17个话题" style="font-size: 11.791666666667pt;">BitmapData</a>
+<a href="http://zengrong.net/post/tag/c" class="tag-link-200" title="10个话题" style="font-size: 8.5833333333333pt;">C</a>
+<a href="http://zengrong.net/post/tag/cpp" class="tag-link-264" title="32个话题" style="font-size: 15.583333333333pt;">C++</a>
+<a href="http://zengrong.net/post/tag/cms" class="tag-link-10" title="10个话题" style="font-size: 8.5833333333333pt;">CMS</a>
+<a href="http://zengrong.net/post/tag/cocos2d-x" class="tag-link-263" title="47个话题" style="font-size: 17.916666666667pt;">cocos2d-x</a>
+<a href="http://zengrong.net/post/tag/cygwin" class="tag-link-239" title="19个话题" style="font-size: 12.375pt;">cygwin</a>
+<a href="http://zengrong.net/post/tag/flash" class="tag-link-3" title="63个话题" style="font-size: 19.8125pt;">Flash</a>
+<a href="http://zengrong.net/post/tag/flashbuilder" class="tag-link-172" title="23个话题" style="font-size: 13.541666666667pt;">FlashBuilder</a>
+<a href="http://zengrong.net/post/tag/flashplayer" class="tag-link-135" title="43个话题" style="font-size: 17.333333333333pt;">FlashPlayer</a>
+<a href="http://zengrong.net/post/tag/flex" class="tag-link-23" title="64个话题" style="font-size: 19.8125pt;">Flex</a>
+<a href="http://zengrong.net/post/tag/fms" class="tag-link-123" title="21个话题" style="font-size: 12.958333333333pt;">FMS</a>
+<a href="http://zengrong.net/post/tag/freeware" class="tag-link-56" title="9个话题" style="font-size: 8pt;">freeware</a>
+<a href="http://zengrong.net/post/tag/game" class="tag-link-196" title="10个话题" style="font-size: 8.5833333333333pt;">game</a>
+<a href="http://zengrong.net/post/tag/git" class="tag-link-199" title="20个话题" style="font-size: 12.666666666667pt;">git</a>
+<a href="http://zengrong.net/post/tag/google" class="tag-link-28" title="15个话题" style="font-size: 10.916666666667pt;">google</a>
+<a href="http://zengrong.net/post/tag/http" class="tag-link-193" title="11个话题" style="font-size: 9.1666666666667pt;">HTTP</a>
+<a href="http://zengrong.net/post/tag/ios" class="tag-link-249" title="16个话题" style="font-size: 11.354166666667pt;">iOS</a>
+<a href="http://zengrong.net/post/tag/java" class="tag-link-195" title="17个话题" style="font-size: 11.791666666667pt;">JAVA</a>
+<a href="http://zengrong.net/post/tag/linux" class="tag-link-166" title="64个话题" style="font-size: 19.8125pt;">Linux</a>
+<a href="http://zengrong.net/post/tag/lua" class="tag-link-267" title="25个话题" style="font-size: 13.979166666667pt;">Lua</a>
+<a href="http://zengrong.net/post/tag/mobile" class="tag-link-91" title="12个话题" style="font-size: 9.6041666666667pt;">Mobile</a>
+<a href="http://zengrong.net/post/tag/netconnection" class="tag-link-74" title="9个话题" style="font-size: 8pt;">NetConnection</a>
+<a href="http://zengrong.net/post/tag/office" class="tag-link-13" title="9个话题" style="font-size: 8pt;">Office</a>
+<a href="http://zengrong.net/post/tag/php" class="tag-link-27" title="14个话题" style="font-size: 10.625pt;">PHP</a>
+<a href="http://zengrong.net/post/tag/python" class="tag-link-224" title="23个话题" style="font-size: 13.541666666667pt;">Python</a>
+<a href="http://zengrong.net/post/tag/server" class="tag-link-117" title="10个话题" style="font-size: 8.5833333333333pt;">Server</a>
+<a href="http://zengrong.net/post/tag/socket" class="tag-link-194" title="9个话题" style="font-size: 8pt;">Socket</a>
+<a href="http://zengrong.net/post/tag/software" class="tag-link-63" title="16个话题" style="font-size: 11.354166666667pt;">software</a>
+<a href="http://zengrong.net/post/tag/spritesheet" class="tag-link-220" title="18个话题" style="font-size: 12.083333333333pt;">SpriteSheet</a>
+<a href="http://zengrong.net/post/tag/study" class="tag-link-243" title="28个话题" style="font-size: 14.708333333333pt;">study</a>
+<a href="http://zengrong.net/post/tag/tipsandtricks" class="tag-link-175" title="12个话题" style="font-size: 9.6041666666667pt;">TipsAndTricks</a>
+<a href="http://zengrong.net/post/tag/ubuntu" class="tag-link-165" title="15个话题" style="font-size: 10.916666666667pt;">ubuntu</a>
+<a href="http://zengrong.net/post/tag/vim" class="tag-link-43" title="17个话题" style="font-size: 11.791666666667pt;">Vim</a>
+<a href="http://zengrong.net/post/tag/windows" class="tag-link-84" title="12个话题" style="font-size: 9.6041666666667pt;">Windows</a>
+<a href="http://zengrong.net/post/tag/wordpress" class="tag-link-33" title="21个话题" style="font-size: 12.958333333333pt;">WordPress</a>
+<a href="http://zengrong.net/post/tag/training" class="tag-link-75" title="10个话题" style="font-size: 8.5833333333333pt;">培训</a>
+<a href="http://zengrong.net/post/tag/plugin" class="tag-link-34" title="13个话题" style="font-size: 10.1875pt;">插件</a>
+<a href="http://zengrong.net/post/tag/journey" class="tag-link-150" title="12个话题" style="font-size: 9.6041666666667pt;">旅游</a></div>
+</div><div id="categories-4" class="widget-wrapper widget_categories"><div class="widget-title"><h3>分类目录</h3></div>		<ul>
+	<li class="cat-item cat-item-8"><a href="http://zengrong.net/post/category/others" title="什么都有">乱弹</a> (88)
+</li>
+	<li class="cat-item cat-item-7"><a href="http://zengrong.net/post/category/news" title="听到的消息和要说消息，某些转载的文章也在这里">听说</a> (76)
+</li>
+	<li class="cat-item cat-item-18"><a href="http://zengrong.net/post/category/tutorial" title="培训相关信息">培训</a> (12)
+</li>
+	<li class="cat-item cat-item-12"><a href="http://zengrong.net/post/category/use" title="应用技巧">应用</a> (55)
+</li>
+	<li class="cat-item cat-item-1"><a href="http://zengrong.net/post/category/impressions">感悟</a> (63)
+</li>
+	<li class="cat-item cat-item-22"><a href="http://zengrong.net/post/category/technology" title="技术文章">技术</a> (483)
+</li>
+	<li class="cat-item cat-item-11"><a href="http://zengrong.net/post/category/web" title="与网站相关的程序、CMS系统、技巧、内容">网站</a> (54)
+</li>
+	<li class="cat-item cat-item-9"><a href="http://zengrong.net/post/category/design">设计</a> (8)
+</li>
+		</ul>
+</div><div id="recent-comments-2" class="widget-wrapper widget_recent_comments"><div class="widget-title"><h3>近期评论</h3></div><ul id="recentcomments"><li class="recentcomments"><span class="comment-author-link"><a href="http://zengrong.net/post/2335.htm" rel="external nofollow" class="url">Python 入门建议 | zrong's blog</a></span>发表在《<a href="http://zengrong.net/post/2350.htm/comment-page-1#comment-19432">Python2/3 在Windows 下的共存</a>》</li><li class="recentcomments"><span class="comment-author-link"><a href="http://chaoyuan.sinaapp.com/?p=2039" rel="external nofollow" class="url">Python 入门建议 | chaoyuan的网站</a></span>发表在《<a href="http://zengrong.net/post/1690.htm/comment-page-1#comment-19431">不重新编译，让官方网站下载的Vim支持Python</a>》</li><li class="recentcomments"><span class="comment-author-link"><a href="http://chaoyuan.sinaapp.com/?p=2039" rel="external nofollow" class="url">Python 入门建议 | chaoyuan的网站</a></span>发表在《<a href="http://zengrong.net/post/2207.htm/comment-page-1#comment-19430">cx_Freeze 打包 Python3.4+PyQt5.3</a>》</li><li class="recentcomments"><span class="comment-author-link"><a href="http://chaoyuan.sinaapp.com/?p=2039" rel="external nofollow" class="url">Python 入门建议 | chaoyuan的网站</a></span>发表在《<a href="http://zengrong.net/post/2335.htm/comment-page-1#comment-19429">Python 入门建议</a>》</li><li class="recentcomments"><span class="comment-author-link"><a href="http://zengrong.net/post/2335.htm" rel="external nofollow" class="url">Python 入门建议 | zrong's blog</a></span>发表在《<a href="http://zengrong.net/post/2170.htm/comment-page-1#comment-19428">Python 测试框架的选择</a>》</li></ul></div><div id="views-2" class="widget-wrapper widget_views"><div class="widget-title"><h3>最多访问</h3></div><ul>
+<li><a href="http://zengrong.net/post/1746.htm" title="Git查看、删除、重命名远程分支和tag">Git查看、删除、重命名远程分支和tag</a> - 110,403 views</li><li><a href="http://zengrong.net/flashassistant" title="Flash＆Flex大全">Flash＆Flex大全</a> - 43,963 views</li><li><a href="http://zengrong.net/post/30.htm" title="突破一切网络封锁Google Secure Access">突破一切网络封锁Google Secure Access</a> - 37,797 views</li><li><a href="http://zengrong.net/post/196.htm" title="No input file specified.错误的解决">No input file specified.错误的解决</a> - 34,382 views</li><li><a href="http://zengrong.net/post/1911.htm" title="在cocos2d-x中使用CCArmature实现骨骼动画">在cocos2d-x中使用CCArmature实现骨骼动画</a> - 34,188 views</li><li><a href="http://zengrong.net/post/1722.htm" title="使用Git、Git GUI和TortoiseGit">使用Git、Git GUI和TortoiseGit</a> - 29,870 views</li><li><a href="http://zengrong.net/post/1318.htm" title="Flash Builder 4.5正式版下载/插件版安装">Flash Builder 4.5正式版下载/插件版安装</a> - 24,951 views</li><li><a href="http://zengrong.net/post/1801.htm" title="在中国大陆调试Android In-app-billing">在中国大陆调试Android In-app-billing</a> - 21,127 views</li><li><a href="http://zengrong.net/post/1524.htm" title="在bash中使用DNSPod的API接口实现DDNS客户端">在bash中使用DNSPod的API接口实现DDNS客户端</a> - 20,453 views</li><li><a href="http://zengrong.net/sprite_sheet_editor" title="Sprite Sheet Editor">Sprite Sheet Editor</a> - 19,763 views</li></ul>
+</div><div id="archives-4" class="widget-wrapper widget_archive"><div class="widget-title"><h3>文章归档</h3></div>		<label class="screen-reader-text" for="archives-dropdown-4">文章归档</label>
+		<select id="archives-dropdown-4" name="archive-dropdown" onchange="document.location.href=this.options[this.selectedIndex].value;">
+			
+			<option selected="selected" value="">选择月份</option>
+				<option value="http://zengrong.net/post/date/2015/07"> 2015年七月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2015/06"> 2015年六月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2015/05"> 2015年五月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2015/04"> 2015年四月 &nbsp;(3)</option>
+	<option value="http://zengrong.net/post/date/2015/03"> 2015年三月 &nbsp;(3)</option>
+	<option value="http://zengrong.net/post/date/2015/02"> 2015年二月 &nbsp;(2)</option>
+	<option value="http://zengrong.net/post/date/2015/01"> 2015年一月 &nbsp;(6)</option>
+	<option value="http://zengrong.net/post/date/2014/12"> 2014年十二月 &nbsp;(6)</option>
+	<option value="http://zengrong.net/post/date/2014/11"> 2014年十一月 &nbsp;(11)</option>
+	<option value="http://zengrong.net/post/date/2014/10"> 2014年十月 &nbsp;(5)</option>
+	<option value="http://zengrong.net/post/date/2014/09"> 2014年九月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2014/08"> 2014年八月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2014/07"> 2014年七月 &nbsp;(5)</option>
+	<option value="http://zengrong.net/post/date/2014/06"> 2014年六月 &nbsp;(3)</option>
+	<option value="http://zengrong.net/post/date/2014/05"> 2014年五月 &nbsp;(2)</option>
+	<option value="http://zengrong.net/post/date/2014/04"> 2014年四月 &nbsp;(11)</option>
+	<option value="http://zengrong.net/post/date/2014/03"> 2014年三月 &nbsp;(7)</option>
+	<option value="http://zengrong.net/post/date/2014/02"> 2014年二月 &nbsp;(5)</option>
+	<option value="http://zengrong.net/post/date/2014/01"> 2014年一月 &nbsp;(5)</option>
+	<option value="http://zengrong.net/post/date/2013/12"> 2013年十二月 &nbsp;(7)</option>
+	<option value="http://zengrong.net/post/date/2013/11"> 2013年十一月 &nbsp;(6)</option>
+	<option value="http://zengrong.net/post/date/2013/10"> 2013年十月 &nbsp;(7)</option>
+	<option value="http://zengrong.net/post/date/2013/09"> 2013年九月 &nbsp;(8)</option>
+	<option value="http://zengrong.net/post/date/2013/08"> 2013年八月 &nbsp;(7)</option>
+	<option value="http://zengrong.net/post/date/2013/06"> 2013年六月 &nbsp;(3)</option>
+	<option value="http://zengrong.net/post/date/2013/05"> 2013年五月 &nbsp;(11)</option>
+	<option value="http://zengrong.net/post/date/2013/04"> 2013年四月 &nbsp;(5)</option>
+	<option value="http://zengrong.net/post/date/2013/03"> 2013年三月 &nbsp;(3)</option>
+	<option value="http://zengrong.net/post/date/2013/02"> 2013年二月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2013/01"> 2013年一月 &nbsp;(12)</option>
+	<option value="http://zengrong.net/post/date/2012/12"> 2012年十二月 &nbsp;(11)</option>
+	<option value="http://zengrong.net/post/date/2012/11"> 2012年十一月 &nbsp;(9)</option>
+	<option value="http://zengrong.net/post/date/2012/10"> 2012年十月 &nbsp;(6)</option>
+	<option value="http://zengrong.net/post/date/2012/09"> 2012年九月 &nbsp;(6)</option>
+	<option value="http://zengrong.net/post/date/2012/08"> 2012年八月 &nbsp;(13)</option>
+	<option value="http://zengrong.net/post/date/2012/07"> 2012年七月 &nbsp;(5)</option>
+	<option value="http://zengrong.net/post/date/2012/06"> 2012年六月 &nbsp;(2)</option>
+	<option value="http://zengrong.net/post/date/2012/05"> 2012年五月 &nbsp;(3)</option>
+	<option value="http://zengrong.net/post/date/2012/04"> 2012年四月 &nbsp;(11)</option>
+	<option value="http://zengrong.net/post/date/2012/03"> 2012年三月 &nbsp;(12)</option>
+	<option value="http://zengrong.net/post/date/2012/02"> 2012年二月 &nbsp;(15)</option>
+	<option value="http://zengrong.net/post/date/2012/01"> 2012年一月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2011/12"> 2011年十二月 &nbsp;(7)</option>
+	<option value="http://zengrong.net/post/date/2011/11"> 2011年十一月 &nbsp;(9)</option>
+	<option value="http://zengrong.net/post/date/2011/10"> 2011年十月 &nbsp;(3)</option>
+	<option value="http://zengrong.net/post/date/2011/09"> 2011年九月 &nbsp;(9)</option>
+	<option value="http://zengrong.net/post/date/2011/08"> 2011年八月 &nbsp;(9)</option>
+	<option value="http://zengrong.net/post/date/2011/07"> 2011年七月 &nbsp;(10)</option>
+	<option value="http://zengrong.net/post/date/2011/06"> 2011年六月 &nbsp;(9)</option>
+	<option value="http://zengrong.net/post/date/2011/05"> 2011年五月 &nbsp;(5)</option>
+	<option value="http://zengrong.net/post/date/2011/04"> 2011年四月 &nbsp;(7)</option>
+	<option value="http://zengrong.net/post/date/2011/03"> 2011年三月 &nbsp;(3)</option>
+	<option value="http://zengrong.net/post/date/2011/02"> 2011年二月 &nbsp;(15)</option>
+	<option value="http://zengrong.net/post/date/2011/01"> 2011年一月 &nbsp;(3)</option>
+	<option value="http://zengrong.net/post/date/2010/12"> 2010年十二月 &nbsp;(14)</option>
+	<option value="http://zengrong.net/post/date/2010/11"> 2010年十一月 &nbsp;(6)</option>
+	<option value="http://zengrong.net/post/date/2010/10"> 2010年十月 &nbsp;(2)</option>
+	<option value="http://zengrong.net/post/date/2010/09"> 2010年九月 &nbsp;(7)</option>
+	<option value="http://zengrong.net/post/date/2010/08"> 2010年八月 &nbsp;(16)</option>
+	<option value="http://zengrong.net/post/date/2010/07"> 2010年七月 &nbsp;(11)</option>
+	<option value="http://zengrong.net/post/date/2010/06"> 2010年六月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2010/05"> 2010年五月 &nbsp;(15)</option>
+	<option value="http://zengrong.net/post/date/2010/04"> 2010年四月 &nbsp;(2)</option>
+	<option value="http://zengrong.net/post/date/2010/03"> 2010年三月 &nbsp;(1)</option>
+	<option value="http://zengrong.net/post/date/2010/02"> 2010年二月 &nbsp;(1)</option>
+	<option value="http://zengrong.net/post/date/2010/01"> 2010年一月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2009/12"> 2009年十二月 &nbsp;(7)</option>
+	<option value="http://zengrong.net/post/date/2009/11"> 2009年十一月 &nbsp;(3)</option>
+	<option value="http://zengrong.net/post/date/2009/10"> 2009年十月 &nbsp;(1)</option>
+	<option value="http://zengrong.net/post/date/2009/09"> 2009年九月 &nbsp;(3)</option>
+	<option value="http://zengrong.net/post/date/2009/08"> 2009年八月 &nbsp;(5)</option>
+	<option value="http://zengrong.net/post/date/2009/07"> 2009年七月 &nbsp;(1)</option>
+	<option value="http://zengrong.net/post/date/2009/06"> 2009年六月 &nbsp;(1)</option>
+	<option value="http://zengrong.net/post/date/2009/03"> 2009年三月 &nbsp;(10)</option>
+	<option value="http://zengrong.net/post/date/2009/02"> 2009年二月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2008/11"> 2008年十一月 &nbsp;(2)</option>
+	<option value="http://zengrong.net/post/date/2008/10"> 2008年十月 &nbsp;(1)</option>
+	<option value="http://zengrong.net/post/date/2008/08"> 2008年八月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2008/07"> 2008年七月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2008/06"> 2008年六月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2008/05"> 2008年五月 &nbsp;(1)</option>
+	<option value="http://zengrong.net/post/date/2008/04"> 2008年四月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2008/03"> 2008年三月 &nbsp;(7)</option>
+	<option value="http://zengrong.net/post/date/2008/02"> 2008年二月 &nbsp;(5)</option>
+	<option value="http://zengrong.net/post/date/2008/01"> 2008年一月 &nbsp;(1)</option>
+	<option value="http://zengrong.net/post/date/2007/12"> 2007年十二月 &nbsp;(6)</option>
+	<option value="http://zengrong.net/post/date/2007/11"> 2007年十一月 &nbsp;(7)</option>
+	<option value="http://zengrong.net/post/date/2007/10"> 2007年十月 &nbsp;(1)</option>
+	<option value="http://zengrong.net/post/date/2007/09"> 2007年九月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2007/08"> 2007年八月 &nbsp;(6)</option>
+	<option value="http://zengrong.net/post/date/2007/07"> 2007年七月 &nbsp;(6)</option>
+	<option value="http://zengrong.net/post/date/2007/06"> 2007年六月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2007/05"> 2007年五月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2007/03"> 2007年三月 &nbsp;(3)</option>
+	<option value="http://zengrong.net/post/date/2007/02"> 2007年二月 &nbsp;(10)</option>
+	<option value="http://zengrong.net/post/date/2007/01"> 2007年一月 &nbsp;(12)</option>
+	<option value="http://zengrong.net/post/date/2006/12"> 2006年十二月 &nbsp;(9)</option>
+	<option value="http://zengrong.net/post/date/2006/11"> 2006年十一月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2006/10"> 2006年十月 &nbsp;(11)</option>
+	<option value="http://zengrong.net/post/date/2006/09"> 2006年九月 &nbsp;(10)</option>
+	<option value="http://zengrong.net/post/date/2006/08"> 2006年八月 &nbsp;(9)</option>
+	<option value="http://zengrong.net/post/date/2006/07"> 2006年七月 &nbsp;(9)</option>
+	<option value="http://zengrong.net/post/date/2006/06"> 2006年六月 &nbsp;(11)</option>
+	<option value="http://zengrong.net/post/date/2006/05"> 2006年五月 &nbsp;(15)</option>
+	<option value="http://zengrong.net/post/date/2006/04"> 2006年四月 &nbsp;(6)</option>
+	<option value="http://zengrong.net/post/date/2006/03"> 2006年三月 &nbsp;(16)</option>
+	<option value="http://zengrong.net/post/date/2006/02"> 2006年二月 &nbsp;(15)</option>
+	<option value="http://zengrong.net/post/date/2006/01"> 2006年一月 &nbsp;(4)</option>
+	<option value="http://zengrong.net/post/date/2005/11"> 2005年十一月 &nbsp;(14)</option>
+	<option value="http://zengrong.net/post/date/2005/10"> 2005年十月 &nbsp;(10)</option>
+	<option value="http://zengrong.net/post/date/2005/09"> 2005年九月 &nbsp;(7)</option>
+	<option value="http://zengrong.net/post/date/2005/08"> 2005年八月 &nbsp;(2)</option>
+	<option value="http://zengrong.net/post/date/2005/07"> 2005年七月 &nbsp;(10)</option>
+	<option value="http://zengrong.net/post/date/2005/06"> 2005年六月 &nbsp;(5)</option>
+	<option value="http://zengrong.net/post/date/2005/05"> 2005年五月 &nbsp;(11)</option>
+	<option value="http://zengrong.net/post/date/2005/04"> 2005年四月 &nbsp;(3)</option>
+
+		</select>
+</div><div id="text-9" class="widget-wrapper widget_text"><div class="widget-title"><h3>在读</h3></div>			<div class="textwidget"><script type="text/javascript" src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/a_002"></script><div style=""><table style="&gt;&lt;tr align=" center"="" cellpadding="4" cellspacing="0"><tbody><tr><td style=""><a href="http://book.douban.com/subject/25848404/" title="Android编程权威指南
+
+Android programming: the big nerd ranch guide" target="_blank"><img src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/s27969351.jpg" border="0"></a></td><td style=""><a href="http://book.douban.com/subject/26381341/" title="Python Cookbook 中文版，第 3 版
+
+Python Cookbook, 3rd Edtioni" target="_blank"><img src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/s28063681.jpg" border="0"></a></td></tr><tr align="center"><td style=""><a href="http://book.douban.com/subject/26352270/" title="《三体》中的物理学
+
+" target="_blank"><img src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/s28037668.jpg" border="0"></a></td><td style=""><a href="http://book.douban.com/subject/26379590/" title="Cocos2d-x by Example Beginner\'s Guide Second Edition
+
+" target="_blank"><img src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/s28061841.jpg" border="0"></a></td></tr></tbody></table></div></div>
+		</div>
+			</div><!-- end of #widgets -->
+</div><!-- end of #wrapper -->
+</div><!-- end of #container -->
+
+<div id="footer" class="clearfix">
+	
+	<div id="footer-wrapper">
+
+			<div id="footer_widget" class="grid col-940">
+		
+		
+			<div id="linkcat-19" class="grid col-300 widget_links"><div class="widget-wrapper"><div class="widget-title"><h3>友情链接</h3></div>
+	<ul class="xoxo blogroll">
+<li><a href="http://ciniao.me/" rel="acquaintance co-worker co-resident" title="如果不记录人生的风景，那么活着的唯一意义就是等死……" target="_blank">{ CiNiao's blog }</a></li>
+<li><a href="http://blog.lyphp.com/" rel="friend" title="Just a PHPer" target="_blank">Lyndon</a></li>
+<li><a href="http://blog.zinewow.com/" target="_blank">古树悬叶的博客</a></li>
+<li><a href="http://www.smithfox.com/" rel="contact" target="_blank">Smith &amp; Fox's Blog</a></li>
+<li><a href="http://www.findspace.name/" rel="contact" target="_blank">findspace</a></li>
+<li><a href="http://aoxuis.me/" target="_blank">XA技术不宅</a></li>
+<li><a href="http://www.fmser.cn/" title="专注于Flash+FMS开发，拥有丰富的开发经验" target="_blank">西部秋虫</a></li>
+<li><a href="http://unityas.com/" target="_blank">unityas</a></li>
+<li><a href="http://reloading.blogbus.com/" rel="met" title="文字记录时间的痕迹！" target="_blank">追忆似水年华◆我心思→念</a></li>
+<li><a href="http://blog.sina.com.cn/wonderxhd" rel="friend" target="_blank">wonder的BLOG</a></li>
+<li><a href="http://www.coolcode.org/" rel="met" target="_blank">CoolCode.Org</a></li>
+<li><a href="http://www.shadowkong.com/" rel="contact" target="_blank">Rect`s Blog</a></li>
+
+	</ul>
+</div></div>
+<div id="linkcat-20" class="grid col-300 widget_links"><div class="widget-wrapper"><div class="widget-title"><h3>推荐网站</h3></div>
+	<ul class="xoxo blogroll">
+<li><a href="http://www.flashvideofaq.com/" title="列举了各种码率，各种压缩方式的Flash Video质量" target="_blank">比较各种编码方式的Flash Video质量</a></li>
+<li><a href="http://www.riaidea.com/blog/" target="_blank">riaidea</a></li>
+
+	</ul>
+</div></div>
+<div id="linkcat-21" class="grid col-300 widget_links"><div class="widget-wrapper"><div class="widget-title"><h3>推荐项目</h3></div>
+	<ul class="xoxo blogroll">
+<li><a href="http://sanguo.us/" rel="me" title="一段最熟悉的故事，一个不一样的三国" target="_blank">卧龙传</a></li>
+<li><a href="http://lulala.com/" target="_blank">噜啦啦</a></li>
+
+	</ul>
+</div></div>
+<div id="text-7" class="grid col-300 widget_text"><div class="widget-wrapper">			<div class="textwidget">静态文件存储由<a href="https://www.upyun.com/?md=zengrong" target="_blank">又拍云存储</a>提供</div>
+		</div></div>
+		
+			</div><!-- end of #footer-widget -->
+
+		<div class="grid col-940">
+
+			<div class="grid col-540">
+							</div><!-- end of col-540 -->
+
+			<div class="grid col-380 fit">
+				<ul class="social-icons"></ul><!-- .social-icons -->			</div><!-- end of col-380 fit -->
+
+		</div><!-- end of col-940 -->
+			<div id="colophon-widget" class="grid col-940">
+		
+		
+			<div id="text-10" class="colophon-widget widget-wrapper widget_text"><div class="widget-title"><h3>读过</h3></div>			<div class="textwidget"><script type="text/javascript" src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/a"></script><div style=""><table style="&gt;&lt;tr align=" center"="" cellpadding="4" cellspacing="0"><tbody><tr><td style=""><a href="http://book.douban.com/subject/3420144/" title="Pro Git
+
+" target="_blank"><img src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/s4245786.jpg" border="0"></a></td><td style=""><a href="http://book.douban.com/subject/1767741/" title="C++ Primer 中文版（第 4 版）
+
+C++ Primer, 4th Edition" target="_blank"><img src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/s1638975.jpg" border="0"></a></td><td style=""><a href="http://book.douban.com/subject/1215826/" title="Essential C++中文版
+
+" target="_blank"><img src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/s2502373.jpg" border="0"></a></td><td style=""><a href="http://book.douban.com/subject/1258491/" title="基地与帝国
+
+" target="_blank"><img src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/s1328657.jpg" border="0"></a></td><td style=""><a href="http://book.douban.com/subject/1258489/" title="第二基地
+
+" target="_blank"><img src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/s1328658.jpg" border="0"></a></td><td style=""><a href="http://book.douban.com/subject/21323903/" title="introducing starling
+
+" target="_blank"><img src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/s24930323.jpg" border="0"></a></td></tr></tbody></table></div></div>
+		</div>
+		
+			</div><!-- end of #colophon-widget -->
+
+		<div class="grid col-300 copyright">
+			© 2015<a href="http://zengrong.net/" title="zrong's blog">
+				zrong's blog			</a>
+		</div><!-- end of .copyright -->
+
+		<div class="grid col-300 scroll-top"><a href="#scroll-top" title="回到顶部">↑</a></div>
+
+		<div class="grid col-300 fit powered">
+			<a href="http://cyberchimps.com/responsive-theme/" title="Responsive Theme">
+				Responsive Theme</a>
+			采用 <a href="http://wordpress.org/" title="WordPress">
+				WordPress</a>
+		</div><!-- end .powered -->
+
+	</div><!-- end #footer-wrapper -->
+
+	</div><!-- end #footer -->
+
+<script type="text/javascript"><!--//--><![CDATA[//><!--
+var cf = document.getElementById("commentform");
+if(cf){
+	var msghtml = "<strong>NOTICE:</strong> You should type some Chinese word (like “信曾哥，得永生”) in your comment to pass the spam-check, thanks for your patience!";
+	if(cf.insertAdjacentHTML){
+		cf.insertAdjacentHTML("afterEnd", msghtml);
+	}else{/* FireFox */
+		var range = cf.ownerDocument.createRange();
+		range.setStartAfter(cf);
+		var frag = range.createContextualFragment(msghtml);
+		cf.parentNode.insertBefore(frag, cf.nextSibling);
+	}
+}
+//--><!]]></script><link rel="stylesheet" id="yarppRelatedCss-css" href="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/related.css" type="text/css" media="all">
+<script type="text/javascript">
+/* <![CDATA[ */
+var viewsCacheL10n = {"admin_ajax_url":"http:\/\/zengrong.net\/wp-admin\/admin-ajax.php","post_id":"1746"};
+/* ]]> */
+</script>
+<script type="text/javascript" src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/postviews-cache.js"></script>
+<script type="text/javascript" src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/responsive-scripts.js"></script>
+<script type="text/javascript" src="Git%E6%9F%A5%E7%9C%8B%E3%80%81%E5%88%A0%E9%99%A4%E3%80%81%E9%87%8D%E5%91%BD%E5%90%8D%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF%E5%92%8Ctag%20_%20zrong%27s%20blog_files/jquery.js"></script>
+
+</body></html>

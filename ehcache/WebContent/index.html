@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<input type="button" id="hasCache" value="hasCache">
+	<input type="button" id="noCache" value="noCache">
+	<input type="button" id="simpleCache" value="simpleCache">
+	<input type="button" id="getSimpleCache" value="getSimpleCache">
+</body>
+<script type="text/javascript">
+(function() {
+	var hasCache = document.getElementById("hasCache");
+	hasCache.onclick = function() {
+		var xhq = new XMLHttpRequest();
+		xhq.onreadystatechange = function() {
+			if(4 == xhq.readyState) {
+				console.info("hasCache:" + xhq.responseText);
+			}
+		}
+		xhq.open("GET", "/ehcache/hascache/renho", true);
+		xhq.send(null);	
+	};
+	var noCache = document.getElementById("noCache");
+	noCache.onclick = function() {
+		var xhq = new XMLHttpRequest();
+		xhq.onreadystatechange = function() {
+			if(4 == xhq.readyState) {
+				console.info("noCache:" + xhq.responseText);
+			}
+		}
+		xhq.open("GET", "/ehcache/nocache/renho", true);
+		xhq.send(null);	
+	}
+	var simpleCache = document.getElementById("simpleCache");
+	simpleCache.onclick = function() {
+		var xhq = new XMLHttpRequest();
+		xhq.onreadystatechange = function() {
+			if(4 == xhq.readyState) {
+				console.info("simpleCache:" + xhq.responseText);
+			}
+		}
+		xhq.open("GET", "/ehcache/simpleCacheServlet?req=renho", true);
+		xhq.send(null);	
+	}
+	var getSimpleCache = document.getElementById("getSimpleCache");
+	getSimpleCache.onclick = function() {
+		var xhq = new XMLHttpRequest();
+		xhq.onreadystatechange = function() {
+			if(4 == xhq.readyState) {
+				console.info("simpleCache:" + xhq.responseText);
+			}
+		}
+		xhq.open("GET", "/ehcache/simpleCacheServlet", true);
+		xhq.send(null);	
+	}
+})()
+</script>
+</html>

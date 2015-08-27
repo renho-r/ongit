@@ -1,33 +1,64 @@
 $(function() {
-	
-    $('#table_id').DataTable({
+	/*var defaultOptions = {
+			serverSide: true,
+	    	pageLength: 10,
+	    	pages: 2,
+	    	info: true,
+	    	language: {
+	    		"lengthMenu": "每页显示 _MENU_条",
+	    		"zeroRecords": "没有找到符合条件的数据",
+	    		"processing": "&lt;img src=’./loading.gif’ /&gt;",
+	    		"info": "当前第 _START_ - _END_ 条　共计 _TOTAL_ 条",
+	    		"infoEmpty": "木有记录",
+	    		"infoFiltered": "(从 _MAX_ 条记录中过滤)",
+	    		"search": "搜索：",
+	    		"paginate": {
+	    		"first": "首页",
+	    		"previous": "前一页",
+	    		"next": "后一页",
+	    		"last": "尾页"
+	    		}
+	    	}	
+		}
+    var table = $('#table_id').DataTable($.extend({}, defaultOptions, {
     	ajax: {
     		url: "/testPhp/php/renho.php?method=queryAllAsArray",
     		data: function(d) {
     			d.renho = (new Date()).getTime();
+    			console.info(d);
+    			var req = {};
+    			req.jsonStr = JSON.stringify(d);
+//    			return req;
     			return d;
-    		}
+    		},
+    		type: "GET"
     	},
-    	serverSide: true,
-    	pageLength: 10,
-    	pages: 2,
-    	info: true,
-    	language: {
-    		"lengthMenu": "每页显示 _MENU_条",
-    		"zeroRecords": "没有找到符合条件的数据",
-    		"processing": "&lt;img src=’./loading.gif’ /&gt;",
-    		"info": "当前第 _START_ - _END_ 条　共计 _TOTAL_ 条",
-    		"infoEmpty": "木有记录",
-    		"infoFiltered": "(从 _MAX_ 条记录中过滤)",
-    		"search": "搜索：",
-    		"paginate": {
-    		"first": "首页",
-    		"previous": "前一页",
-    		"next": "后一页",
-    		"last": "尾页"
-    		}
-    	}
-    });
+    }));*/
+	
+	var table = $('#table_id').myTable({
+		ajax: {
+//    		url: "/testPhp/php/renho.php?method=queryAllAsArray",
+			url: "/testPhp/php/renho.php?method=queryOnce",
+    		data: function(d) {
+    			d.renho = (new Date()).getTime();
+    			console.info(d);
+    			var req = {};
+    			req.jsonStr = JSON.stringify(d);
+//    			return req;
+    			return d;
+    		},
+    		type: "GET"
+    	},
+    	serverSide: false,
+    	renhoParam: "renhoParam"
+	});
+	$('#table_id').myTable("changeColor");
+//	table.destroy();
+	table.renho();
+	table.save();
+	table.save();
+	table.save();
+	console.info();
 	
 	$("#renho").click(function() {
 		var table = $('#table_id_renho').DataTable({

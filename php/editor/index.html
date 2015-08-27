@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet" href="highlight.js-master/styles/default.css">
+</head>
+<body>
+	<textarea rows="10" cols="200" class='javascript'>
+	</textarea>
+	<input type="button" id="test" value="test">
+	<div>
+	</div>
+<script src="jquery-1.11.2.js"></script>
+<script src="highlight.js-master/highlight.pack.js"></script>
+<script type="text/javascript">
+	$(document).ready(function() {
+		$("#test").click(function() {
+			hljs.configure({
+				tabReplace : '    '
+			})
+			var value = $("textarea").html();
+			var back = hljs.highlight("javascript", value, false, false);
+			$("div").append(back.value);
+			console.info(back);
+		})
+	});
+</script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.renho.servlet;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -38,11 +39,29 @@ public class ServletTest extends HttpServlet {
 		}else if("CountryService".equals(method)) {
 			CountryService countryService = (CountryService)wac.getBean("countryService");
 			countryService.find();
+		}else if("uploadFile".equals(method)) {
+			
 		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("doPost");
+		String method = request.getParameter("method");
+		if("uploadFile".equals(method)) {
+			upload(request, response);
+		}
+	}
+	
+	protected void upload(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String fileName = request.getParameter("fileName");
+		System.out.println(fileName);
+		InputStream in = request.getInputStream();
+		byte[] bytes = new byte[1024];
+		int n = -1;
+		while(-1 != (n=in.read(bytes))) {
+			System.out.write(bytes, 0, n);
+		}
+		in.close();
 	}
 
 }

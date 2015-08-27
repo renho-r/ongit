@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tables>
+	<table id="USER" tableName="USER">
+		<field id="userId" column="USERID" length="12" orderAble="true" type="Integer" pk="true"/>
+		<field id="userName" column="USERNAME" length="64" orderAble="true" type="String"/>
+		<field id="updateTime" column="UPDATETIME" length="-1" orderAble="true" type="Timestamp"/>
+		<field id="roleId" column="ROLEID" length="12" orderAble="true" type="Integer"/>
+	</table>
+</tables>
