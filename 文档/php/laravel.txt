@@ -1,0 +1,4 @@
+﻿
+composer create-project laravel/laravel blog --prefer-dist
+php artisan key:generate
+php artisan serve

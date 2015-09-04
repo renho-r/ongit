@@ -1,0 +1,56 @@
+一.安装Apache2.4.12
+	1.解压httpd-2.4.12-win32-VC11.zip后复制到"E:\php\"
+	2.按照readme.txt
+		2.1修改E:\php\httpd-2.4.12-win32-VC11\Apache24\conf\httpd.conf
+			中ServerRoot "c:/Apache24"修改为如下
+			ServerRoot "E:/php/httpd-2.4.12-win32-VC11/Apache24"
+		2.2修改E:\php\httpd-2.4.12-win32-VC11\Apache24\conf\httpd.conf
+			ScriptAlias /cgi-bin/ "c:/Apache24/cgi-bin/"如下
+	    ScriptAlias /cgi-bin/ "E:/php/httpd-2.4.12-win32-VC11/Apache24/cgi-bin"
+	  2.3修改E:\php\httpd-2.4.12-win32-VC11\Apache24\conf\httpd.conf
+	  	#DocumentRoot "c:/Apache24/htdocs"
+			#<Directory "c:/Apache24/htdocs">如下
+			DocumentRoot "E:/php/httpd-2.4.12-win32-VC11/Apache24/htdocs"
+			<Directory "E:/php/httpd-2.4.12-win32-VC11/Apache24/htdocs">
+		2.4Listen 80可以修改成Listen 8080
+		2.5在IfModule unixd_module之前加入
+			LoadModule php5_module "E:/php/php-5.6.9-Win32-VC11-x86/php5apache2_4.dll"
+			PHPIniDir "E:/php/php-5.6.9-Win32-VC11-x86"
+			AddType application/x-httpd-php .php .html .htm
+	3.启动服务
+		cmd--->E:\php\httpd-2.4.12-win32-VC11\Apache24\bin\httpd.exe
+	4.添加到服务
+		cmd--->E:\php\httpd-2.4.12-win32-VC11\Apache24\bin\httpd.exe -k install
+
+二.安装PHP5.6.9
+	1.php-5.6.9-Win32-VC11-x86后复制到"E:\php"
+	2.添加环境变量path
+		E:\php\php-5.6.9-Win32-VC11-x86;E:\php\php-5.6.9-Win32-VC11-x86\ext
+三.配置mysql
+	1.修改php的扩展库目录为你的实际路径
+		extension_dir = "E:/php/php-5.6.9-Win32-VC11-x86/ext"
+	2.去掉前面的;
+		extension=php_mysqli.dll
+实例:
+	<?php
+	$dbhost = "10.1.249.246:3306";
+	$dbuser = "aidns";
+	$dbpassword = "asiainfo";
+	$dbname = "dnsdb60";
+	
+	$conn = new mysqli ( $dbhost, $dbuser, $dbpassword, $dbname );
+	$result = $conn->query ( 'select * from com_user' );
+	$i = 0;
+	while ( $row = mysqli_fetch_assoc ( $result ) ) {
+		//printf ( "%s (%s)\n", $row['USERID'], $row['LOGINNAME'] );
+		$responce->rows[$i]['userId'] = $row['USERID'];
+		$responce->rows[$i]['loginName'] = $row['LOGINNAME'];
+		$i++;
+	}
+	/* destroy the result set and free the memory used for it */
+	mysqli_free_result( $result );
+	/* close the connection */
+	mysqli_close ( $conn );
+	
+	echo json_encode($responce);
+?>

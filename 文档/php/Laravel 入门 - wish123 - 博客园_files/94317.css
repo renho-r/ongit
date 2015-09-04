@@ -1,0 +1,8 @@
+#profile_block br {
+    display: none;
+}
+#profile_block a {
+    margin-right: 10px;
+}
+#wish123_welcome{position:absolute;top:55px;width:100%;text-align:center;}
+.wish123_footer{text-align:center;line-height:26px;}
