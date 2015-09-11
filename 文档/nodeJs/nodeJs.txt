@@ -1,0 +1,24 @@
+﻿1.安装
+	$ mkdir myapp
+	$ cd myapp
+	$ npm init
+	$ npm install express --save
+2.安装
+	$ npm install express-generator -g
+	$ express myapp
+	$ cd myapp 
+	$ npm install
+	set DEBUG=myapp & npm start
+
+1.E:\grunt\jsProject\express-test\bin\www
+	var debug = require('debug')('express-test:server');
+2.启动服务:
+	npm start
+	
+全局安装mysql
+npm install mysql -g
+环境变量:NODE_PATH
+1.E:\grunt\jsProject\express-test\bin\www
+	var debug = require('debug')('express-test:server');
+2.启动服务:
+	npm start
