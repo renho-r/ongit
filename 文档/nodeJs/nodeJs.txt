@@ -22,3 +22,21 @@ npm install mysql -g
 	var debug = require('debug')('express-test:server');
 2.启动服务:
 	npm start
+
+npm start 是启用的 /bin/www文件里的脚本 
+如果你想用nodejs 启动服务 可以在app.js中添加如下代码 
+app.listen(3000); 
+注意：上面的语句得加在module.exports = app;之前。
+
+supervisor app.js	
+这里解决的过程就不详细说了，重点是--exec 'node'这个，会发现supervisor执行的还是node命令，而不是nodejs。修改supervisor源文件目录下的supervisor.js文件
+ if (!executor) {     executor = (programExt === "coffee" || programExt === "litcoffee") ? "coffee" : "node";   }
+
+为
+ if (!executor) {     executor = (programExt === "coffee" || programExt === "litcoffee") ? "coffee" : "nodejs";   }
+
+
+再次执行成功，项目修改后，Nodejs也会自动重启。
+
+
+supervisor ./bin/www
