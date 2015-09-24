@@ -8,3 +8,33 @@
 	cmd->redis-cli -h 127.0.0.1 -p 6379
 	cmd->set keyRenho valueRenho
 	cmd->get keyRenho
+
+5.数据类型
+	5.1字符串String:512M
+		例: set key-renho value-renho
+			get key-renho
+			del key-renho
+	5.2哈希Hash:Redis的哈希是键值对的集合.Redis的哈希值是字符串字段和字符串值之间的映射，因此它们被用来表示对象
+		例: HMSET user:1 name renho age 100 sex man
+			HGETALL user:1
+	5.3列表list:Redis的列表是简单的字符串列表，排序插入顺序.列表的最大长度为 2(32次) - 1 元素
+		例:	lpush mylist redis
+			lpush mylist renho
+			lpush mylist renho0
+			lpush mylist renho1
+			lrange mylist 0 10
+			lpop mylist
+	5.4集合set:集合中的元素最大数量为 2(32次) - 1
+		例:	sadd myset renho0
+			sadd myset renho1
+			sadd myset renho2
+			sadd myset renho3
+			sadd myset renho2
+			smembers myset
+	5.5有序集合(zset)(sorted set):
+		例:	zadd myorderset 0 renho0
+			zadd myorderset 0 renho1
+			zadd myorderset 0 renho2
+			zadd myorderset 0 renho3
+			zrangebyscore myorderset 0 10
+			zrange myorderset 0 10 withscores	
