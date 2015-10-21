@@ -13,5 +13,11 @@ public class User {
 	public boolean isEmpty(boolean b) {
 		return b;
 	}
+	
+	public void endlessLoop() {
+		while(true) {
+			
+		}
+	}
 }
 
