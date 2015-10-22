@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry including="**/*.java" kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-core/5.3.1/lucene-core-5.3.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-queryparser/5.3.1/lucene-queryparser-5.3.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-queries/5.3.1/lucene-queries-5.3.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-sandbox/5.3.1/lucene-sandbox-5.3.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-analyzers-common/5.3.1/lucene-analyzers-common-5.3.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-analyzers/3.6.2/lucene-analyzers-3.6.2.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-highlighter/5.3.1/lucene-highlighter-5.3.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-join/5.3.1/lucene-join-5.3.1.jar"/>
+	<classpathentry kind="var" path="M2_REPO/org/apache/lucene/lucene-memory/5.3.1/lucene-memory-5.3.1.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
