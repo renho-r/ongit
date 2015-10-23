@@ -9,6 +9,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.cjk.CJKAnalyzer;
+import org.apache.lucene.analysis.cn.ChineseAnalyzer;
+import org.apache.lucene.analysis.core.WhitespaceAnalyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
@@ -45,28 +48,35 @@ public class SmallTest {
 	}
 
 	@Test
-	public void test() throws IOException, ParseException {
+	public void createIndex() throws IOException {
 		String filePath = "h://lucene/small/small.txt";
 		String indexPath = "h://lucene/small/smallIndex";
-
 		Analyzer analyzer = new StandardAnalyzer();
+//		Analyzer analyzer = new CJKAnalyzer();
+//	    Analyzer analyzer = new ChineseAnalyzer();
+//	    Analyzer analyzer = new WhitespaceAnalyzer();
 		Directory directory = FSDirectory.open(new File(indexPath).toPath());
-		/*IndexWriterConfig config = new IndexWriterConfig(analyzer);
+		IndexWriterConfig config = new IndexWriterConfig(analyzer);
 		config.setRAMBufferSizeMB(48);
 		IndexWriter iwriter = new IndexWriter(directory, config);
 
 		BufferedReader br = new BufferedReader(new FileReader(new File(filePath)));
 		String str = br.readLine();
 		while (null != str) {
-			System.out.println(str);
 			Document doc = new Document();
 			doc.add(new Field("fieldname", str, TextField.TYPE_STORED));
 			iwriter.addDocument(doc);
 			str = br.readLine();
 		}
 		br.close();
-		iwriter.close();*/
-		
+		iwriter.close();
+	}
+	
+	@Test
+	public void search() throws IOException, ParseException {
+		String indexPath = "h://lucene/small/smallIndex";
+		Directory directory = FSDirectory.open(new File(indexPath).toPath());
+		Analyzer analyzer = new StandardAnalyzer();
 		DirectoryReader ireader = DirectoryReader.open(directory);
 		IndexSearcher isearcher = new IndexSearcher(ireader);
 		// Parse a simple query that searches for "text":
@@ -77,7 +87,7 @@ public class SmallTest {
 		// Iterate through the results:
 		for (int i = 0; i < hits.length; i++) {
 			Document hitDoc = isearcher.doc(hits[i].doc);
-			System.out.println("This is the text to be indexed." + hitDoc.get("fieldname"));
+			System.out.println("This is the text to be indexed--->" + hitDoc.get("fieldname"));
 		}
 	}
 

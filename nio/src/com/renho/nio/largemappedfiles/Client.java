@@ -1,4 +1,4 @@
-package com.renho.largemappedfiles;
+package com.renho.nio.largemappedfiles;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;

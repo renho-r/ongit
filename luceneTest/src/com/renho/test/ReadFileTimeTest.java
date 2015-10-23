@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Date;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,7 +25,8 @@ public class ReadFileTimeTest {
 
 	@Test
 	public void test() {
-		String filePath = "h:/catalina.out";
+		long start = new Date().getTime();
+		String filePath = "h:/lucene/catalina_1g.out";
 		File file = new File(filePath);
 		BufferedReader br = null;
 		try {
@@ -45,6 +47,8 @@ public class ReadFileTimeTest {
 				e.printStackTrace();
 			}
 		}
+		long end = new Date().getTime();
+		System.out.println("¶ÁÈ¡ÎÄ¼þ:" + (end - start));
 	}
 
 }

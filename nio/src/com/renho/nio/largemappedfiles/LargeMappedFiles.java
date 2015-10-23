@@ -1,4 +1,4 @@
-package com.renho.largemappedfiles;
+package com.renho.nio.largemappedfiles;
 
 import java.io.RandomAccessFile;
 import java.nio.MappedByteBuffer;

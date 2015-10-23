@@ -41,7 +41,7 @@ public class MyTest {
 	}
 
 	@Test
-	public void test() throws IOException, ParseException {
+	public void testCreateIndex() throws IOException, ParseException {
 
 		long start = new Date().getTime();
 
@@ -63,25 +63,7 @@ public class MyTest {
 		long endIndexFile = new Date().getTime();
 		
 		System.out.println("创建索引时间:" + (endIndexFile - start));
-		File file = new File("h://lucene/small/" + (endIndexFile - start)/1000 + "_秒.txt");
-		file.createNewFile();
 		
-		// Now search the index:
-		DirectoryReader ireader = DirectoryReader.open(directory);
-		IndexSearcher isearcher = new IndexSearcher(ireader);
-		// Parse a simple query that searches for "text":
-		QueryParser parser = new QueryParser("fieldname", analyzer);
-		Query query = parser.parse("text");
-		ScoreDoc[] hits = isearcher.search(query, null, 1000).scoreDocs;
-		System.out.println(hits.length);
-		// Iterate through the results:
-		/*
-		 * for (int i = 0; i < hits.length; i++) { Document hitDoc =
-		 * isearcher.doc(hits[i].doc);
-		 * System.out.println("This is the text to be indexed." +
-		 * hitDoc.get("fieldname")); }
-		 */
-		ireader.close();
 		directory.close();
 	}
 
@@ -90,31 +72,32 @@ public class MyTest {
 	BufferedReader br = null;
 
 	private String readLine() throws IOException {
-		/*String temp = null;
-		try {
-			if (null != br) {
-				temp = br.readLine();
-			} else {
-				br = new BufferedReader(new FileReader(file));
-				temp = br.readLine();
-			}
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return temp;*/
 		if(null == br) {
 			br = new BufferedReader(new FileReader(file));
 		}
-		StringBuilder sb = new StringBuilder();
-		int i = 100;
 		String temp = br.readLine();
-		while(null != temp && i > 0) {
-			sb.append(temp + "\n");
-			temp = br.readLine();
-			i--;
+		return temp;
+	}
+	
+//	@Test()
+	public void testSearch() throws IOException, ParseException {
+		Directory directory = FSDirectory.open(new File("h:/lucene/catalina.out_index").toPath());
+		Analyzer analyzer = new StandardAnalyzer();
+		DirectoryReader ireader = DirectoryReader.open(directory);
+		IndexSearcher isearcher = new IndexSearcher(ireader);
+		// Parse a simple query that searches for "text":
+		QueryParser parser = new QueryParser("fieldname", analyzer);
+		Query query = parser.parse("本次初始化任务结束");
+		ScoreDoc[] hits = isearcher.search(query, null, 1000).scoreDocs;
+		System.out.println(hits.length);
+		// Iterate through the results:
+		
+		for (int i = 0; i < hits.length; i++) {
+			Document hitDoc = isearcher.doc(hits[i].doc);
+			System.out.println("This is the text to be indexed." + hitDoc.get("fieldname"));
 		}
-		return sb.toString();
+		 
+		ireader.close();
+		directory.close();
 	}
 }

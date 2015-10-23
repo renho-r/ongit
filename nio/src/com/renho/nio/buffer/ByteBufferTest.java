@@ -1,4 +1,4 @@
-package com.renho.buffer;
+package com.renho.nio.buffer;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
