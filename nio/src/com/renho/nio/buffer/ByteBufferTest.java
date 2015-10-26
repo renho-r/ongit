@@ -14,23 +14,27 @@ public class ByteBufferTest {
 		ByteBuffer buf = ByteBuffer.allocate(48);
 
 		int bytesRead = inChannel.read(buf);
-		while (bytesRead != -1) {
-
-			System.out.println("Read " + bytesRead);
+		while(-1 != bytesRead) {
+			System.out.println("----->start<-----");
+			System.out.println("buf.position():" + buf.position());
 			buf.flip();
-
-			while (buf.hasRemaining()) {
-				System.out.print((char) buf.get());
-			}
-
-			buf.clear();
+			System.out.println("buf.position():" + buf.position());
+			buf.position(10);
+			System.out.println("buf.position():" + buf.position());
+			
+			System.out.println("buf" + buf);
+			System.out.println("buf.array():" + buf.array());
+			System.out.println("new String(buf.array()):" + new String(buf.array()));
+			System.out.println("buf.capacity():" + buf.capacity());
+			
+			System.out.println("buf.limit():" + buf.limit());
+			
+			buf.clear();//不能实际清除
+			
 			bytesRead = inChannel.read(buf);
-			/*buf.flip();
-			byte[] bs = buf.array();
-			System.out.print(new String(bs, "UTF-8"));
-			buf.clear();
-			bytesRead = inChannel.read(buf);*/
 		}
+		
+		
 		aFile.close();
 	}
 
