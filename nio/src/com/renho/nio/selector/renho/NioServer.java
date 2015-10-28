@@ -7,6 +7,8 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 
 public class NioServer {
@@ -25,40 +27,52 @@ public class NioServer {
 //		serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT|SelectionKey.OP_CONNECT|SelectionKey.OP_READ|SelectionKey.OP_WRITE);
 	}
 	
-	public void listen() throws IOException {
+	public void listen(){
 		while(true) {
-			selector.select();
-			Iterator<SelectionKey> ite = this.selector.selectedKeys().iterator();
-			while (ite.hasNext()) {
-				System.out.println("ite.hasNext");
-				SelectionKey key = ite.next();
-				System.out.println("isAcceptable:" + key.isAcceptable());
-				System.out.println("isConnectable:" + key.isConnectable());
-				System.out.println("isReadable:" + key.isReadable());
-				System.out.println("isWritable:" + key.isWritable());
-				
-				if(key.isAcceptable()) {
-					System.out.println("---------------------------->isAcceptable<------------------------");
-					ite.remove();
-					ServerSocketChannel server = (ServerSocketChannel) key.channel();
-					SocketChannel channel = server.accept();
-					channel.configureBlocking(false);
-					channel.register(selector, SelectionKey.OP_READ);
+			try {
+				selector.select();
+				Iterator<SelectionKey> ite = this.selector.selectedKeys().iterator();
+				while (ite.hasNext()) {
+					SelectionKey key = ite.next();
+					try {
+						System.out.println("isAcceptable:" + key.isAcceptable());
+						System.out.println("isConnectable:" + key.isConnectable());
+						System.out.println("isReadable:" + key.isReadable());
+						System.out.println("isWritable:" + key.isWritable());
+						ite.remove();
+						
+						if(key.isAcceptable()) {
+							System.out.println("---------------------------->isAcceptable<------------------------");
+							ServerSocketChannel server = (ServerSocketChannel) key.channel();
+							SocketChannel channel = server.accept();
+							channel.configureBlocking(false);
+							channel.register(selector, SelectionKey.OP_READ);
+						}
+						
+						if(key.isReadable()) {
+							System.out.println("---------------------------->isReadable<------------------------");
+							SocketChannel channel = (SocketChannel) key.channel();
+							ByteBuffer buffer = ByteBuffer.allocate(1024);
+							channel.read(buffer);
+							byte[] data = buffer.array();
+							String msg = new String(data).trim();
+							System.out.println("server receive from client: " + msg);
+							//ByteBuffer outBuffer = ByteBuffer.wrap(("receive ok" + msg).getBytes());
+							SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
+							String date = sdf.format(new Date());
+							ByteBuffer outBuffer = ByteBuffer.wrap((date + "---服务端收到信息:" + msg).getBytes("UTF-8"));
+							channel.write(outBuffer);
+						}
+					}catch(IOException e) {
+						key.cancel();
+						continue;
+					}
 				}
-				
-				if(key.isReadable()) {
-					System.out.println("---------------------------->isReadable<------------------------");
-					SocketChannel channel = (SocketChannel) key.channel();
-					ByteBuffer buffer = ByteBuffer.allocate(1024);
-					channel.read(buffer);
-					byte[] data = buffer.array();
-					String msg = new String(data).trim();
-					System.out.println("server receive from client: " + msg);
-					ByteBuffer outBuffer = ByteBuffer.wrap("receive ok".getBytes());
-					channel.write(outBuffer);
-				}
-				
+			} catch (IOException e) {
+				System.out.println("客户端socket关闭");
+				continue;
 			}
+			
 		}
 	}
 	
