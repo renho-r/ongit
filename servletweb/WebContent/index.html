@@ -5,9 +5,23 @@
 <title>Insert title here</title>
 </head>
 <body>
-11
+	<form action="/servletweb/charEncodingTest" method="" id="subForm">
+		<input type="button" id="get" value="get">
+		<input type="button" id="post" value="post">
+	</form>
 <script type="text/javascript">
 	console.info(encodeURI("任海鸥"));
+	var btnGet = document.getElementById("get");
+	var btnPost = document.getElementById("post");
+	
+	btnGet.onclick = function() {
+		document.getElementById("subForm").method = "GET";
+		document.getElementById("subForm").submit();
+	};
+	btnPost.onclick = function() {
+		document.getElementById("subForm").method = "POST";
+		document.getElementById("subForm").submit();
+	};
 </script>
 </body>
 </html>

@@ -7,30 +7,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- * Servlet implementation class CharEncodingTest
- */
-@WebServlet("/charEncodingTest")
-public class CharEncodingTest extends HttpServlet {
+@WebServlet("/jsRequestTest")
+public class JsRequestTest extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    public CharEncodingTest() {
+       
+    public JsRequestTest() {
         super();
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String name = request.getParameter("name");
-		System.out.println(name);
-		
-		System.out.println(request.getCharacterEncoding());
-		System.out.println(request.getQueryString());
-		System.out.println(request.getRequestURI());
-		System.out.println(request.getRequestURL());
-		System.out.println(request.getServerName());
-		System.out.println(request.getServletPath());
-		System.out.println(request.getCookies());
+		doPost(request, response);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setAttribute("renho", "020301");
+		request.getRequestDispatcher("/test/testJsRequest.jsp").forward(request, response);
 	}
 
 }
