@@ -1,0 +1,164 @@
+package com.renho.beanfromdb.views;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.ui.part.*;
+import org.eclipse.jface.viewers.*;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.jface.action.*;
+import org.eclipse.ui.*;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.SWT;
+
+class TreePerson {
+	private int id;
+	private String name;
+	private int age;
+	private String address;
+	private List<TreePerson> children;
+	private TreePerson parent = null;
+
+	public TreePerson() {
+		children = new ArrayList();
+	}
+
+	public List<TreePerson> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<TreePerson> children) {
+		this.children = children;
+	}
+
+	public TreePerson getParent() {
+		return parent;
+	}
+
+	public void setParent(TreePerson parent) {
+		this.parent = parent;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String toString() {
+		return name;
+	}
+}
+
+public class DBView extends ViewPart {
+	public static final String ID = "com.renho.beanfromdb.views.DBView";
+	private TreeViewer viewer;
+
+	public DBView() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public void createPartControl(Composite parent) {
+		viewer = new TreeViewer(parent, SWT.SINGLE);
+		viewer.setLabelProvider(new ViewLabelProvider());
+		viewer.setContentProvider(new ViewContentProvider());
+		viewer.setSorter(new MySorter());
+		viewer.setInput(getSite());
+	}
+
+	public void setFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
+	class ViewContentProvider extends ArrayContentProvider implements
+			ITreeContentProvider {
+
+		public Object[] getChildren(Object parentElement) {
+			TreePerson person = (TreePerson) parentElement;
+			return person.getChildren().toArray();
+		}
+
+		public Object getParent(Object element) {
+			TreePerson person = (TreePerson) element;
+			return person.getParent();
+		}
+
+		public boolean hasChildren(Object element) {
+			TreePerson person = (TreePerson) element;
+			return person.getChildren().size() > 0 ? true : false;
+		}
+
+		public Object[] getElements(Object inputElement) {
+			TreePerson[] persons = new TreePerson[3];
+			persons[0] = new TreePerson();
+			persons[0].setId(001);
+			persons[0].setName("xingoo");
+			persons[0].setAge(25);
+			persons[0].setAddress("ChangChun");
+
+			persons[1] = new TreePerson();
+			persons[1].setId(002);
+			persons[1].setName("halo");
+			persons[1].setAge(27);
+			persons[1].setAddress("ShenYang");
+
+			persons[2] = new TreePerson();
+			persons[2].setId(003);
+			persons[2].setName("haha");
+			persons[2].setAge(25);
+			persons[2].setAddress("DaLian");
+
+			persons[0].getChildren().add(persons[1]);
+			persons[0].getChildren().add(persons[2]);
+			persons[1].setParent(persons[0]);
+			persons[2].setParent(persons[0]);
+
+			return persons;
+		}
+
+	}
+
+	class ViewLabelProvider extends LabelProvider {
+		public Image getColumnImage(Object element) {
+			return null;
+		}
+
+		public String getColumnText(Object element) {
+			return ((TreePerson) element).toString();
+		}
+	}
+
+	class MySorter extends ViewerSorter {
+		public int compare(Viewer viewer, Object ob1, Object ob2) {
+			return ((TreePerson) ob1).getId() - ((TreePerson) ob2).getId();
+		}
+	}
+}
