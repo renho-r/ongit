@@ -7,6 +7,8 @@ import org.eclipse.ui.IViewActionDelegate;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IWorkbenchPart;
 
+import com.renho.beanfromdb.Activator;
+
 public class ViewExampleAction implements IViewActionDelegate {
 	private IWorkbenchPart targetPart;
 
@@ -16,7 +18,7 @@ public class ViewExampleAction implements IViewActionDelegate {
 	}
 
 	public void run(IAction action) {
-		// TODO 自动生成方法存根
+		System.out.println(Activator.getDefault().getStateLocation().toOSString());
 		MessageDialog.openInformation(targetPart.getSite().getShell(), "消息", "视图示例操作被选中");
 	}
 
