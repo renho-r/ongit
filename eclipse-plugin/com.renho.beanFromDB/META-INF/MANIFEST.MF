@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: BeanFromDB
-Bundle-SymbolicName: com.renho.beanFromDB;singleton:=true
+Bundle-Name: BeanFromDb
+Bundle-SymbolicName: com.renho.beanFromDb; singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: com.renho.beanfromdb.Activator
 Bundle-Vendor: RENHO

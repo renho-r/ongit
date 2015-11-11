@@ -5,15 +5,15 @@
    <extension
          point="org.eclipse.ui.views">
       <category
-            name="Bean From DB"
-            id="com.renho.beanFromDB">
+            name="BeanFromDb"
+            id="com.renho.beanFromDb">
       </category>
       <view
-            name="DB View"
+            name="BeanFromDbView"
             icon="icons/sample.gif"
-            category="com.renho.beanFromDB"
-            class="com.renho.beanfromdb.views.DBView"
-            id="com.renho.beanfromdb.views.DBView">
+            category="com.renho.beanFromDb"
+            class="com.renho.beanfromdb.views.BeanFromDbView"
+            id="com.renho.beanfromdb.views.BeanFromDbView">
       </view>
    </extension>
    <extension
@@ -22,9 +22,9 @@
             targetID="org.eclipse.jdt.ui.JavaPerspective">
          <view
                ratio="0.5"
-               relative="org.eclipse.ui.views.ProblemView"
+               relative="org.eclipse.ui.views.TaskList"
                relationship="right"
-               id="com.renho.beanfromdb.views.DBView">
+               id="com.renho.beanfromdb.views.BeanFromDbView">
          </view>
       </perspectiveExtension>
    </extension>
@@ -33,6 +33,49 @@
       <contexts
             file="contexts.xml">
       </contexts>
+   </extension>
+   <extension
+         point="org.eclipse.ui.actionSets">
+      <actionSet
+            id="com.renho.beanFromDb.actionSet"
+            label="OpenBeanFromDbView Action Set"
+            visible="true">
+         <menu
+               id="BeanFromDbMenu"
+               label="BeanFromDb">
+            <separator
+                  name="content">
+            </separator>
+         </menu>
+         <action
+               class="com.renho.beanfromdb.actions.OpenBeanFromDbViewAction"
+               icon="icons/sample.gif"
+               id="com.renho.beanfromdb.actions.OpenBeanFromDbViewAction"
+               label="OpenBeanFromDbView"
+               menubarPath="BeanFromDbMenu/content"
+               toolbarPath="Normal/addition"
+               tooltip="在当前透视图中打开BeanFromDb视图">
+         </action>
+      </actionSet>
+   </extension>
+   <extension point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="com.renho.beanFromDb.dbConfigContribution"
+            objectClass="com.renho.beanfromdb.views.bean.DBConfig">
+         <menu
+               id="open"
+               label="open"
+               path="additions">
+         </menu>
+         <action
+               class="com.renho.beanfromdb.actions.OpenDbConfigAction"
+               enablesFor="1"
+               id="com.renho.beanFromDb.openDbConfigAction"
+               label="open"
+               menubarPath="open">
+         </action>
+      </objectContribution>
    </extension>
 
 </plugin>
