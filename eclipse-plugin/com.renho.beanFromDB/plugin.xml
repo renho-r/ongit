@@ -77,5 +77,27 @@
          </action>
       </objectContribution>
    </extension>
+   <extension
+         point="org.eclipse.ui.viewActions">
+      <viewContribution
+            id="com.renho.beanFromDB.createDbViewContribution"
+            targetID="com.renho.beanfromdb.views.BeanFromDbView">
+         <action
+               class="com.plugindev.addressbook.example.ViewExampleAction"
+               icon="icons/sample.gif"
+               id="com.plugindev.addressbook.viewExampleAction"
+               label="create dbconfig"
+               menubarPath="com.plugindev.addressViewPullDownMenu"
+               style="push"
+               toolbarPath="additions"
+               tooltip="举例说明如何添加视图操作">
+         </action>
+         <menu
+               id="com.plugindev.addressViewPullDownMenu"
+               label="create dbconfig"
+               path="addtions">
+         </menu>
+      </viewContribution>
+   </extension>
 
 </plugin>
