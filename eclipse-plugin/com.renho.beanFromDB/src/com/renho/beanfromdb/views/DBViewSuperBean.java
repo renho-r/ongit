@@ -7,7 +7,7 @@ public class DBViewSuperBean {
 
 	protected String title;
 	private List<Object> children = new ArrayList<Object>();
-	private Object parent = new Object();
+	private Object parent;
 
 	public String getTitle() {
 		return title;

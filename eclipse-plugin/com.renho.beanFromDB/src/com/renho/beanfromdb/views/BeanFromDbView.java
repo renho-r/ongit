@@ -41,11 +41,12 @@ public class BeanFromDbView extends ViewPart {
 	 * The ID of the view as specified by the extension.
 	 */
 	public static final String ID = "com.renho.beanfromdb.views.BeanFromDbView";
-
+	public ViewContentProvider viewContentProvider;
+	
 	private TreeViewer viewer;
 	
-	class ViewContentProvider extends ArrayContentProvider implements ITreeContentProvider{
-
+	public class ViewContentProvider extends ArrayContentProvider implements ITreeContentProvider{
+		public DBConfig[] dbConfigs = new DBConfig[0];
 		@Override
         public Object[] getChildren(Object parentElement) {
         	DBViewSuperBean dbViewSuperBean = (DBViewSuperBean)parentElement;
@@ -54,8 +55,12 @@ public class BeanFromDbView extends ViewPart {
 
         @Override
         public Object getParent(Object element) {
-        	DBViewSuperBean dbViewSuperBean = (DBViewSuperBean)element;
-            return dbViewSuperBean.getParent();
+        	if(null == element || !(element instanceof DBViewSuperBean)) {
+        		return null;
+        	}else {
+        		DBViewSuperBean dbViewSuperBean = (DBViewSuperBean)element;
+        		return dbViewSuperBean.getParent();        		
+        	}
         }
 
         @Override
@@ -64,15 +69,15 @@ public class BeanFromDbView extends ViewPart {
             return dbViewSuperBean.getChildren().size()>0?true:false;
         }
         
+        public void setElements(Object inputElement) {
+        	
+        }
+        
         @Override
         public Object[] getElements(Object inputElement) {
-        	DBConfig[] dbConfigs = new DBConfig[0];
-//			dbConfigs[0] = new DBConfig();
-//			dbConfigs[0].setIp("127.0.0.1");
-//			dbConfigs[0].setPort("3306");
-//			dbConfigs[0].setUserName("root");
-//			dbConfigs[0].setPwd("root123");
-//			dbConfigs[0].setTitle("localhost");
+        	dbConfigs = new DBConfig[1];
+			dbConfigs[0] = new DBConfig();
+			dbConfigs[0].setTitle("localhost");
 //			List<DBViewSuperBean> list = new ArrayList<DBViewSuperBean>();
 //			DBInstance dbInstance = new DBInstance();
 //			dbInstance.setTitle("dev_dnsdb65");
@@ -121,11 +126,13 @@ public class BeanFromDbView extends ViewPart {
 	 */
 	public void createPartControl(Composite parent) {
 		viewer = new TreeViewer(parent, SWT.SINGLE);
-		viewer.setContentProvider(new ViewContentProvider());
+		viewContentProvider = new ViewContentProvider();
+		viewer.setContentProvider(viewContentProvider);
 		
 		ViewLabelProvider vlp = new ViewLabelProvider();
 		viewer.setLabelProvider(vlp);
 		viewer.setInput(getViewSite());
+//		viewer.setInput(null);
 		
 		//初始化弹出菜单  
         MenuManager popupMenuManager = new MenuManager("#PopupMenu");  
@@ -139,5 +146,13 @@ public class BeanFromDbView extends ViewPart {
 	
 	public void setFocus() {
 		viewer.getControl().setFocus();
+	}
+
+	public TreeViewer getViewer() {
+		return viewer;
+	}
+
+	public void setViewer(TreeViewer viewer) {
+		this.viewer = viewer;
 	}
 }

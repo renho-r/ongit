@@ -14,6 +14,7 @@ public class TestConnectUtil {
 			String url = dbConfig.getUrl() + "?user=" + dbConfig.getUser() + "&password=" + dbConfig.getPassword();
 //			String url="jdbc:mysql://localhost:3306/sample_db?user=root&password=your_password";
 			Connection con = DriverManager.getConnection(url);
+			con.close();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 			return false;

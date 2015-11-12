@@ -11,11 +11,14 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 
 import com.renho.beanfromdb.utils.TestConnectUtil;
+import com.renho.beanfromdb.views.BeanFromDbView;
 import com.renho.beanfromdb.views.bean.DBConfig;
 
 public class DbConfigDialog extends Dialog {
@@ -52,18 +55,21 @@ public class DbConfigDialog extends Dialog {
         urlLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
         urlText = new Text(container, SWT.BORDER);
         urlText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+        urlText.setText("jdbc:mysql://localhost:3306/renho");
         
         final Label userLabel = new Label(container, SWT.NONE);
         userLabel.setText("user:");
         userLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
         userText = new Text(container, SWT.BORDER);
         userText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+        userText.setText("root");
         
         final Label passwordLabel = new Label(container, SWT.NONE);
         passwordLabel.setText("password:");
         passwordLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
         passwordText = new Text(container, SWT.BORDER);
         passwordText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+        passwordText.setText("root123");
         
         return container;
 	}
@@ -78,7 +84,7 @@ public class DbConfigDialog extends Dialog {
 
 	@Override
 	protected Point getInitialSize() {
-		return new Point(300,400);
+		return new Point(400,400);
 	}
 
 	@Override
@@ -101,21 +107,36 @@ public class DbConfigDialog extends Dialog {
 	
 	@Override
 	protected void buttonPressed(int buttonId) {
+		DBConfig dbConfig = null;
 		if(999 == buttonId) {
 			String nameTextValue = nameText.getText();
 			String descriptionTextValue = descriptionText.getText();
 			String urlTextValue = urlText.getText();
 			String userTextValue = userText.getText();
 			String passwordTextValue = passwordText.getText();
-			DBConfig dbConfig = new DBConfig(nameTextValue, descriptionTextValue, urlTextValue, userTextValue, passwordTextValue);
+			dbConfig = new DBConfig(nameTextValue, descriptionTextValue, urlTextValue, userTextValue, passwordTextValue);
 			if(TestConnectUtil.testConnect(dbConfig)) {
-				MessageDialog.openError(this.getShell(),  "提示", "teseOK" );
+				MessageDialog.openInformation(this.getShell(),  "提示", "Connect Success" );
 			} else {
-				MessageDialog.openError(this.getShell(),  "提示", "tese error" );
+				MessageDialog.openError(this.getShell(),  "提示", "Connect fail" );
 			}
 		} else {
 			if(0 == buttonId) {
+				String nameTextValue = nameText.getText();
+				String descriptionTextValue = descriptionText.getText();
+				String urlTextValue = urlText.getText();
+				String userTextValue = userText.getText();
+				String passwordTextValue = passwordText.getText();
+				dbConfig = new DBConfig(nameTextValue, descriptionTextValue, urlTextValue, userTextValue, passwordTextValue);
+				dbConfig.setTitle("renho");
+				IWorkbenchPage workbenchPage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+				IWorkbenchPart iWorkbenchPart = workbenchPage.getActivePart();
 				
+				BeanFromDbView beanFromDbView = (BeanFromDbView)iWorkbenchPart;
+//				beanFromDbView.viewContentProvider.dbConfigs = new DBConfig[]{dbConfig};
+//				beanFromDbView.getViewer().setInput(dbConfig);
+				beanFromDbView.getViewer().add(beanFromDbView.getViewSite(), dbConfig);
+//				beanFromDbView.getViewer().refresh();
 			}
 			super.buttonPressed(buttonId);			
 		}
