@@ -83,17 +83,17 @@
             id="com.renho.beanFromDB.createDbViewContribution"
             targetID="com.renho.beanfromdb.views.BeanFromDbView">
          <action
-               class="com.plugindev.addressbook.example.ViewExampleAction"
+               class="com.renho.beanfromdb.actions.ViewCreateDbAction"
                icon="icons/sample.gif"
-               id="com.plugindev.addressbook.viewExampleAction"
+               id="com.renho.beanfromdb.actions.viewCreateDbAction"
                label="create dbconfig"
-               menubarPath="com.plugindev.addressViewPullDownMenu"
+               menubarPath="createDbViewPullDownMenu"
                style="push"
                toolbarPath="additions"
-               tooltip="举例说明如何添加视图操作">
+               tooltip="create Db config">
          </action>
          <menu
-               id="com.plugindev.addressViewPullDownMenu"
+               id="createDbViewPullDownMenu"
                label="create dbconfig"
                path="addtions">
          </menu>

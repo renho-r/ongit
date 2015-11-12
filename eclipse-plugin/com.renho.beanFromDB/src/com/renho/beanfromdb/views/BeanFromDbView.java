@@ -66,32 +66,32 @@ public class BeanFromDbView extends ViewPart {
         
         @Override
         public Object[] getElements(Object inputElement) {
-        	DBConfig[] dbConfigs = new DBConfig[2];
-			dbConfigs[0] = new DBConfig();
-			dbConfigs[0].setIp("127.0.0.1");
-			dbConfigs[0].setPort("3306");
-			dbConfigs[0].setUserName("root");
-			dbConfigs[0].setPwd("root123");
-			dbConfigs[0].setTitle("localhost");
-			List<DBViewSuperBean> list = new ArrayList<DBViewSuperBean>();
-			DBInstance dbInstance = new DBInstance();
-			dbInstance.setTitle("dev_dnsdb65");
-			list.add(dbInstance);
-			dbConfigs[0].setChildren(list);
-			
-			dbConfigs[1] = new DBConfig();
-			dbConfigs[1].setIp("127.0.0.1");
-			dbConfigs[1].setPort("3306");
-			dbConfigs[1].setUserName("root");
-			dbConfigs[1].setPwd("root123");
-			dbConfigs[1].setTitle("245");
-			
-			List<DBViewSuperBean> list1 = new ArrayList<DBViewSuperBean>();
-			DBInstance dbInstance1 = new DBInstance();
-			dbInstance1.setTitle("dev_dnsdb65");
-			list.add(dbInstance1);
-			
-			dbConfigs[1].setChildren(list1);
+        	DBConfig[] dbConfigs = new DBConfig[0];
+//			dbConfigs[0] = new DBConfig();
+//			dbConfigs[0].setIp("127.0.0.1");
+//			dbConfigs[0].setPort("3306");
+//			dbConfigs[0].setUserName("root");
+//			dbConfigs[0].setPwd("root123");
+//			dbConfigs[0].setTitle("localhost");
+//			List<DBViewSuperBean> list = new ArrayList<DBViewSuperBean>();
+//			DBInstance dbInstance = new DBInstance();
+//			dbInstance.setTitle("dev_dnsdb65");
+//			list.add(dbInstance);
+//			dbConfigs[0].setChildren(list);
+//			
+//			dbConfigs[1] = new DBConfig();
+//			dbConfigs[1].setIp("127.0.0.1");
+//			dbConfigs[1].setPort("3306");
+//			dbConfigs[1].setUserName("root");
+//			dbConfigs[1].setPwd("root123");
+//			dbConfigs[1].setTitle("245");
+//			
+//			List<DBViewSuperBean> list1 = new ArrayList<DBViewSuperBean>();
+//			DBInstance dbInstance1 = new DBInstance();
+//			dbInstance1.setTitle("dev_dnsdb65");
+//			list.add(dbInstance1);
+//			
+//			dbConfigs[1].setChildren(list1);
 			return dbConfigs;
         }
         

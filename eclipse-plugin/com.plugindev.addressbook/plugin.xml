@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
+   <extension-point id="messages" name="Welcome Messages" schema="schema/messages.exsd"/>
 
    <extension
          point="org.eclipse.ui.views">
@@ -24,7 +25,8 @@
             visible="true">
          <menu
                id="AddressBookMenu"
-               label="地址本">
+               label="%actionSet.addressBookMenu.label"
+               >
             <separator name="content"/>
          </menu>
          <action
@@ -32,16 +34,28 @@
                definitionId="com.plugindev.addressbook.commands.openAddressView"
                icon="icons/sample.gif"
                id="com.plugindev.addressbook.actions.OpenAddressViewAction"
-               label="打开视图"
+               label="%actionSet.OpenAddressViewAction.label"
                menubarPath="AddressBookMenu/content"
                toolbarPath="Normal/addition"
-               tooltip="在当前透视图中打开地址本视图"/>
+               tooltip="%actionSet.OpenAddressViewAction.tooptip"/>
+      </actionSet>
+      <actionSet
+            id="com.plugindev.addressbook.actionSet1"
+            label="扩展点操作"
+            visible="true">
+         <action
+               class="com.plugindev.addressbook.extension.ShowMessageAction"
+               icon="icons/sample.gif"
+               id="com.plugindev.addressbook.welcomeAction"
+               label="显示欢迎信息"
+               style="push"
+               toolbarPath="Normal/additions"/>
       </actionSet>
    </extension>
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
-            adaptable="true"
+            adaptable="false"
             id="com.plugindev.addressbook.example.objectActionTest"
             nameFilter="Three"
             objectClass="java.lang.String">
@@ -158,6 +172,82 @@
             schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
             sequence="CTRL+SHIFT+V"/>
    </extension>
-
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="com.plugindev.addressbook.editors.AddressFormEditor"
+            contributorClass="com.plugindev.addressbook.editors.AddressFormEditorContributor"
+            default="true"
+            icon="icons/editors/editor.gif"
+            id="com.plugindev.addressbook.tableEditor"
+            name="地址本编辑器"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            class="com.plugindev.addressbook.perspectives.AddressBookPerspectiveFactory"
+            icon="icons/perspectives/perspective.gif"
+            id="com.plugindev.addressbook.AddressBookPerspective"
+            name="AddressBook"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectiveExtensions">
+      <perspectiveExtension targetID="com.plugindev.addressbook.AddressBookPerspective">
+         <view
+               id="org.eclipse.ui.console.ConsoleView"
+               relationship="stack"
+               relative="org.eclipse.ui.views.PropertySheet"
+               visible="true"/>
+         <viewShortcut id="com.plugindev.addressbook.views.AddressView"/>
+         <perspectiveShortcut id="com.plugindev.addressbook.AddressBookPerspective"/>
+      </perspectiveExtension>
+   </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            class="com.plugindev.addressbook.wizards.NewAddressItemWizard"
+            icon="icons/wizards/new_add_wiz.gif"
+            id="com.plugindev.addressbook.newAddressItemWizard"
+            name="新建地址元素"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.preferencePages">
+      <page
+            class="com.plugindev.addressbook.preferences.AddressRootPreferencePage"
+            id="com.plugindev.addressbook.preferences.AddressPreferencePage"
+            name="地址本"/>
+      <page
+            category="com.plugindev.addressbook.preferences.AddressPreferencePage"
+            class="com.plugindev.addressbook.preferences.ViewPrefPage"
+            id="com.plugindev.addressbook.preferences.ViewPrefPage"
+            name="视图"/>
+      <page
+            category="com.plugindev.addressbook.preferences.AddressPreferencePage"
+            class="com.plugindev.addressbook.preferences.EditorPrefPage"
+            id="com.plugindev.addressbook.preferences.EditorPrefPage"
+            name="编辑器"/>
+   </extension>
+   <extension
+         point="org.eclipse.core.runtime.preferences">
+      <initializer class="com.plugindev.addressbook.preferences.PreferenceInitializer"/>
+   </extension>
+   <extension
+         point="org.eclipse.ui.cheatsheets.cheatSheetContent">
+      <category
+            id="com.plugindev.addressbook.cheatsheet.createCategory"
+            name="地址本"/>
+      <cheatsheet
+            category="com.plugindev.addressbook.cheatsheet.createCategory"
+            composite="false"
+            contentFile="content.xml"
+            id="com.plugindev.addressbook.cheatsheet.create"
+            name="添加新地址项"/>
+   </extension>
+   <extension
+         point="com.plugindev.addressbook.messages">
+      <impl
+            class="com.plugindev.addressbook.extension.DemoProvider"
+            name="demoProvider"/>
+   </extension>
 </plugin>
 

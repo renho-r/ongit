@@ -40,12 +40,12 @@ public class OpenAddressViewAction implements IWorkbenchWindowActionDelegate {
 		
 		//打开地址本视图
 		try{
-			page.showView("com.plugindev.addressbook.views.AddressView");
+			page.showView("com.plugindev.addressbook.views.AddressView"); //$NON-NLS-1$
 		}
 		catch(PartInitException e)
 		{
 			MessageDialog.openError(window.getShell(), 
-					"地址本插件", "打不开地址本视图" );
+					ActionMessages.getString("OpenAddressViewAction.title"), ActionMessages.getString("OpenAddressViewAction.conent") ); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 	}
 

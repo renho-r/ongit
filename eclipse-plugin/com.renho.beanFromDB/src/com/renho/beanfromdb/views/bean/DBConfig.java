@@ -3,33 +3,53 @@ package com.renho.beanfromdb.views.bean;
 
 public class DBConfig extends DBViewSuperBean {
 
-	private String ip;
-	private String port;
-	private String userName;
-	private String pwd;
+	private String name;
+	private String description;
+	private String url;
+	private String user;
+	private String password;
 	
-	public String getIp() {
-		return ip;
+	public DBConfig() {};
+	
+	public DBConfig(String name, String description, String url, String user, String password) {
+		super();
+		this.name = name;
+		this.description = description;
+		this.url = url;
+		this.user = user;
+		this.password = password;
 	}
-	public void setIp(String ip) {
-		this.ip = ip;
+	
+	public String getName() {
+		return name;
 	}
-	public String getPort() {
-		return port;
+	public void setName(String name) {
+		this.name = name;
 	}
-	public void setPort(String port) {
-		this.port = port;
+	public String getDescription() {
+		return description;
 	}
-	public String getUserName() {
-		return userName;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public String getUrl() {
+		return url;
 	}
-	public String getPwd() {
-		return pwd;
+	public void setUrl(String url) {
+		this.url = url;
 	}
-	public void setPwd(String pwd) {
-		this.pwd = pwd;
+	public String getUser() {
+		return user;
 	}
+	public void setUser(String user) {
+		this.user = user;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	
 }
