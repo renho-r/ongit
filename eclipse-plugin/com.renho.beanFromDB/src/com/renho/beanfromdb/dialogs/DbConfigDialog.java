@@ -13,13 +13,10 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PlatformUI;
 
+import com.renho.beanfromdb.controller.BeanFromDbManager;
+import com.renho.beanfromdb.modal.DBConfig;
 import com.renho.beanfromdb.utils.TestConnectUtil;
-import com.renho.beanfromdb.views.BeanFromDbView;
-import com.renho.beanfromdb.views.bean.DBConfig;
 
 public class DbConfigDialog extends Dialog {
 
@@ -55,7 +52,7 @@ public class DbConfigDialog extends Dialog {
         urlLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
         urlText = new Text(container, SWT.BORDER);
         urlText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-        urlText.setText("jdbc:mysql://localhost:3306/renho");
+        urlText.setText("jdbc:mysql://localhost:3306/test");
         
         final Label userLabel = new Label(container, SWT.NONE);
         userLabel.setText("user:");
@@ -129,14 +126,12 @@ public class DbConfigDialog extends Dialog {
 				String passwordTextValue = passwordText.getText();
 				dbConfig = new DBConfig(nameTextValue, descriptionTextValue, urlTextValue, userTextValue, passwordTextValue);
 				dbConfig.setTitle("renho");
-				IWorkbenchPage workbenchPage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-				IWorkbenchPart iWorkbenchPart = workbenchPage.getActivePart();
-				
-				BeanFromDbView beanFromDbView = (BeanFromDbView)iWorkbenchPart;
-//				beanFromDbView.viewContentProvider.dbConfigs = new DBConfig[]{dbConfig};
-//				beanFromDbView.getViewer().setInput(dbConfig);
-				beanFromDbView.getViewer().add(beanFromDbView.getViewSite(), dbConfig);
-//				beanFromDbView.getViewer().refresh();
+//				IWorkbenchPage workbenchPage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+//				IWorkbenchPart iWorkbenchPart = workbenchPage.getActivePart();
+//				
+//				BeanFromDbView beanFromDbView = (BeanFromDbView)iWorkbenchPart;
+//				beanFromDbView.getViewer().add(beanFromDbView.getViewSite(), dbConfig);
+				BeanFromDbManager.getBeanFromDbManager().addDbConfig(new DBConfig[]{dbConfig});
 			}
 			super.buttonPressed(buttonId);			
 		}

@@ -1,21 +1,18 @@
 package com.renho.beanfromdb.views;
 
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Iterator;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.part.*;
+
+import com.renho.beanfromdb.modal.DBViewSuperBean;
+import com.renho.beanfromdb.views.provider.ViewContentProvider;
+import com.renho.beanfromdb.views.provider.ViewLabelProvider;
+
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.*;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.SWT;
-
-import com.renho.beanfromdb.views.bean.DBConfig;
-import com.renho.beanfromdb.views.bean.DBInstance;
-import com.renho.beanfromdb.views.bean.DBViewSuperBean;
-
 
 /**
  * This sample class demonstrates how to plug-in a new
@@ -45,75 +42,6 @@ public class BeanFromDbView extends ViewPart {
 	
 	private TreeViewer viewer;
 	
-	public class ViewContentProvider extends ArrayContentProvider implements ITreeContentProvider{
-		public DBConfig[] dbConfigs = new DBConfig[0];
-		@Override
-        public Object[] getChildren(Object parentElement) {
-        	DBViewSuperBean dbViewSuperBean = (DBViewSuperBean)parentElement;
-            return dbViewSuperBean.getChildren().toArray();
-        }
-
-        @Override
-        public Object getParent(Object element) {
-        	if(null == element || !(element instanceof DBViewSuperBean)) {
-        		return null;
-        	}else {
-        		DBViewSuperBean dbViewSuperBean = (DBViewSuperBean)element;
-        		return dbViewSuperBean.getParent();        		
-        	}
-        }
-
-        @Override
-        public boolean hasChildren(Object element) {
-        	DBViewSuperBean dbViewSuperBean = (DBViewSuperBean)element;
-            return dbViewSuperBean.getChildren().size()>0?true:false;
-        }
-        
-        public void setElements(Object inputElement) {
-        	
-        }
-        
-        @Override
-        public Object[] getElements(Object inputElement) {
-        	dbConfigs = new DBConfig[1];
-			dbConfigs[0] = new DBConfig();
-			dbConfigs[0].setTitle("localhost");
-//			List<DBViewSuperBean> list = new ArrayList<DBViewSuperBean>();
-//			DBInstance dbInstance = new DBInstance();
-//			dbInstance.setTitle("dev_dnsdb65");
-//			list.add(dbInstance);
-//			dbConfigs[0].setChildren(list);
-//			
-//			dbConfigs[1] = new DBConfig();
-//			dbConfigs[1].setIp("127.0.0.1");
-//			dbConfigs[1].setPort("3306");
-//			dbConfigs[1].setUserName("root");
-//			dbConfigs[1].setPwd("root123");
-//			dbConfigs[1].setTitle("245");
-//			
-//			List<DBViewSuperBean> list1 = new ArrayList<DBViewSuperBean>();
-//			DBInstance dbInstance1 = new DBInstance();
-//			dbInstance1.setTitle("dev_dnsdb65");
-//			list.add(dbInstance1);
-//			
-//			dbConfigs[1].setChildren(list1);
-			return dbConfigs;
-        }
-        
-    }
-
-	class ViewLabelProvider extends LabelProvider {
-		@Override
-		public String getText(Object obj) {
-			return ((DBViewSuperBean)obj).getTitle();
-		}
-
-		@Override
-		public Image getImage(Object obj) {
-			return null;
-		}
-	}
-	
 	/**
 	 * The constructor.
 	 */
@@ -132,7 +60,6 @@ public class BeanFromDbView extends ViewPart {
 		ViewLabelProvider vlp = new ViewLabelProvider();
 		viewer.setLabelProvider(vlp);
 		viewer.setInput(getViewSite());
-//		viewer.setInput(null);
 		
 		//初始化弹出菜单  
         MenuManager popupMenuManager = new MenuManager("#PopupMenu");  
@@ -142,6 +69,16 @@ public class BeanFromDbView extends ViewPart {
         //设置选择提供者和弹出菜单  
         getSite().setSelectionProvider(viewer);  
         getSite().registerContextMenu(popupMenuManager, viewer);  
+	}
+	
+	public DBViewSuperBean[] getSelectedDbConfig() {
+		IStructuredSelection selection = (IStructuredSelection)viewer.getSelection();
+		DBViewSuperBean[] items = new DBViewSuperBean[selection.size()];
+		Iterator iter = selection.iterator();
+		int index = 0;
+		while(iter.hasNext())
+			items[index++] = (DBViewSuperBean)iter.next();
+		return items;
 	}
 	
 	public void setFocus() {

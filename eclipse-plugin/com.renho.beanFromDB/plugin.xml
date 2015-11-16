@@ -62,7 +62,7 @@
       <objectContribution
             adaptable="false"
             id="com.renho.beanFromDb.dbConfigContribution"
-            objectClass="com.renho.beanfromdb.views.bean.DBConfig">
+            objectClass="com.renho.beanfromdb.modal.DBConfig">
          <menu
                id="open"
                label="open"
@@ -74,6 +74,22 @@
                id="com.renho.beanFromDb.openDbConfigAction"
                label="open"
                menubarPath="open">
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="com.renho.beanFromDb.tableContribution"
+            objectClass="com.renho.beanfromdb.modal.Table">
+         <menu
+               id="com.renho.beanFromDb.getBeanMenu"
+               label="getBean"
+               path="additions">
+         </menu>
+         <action
+               class="com.renho.beanfromdb.actions.GetBeanAction"
+               id="com.renho.beanFromDb.getBeanAction"
+               label="getBean"
+               menubarPath="getBean">
          </action>
       </objectContribution>
    </extension>
