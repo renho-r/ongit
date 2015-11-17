@@ -40,6 +40,7 @@ public class DbConfigDialog extends Dialog {
         nameText = new Text(container, SWT.BORDER);
         nameText.setBounds(10, 20, 300, 30);
         nameText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+        nameText.setText("mytest");
         
         final Label descriptionLabel = new Label(container, SWT.NONE);
         descriptionLabel.setText("description:");
@@ -107,10 +108,30 @@ public class DbConfigDialog extends Dialog {
 		DBConfig dbConfig = null;
 		if(999 == buttonId) {
 			String nameTextValue = nameText.getText();
+			if(!checkNull(nameTextValue)) {
+				MessageDialog.openWarning(this.getShell(), "提示", "name不能为空!");
+				return;
+			}
+			if(!BeanFromDbManager.getBeanFromDbManager().checkOnlyDbName(nameTextValue)) {
+				MessageDialog.openWarning(this.getShell(), "提示", "当前name已经存在!");
+				return;
+			}
 			String descriptionTextValue = descriptionText.getText();
 			String urlTextValue = urlText.getText();
+			if(!checkNull(urlTextValue)) {
+				MessageDialog.openWarning(this.getShell(), "提示", "url不能为空!");
+				return;
+			}
 			String userTextValue = userText.getText();
+			if(!checkNull(userTextValue)) {
+				MessageDialog.openWarning(this.getShell(), "提示", "user不能为空!");
+				return;
+			}
 			String passwordTextValue = passwordText.getText();
+			if(!checkNull(passwordTextValue)) {
+				MessageDialog.openWarning(this.getShell(), "提示", "password不能为空!");
+				return;
+			}
 			dbConfig = new DBConfig(nameTextValue, descriptionTextValue, urlTextValue, userTextValue, passwordTextValue);
 			if(TestConnectUtil.testConnect(dbConfig)) {
 				MessageDialog.openInformation(this.getShell(),  "提示", "Connect Success" );
@@ -120,20 +141,43 @@ public class DbConfigDialog extends Dialog {
 		} else {
 			if(0 == buttonId) {
 				String nameTextValue = nameText.getText();
+				if(!checkNull(nameTextValue)) {
+					MessageDialog.openWarning(this.getShell(), "提示", "name不能为空!");
+					return;
+				}
+				if(!BeanFromDbManager.getBeanFromDbManager().checkOnlyDbName(nameTextValue)) {
+					MessageDialog.openWarning(this.getShell(), "提示", "当前name已经存在!");
+					return;
+				}
 				String descriptionTextValue = descriptionText.getText();
 				String urlTextValue = urlText.getText();
+				if(!checkNull(urlTextValue)) {
+					MessageDialog.openWarning(this.getShell(), "提示", "url不能为空!");
+					return;
+				}
 				String userTextValue = userText.getText();
+				if(!checkNull(userTextValue)) {
+					MessageDialog.openWarning(this.getShell(), "提示", "user不能为空!");
+					return;
+				}
 				String passwordTextValue = passwordText.getText();
+				if(!checkNull(passwordTextValue)) {
+					MessageDialog.openWarning(this.getShell(), "提示", "password不能为空!");
+					return;
+				}
 				dbConfig = new DBConfig(nameTextValue, descriptionTextValue, urlTextValue, userTextValue, passwordTextValue);
-				dbConfig.setTitle("renho");
-//				IWorkbenchPage workbenchPage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-//				IWorkbenchPart iWorkbenchPart = workbenchPage.getActivePart();
-//				
-//				BeanFromDbView beanFromDbView = (BeanFromDbView)iWorkbenchPart;
-//				beanFromDbView.getViewer().add(beanFromDbView.getViewSite(), dbConfig);
+				dbConfig.setTitle(nameTextValue);
 				BeanFromDbManager.getBeanFromDbManager().addDbConfig(new DBConfig[]{dbConfig});
 			}
 			super.buttonPressed(buttonId);			
+		}
+	}
+
+	private boolean checkNull(String value) {
+		if(null != value && !"".equals(value)) {
+			return true;
+		}else {
+			return false;
 		}
 	}
 }

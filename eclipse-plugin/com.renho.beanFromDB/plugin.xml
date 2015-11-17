@@ -115,5 +115,13 @@
          </menu>
       </viewContribution>
    </extension>
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <wizard
+            class="com.renho.beanfromdb.ExportNewWizard"
+            id="com.renho.beanFromDb.exportWizard"
+            name="exportWizard">
+      </wizard>
+   </extension>
 
 </plugin>
