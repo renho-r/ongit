@@ -18,9 +18,7 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
-import com.renho.beanfromdb.actions.utils.Db2Java;
 import com.renho.beanfromdb.cache.ConnectionCache;
-import com.renho.beanfromdb.modal.BeanStruct;
 import com.renho.beanfromdb.modal.DBViewSuperBean;
 import com.renho.beanfromdb.modal.Table;
 import com.renho.beanfromdb.views.BeanFromDbView;

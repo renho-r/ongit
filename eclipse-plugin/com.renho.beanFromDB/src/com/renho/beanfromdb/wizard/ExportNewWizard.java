@@ -9,11 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.IDialogSettings;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -22,19 +20,18 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
 import com.renho.beanfromdb.Activator;
-import com.renho.beanfromdb.actions.utils.Db2Java;
 import com.renho.beanfromdb.cache.ConnectionCache;
-import com.renho.beanfromdb.modal.BeanStruct;
+import com.renho.beanfromdb.modal.ClassStruct;
 import com.renho.beanfromdb.modal.DBViewSuperBean;
+import com.renho.beanfromdb.modal.FieldStruct;
 import com.renho.beanfromdb.modal.Table;
 import com.renho.beanfromdb.views.BeanFromDbView;
 import com.renho.beanfromdb.wizard.modal.ExportSetting;
-import com.renho.beanfromdb.wizard.parsebean.DefaultParseBeanImpl;
-import com.renho.beanfromdb.wizard.parsebean.IParseBean;
+import com.renho.beanfromdb.wizard.parsebean.impl.DefaultParseBeanImpl;
+import com.renho.beanfromdb.wizard.parsebean.impl.IParseBean;
 
 public class ExportNewWizard extends Wizard implements INewWizard {
 
@@ -50,8 +47,9 @@ public class ExportNewWizard extends Wizard implements INewWizard {
 		setWindowTitle("导出向导");
 		IDialogSettings toBeanSettings = Activator.getDefault().getDialogSettings();
 		IDialogSettings wizardSettings = toBeanSettings.getSection("ExportNewWizard");
-		if(wizardSettings == null)
+		if(wizardSettings == null) {
 			wizardSettings = toBeanSettings.addNewSection("ExportNewWizard");
+		}
 		setDialogSettings(toBeanSettings);
 	}
 
@@ -63,15 +61,14 @@ public class ExportNewWizard extends Wizard implements INewWizard {
 					doFinish(monitor);
 				}
 			});
-		}
-		catch(InvocationTargetException e){
+		} catch(InvocationTargetException e){
 			e.printStackTrace();
 			return false;
 		}
 		catch(InterruptedException e){
 			return false;
 		}
-		return false;
+		return true;
 	}
 
 	private void doFinish(IProgressMonitor monitor) {
@@ -111,16 +108,17 @@ public class ExportNewWizard extends Wizard implements INewWizard {
 		try {
 			PreparedStatement pstsm = conn.prepareStatement("SHOW COLUMNS FROM " + table.getTableName());
 			ResultSet rs = pstsm.executeQuery();
-			List<BeanStruct> list = new ArrayList<>();
+			ClassStruct cs = new ClassStruct(table.getTableName());
+			List<FieldStruct> fields = new ArrayList<>();
 			while(rs.next()) {
 				String columnName = rs.getString(1);
 				String columnType = rs.getString(2);
-				BeanStruct beanStruct = new BeanStruct(columnName, columnType);
-				list.add(beanStruct);
+				FieldStruct fieldStruct = new FieldStruct(columnName, columnType);
+				fields.add(fieldStruct);
 			}
-			
+			cs.setFields(fields);
 			IParseBean parseBean = new DefaultParseBeanImpl();
-			parseBean.parse(list);
+			parseBean.parse(cs);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

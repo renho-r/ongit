@@ -1,5 +1,6 @@
 package com.renho.beanfromdb.controller;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -13,6 +14,7 @@ import java.util.List;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.internal.ViewSite;
 
+import com.renho.beanfromdb.Activator;
 import com.renho.beanfromdb.modal.BeanFromDbManagerListener;
 import com.renho.beanfromdb.modal.DBConfig;
 import com.renho.beanfromdb.modal.DBViewSuperBean;
@@ -55,7 +57,8 @@ public class BeanFromDbManager {
 		
 		FileReader reader = null;
 		try {
-			reader = new FileReader("c:/renho/renho.xml");
+			File xmlFile = Activator.getDefault().getStateLocation().append("dbconfig.xml").toFile();
+			reader = new FileReader(xmlFile);
 			memento = DbConfigMemento.createReadRoot(reader);
 			loadDescriptions();
 		} catch (FileNotFoundException e) {
@@ -71,17 +74,6 @@ public class BeanFromDbManager {
 				// to be added
 			}
 		}
-		
-//		dbViewSuperBeans = new ArrayList<>();
-//		DBConfig dbConfig0 = new DBConfig("name0", "description0", "jdbc:mysql://localhost:3306/test", "root", "root123");
-//		DBConfig dbConfig1 = new DBConfig("name1", "description1", "url1", "user1", "password1");
-//		DBConfig dbConfig2 = new DBConfig("name2", "description2", "url2", "user2", "password2");
-//		DBConfig dbConfig3 = new DBConfig("name3", "description3", "url3", "user3", "password3");
-//		
-//		dbViewSuperBeans.add((DBViewSuperBean)dbConfig0);
-//		dbViewSuperBeans.add((DBViewSuperBean)dbConfig1);
-//		dbViewSuperBeans.add((DBViewSuperBean)dbConfig2);
-//		dbViewSuperBeans.add((DBViewSuperBean)dbConfig3);
 	}
 	
 	private void loadDescriptions() {
@@ -111,27 +103,68 @@ public class BeanFromDbManager {
 		saveDescriptions(memento, (DBConfig[]) items);
 		FileWriter writer = null;
 		try{
-			writer = new FileWriter("c:/renho/renho.xml");
+			File xmlFile = Activator.getDefault().getStateLocation().append("dbconfig.xml").toFile();
+			writer = new FileWriter(xmlFile);
 			memento.save(writer);
 		}catch(IOException e){
+			e.printStackTrace();
 		}finally{
 			try{
 				if(writer != null)
 					writer.close();
 			}catch(IOException e){
+				
 			}
 		}
 	}
 	
-	private void saveDescriptions(IMemento memento, DBConfig[] items){
+	public void deleteDbConfig(DBViewSuperBean[] items) {
+		if(dbViewSuperBeans == null) {
+			loadDbConfig();
+		}
+		if(dbViewSuperBeans.removeAll(Arrays.asList(items))) {
+			fireDbConfigChanged(DBViewSuperBean.NONE, items, DBViewSuperBean.NONE);
+		}
+		if(null == memento) {
+			memento = DbConfigMemento.createWriteRoot("renho");			
+		}
+		deleteDescriptions(memento, items);
+		FileWriter writer = null;
+		try{
+			File xmlFile = Activator.getDefault().getStateLocation().append("dbconfig.xml").toFile();
+			writer = new FileWriter(xmlFile);
+			memento.save(writer);
+		}catch(IOException e){
+			e.printStackTrace();
+		}finally{
+			try{
+				if(writer != null)
+					writer.close();
+			}catch(IOException e){
+				
+			}
+		}
+	}
+	
+	private void deleteDescriptions(IMemento memento, DBViewSuperBean[] items){
+		for(DBViewSuperBean dvsb:items) {
+			memento = ((DbConfigMemento)memento).deleteChildren(dvsb.getTitle());
+			System.out.println(11111);
+		}
+	}
+	
+	private void saveDescriptions(IMemento memento, DBViewSuperBean[] items){
 		
-		for(DBConfig dbConfig:items) {
-			IMemento child = memento.createChild("dbconfig");
-			child.putString("title", dbConfig.getTitle());
-			child.putString("desc", dbConfig.getDescription());
-			child.putString("url", dbConfig.getUrl());
-			child.putString("user", dbConfig.getUser());
-			child.putString("password", dbConfig.getPassword());
+		for(DBViewSuperBean dvs:items) {
+			if(dvs instanceof DBConfig) {
+				DBConfig dbConfig = (DBConfig) dvs;
+				IMemento child = memento.createChild("dbconfig");
+				child.putString("title", dbConfig.getTitle());
+				child.putString("desc", dbConfig.getDescription());
+				child.putString("url", dbConfig.getUrl());
+				child.putString("user", dbConfig.getUser());
+				child.putString("password", dbConfig.getPassword());				
+			}
 			
 		}
 	}

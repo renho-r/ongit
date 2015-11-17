@@ -75,6 +75,18 @@
                label="open"
                menubarPath="open">
          </action>
+         <menu
+               id="com.renho.beanFromDB.deleteMenu"
+               label="delete"
+               path="additions">
+         </menu>
+         <action
+               class="com.renho.beanfromdb.DeleteDbConfigAction"
+               enablesFor="1"
+               id="com.renho.beanFromDB.deleteDbConfigAction"
+               label="delete"
+               menubarPath="delete">
+         </action>
       </objectContribution>
       <objectContribution
             adaptable="false"

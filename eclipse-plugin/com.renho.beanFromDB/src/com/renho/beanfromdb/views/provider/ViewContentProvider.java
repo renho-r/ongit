@@ -63,6 +63,7 @@ public class ViewContentProvider extends ArrayContentProvider implements ITreeCo
 	@Override
 	public void dbConfigChanged(BeanFromDbManagerEvent event) {
 		this.viewer.add(manager.getViewSite(), event.getItemsAdded());
+		this.viewer.remove(event.getItemsRemoved());
 	}
 
 	@Override

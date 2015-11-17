@@ -420,7 +420,7 @@ public class DbConfigMemento implements IMemento {
     	private int tab;
 
     	/* constants */
-    	private static final String XML_VERSION = "<?xml version=\"1.0\" encoding=\"GB2312\"?>"; //$NON-NLS-1$
+    	private static final String XML_VERSION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"; //$NON-NLS-1$
 
     	/**
     	 * Creates a new DOM writer on the given output writer.
@@ -584,4 +584,34 @@ public class DbConfigMemento implements IMemento {
 		
 	}
 
+	public IMemento deleteChildren(String title) {
+
+        // Get the nodes.
+        NodeList nodes = element.getChildNodes();
+        int size = nodes.getLength();
+        if (size == 0) {
+			return createWriteRoot("root");
+		}
+
+        // Extract each node with given type.
+		ArrayList list = new ArrayList(size);
+        for (int nX = 0; nX < size; nX++) {
+            Node node = nodes.item(nX);
+            if (node instanceof Element) {
+                Element element0 = (Element) node;
+                if (element0.getAttribute("title").equals(title)) {
+                	element.removeChild(element0);
+				}
+            }
+        }
+
+        // Create a memento for each node.
+        size = list.size();
+        IMemento[] results = new IMemento[size];
+        for (int x = 0; x < size; x++) {
+            results[x] = new DbConfigMemento(factory, (Element) list.get(x));
+        }
+        return this;
+    }
+	
 }
