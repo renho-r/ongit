@@ -4,13 +4,16 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
+import com.renho.beanfromdb.cache.ConnectionCache;
+import com.renho.beanfromdb.cache.ImageCache;
+
 /**
  * The activator class controls the plug-in life cycle
  */
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "com.renho.beanFromDb"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "com.renho.BeanFromDb"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;
@@ -35,6 +38,8 @@ public class Activator extends AbstractUIPlugin {
 	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext context) throws Exception {
+		ImageCache.getInstance().dispose();
+		ConnectionCache.closeAll();
 		plugin = null;
 		super.stop(context);
 	}

@@ -1,4 +1,4 @@
-package com.renho.beanfromdb;
+package com.renho.beanfromdb.actions;
 
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
@@ -6,7 +6,6 @@ import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
 
 import com.renho.beanfromdb.controller.BeanFromDbManager;
-import com.renho.beanfromdb.modal.DBConfig;
 import com.renho.beanfromdb.modal.DBViewSuperBean;
 import com.renho.beanfromdb.views.BeanFromDbView;
 

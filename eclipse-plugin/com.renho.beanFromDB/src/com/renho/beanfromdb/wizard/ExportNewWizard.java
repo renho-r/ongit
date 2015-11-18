@@ -1,7 +1,5 @@
 package com.renho.beanfromdb.wizard;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -28,10 +26,13 @@ import com.renho.beanfromdb.modal.ClassStruct;
 import com.renho.beanfromdb.modal.DBViewSuperBean;
 import com.renho.beanfromdb.modal.FieldStruct;
 import com.renho.beanfromdb.modal.Table;
+import com.renho.beanfromdb.utils.DbUtil;
 import com.renho.beanfromdb.views.BeanFromDbView;
 import com.renho.beanfromdb.wizard.modal.ExportSetting;
 import com.renho.beanfromdb.wizard.parsebean.impl.DefaultParseBeanImpl;
-import com.renho.beanfromdb.wizard.parsebean.impl.IParseBean;
+import com.renho.beanfromdb.wizard.parsebean.impl.decorator.TransDecorator;
+import com.renho.beanfromdb.wizard.parsebean.impl.decorator.impl.TransColumn;
+import com.renho.beanfromdb.wizard.parsebean.IParseBean;
 
 public class ExportNewWizard extends Wizard implements INewWizard {
 
@@ -104,10 +105,11 @@ public class ExportNewWizard extends Wizard implements INewWizard {
 		Table table = (Table) selected[0];
 		DBViewSuperBean parent = (DBViewSuperBean) table.getParent();
 		Connection conn = ConnectionCache.getConnection(parent.getTitle());
-		
+		PreparedStatement pstsm = null;
+		ResultSet rs = null;
 		try {
-			PreparedStatement pstsm = conn.prepareStatement("SHOW COLUMNS FROM " + table.getTableName());
-			ResultSet rs = pstsm.executeQuery();
+			pstsm = conn.prepareStatement("SHOW COLUMNS FROM " + table.getTableName());
+			rs = pstsm.executeQuery();
 			ClassStruct cs = new ClassStruct(table.getTableName());
 			List<FieldStruct> fields = new ArrayList<>();
 			while(rs.next()) {
@@ -118,9 +120,29 @@ public class ExportNewWizard extends Wizard implements INewWizard {
 			}
 			cs.setFields(fields);
 			IParseBean parseBean = new DefaultParseBeanImpl();
-			parseBean.parse(cs);
+			TransDecorator transColumn = new TransColumn();
+			transColumn.setParseBean(parseBean);
+			TransDecorator temp = transColumn;
+			try {
+				for(String decorator:exportSetting.getTranBehavior()) {
+					TransDecorator t;
+					t = (TransDecorator) Class.forName("com.renho.beanfromdb.wizard.parsebean.impl.decorator.impl." + decorator).newInstance();
+					t.setParseBean(temp);
+					temp = t;
+				}
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+			temp.trans(cs, exportSetting);
+			transColumn.show(cs, exportSetting);
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} finally {
+			DbUtil.close(pstsm, rs);
 		}
 	}
 

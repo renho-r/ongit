@@ -1,6 +1,6 @@
 package com.renho.beanfromdb.wizard;
 
-import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -18,9 +18,9 @@ public class GetBeanFilePathWizardPage extends WizardPage {
 	private Text text;
 	
 	protected GetBeanFilePathWizardPage() {
-		super("导出参数"); //$NON-NLS-1$
-		setTitle("导出参数 title"); //$NON-NLS-1$
-		setDescription("导出参数dec"); //$NON-NLS-1$
+		super("导出参数");
+		setTitle("导出到文件");
+		setDescription("描述");
 //		setImageDescriptor("导出参数img");
 	}
 
@@ -47,9 +47,9 @@ public class GetBeanFilePathWizardPage extends WizardPage {
 		selectedButton.addSelectionListener(new SelectionAdapter() {
 			public void widgetSelected(final SelectionEvent e) {
 				DirectoryDialog directoryDialog = new DirectoryDialog(container.getShell());
-				directoryDialog.setFilterPath(ResourcesPlugin.getWorkspace().getRoot().toString());
+				directoryDialog.setFilterPath(Platform.getInstanceLocation().getURL().getPath());
 				String filePath = directoryDialog.open();
-				if(null != text && !"".equals(text)) {
+				if(null != filePath && !"".equals(filePath)) {
 					text.setText(filePath);					
 				}
 			}

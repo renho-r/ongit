@@ -5,6 +5,8 @@ import java.util.List;
 public class ClassStruct {
 	private String tableName;
 	private List<FieldStruct> fields;
+	private List<MethodStruct> methods;
+	private List<String> importList;
 
 	public ClassStruct(String tableName) {
 		this.tableName = tableName;
@@ -25,6 +27,21 @@ public class ClassStruct {
 	public void setFields(List<FieldStruct> fields) {
 		this.fields = fields;
 	}
-	
+
+	public List<MethodStruct> getMethods() {
+		return methods;
+	}
+
+	public void setMethods(List<MethodStruct> methods) {
+		this.methods = methods;
+	}
+
+	public List<String> getImportList() {
+		return importList;
+	}
+
+	public void setImportList(List<String> importList) {
+		this.importList = importList;
+	}
 	
 }

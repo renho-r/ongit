@@ -1,8 +1,6 @@
 package com.renho.beanfromdb.utils;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import com.renho.beanfromdb.modal.DBConfig;
 
@@ -17,23 +15,11 @@ public class TestConnectUtil {
 	}
 
 	public static boolean testConnect(DBConfig dbConfig) {
-		Connection con = null;
-		try {
-			String url = dbConfig.getUrl() + "?user=" + dbConfig.getUser() + "&password=" + dbConfig.getPassword();
-//			String url="jdbc:mysql://localhost:3306/sample_db?user=root&password=your_password";
-			con = DriverManager.getConnection(url);
-		} catch (SQLException e) {
-			e.printStackTrace();
+		Connection conn = DbUtil.getConnection(dbConfig);
+		if(null == conn) {
 			return false;
-		} finally {
-			if(null != con) {
-				try {
-					con.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
 		}
+		DbUtil.closeConnection(conn);
 		return true;
 	}
 	

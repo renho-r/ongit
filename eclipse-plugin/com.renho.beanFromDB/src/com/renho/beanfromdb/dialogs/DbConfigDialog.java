@@ -40,7 +40,7 @@ public class DbConfigDialog extends Dialog {
         nameText = new Text(container, SWT.BORDER);
         nameText.setBounds(10, 20, 300, 30);
         nameText.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
-        nameText.setText("mytest");
+        //nameText.setText("mytest");
         
         final Label descriptionLabel = new Label(container, SWT.NONE);
         descriptionLabel.setText("description:");
@@ -53,21 +53,21 @@ public class DbConfigDialog extends Dialog {
         urlLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
         urlText = new Text(container, SWT.BORDER);
         urlText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-        urlText.setText("jdbc:mysql://localhost:3306/test");
+        //urlText.setText("jdbc:mysql://localhost:3306/test");
         
         final Label userLabel = new Label(container, SWT.NONE);
         userLabel.setText("user:");
         userLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
         userText = new Text(container, SWT.BORDER);
         userText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-        userText.setText("root");
+        //userText.setText("root");
         
         final Label passwordLabel = new Label(container, SWT.NONE);
         passwordLabel.setText("password:");
         passwordLabel.setLayoutData(new GridData(GridData.END, GridData.CENTER, false, false));
         passwordText = new Text(container, SWT.BORDER);
         passwordText.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-        passwordText.setText("root123");
+        //passwordText.setText("root123");
         
         return container;
 	}

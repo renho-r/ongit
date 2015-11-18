@@ -37,6 +37,7 @@ public class GetBeanSettingWizardPage extends WizardPage {
 		delUnderLineCheckButton.setText("去除下划线");
 		delUnderLineCheckButton.setBounds(20, 45, 150, 20);
 		delUnderLineCheckButton.setData("DeleteUnderLine");
+		delUnderLineCheckButton.setSelection(true);
 		
 		addImportCheckButton = new Button(container, SWT.CHECK);
 		addImportCheckButton.setText("生成import");

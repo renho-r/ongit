@@ -417,7 +417,8 @@ public class DbConfigMemento implements IMemento {
      */
     private static final class DOMWriter extends PrintWriter {
     	
-    	private int tab;
+    	@SuppressWarnings("unused")
+		private int tab;
 
     	/* constants */
     	private static final String XML_VERSION = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"; //$NON-NLS-1$
@@ -594,6 +595,7 @@ public class DbConfigMemento implements IMemento {
 		}
 
         // Extract each node with given type.
+		@SuppressWarnings("rawtypes")
 		ArrayList list = new ArrayList(size);
         for (int nX = 0; nX < size; nX++) {
             Node node = nodes.item(nX);

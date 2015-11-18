@@ -10,7 +10,7 @@
       </category>
       <view
             name="BeanFromDbView"
-            icon="icons/sample.gif"
+            icon="icons/dbconfig/database.gif"
             category="com.renho.beanFromDb"
             class="com.renho.beanfromdb.views.BeanFromDbView"
             id="com.renho.beanfromdb.views.BeanFromDbView">
@@ -49,7 +49,7 @@
          </menu>
          <action
                class="com.renho.beanfromdb.actions.OpenBeanFromDbViewAction"
-               icon="icons/sample.gif"
+               icon="icons/dbconfig/database.gif"
                id="com.renho.beanfromdb.actions.OpenBeanFromDbViewAction"
                label="OpenBeanFromDbView"
                menubarPath="BeanFromDbMenu/content"
@@ -81,7 +81,7 @@
                path="additions">
          </menu>
          <action
-               class="com.renho.beanfromdb.DeleteDbConfigAction"
+               class="com.renho.beanfromdb.actions.DeleteDbConfigAction"
                enablesFor="1"
                id="com.renho.beanFromDB.deleteDbConfigAction"
                label="delete"
@@ -99,9 +99,22 @@
          </menu>
          <action
                class="com.renho.beanfromdb.actions.GetBeanAction"
+               enablesFor="1"
                id="com.renho.beanFromDb.getBeanAction"
                label="getBean"
                menubarPath="getBean">
+         </action>
+         <menu
+               id="com.renho.BeanFromDb.getSQLMenu"
+               label="getSQL"
+               path="additions">
+         </menu>
+         <action
+               class="com.renho.beanfromdb.actions.GetSQLAction"
+               enablesFor="1"
+               id="com.renho.beanFromDb.getSQLAction"
+               label="getSQL"
+               menubarPath="getSQL">
          </action>
       </objectContribution>
    </extension>
@@ -112,7 +125,7 @@
             targetID="com.renho.beanfromdb.views.BeanFromDbView">
          <action
                class="com.renho.beanfromdb.actions.ViewCreateDbAction"
-               icon="icons/sample.gif"
+               icon="icons/op/add.gif"
                id="com.renho.beanfromdb.actions.viewCreateDbAction"
                label="create dbconfig"
                menubarPath="createDbViewPullDownMenu"

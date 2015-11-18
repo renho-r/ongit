@@ -74,6 +74,7 @@ public class BeanFromDbView extends ViewPart {
 	public DBViewSuperBean[] getSelectedDbConfig() {
 		IStructuredSelection selection = (IStructuredSelection)viewer.getSelection();
 		DBViewSuperBean[] items = new DBViewSuperBean[selection.size()];
+		@SuppressWarnings("rawtypes")
 		Iterator iter = selection.iterator();
 		int index = 0;
 		while(iter.hasNext())

@@ -15,6 +15,7 @@ import org.eclipse.ui.IMemento;
 import org.eclipse.ui.internal.ViewSite;
 
 import com.renho.beanfromdb.Activator;
+import com.renho.beanfromdb.cache.ConnectionCache;
 import com.renho.beanfromdb.modal.BeanFromDbManagerListener;
 import com.renho.beanfromdb.modal.DBConfig;
 import com.renho.beanfromdb.modal.DBViewSuperBean;
@@ -124,6 +125,7 @@ public class BeanFromDbManager {
 		}
 		if(dbViewSuperBeans.removeAll(Arrays.asList(items))) {
 			fireDbConfigChanged(DBViewSuperBean.NONE, items, DBViewSuperBean.NONE);
+			ConnectionCache.close((DBConfig[])items);
 		}
 		if(null == memento) {
 			memento = DbConfigMemento.createWriteRoot("renho");			
@@ -220,6 +222,10 @@ public class BeanFromDbManager {
 			}
 		}
 		return true;
+	}
+
+	public Collection<DBViewSuperBean> getDbViewSuperBeans() {
+		return dbViewSuperBeans;
 	}
 	
 }
