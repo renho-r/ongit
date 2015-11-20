@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+	<button id="ajax" value="ajax">ajax</button>
+	<script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+	<script type="text/javascript" src="js/amq_jquery_adapter.js"></script>
+	<script type="text/javascript" src="js/amq.js"></script>
+	<script type="text/javascript">
+		$(function() {
+			org.activemq.Amq.init({ 
+				uri: 'amq', 
+				logging: true, 
+				timeout: 1, 
+				clientId:(new Date()).getTime().toString() 
+			});
+			var myHandler = {
+			    rcvMessage: function(message) {
+			        alert("testQueue:" + message.getAttribute('type'));
+			    }
+			};
+			org.activemq.Amq.addListener("testQueue", "queue://renho", myHandler.rcvMessage);
+			$("#ajax").click(function() {
+				var msg = "<msg type='common'>" 
+		              +  "<id>msg1</id>"
+		              +  "<content>renho</content>"
+		              + "</msg>";
+				org.activemq.Amq.sendMessage("queue://renho", msg);
+			});
+		})
+	</script>
+</body>
+</html>
