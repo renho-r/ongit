@@ -1,0 +1,546 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0062)http://www.cnblogs.com/tommyli/archive/2010/09/13/1825205.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/bundle-LessIsMore.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/tommyli/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/tommyli/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/tommyli/wlwmanifest.xml">
+<script type="text/javascript" src="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/encoder.js"></script><script src="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'tommyli', cb_enable_mathjax=false;</script>
+<script src="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/blog-common.js" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/tommyli/">李占卫的网上家园</a></div>
+<div class="subtitle"></div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/tommyli/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"><a id="MyLinks1_ContactLink" class="menu" rel="nofollow" href="http://msg.cnblogs.com/send/%E6%9D%8E%E5%8D%A0%E5%8D%AB">联系</a></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/tommyli/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/tommyli/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-408&nbsp;
+文章-1&nbsp;
+评论-505&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园.html">ActiveMQ持久化消息的三种方式</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>1：前言</p>
+<p>&nbsp;&nbsp; &nbsp; 这一段给公司开发消息总线有机会研究ActiveMQ，今天撰文给大家介绍一下他的持久化消息。本文只介绍三种方式,分别是持久化为文件，MYSql，Oracle。下面逐一介绍。</p>
+<p>A：持久化为文件</p>
+<p>&nbsp;&nbsp; &nbsp; 这个你装ActiveMQ时默认就是这种，只要你设置消息为持久化就可以了。涉及到的配置和代码有</p>
+<div class="cnblogs_code">
+<pre><div><span style="color: #000000;">        </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">persistenceAdapter</span><span style="color: #000000;">&gt;</span><span style="color: #000000;"><br>            </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">kahaDB directory</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">${activemq.base}/data/kahadb</span><span style="color: #800000;">"</span><span style="color: #000000;">/&gt;</span><span style="color: #000000;"><br>        </span><span style="color: #000000;">&lt;/</span><span style="color: #000000;">persistenceAdapter</span><span style="color: #000000;">&gt;</span><span style="color: #000000;"><br><br>producer.Send(request, MsgDeliveryMode.Persistent, level, TimeSpan.MinValue);</span></div></pre>
+</div>
+<p>B：持久化为MySql</p>
+<p>&nbsp;&nbsp; &nbsp; 你首先需要把MySql的驱动放到ActiveMQ的Lib目录下，我用的文件名字是：mysql-connector-java-5.0.4-bin.jar</p>
+<p>&nbsp;&nbsp; &nbsp; 接下来你修改配置文件</p>
+<div class="cnblogs_code">
+<pre><div><!--<br /><br />Code highlighting produced by Actipro CodeHighlighter (freeware)<br />http://www.CodeHighlighter.com/<br /><br />--><span style="color: #000000;">    </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">persistenceAdapter</span><span style="color: #000000;">&gt;</span><span style="color: #000000;"><br>       </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">jdbcPersistenceAdapter dataDirectory</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">${activemq.base}/data</span><span style="color: #800000;">"</span><span style="color: #000000;"> dataSource</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">#derby-ds</span><span style="color: #800000;">"</span><span style="color: #000000;">/&gt;</span><span style="color: #000000;"><br>    </span><span style="color: #000000;">&lt;/</span><span style="color: #000000;">persistenceAdapter</span><span style="color: #000000;">&gt;</span></div></pre>
+</div>
+<p>在配置文件中的broker节点外增加</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><div><!--<br /><br />Code highlighting produced by Actipro CodeHighlighter (freeware)<br />http://www.CodeHighlighter.com/<br /><br />--><span style="color: #000000;">  </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">bean id</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">derby-ds</span><span style="color: #800000;">"</span><span style="color: #000000;"> </span><span style="color: #0000ff;">class</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">org.apache.commons.dbcp.BasicDataSource</span><span style="color: #800000;">"</span><span style="color: #000000;"> destroy</span><span style="color: #000000;">-</span><span style="color: #000000;">method</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">close</span><span style="color: #800000;">"</span><span style="color: #000000;">&gt;</span><span style="color: #000000;"><br>    </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">property name</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">driverClassName</span><span style="color: #800000;">"</span><span style="color: #000000;"> value</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">com.mysql.jdbc.Driver</span><span style="color: #800000;">"</span><span style="color: #000000;">/&gt;</span><span style="color: #000000;"><br>    </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">property name</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">url</span><span style="color: #800000;">"</span><span style="color: #000000;"> value</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">jdbc:mysql://localhost/activemq?relaxAutoCommit=true</span><span style="color: #800000;">"</span><span style="color: #000000;">/&gt;</span><span style="color: #000000;"><br>    </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">property name</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">username</span><span style="color: #800000;">"</span><span style="color: #000000;"> value</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">activemq</span><span style="color: #800000;">"</span><span style="color: #000000;">/&gt;</span><span style="color: #000000;"><br>    </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">property name</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">password</span><span style="color: #800000;">"</span><span style="color: #000000;"> value</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">activemq</span><span style="color: #800000;">"</span><span style="color: #000000;">/&gt;</span><span style="color: #000000;"><br>    </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">property name</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">maxActive</span><span style="color: #800000;">"</span><span style="color: #000000;"> value</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">200</span><span style="color: #800000;">"</span><span style="color: #000000;">/&gt;</span><span style="color: #000000;"><br>    </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">property name</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">poolPreparedStatements</span><span style="color: #800000;">"</span><span style="color: #000000;"> value</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">true</span><span style="color: #800000;">"</span><span style="color: #000000;">/&gt;</span><span style="color: #000000;"><br>  </span><span style="color: #000000;">&lt;/</span><span style="color: #000000;">bean</span><span style="color: #000000;">&gt;</span></div></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>从配置中可以看出数据库的名称是activemq，你需要手动在MySql中增加这个库。</p>
+<p>然后重新启动消息队列，你会发现多了3张表</p>
+<p>1：activemq_acks</p>
+<p>2：activemq_lock</p>
+<p>3：activemq_msgs</p>
+<p>C：持久化为Oracle</p>
+<p>&nbsp;&nbsp; &nbsp;和持久化为MySql一样。这里我说两点</p>
+<p>1；在ActiveMQ安装文件夹里的Lib文件夹中增加Oracle的JDBC驱动。驱动文件位于Oracle客户端安装文件中的product\11.1.0\client_1\jdbc\lib文件夹下。</p>
+<p>2：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><div><!--<br /><br />Code highlighting produced by Actipro CodeHighlighter (freeware)<br />http://www.CodeHighlighter.com/<br /><br />--><span style="color: #000000;">  </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">bean id</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">derby-ds</span><span style="color: #800000;">"</span><span style="color: #000000;"> </span><span style="color: #0000ff;">class</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">org.apache.commons.dbcp.BasicDataSource</span><span style="color: #800000;">"</span><span style="color: #000000;"> destroy</span><span style="color: #000000;">-</span><span style="color: #000000;">method</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">close</span><span style="color: #800000;">"</span><span style="color: #000000;">&gt;</span><span style="color: #000000;"><br>    </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">property name</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">driverClassName</span><span style="color: #800000;">"</span><span style="color: #000000;"> value</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">oracle.jdbc.driver.OracleDriver</span><span style="color: #800000;">"</span><span style="color: #000000;">/&gt;</span><span style="color: #000000;"><br>    </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">property name</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">url</span><span style="color: #800000;">"</span><span style="color: #000000;"> value</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">jdbc:oracle:thin:@10.53.132.47:1521:cmfudv1</span><span style="color: #800000;">"</span><span style="color: #000000;">/&gt;</span><span style="color: #000000;"><br>    </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">property name</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">username</span><span style="color: #800000;">"</span><span style="color: #000000;"> value</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">qdcommu</span><span style="color: #800000;">"</span><span style="color: #000000;">/&gt;</span><span style="color: #000000;"><br>    </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">property name</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">password</span><span style="color: #800000;">"</span><span style="color: #000000;"> value</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">qdcommu</span><span style="color: #800000;">"</span><span style="color: #000000;">/&gt;</span><span style="color: #000000;"><br>    </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">property name</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">maxActive</span><span style="color: #800000;">"</span><span style="color: #000000;"> value</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">200</span><span style="color: #800000;">"</span><span style="color: #000000;">/&gt;</span><span style="color: #000000;"><br>    </span><span style="color: #000000;">&lt;</span><span style="color: #000000;">property name</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">poolPreparedStatements</span><span style="color: #800000;">"</span><span style="color: #000000;"> value</span><span style="color: #000000;">=</span><span style="color: #800000;">"</span><span style="color: #800000;">true</span><span style="color: #800000;">"</span><span style="color: #000000;">/&gt;</span><span style="color: #000000;"><br>  </span><span style="color: #000000;">&lt;/</span><span style="color: #000000;">bean</span><span style="color: #000000;">&gt;</span></div></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>这里的jdbc:oracle:thin:@10.53.132.47:1521:cmfudv1按照自己实际情况设置一下就可以了，特别注意的是cmfudv1是SID即服务名称而不是TNS中配置的节点名。各位同学只需要替换IP,端口和这个SID就可以了。</p>
+<p>后记：</p>
+<p>这篇文章就是简单的记录一下操作过程，避免后来的同学走弯路。</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/tommyli/category/149763.html">实战</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(1825205,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://msg.cnblogs.com/send/%E6%9D%8E%E5%8D%A0%E5%8D%AB" target="_blank">联系我</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/icon_weibo_24.png" alt=""></a>
+<a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/tommyli/" target="_blank"><img src="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/tommyli/">李占卫</a><br>
+<a href="http://home.cnblogs.com/u/tommyli/followees">关注 - 0</a><br>
+<a href="http://home.cnblogs.com/u/tommyli/followers">粉丝 - 108</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+    <a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div class="diggit" onclick="votePost(1825205,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">2</span>
+    </div>
+	<div class="buryit" onclick="votePost(1825205,&#39;Bury&#39;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/tommyli/archive/2010/08/04/1792460.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/tommyli/archive/2010/08/04/1792460.html" title="发布于2010-08-04 17:20">用户行为分析框架</a><br><a href="http://www.cnblogs.com/tommyli/archive/2010/09/21/1832267.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/tommyli/archive/2010/09/21/1832267.html" title="发布于2010-09-21 09:25">Windows 下单机最大TCP连接数</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2010-09-13 18:11</span> <a href="http://www.cnblogs.com/tommyli/">李占卫</a> 阅读(<span id="post_view_count">6740</span>) 评论(<span id="post_comment_count">0</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=1825205" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/tommyli/archive/2010/09/13/1825205.html#" onclick="AddToWz(1825205);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=21890,cb_entryId=1825205,cb_blogApp=currentBlogApp,cb_blogUserGuid='c361360b-63cf-dd11-9e4d-001cf0cd104b',cb_entryCreatedDate='2010/9/13 18:11:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" id="lnk_RefreshComments" onclick="return RefreshCommentList();">刷新评论</a><a href="http://www.cnblogs.com/tommyli/archive/2010/09/13/1825205.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/tommyli/archive/2010/09/13/1825205.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="site_nav_under"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="http://www.rongcloud.cn/" target="_blank">【推荐】融云即时通讯云－专注为 App 开发者提供IM云服务</a><br><a href="https://www.jpush.cn/" target="_blank">【福利】极光推送-富媒体+大数据驱动精准推送，完全免费开放啦</a><br></div>
+<div id="opt_under_post"></div>
+<script type="text/javascript">
+    fixPostBodyFormat();
+</script>
+<div id="google_ad_c1" class="c_ad_block"><a href="http://www.gcpowertools.com.cn/order/specialoffers.htm?utm_source=cnblogs&utm_medium=blogpage&utm_term=bottom&utm_content=promotion&utm_campaign=community" target="_blank"><img width="300" height="250" src="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/24442-20151110205559353-1320016985.png" alt="" title=""></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/533452/" target="_blank">贝索斯第一条Twitter消息引发与马斯克口水战</a><br> ·  <a href="http://news.cnblogs.com/n/533451/" target="_blank">去哪儿网连续六个季度总营收增速超100%</a><br> ·  <a href="http://news.cnblogs.com/n/533450/" target="_blank">研究称"碎心综合症"会增大丧偶老人死亡率</a><br> ·  <a href="http://news.cnblogs.com/n/533449/" target="_blank">唯品会正品神话终结：涉嫌售卖假冒奢侈品</a><br> ·  <a href="http://news.cnblogs.com/n/533448/" target="_blank">NASA宇航员称火星之旅很危险：最重要是活命</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="google_ad_c2" class="c_ad_block"><a href="http://e.jikexueyuan.com/java.html?hmsr=cnb_banner_java_11.20" target="_blank"><img width="468" height="60" src="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/24442-20151120154810296-978269479.jpg" alt="" title=""></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/527814/" target="_blank">从涂鸦到发布——理解API的设计过程</a><br> ·  <a href="http://kb.cnblogs.com/page/531834/" target="_blank">好的架构是进化来的，不是设计来的</a><br> ·  <a href="http://kb.cnblogs.com/page/532236/" target="_blank">被误解的MVC和被神化的MVVM</a><br> ·  <a href="http://kb.cnblogs.com/page/530046/" target="_blank">再谈设计和编码</a><br> ·  <a href="http://kb.cnblogs.com/page/531270/" target="_blank">什么时候应该避免写代码注释？</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+$(function () {
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 200);
+});
+</script>
+</div>
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/tommyli/">李占卫</a><br>园龄：<a href="http://home.cnblogs.com/u/tommyli/" title="入园时间：2006-10-09">9年1个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/tommyli/followers/">108</a><br>关注：<a href="http://home.cnblogs.com/u/tommyli/followees/">0</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger(&#39;c361360b-63cf-dd11-9e4d-001cf0cd104b&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/tommyli/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/tommyli/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/tommyli/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/tommyli/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/tommyli/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/tommyli/category/72396.html">.NET2.0(53)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/tommyli/category/175240.html">.NET3.0(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/tommyli/category/90233.html">Active Dictionary(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/tommyli/category/122912.html">Ajax(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/tommyli/category/130150.html">AOP</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/tommyli/category/349153.html">Apache(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/tommyli/category/170777.html">c#3.0(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/tommyli/category/141439.html">Enterprise Library(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/tommyli/category/78059.html">FlashCom</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/tommyli/category/519971.html">hadoop(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/tommyli/category/136944.html">IOC(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="http://www.cnblogs.com/tommyli/category/527134.html">JAVA(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="http://www.cnblogs.com/tommyli/category/110875.html">JavaScript(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="http://www.cnblogs.com/tommyli/category/347849.html">Linux(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="http://www.cnblogs.com/tommyli/category/160871.html">MSMQ(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="http://www.cnblogs.com/tommyli/category/367014.html">MySql(8)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_16" href="http://www.cnblogs.com/tommyli/category/309933.html">nosql(14)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_17" href="http://www.cnblogs.com/tommyli/category/129147.html">NUnit(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_18" href="http://www.cnblogs.com/tommyli/category/125957.html">SOA(21)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_19" href="http://www.cnblogs.com/tommyli/category/195081.html">socket(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_20" href="http://www.cnblogs.com/tommyli/category/175412.html">WCF(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_21" href="http://www.cnblogs.com/tommyli/category/187896.html">Windows核心编程(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_22" href="http://www.cnblogs.com/tommyli/category/100085.html">持久层(19)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_23" href="http://www.cnblogs.com/tommyli/category/128693.html">多线程(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_24" href="http://www.cnblogs.com/tommyli/category/196132.html">负载均衡(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_25" href="http://www.cnblogs.com/tommyli/category/184749.html">概念(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_26" href="http://www.cnblogs.com/tommyli/category/77879.html">概念理解(19)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_27" href="http://www.cnblogs.com/tommyli/category/175241.html">开源项目(18)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_28" href="http://www.cnblogs.com/tommyli/category/487704.html">如何？(19)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_29" href="http://www.cnblogs.com/tommyli/category/72398.html">软件构架(41)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_30" href="http://www.cnblogs.com/tommyli/category/152669.html">设计案例(10)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_31" href="http://www.cnblogs.com/tommyli/category/72397.html">设计模式(21)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_32" href="http://www.cnblogs.com/tommyli/category/149763.html">实战(62)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_33" href="http://www.cnblogs.com/tommyli/category/72399.html">项目实施(34)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_34" href="http://www.cnblogs.com/tommyli/category/149607.html">项目文档(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_35" href="http://www.cnblogs.com/tommyli/category/561569.html">性能测试(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_36" href="http://www.cnblogs.com/tommyli/category/128696.html">异常处理(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_37" href="http://www.cnblogs.com/tommyli/category/72400.html">杂谈(32)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/tommyli/archive/2015/10.html">2015年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/tommyli/archive/2015/04.html">2015年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/tommyli/archive/2015/03.html">2015年3月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/tommyli/archive/2015/01.html">2015年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/tommyli/archive/2014/10.html">2014年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/tommyli/archive/2014/09.html">2014年9月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/tommyli/archive/2014/08.html">2014年8月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/tommyli/archive/2014/06.html">2014年6月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/tommyli/archive/2014/05.html">2014年5月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/tommyli/archive/2014/04.html">2014年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/tommyli/archive/2014/03.html">2014年3月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/tommyli/archive/2014/02.html">2014年2月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/tommyli/archive/2014/01.html">2014年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/tommyli/archive/2013/12.html">2013年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/tommyli/archive/2013/11.html">2013年11月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/tommyli/archive/2013/10.html">2013年10月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/tommyli/archive/2013/09.html">2013年9月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/tommyli/archive/2013/08.html">2013年8月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/tommyli/archive/2013/07.html">2013年7月 (14)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/tommyli/archive/2013/06.html">2013年6月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/tommyli/archive/2013/04.html">2013年4月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/tommyli/archive/2013/03.html">2013年3月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/tommyli/archive/2013/02.html">2013年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/tommyli/archive/2012/12.html">2012年12月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/tommyli/archive/2012/10.html">2012年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/tommyli/archive/2012/08.html">2012年8月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/tommyli/archive/2012/07.html">2012年7月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_27" href="http://www.cnblogs.com/tommyli/archive/2012/05.html">2012年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_28" href="http://www.cnblogs.com/tommyli/archive/2012/04.html">2012年4月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_29" href="http://www.cnblogs.com/tommyli/archive/2012/03.html">2012年3月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_30" href="http://www.cnblogs.com/tommyli/archive/2012/02.html">2012年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_31" href="http://www.cnblogs.com/tommyli/archive/2012/01.html">2012年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_32" href="http://www.cnblogs.com/tommyli/archive/2011/12.html">2011年12月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_33" href="http://www.cnblogs.com/tommyli/archive/2011/11.html">2011年11月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_34" href="http://www.cnblogs.com/tommyli/archive/2011/07.html">2011年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_35" href="http://www.cnblogs.com/tommyli/archive/2011/06.html">2011年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_36" href="http://www.cnblogs.com/tommyli/archive/2011/05.html">2011年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_37" href="http://www.cnblogs.com/tommyli/archive/2010/10.html">2010年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_38" href="http://www.cnblogs.com/tommyli/archive/2010/09.html">2010年9月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_39" href="http://www.cnblogs.com/tommyli/archive/2010/08.html">2010年8月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_40" href="http://www.cnblogs.com/tommyli/archive/2010/07.html">2010年7月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_41" href="http://www.cnblogs.com/tommyli/archive/2010/06.html">2010年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_42" href="http://www.cnblogs.com/tommyli/archive/2010/05.html">2010年5月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_43" href="http://www.cnblogs.com/tommyli/archive/2010/04.html">2010年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_44" href="http://www.cnblogs.com/tommyli/archive/2010/01.html">2010年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_45" href="http://www.cnblogs.com/tommyli/archive/2009/11.html">2009年11月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_46" href="http://www.cnblogs.com/tommyli/archive/2009/10.html">2009年10月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_47" href="http://www.cnblogs.com/tommyli/archive/2009/09.html">2009年9月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_48" href="http://www.cnblogs.com/tommyli/archive/2009/08.html">2009年8月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_49" href="http://www.cnblogs.com/tommyli/archive/2009/07.html">2009年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_50" href="http://www.cnblogs.com/tommyli/archive/2009/06.html">2009年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_51" href="http://www.cnblogs.com/tommyli/archive/2009/05.html">2009年5月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_52" href="http://www.cnblogs.com/tommyli/archive/2009/04.html">2009年4月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_53" href="http://www.cnblogs.com/tommyli/archive/2009/03.html">2009年3月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_54" href="http://www.cnblogs.com/tommyli/archive/2009/02.html">2009年2月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_55" href="http://www.cnblogs.com/tommyli/archive/2009/01.html">2009年1月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_56" href="http://www.cnblogs.com/tommyli/archive/2008/12.html">2008年12月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_57" href="http://www.cnblogs.com/tommyli/archive/2008/10.html">2008年10月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_58" href="http://www.cnblogs.com/tommyli/archive/2008/09.html">2008年9月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_59" href="http://www.cnblogs.com/tommyli/archive/2008/08.html">2008年8月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_60" href="http://www.cnblogs.com/tommyli/archive/2008/07.html">2008年7月 (15)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_61" href="http://www.cnblogs.com/tommyli/archive/2008/06.html">2008年6月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_62" href="http://www.cnblogs.com/tommyli/archive/2008/05.html">2008年5月 (18)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_63" href="http://www.cnblogs.com/tommyli/archive/2008/04.html">2008年4月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_64" href="http://www.cnblogs.com/tommyli/archive/2008/03.html">2008年3月 (22)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_65" href="http://www.cnblogs.com/tommyli/archive/2008/02.html">2008年2月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_66" href="http://www.cnblogs.com/tommyli/archive/2008/01.html">2008年1月 (15)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_67" href="http://www.cnblogs.com/tommyli/archive/2007/11.html">2007年11月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_68" href="http://www.cnblogs.com/tommyli/archive/2007/10.html">2007年10月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_69" href="http://www.cnblogs.com/tommyli/archive/2007/09.html">2007年9月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_70" href="http://www.cnblogs.com/tommyli/archive/2007/08.html">2007年8月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_71" href="http://www.cnblogs.com/tommyli/archive/2007/07.html">2007年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_72" href="http://www.cnblogs.com/tommyli/archive/2007/06.html">2007年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_73" href="http://www.cnblogs.com/tommyli/archive/2007/05.html">2007年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_74" href="http://www.cnblogs.com/tommyli/archive/2007/04.html">2007年4月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_75" href="http://www.cnblogs.com/tommyli/archive/2007/03.html">2007年3月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_76" href="http://www.cnblogs.com/tommyli/archive/2007/02.html">2007年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_77" href="http://www.cnblogs.com/tommyli/archive/2006/12.html">2006年12月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_78" href="http://www.cnblogs.com/tommyli/archive/2006/11.html">2006年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_79" href="http://www.cnblogs.com/tommyli/archive/2006/10.html">2006年10月 (8)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catList">
+<h3 class="catListTitle">好的网站</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_2_Link_0" href="http://www.ajaxian.com/" rel="nofollow">ajaxian </a> </li>
+<li class="c_b_p_link_desc">Ajax及CSS设计强站</li>
+<li><a id="CatList_LinkList_2_Link_1" href="http://www.example-code.com/csharp/" rel="nofollow">c#-example</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_2" href="http://code.msdn.microsoft.com/" rel="nofollow">http://code.msdn.microsoft.com/</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_3" href="http://visualstudiogallery.com/" rel="nofollow">http://visualstudiogallery.com/</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_4" href="http://msdn.microsoft.com/zh-cn/architecture/default.aspx" rel="nofollow">MSDN 架构师中心</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_5" href="http://blog.joycode.com/scottgu/" rel="nofollow">Scott Guthrie 博客中文版 </a> </li>
+
+<li><a id="CatList_LinkList_2_Link_6" href="http://technet.microsoft.com/zh-cn/magazine/default.aspx" rel="nofollow">TechNet Magazine Homepage</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+	<div id="RecentCommentsBlock"><ul>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/tommyli/archive/2012/12/03/2799947.html#3256657">1. Re:MySQL VS Oracle</a></li>
+    <li class="recent_comment_body">很详细，这样的测试很有意义，谢谢。能不能告知测试环境，比方说win32+apache+php3+oracle8.0.5？ 谢谢！</li>
+    <li class="recent_comment_author">--暮雨江天</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/tommyli/p/3607507.html#3222829">2. Re:云主机IO性能测试</a></li>
+    <li class="recent_comment_body">博主您好，能分享一下您的测试工具测试方法和参数吗？<br><br>多谢</li>
+    <li class="recent_comment_author">--半天河</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/tommyli/archive/2013/02/27/2935213.html#3190517">3. Re:纯静态文件环境下的Nginx优化思路</a></li>
+    <li class="recent_comment_body">非常详细！！！</li>
+    <li class="recent_comment_author">--月冷风和霜</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/tommyli/archive/2009/02/09/1386644.html#3187724">4. Re:Quartz.NET</a></li>
+    <li class="recent_comment_body">学习。。。。</li>
+    <li class="recent_comment_author">--陌蓝阁七秒鱼</li>
+    <li class="recent_comment_title"><a href="http://www.cnblogs.com/tommyli/archive/2009/02/09/1386644.html#3145830">5. Re:Quartz.NET</a></li>
+    <li class="recent_comment_body">mark</li>
+    <li class="recent_comment_author">--模拟人生</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/tommyli/p/3201047.html">1. ext3，ext4，xfs和btrfs文件系统性能对比(24632)</a></li><li><a href="http://www.cnblogs.com/tommyli/archive/2009/02/09/1386644.html">2. Quartz.NET(11036)</a></li><li><a href="http://www.cnblogs.com/tommyli/archive/2009/07/10/1520586.html">3. .net3.5下的Socket通信框架(7736)</a></li><li><a href="./ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园_files/ActiveMQ持久化消息的三种方式 - 李占卫 - 博客园.html">4. ActiveMQ持久化消息的三种方式(6740)</a></li><li><a href="http://www.cnblogs.com/tommyli/p/3214595.html">5. 如何解决cacti的snmp error(6384)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/tommyli/archive/2009/07/10/1520586.html">1. .net3.5下的Socket通信框架(142)</a></li><li><a href="http://www.cnblogs.com/tommyli/archive/2009/11/10/1599994.html">2. SSO解决方案探索（WEB）(35)</a></li><li><a href="http://www.cnblogs.com/tommyli/archive/2009/09/22/1571664.html">3. 如何降低数据库的连接数(29)</a></li><li><a href="http://www.cnblogs.com/tommyli/archive/2009/02/20/1394823.html">4. Remoting VS WCF 传输效率对比(28)</a></li><li><a href="http://www.cnblogs.com/tommyli/archive/2009/05/31/1493069.html">5. 架构设计之分布式数据访问(17)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/tommyli/archive/2011/07/22/2114045.html">1. 操作MongoDB(6)</a></li><li><a href="http://www.cnblogs.com/tommyli/archive/2009/07/10/1520586.html">2. .net3.5下的Socket通信框架(6)</a></li><li><a href="http://www.cnblogs.com/tommyli/archive/2009/02/09/1386644.html">3. Quartz.NET(6)</a></li><li><a href="http://www.cnblogs.com/tommyli/archive/2009/11/10/1599994.html">4. SSO解决方案探索（WEB）(4)</a></li><li><a href="http://www.cnblogs.com/tommyli/archive/2009/09/22/1571664.html">5. 如何降低数据库的连接数(3)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2015 李占卫
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

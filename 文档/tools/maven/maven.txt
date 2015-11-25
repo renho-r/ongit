@@ -14,3 +14,5 @@ eclipse+mvn
   				<localRepository>E:/maven/apache-maven-3.3.3/localmavenrepo</localRepository>
   			</settings>
   	eclipse->windows->preferences->maven->User Settings->路径修改成E:\maven\apache-maven-3.3.3\conf\settings.xml
+3.自定义安装jar
+mvn install:install-file -DgroupId=io.netty -DartifactId=netty-all -Dversion=5.0.0.Alpha2 -Dpackaging=jar -Dfile=C:\Users\renho\Downloads\netty-5.0.0.Alpha2\netty-5.0.0.Alpha2\jar\all-in-one\netty-all-5.0.0.Alpha2.jar
