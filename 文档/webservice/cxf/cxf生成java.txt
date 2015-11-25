@@ -1,0 +1,1 @@
+﻿E:\文档\webservice\cxf\apache-cxf-2.6.10\apache-cxf-2.6.10\bin>wsdl2java -p com.renho.internet.webservice.cxf -d renho -client TrainService.asmx
