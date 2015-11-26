@@ -1,0 +1,25 @@
+String rmiRegPort = servletContext.getInitParameter("DEBUG_RMIREG_PORT");
+String rmiConnPort = servletContext.getInitParameter("DEBUG_RMICONN_PORT");
+if (StringUtils.isBlank(rmiRegPort) || StringUtils.isBlank(rmiConnPort)) {
+	return;
+}
+LOG.debug("配置了调试接口:rmiRegPort=" + rmiRegPort + ";rmiConnPort=" + rmiConnPort);
+
+int regPort = Integer.parseInt(rmiRegPort);
+int connPort = Integer.parseInt(rmiConnPort);
+LocateRegistry.createRegistry(regPort);
+MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+HashMap<String, String> env = new HashMap<String, String>();
+StringBuffer sb = new StringBuffer();
+sb.append("service:jmx:rmi://localhost:");
+sb.append(connPort);
+sb.append("/jndi/rmi://localhost:");
+sb.append(regPort);
+sb.append("/jmxrmi");
+LOG.debug("url=" + sb);
+
+// JMXServiceURL url = new JMXServiceURL(
+// "service:jmx:rmi://localhost:1098/jndi/rmi://localhost:1099/jmxrmi");
+JMXServiceURL url = new JMXServiceURL(sb.toString());
+cs = JMXConnectorServerFactory.newJMXConnectorServer(url, env, mbs);
+cs.start();

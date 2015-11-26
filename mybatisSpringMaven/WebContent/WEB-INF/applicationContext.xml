@@ -26,12 +26,30 @@
         <property name="maxInMemorySize" value="40960" />
     </bean>
 
-  	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+  	<!-- <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>
 		<property name="url" value="jdbc:mysql://127.0.0.1:3306/world"/>
 		<property name="username" value="renho"/>
 		<property name="password" value="renho"/> 
 	</bean>
+	 -->
+	 <!-- ibaties连接池 -->
+	 <bean id="dataSource" class="org.apache.ibatis.datasource.pooled.PooledDataSource">
+		<property name="driver" value="${driver}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
+	</bean>
+	<bean id="propertyConfigure" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<!-- <value>classpath:db.properties</value> -->
+				<!-- <value>file:/opt/db.properties</value> -->
+				<value>/WEB-INF/db.properties</value>
+			</list>
+		</property>
+	</bean>
+	
   	<!-- 集成mybatis -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />

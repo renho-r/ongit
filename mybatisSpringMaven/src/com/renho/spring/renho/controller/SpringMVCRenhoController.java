@@ -1,5 +1,6 @@
 package com.renho.spring.renho.controller;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.renho.spring.renho.pojo.Renho;
 import com.renho.spring.renho.service.RenhoService;
@@ -19,6 +21,7 @@ public class SpringMVCRenhoController {
 	private RenhoService renhoService;
 	
 	@RequestMapping("renho/findRenho.do")
+	@ResponseBody
 	public String testRenho0(@RequestParam(value = "method") String method,
 			HttpServletRequest request) {
 		// @RequestParam是指请求url地址映射中必须含有的参数(除非属性required=false)
@@ -29,7 +32,7 @@ public class SpringMVCRenhoController {
 			return "index";			
 		}else {
 			request.setAttribute("renho", list);
-			return "showCountry";
+			return "json string" + Arrays.deepToString(list.toArray());
 		}
 	}
 
