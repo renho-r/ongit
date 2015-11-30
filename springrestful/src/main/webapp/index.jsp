@@ -24,5 +24,6 @@
 		<input type="hidden" name="_method" value="delete">
 		<input type="submit" value="delete" id="delete">
 	</form>
+	<a href="httpmethod.html">httpmethod.html</a>
 </body>
 </html>

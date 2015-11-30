@@ -52,13 +52,10 @@ public class NioServer {
 	private void read(SelectionKey key) throws IOException {
 		SocketChannel sc = (SocketChannel) key.channel();
 		ByteBuffer buf = ByteBuffer.allocate(1024);
-		int count = sc.read(buf);
-		while(count > 0) {
-			buf.flip();
-			System.out.println(new String(buf.array()));
-			buf.clear();
-			count = sc.read(buf);
-		}
+		sc.read(buf);
+		buf.flip();
+		System.out.println(new String(buf.array()).trim());
+		buf.clear();
 	}
 
 	public static void main(String[] args) throws IOException {
