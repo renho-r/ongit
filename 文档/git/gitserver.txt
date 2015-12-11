@@ -1,0 +1,39 @@
+﻿1.yum install curl-devel expat-devel gettext-devel openssl-devel zlib-devel perl-devel
+2.	wget https://github.com/git/git/archive/v2.6.4.tar.gz
+	tar -zxvf v2.6.4.tar.gz
+	cd git-2.6.4
+	make prefix=/usr/local all
+	make prefix=/usr/local install  #root用户运行
+	source /etc/profile
+3.	报错:yum install python python-setuptools #gitosis-init
+	cd /usr/local/src
+	git clone git://github.com/res0nat0r/gitosis.git或下载https://github.com/res0nat0r/gitosis
+	cd gitosis
+	python setup.py install
+4.配置服务器git：
+	4.1 输入以下两条命令
+		git config --global user.name "renho"          
+		git config --global user.email "rho_i_xx@163.com"
+	4.2 adduser git
+		su - git
+		ssh-keygen -t rsa
+		gitosis-init < id_rsa.pub
+	4.3收集所有需要登录的用户的公钥，就是他们自己生成的id_rsa.pub文件，把所有公钥复制到/home/git/.ssh/authorized_keys文件里
+		ssh-keygen -t rsa   #一路回车，不需要设置密码
+5.初始化Git仓库
+	注，先选定一个目录作为Git仓库，这里是/data/git/project.git。
+	5.1 cd /data/git/
+	5.2 git init --bare project.git
+	5.3 chown -R git.git project.git
+6.禁用shell登录
+	注，出于安全考虑，第二步创建的git用户不允许登录shell，这可以通过编辑/etc/passwd文件完成。找到类似下面的一行：
+	6.1cat /etc/passwd | grep git
+		git:x:1001:1001:git version control:/home/git:/bin/bash
+		改为：
+		vi /etc/passwd
+		git:x:1001:1001:git version control:/home/git:/usr/local/git/bin/git-shell
+		这样，git用户可以正常通过ssh使用git，但无法登录shell，因为我们为git用户指定的git-shell每次一登录就自动退出。
+7.克隆远程仓库
+	注，现在可以通过git clone命令克隆远程仓库了，在各自的电脑上运行：
+	
+	git clone git@10.1.37.19:/home/git/repositories/gitosis-admin.git
