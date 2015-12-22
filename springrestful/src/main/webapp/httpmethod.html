@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<input type="button" id="doGet" value="GET">
+<input type="button" id="doPost" value="POST">
+<input type="button" id="doPut" value="PUT">
+<input type="button" id="doDelete" value="DELETE">
+<script type="text/javascript" src="jquery-1.11.2.js"></script>
+<script type="text/javascript">
+$(function() {
+	$("#doGet, #doPost, #doPut, #doDelete").click(function() {
+		$.ajax({
+			url: "servlet/myHttpServlet",
+			data: {},
+			dataType: "xml",
+			type: $(this).val(),
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+			},
+			success: function(data, textStatus, jqXHR) {
+				console.dirxml(data);
+			}
+		});
+	});
+})
+
+</script>
+</body>
+</html>

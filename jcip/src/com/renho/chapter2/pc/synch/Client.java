@@ -5,7 +5,7 @@ public class Client {
 	public static void main(String[] args) {
 		Products products = new Products();
 		for(int i=0; i<10; i++) {
-			Thread t = new Thread(new Producer(products, i*10));
+			Thread t = new Thread(new Producter(products, i*10));
 			t.start();
 		}
 		for(int i=1; i<11; i++) {

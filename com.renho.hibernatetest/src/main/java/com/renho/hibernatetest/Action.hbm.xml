@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2015-11-19 23:37:30 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.renho.hibernatetest.Action" table="ACTION">
+        <id name="actionid" type="java.lang.Integer">
+            <column name="ACTIONID" />
+            <generator class="increment" />
+        </id>
+        <property name="ServerID" type="java.lang.Long">
+            <column name="SERVERID" />
+        </property>
+        <property name="action" type="java.lang.Integer">
+            <column name="ACTION" />
+        </property>
+        <property name="flag" type="java.lang.Integer">
+            <column name="FLAG" />
+        </property>
+        <property name="zonename" type="java.lang.String">
+            <column name="ZONENAME" />
+        </property>
+        <property name="change_time" type="java.sql.Timestamp">
+            <column name="CHANGE_TIME" />
+        </property>
+        <property name="uname" type="java.lang.String">
+            <column name="UNAME" />
+        </property>
+        <property name="send_flag" type="java.lang.Integer">
+            <column name="SEND_FLAG" />
+        </property>
+        <property name="return_flag" type="java.lang.Integer">
+            <column name="RETURN_FLAG" />
+        </property>
+        <property name="view" type="java.lang.String">
+            <column name="VIEW" />
+        </property>
+        <property name="file_name" type="java.lang.String">
+            <column name="FILE_NAME" />
+        </property>
+    </class>
+</hibernate-mapping>

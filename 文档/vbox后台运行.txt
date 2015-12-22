@@ -1,0 +1,17 @@
+﻿1.查看有哪些虚拟机
+	E:\vm>VBoxManage list vms
+2.查看虚拟的详细信息
+	E:\vm>VBoxManage list vms --long
+3.查看运行着的虚拟机
+	E:\vm>VBoxManage list runningvms
+4.开启虚拟机在后台运行
+	E:\vm>VBoxManage startvm <vm_name> -type headless
+	E:\vm>VBoxManage startvm centos-renho -type headless
+5.开启虚拟机并开启远程桌面连接的支持
+	E:\vm>VBoxManage startvm <vm_name> -type vrdp
+6.改变虚拟机的远程连接端口,用于多个vbox虚拟机同时运行
+	E:\vm>VBoxManage controlvm <vm_name> vrdpprot <ports>
+7.关闭虚拟机
+	E:\vm>VBoxManage controlvm <vm_name> acpipowerbutton
+8.强制关闭虚拟机
+	E:\vm>VBoxManage controlvm <vm_name> poweroff

@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: BeanFromDb
+Bundle-SymbolicName: com.renho.BeanFromDb;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: com.renho.beanfromdb.Activator
+Bundle-Vendor: RENHO
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.ui.views;bundle-version="3.8.0",
+ org.eclipse.ui.ide;bundle-version="3.12.0",
+ org.eclipse.jface.text;bundle-version="3.10.0",
+ org.eclipse.e4.ui.workbench;bundle-version="1.4.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Bundle-ClassPath: lib/mysql-connector-java-5.0.8-bin.jar,
+ .

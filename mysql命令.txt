@@ -1,3 +1,7 @@
+service mysql start
+service mysql status
+service mysql stop
+
 1.控制台登录mysql
 	mysql -uroot -p
 	mysql -h主机地址 -u用户名 -p用户密码

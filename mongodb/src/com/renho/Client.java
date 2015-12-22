@@ -15,7 +15,7 @@ public class Client {
 
 	public static void main(String[] args) throws UnknownHostException, MongoException {
 		// 连接本地数据库
-		Mongo m = new Mongo("192.168.0.149", 27017);
+		Mongo m = new Mongo("192.168.0.107", 27017);
 		// 创建名为new_test_db的数据库
 		DB db = m.getDB("new_test_db");
 		// 获取new_test_db中的集合（类似于获取关系数据库中的表）

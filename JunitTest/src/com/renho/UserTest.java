@@ -25,5 +25,10 @@ public class UserTest {
 		assert b : "100";
 	}
 
+	@Test(timeout=1000)
+	public void testEndlessLoop() {
+		User u = new User();
+		u.endlessLoop();
+	}
 }
 

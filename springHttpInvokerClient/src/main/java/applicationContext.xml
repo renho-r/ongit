@@ -1,0 +1,9 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<bean id="iRemoteTest" class="org.springframework.remoting.httpinvoker.HttpInvokerProxyFactoryBean"> 
+	    <property name="serviceUrl" value="http://localhost:8080/springHttpInvoker/testRemote/remoteservice" /> 
+	    <property name="serviceInterface" value="com.renho.http.IRemoteService" /> 
+	</bean>
+</beans>

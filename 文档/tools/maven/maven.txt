@@ -1,2 +1,22 @@
 ﻿1.下载源代码->mvn dependency:sources 
 2.下载doc->mvn dependency:resolve -Dclassifier=javadoc
+
+eclipse+mvn
+	环境变量:M2_HOME
+			--E:\maven\apache-maven-3.3.3
+			M2_REPO
+			--E:\maven\apache-maven-3.3.3\localmavenrepo
+			MAVEN_HOME
+			--E:\maven\apache-maven-3.3.3
+	E:\maven\apache-maven-3.3.3\conf\settings.xml
+		settings中添加:
+			<settings >
+  				<localRepository>E:/maven/apache-maven-3.3.3/localmavenrepo</localRepository>
+  			</settings>
+  	eclipse->windows->preferences->maven->User Settings->路径修改成E:\maven\apache-maven-3.3.3\conf\settings.xml
+  下载失败后重新下载
+  	是到下载保存在本地的路径把这个包里的后缀名.lastUpdated 文件删除
+  	然后点击maven工程项目Maven->Maven Update Project 这样jar重新下载好 或者 run configurations 中的Maven Build 点击New 一个配置页面，在Goals里面设置compile -U
+  	
+3.自定义安装jar
+mvn install:install-file -DgroupId=io.netty -DartifactId=netty-all -Dversion=5.0.0.Alpha2 -Dpackaging=jar -Dfile=C:\Users\renho\Downloads\netty-5.0.0.Alpha2\netty-5.0.0.Alpha2\jar\all-in-one\netty-all-5.0.0.Alpha2.jar
