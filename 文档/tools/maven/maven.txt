@@ -20,3 +20,7 @@ eclipse+mvn
   	
 3.自定义安装jar
 mvn install:install-file -DgroupId=io.netty -DartifactId=netty-all -Dversion=5.0.0.Alpha2 -Dpackaging=jar -Dfile=C:\Users\renho\Downloads\netty-5.0.0.Alpha2\netty-5.0.0.Alpha2\jar\all-in-one\netty-all-5.0.0.Alpha2.jar
+
+4.导出带jar包
+	pom.xml右键maven build -> goals=dependency:copy-dependencies ->run导出的jar在targed/dependency
+			或maven build -> goals=dependency:copy-dependencies -DoutputDirectory=lib 导出jar在lib下
