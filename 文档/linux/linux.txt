@@ -6,7 +6,13 @@
 	HWADDR=08:00:27:23:63:BA
 	TYPE="Ethernet"
 	NETMASK=255.255.255.0
-
+网关
+	vi /etc/sysconfig/network
+	GATEWAY=10.1.37.1
+DNS
+	vi /etc/resolv.conf
+	nameserver 10.1.1.7
+	nameserver 10.1.1.8
 linux虚拟机代理:
 	1.在宿主机上ping代理上网的网站获取IP地址
 	2.执行以下操作

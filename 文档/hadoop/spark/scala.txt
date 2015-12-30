@@ -1,0 +1,28 @@
+1.Scala
+	1.1.下载Scala
+		http://www.scala-lang.org/download/2.12.0-M3.html
+	1.2上传到/usr/local/src
+	1.3解压后移动
+		tar -zxvf scala-2.12.0-M3.tgz
+		mv scala-2.12.0-M3 /usr/lib
+	1.4环境变量
+		vi /etc/profile
+		export SCALA_HOME=/usr/lib/scala-2.12.0-M3
+		PATH添加
+		export PATH=$PATH:$SCALA_HOME/bin
+		source /etc/profile 
+2.Spark
+	2.1下载spark
+		http://www.apache.org/dyn/closer.lua/spark/spark-1.5.2/spark-1.5.2-bin-hadoop2.6.tgz
+	2.2上传到/home/hadoop
+	2.3解压
+		tar -zvxf spark-1.5.2-bin-hadoop2.6.tgz
+	2.4环境变量
+		vi /etc/profile
+		export SPARK_HOME=/home/hadoop/spark-1.5.2
+		PATH添加
+		export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/bin
+		source /etc/profile 
+	2.5测试spark是否成功
+		spark-shell --version
+	

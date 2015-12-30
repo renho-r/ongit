@@ -1,15 +1,10 @@
 package com.renho.dns;
 
-import static org.junit.Assert.*;
-
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.hdfs.DistributedFileSystem;
@@ -18,6 +13,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+@SuppressWarnings("deprecation")
 public class HadoopTest {
 
 	@Before
@@ -28,7 +24,6 @@ public class HadoopTest {
 	public void tearDown() throws Exception {
 	}
 
-	@SuppressWarnings("deprecation")
 	@Test
 	public void dnsTest() throws IOException {
 		Configuration cf = new Configuration();

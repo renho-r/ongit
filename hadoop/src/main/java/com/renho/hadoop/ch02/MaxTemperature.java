@@ -2,7 +2,6 @@ package com.renho.hadoop.ch02;
 
 import java.net.URI;
 
-import org.apache.hadoop.conf.Configurable;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 // cc MaxTemperature Application to find the maximum temperature in the weather dataset
