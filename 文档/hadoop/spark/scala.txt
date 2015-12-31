@@ -13,16 +13,29 @@
 		source /etc/profile 
 2.Spark
 	2.1下载spark
-		http://www.apache.org/dyn/closer.lua/spark/spark-1.5.2/spark-1.5.2-bin-hadoop2.6.tgz
+		http://spark.apache.org/downloads.html
+		spark-1.5.2-bin-hadoop2.6.tgz
 	2.2上传到/home/hadoop
 	2.3解压
 		tar -zvxf spark-1.5.2-bin-hadoop2.6.tgz
-	2.4环境变量
-		vi /etc/profile
-		export SPARK_HOME=/home/hadoop/spark-1.5.2
-		PATH添加
+	2.4
+		vi /etc/pofile
+		export HADOOP_HOME=/home/hadoop/hadoop-2.6.2
+		#export SPARK_EXAMPLES_JAR=/home/hadoop/spark-1.5.2-bin-without-hadoop/lib/spark-examples-1.5.2-hadoop2.2.0.jar 
+		export SPARK_HOME=/home/hadoop/spark-1.5.2-bin-hadoop2.6
 		export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/bin
 		source /etc/profile 
+		
+		cd conf
+		cp spark-env.sh.template spark-env.sh
+		cp spark-defaults.conf.template spark-defaults.conf
+		vi conf/spark-env.sh
+		最后添加
+		export JAVA_HOME=/usr/java/jdk1.8.0_20
+		export HADOOP_HOME=/home/hadoop/hadoop-2.6.2
+ 		export HADOOP_CONF_DIR=$HADOOP_HOME/etc/hadoop
+ 		export SPARK_MASTER_IP=10.1.37.100
 	2.5测试spark是否成功
 		spark-shell --version
+		cp slaves.template slaves
 	
