@@ -38,4 +38,66 @@
 	2.5测试spark是否成功
 		spark-shell --version
 		cp slaves.template slaves
-	
+	2.6
+		bin/spark-shell
+		http://192.168.0.107:4040/stages/
+3.	spark-shell
+	sc
+	val file = sc.textFile("hdfs://192.168.0.107:9000/porrylee/input/file1.txt");
+	val sparks = file.filter(line => line.contains("hello"));
+	sparks.count
+	sparks.cache
+3.	spark-shell
+	sc
+	val file = sc.textFile("/root/renho.txt");
+	val sparks = file.filter(line => line.contains("hello"));
+	sparks.count
+	sparks.cache
+MASTER=spark://192.168.0.107:7077 ./spark-shell
+
+4.master,slave1的hosts添加192.168.0.102 renho
+
+./spark-submit \
+--class com.renho.JavaWordCount \
+--master spark://192.168.0.107:7077 \
+--num-executors 3 \
+--driver-memory 1g --executor-memory 1g \
+--executor-cores 2 \
+/root/a.jar \
+hdfs://192.168.0.107:9000/porrylee/input/file1.txt
+spark-shell --master spark://192.168.0.107:7077
+spark-shell --master local[1]
+spark-slave.sh spark://192.168.0.107:7077
+java -cp java -cp a.jar:/root/spark-1.5.2-bin-hadoop2.6/lib/spark-assembly-1.5.1-hadoop2.6.0.jar com.renho.JavaWordCount ~/renho.txt:/root/spark-1.5.1-bin-hadoop2.6/lib/spark-assembly-1.5.2-hadoop2.6.0.jar com.renho.JavaWordCount ~/renho.txt
+export HADOOP_COMMON_LIB_NATIVE_DIR=$HADOOP_HOME/lib/native
+export HADOOP_OPTS="-Djava.library.path=$HADOOP_HOME/lib"
+spark-submit --master spark://master-renho.hadoop:7077 --class org.apache.spark.examples.SparkPi --name Spark-Pi /root/spark-1.5.1-bin-hadoop2.6/lib/spark-examples-1.5.1-hadoop2.6.0.jar
+spark-submit --master spark://master-renho.hadoop:7077 --class com.renho.JavaSparkPi --name JavaSparkPi /root/spark-wordcount-in-java.jar
+-Dspark.master=spark://master-renho.hadoop:7077
+
+spark-submit --class org.renho.JavaSparkPi \
+    --master yarn-cluster \
+    --num-executors 3 \
+    --driver-memory 1g \
+    --executor-memory 1g \
+    --executor-cores 1 \
+    --queue thequeue \
+    /root/spark-wordcount-in-java.jar \
+    10
+    
+spark-submit --class org.apache.spark.examples.SparkPi \
+    --master yarn-cluster \
+    --num-executors 3 \
+    --driver-memory 1g \
+    --executor-memory 1g \
+    --executor-cores 1 \
+    --queue thequeue \
+    /root/spark-1.5.2-bin-hadoop2.6/lib/spark-examples-1.5.2-hadoop2.6.0.jar \
+    10
+    
+spark-shell --master yarn-client  
+spark-shell --master U
+spark-shell --master spark://master-renho.hadoop:7077
+
+file:///D:/renho.txt
+
