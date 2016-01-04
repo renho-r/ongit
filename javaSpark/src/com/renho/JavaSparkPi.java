@@ -34,7 +34,7 @@ public final class JavaSparkPi {
 		System.setProperty("user.name", "root");
 		SparkConf sparkConf = new SparkConf().setAppName("JavaSparkPi");
 //		sparkConf.setMaster("yarn-cluster");
-		sparkConf.setMaster("spark://master-renho.hadoop:7077");
+		sparkConf.setMaster("spark://master:7077");
 		JavaSparkContext jsc = new JavaSparkContext(sparkConf);
 		jsc.addJar("file:///C://Users//renho//Desktop//spark-wordcount-in-java-win.jar");
 		int slices = (args.length == 1) ? Integer.parseInt(args[0]) : 2;
