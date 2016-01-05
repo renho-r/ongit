@@ -101,3 +101,11 @@ spark-shell --master spark://master-renho.hadoop:7077
 
 file:///D:/renho.txt
 
+<mirror>
+	<id>nexus-osc</id>
+	<mirrorOf>*</mirrorOf>
+	<name>Nexus osc</name>
+	<url>http://maven.oschina.net/content/groups/public/</url>
+</mirror>
+M2_HOME=D:\software\apache-maven-3.3.3
+C:\Users\renho\Downloads\spark-1.5.2\spark-1.5.2>mvn -Dhadoop.version=2.6.2 -Phadoop-2.6 -DskipTests clean package
