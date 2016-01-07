@@ -203,3 +203,20 @@ http://www.linuxidc.com/Linux/2015-01/112029p2.htm
 	core-site.xml
 	将hadoop.tmp.dir所指定的目录删除。
 	重新执行命令：hadoop namenode -format
+
+14.hdfs操作
+	14.1文件列表
+		hadoop fs -ls //默认路径
+		hadoop fs -ls /
+	14.2添加目录或文件
+		hadoop fs -mkdir /data
+		hadoop fs -put /home/hadoop/renho.txt /data
+	14.3获取文件
+		hadoop fs -get /data/renho.txt /home/hadoop/renho.txt
+		hadoop fs -cat /data/renho.txt
+	14.4删除
+		hadoop fs -rm /data/renho.txt
+		hadoop fs -rm -r /data
+15.强制离开安全模式
+	hadoop dfsadmin -safemode leave
+	命令强制离开	
