@@ -1,28 +1,320 @@
-1.Scala
-	1.1.下载Scala
-		http://www.scala-lang.org/download/2.12.0-M3.html
-	1.2上传到/usr/local/src
-	1.3解压后移动
-		tar -zxvf scala-2.12.0-M3.tgz
-		mv scala-2.12.0-M3 /usr/lib
-	1.4环境变量
-		vi /etc/profile
-		export SCALA_HOME=/usr/lib/scala-2.12.0-M3
-		PATH添加
-		export PATH=$PATH:$SCALA_HOME/bin
-		source /etc/profile 
-2.Spark
-	2.1下载spark
-		http://www.apache.org/dyn/closer.lua/spark/spark-1.5.2/spark-1.5.2-bin-hadoop2.6.tgz
-	2.2上传到/home/hadoop
-	2.3解压
-		tar -zvxf spark-1.5.2-bin-hadoop2.6.tgz
-	2.4环境变量
-		vi /etc/profile
-		export SPARK_HOME=/home/hadoop/spark-1.5.2
-		PATH添加
-		export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/bin
-		source /etc/profile 
-	2.5测试spark是否成功
-		spark-shell --version
+2-3.step
+	2-3.7.Array可变得
+		这个for表达式的第一行代码演示了Scala的另一个通用规则：如果方法仅带一个参数，你
+		可以不带点或括号的调用它。本例中的to实际上是带一个Int参数的方法。代码0 to 2被
+		转换成方法调用(0).to(2)。1请注意这个语法仅在你显示指定方法调用的接受者时才起作
+		用。不可以写 pringln 10，但是可以写成“Console println 10”
+		greetStrings(i)转换成greetStrings.apply(i)
+		greetStrings(0) = "Hello"将被转化为greetStrings.update(0, "Hello")
+		val numNames = Array("zero", "one", "two")
+		val numNames2 = Array.apply("zero", "one", "two")
+	2-3.8.List不可变
+		val oneTwoThree = List(1, 2, 3)
+		表达式“1 :: twoThree”中，::是它右操作数，列表twoThree，的方法。你或许会疑惑::方法的关
+		联性上有什么东西搞错了，不过这只是一个简单的需记住的规则：如果一个方法被用作操作符标注，如a 
+		* b，那么方法被左操作数调用，就像a.*(b)——除非方法名以冒号结尾。这种情况下，方法被右操作数
+		调用。因此，1 :: twoThree里，::方法被twoThree调用，传入1，像这样：twoThree.::(1)。	
+		val oneTwoThree = 1 :: 2 :: 3 :: Nil
+	2-3.9.Tuple不可变
+		val pair = (99, "Luftballons")
+		你或许想知道为什么你不能像访问List里的元素那样访问元组的，就像pair(0)。那
+		是因为List的apply方法始终返回同样的类型，但是元组里的或许类型不同。_1可以有
+		一个结果类型，_2是另外一个，诸如此类。这些_N数字是基于1的，而不是基于0的，因
+		为对于拥有静态类型元组的其他语言，如Haskell和ML，从1开始是传统的设定。
+	2-3.10.Set和Map	
+		2-3.10.1Set
+			2-3.10.1.1可变集
+				var jetSet = Set("Boeing", "Airbus")
+				jetSet += "Lear"
+			2-3.10.1.2不可变集
+				import scala.collection.mutable.Set
+				val movieSet = Set("Hitch", "Poltergeist")
+				movieSet += "Shrek"
+				println(movieSet)
+			2-3.10.1.3不可变HashSet
+				import scala.collection.immutable.HashSet
+				val hashSet = HashSet("Tomatoes", "Chilies")
+				println(hashSet + "Coriander")
+		2-3.10.2Map
+			2-3.10.2.1可变Map
+				import scala.collection.mutable.Map
+				val treasureMap = Map[Int, String]()
+				treasureMap += (1 -> "Go to island.")
+				treasureMap += (2 -> "Find big X on ground.")
+				treasureMap += (3 -> "Dig.") 
+			2-3.10.2.2不可变Map(缺省的)
+				val romanNumeral = Map(
+					1 -> "I", 2 -> "II", 3 -> "III", 4 -> "IV", 5 -> "V"
+				)
+				println(romanNumeral(4))
+		2-3.10.3Scala里允许你对任何对象调用->的机制被称为隐式转换
+	2-3.11.函数式风格
+		能在任何可枚举的集合类型（包括数组，列表，集和映射）上调用的mkString方法
+		返回由每个数组元素调用toString
+		产生结果组成的字串，以传入字串间隔
+	2-3.12.readFromFile
+4.类和对象
+	4.1类,字段和方法
+		4.1.1public是scala默认的
+		4.1.2Scala里方法参数的一个重要特征是它们都是val，不是var
+		4.1.3如果没有发现任何显式的返回语句，Scala方法将返回方法中最后一个计算得到的值
+		4.1.4假如某个方法仅计算单个结果表达式，则可以去掉大括号。如果结果表达式很短，甚至可以把它放在def同一行里
+		4.1.5通常我们定义副作用为在方法外部某处改变状态或者执行I/O 活动。比方说，
+			在add这个例子里，副作用就是sum被重新赋值了。表达这个方法的另一种方式是去掉结
+			果类型和等号，把方法体放在大括号里
+			def add(b: Byte) { sum += b }
+			应该注意到令人困惑的地方是当你去掉方法体前面的等号时，它的结果类型将注定是Unit。
+			不论方法体里面包含什么都不例外，因为Scala编译器可以把任何类型转换为Unit
+	4.2分号推断
+		分号推断的规则
+		分割语句的精确规则非常有效却出人意料的简单。那就是，除非以下情况的一种成立，
+		否则行尾被认为是一个分号：
+		1．疑问行由一个不能合法作为语句结尾的字结束，如句点或中缀操作符。
+		2．下一行开始于不能作为语句开始的字。
+		3．行结束于括号(...)或方框[...]内部，因为这些符号不可能容纳多个语句。
+	4.3 Singleton对象
+		Scala有单例对象：singleton object。除了用object关键字替换了class关键字以外，单例对象的定义看上去就像是类定义
+		当单例对象与某个类共享同一个名称时，他被称作是这个类的伴生对象：companion object。
+		你必须在同一个源文件里定义类和它的伴生对象。类被称为是这个单例对象的伴生类：companion class。
+		类和它的伴生对象可以互相访问其私有成员。
+		如果你是Java程序员，考虑单例对象的一种方式是把它当作是或许你在Java中写过的任
+		何静态方法之家。可以在单例对象上用类似的语法调用方法：单例对象名，点，方法名。
+		单例对象扩展了超类并可以混入特质
+	4.4Scala程序
+		Scala隐式引用了包java.lang和scala的成员，和名为Predef的单例对象的成员，到每个Scala源文件中。
+		Predef，被放置在包scala中，包含了许多有用的方法。例如，当在Scala源文件中写pringln的时候，你实际调用了Predef的println。
+		（Predef.pringln运转并调用Console.println，做实际的工作。）当你写assert，你是在调用Predef.assert。
+		scalac ***.scala
+	4.5Application特质
+5.基本类型和操作
+	5.1一些基本类型
+		Byte Short Int Long Char String Float Double Boolean
+	5.2文本
+	5.3操作符和方法
+		val sum = 1 + 2 // Scala调用了(1).+(2)
+		-2.0  // Scala调用了(2.0).unary_-
+	5.4数学运算
+	5.5关系和逻辑运算符
+	5.6位操作符
+	5.7对象相等性
+		==使用了equal方法
+	5.8操作符的优先级和关联性
+		scala> 2 << 2 + 2
+		res41: Int = 32
+	5.9富包装器
+		Byte  scala.runtime.RichByte
+6.函数式对象
+	package com.renho.ch6
+
+	/**
+	  * Created by renho on 2016/1/12.
+	  */
+	class Rational(n: Int, d:Int) {
+	//	println("Created "+n+"/"+d)
+		//分母d不能为0
+		require(d != 0)
+		//简化分数
+		private val g = gcd(n.abs, d.abs)
+		val numer = n / g
+		val denom = d / g
+		//从构造器
+		def this(n: Int) = this(n, 1)
+		def +(that: Rational): Rational =
+			new Rational(
+				numer * that.denom + that.numer * denom,
+				denom * that.denom
+			)
+		def +(i: Int): Rational =
+			new Rational(numer + i * denom, denom)
+		def -(that: Rational): Rational =
+			new Rational(
+				numer * that.denom - that.numer * denom,
+				denom * that.denom
+			)
+		def -(i: Int): Rational =
+			new Rational(numer - i* denom, denom)
+		def *(that: Rational): Rational =
+			new Rational(numer * that.numer, denom * that.denom)
+		def *(i: Int): Rational =
+			new Rational(numer * i, denom)
+		def /(that: Rational): Rational =
+			new Rational(numer * that.denom, denom * that.numer)
+		def /(i: Int): Rational =
+			new Rational(numer, denom * i)
+		override def toString = numer+"/"+denom
+		private def gcd(a: Int, b: Int): Int =
+			if (b == 0) a else gcd(b, a % b)
+	}
 	
+	object Test {
+		def main(args: Array[String]) {
+			//隐式转换
+			implicit def intToRational(x: Int) = new Rational(x)
+			var r0 = new Rational(1, 2)
+			println(2 * r0)
+		}
+	}
+7.内建控制结构
+	7.1 if表达式
+		有返回值
+	7.2 while
+		unit
+	7.3 for
+		7.3.1发生器：generator的语法“file <- filesHere”
+			for(i <- 1 to 4)
+			for(i <- 1 until 4)
+			for (i <- 0 to filesHere.length - 1)
+		7.3.2有些时候你不想枚举一个集合类的全部元素。而是想过滤出一个子集。你可以通过把过滤器：filter：
+			一个if子句加到for的括号里做到
+				for (file <- filesHere if file.getName.endsWith(".scala"))
+				另
+				for (
+					file <- filesHere
+					if file.isFile;
+					if file.getName.endsWith(".scala")
+				) println(file)
+		7.3.3嵌套枚举,内外层循环
+			for {
+				file <- filesHere
+				if file.getName.endsWith(".scala")
+				line <- fileLines(file)
+				if line.trim.matches(pattern)
+			} println(file + ": " + line.trim)
+			grep(".*gcd.*")
+		7.3.4mid-stream（流间）变量绑定
+				def grep(pattern: String) =
+				for {//使用大括号代替小括号
+					file <- filesHere
+					if file.getName.endsWith(".scala")
+					line <- fileLines(file)
+					trimmed = line.trim
+					if trimmed.matches(pattern)
+				} println(file + ": " + trimmed)
+				grep(".*gcd.*")
+			名为trimmed的变量被从半当中引入for表达式，并被初始化为line.trim的结果值。
+			之后的for表达式就可以在两个地方使用这个新变量，一次在if中，一次在println中。
+			制造新集合
+		7.3.5制造新集合
+			到现在为止所有的例子都只是对枚举值进行操作然后就放过，除此之外，你还可以创建一个值去
+			记住每一次的迭代。只要在for表达式之前加上关键字yield。比如，下面的函数鉴别出.scala
+			文件并保存在数组里：
+			def scalaFiles =
+			for {
+				file <- filesHere
+				if file.getName.endsWith(".scala")
+			} yield file 
+			//} yield file 应该yield {file}
+	7.4使用try表达式处理异常
+		7.4.1
+			try {
+				val f = new FileReader("input.txt")
+				// Use and close file
+			} catch {
+				case ex: FileNotFoundException => // Handle missing file
+				case ex: IOException => // Handle other I/O error
+			}finally {
+				file.close() // 确保关闭文件
+			}
+		7.4.2生成值
+			import java.net.URL
+			import java.net.MalformedURLException
+			def urlFor(path: String) =
+				try {
+					new URL(path)
+				} catch {
+					case e: MalformedURLException =>
+					new URL("http://www.scalalang.org")
+				}
+			def f(): Int = try { return 1 } finally { return 2 }
+			调用f()产生结果值2。相反：
+			def g(): Int = try { 1 } finally { 2 } 
+			调用g()产生1
+			避免使用finally返回值
+	7.5	match表达式
+		val firstArg = if (!args.isEmpty) args(0) else ""
+		val friend =
+			firstArg match {
+			case "salt" => "pepper"//包含隐式的break
+			case "chips" => "salsa"
+			case "eggs" => "bacon"
+			case _ => "huh?"//相当于default?
+		}
+		println(friend)
+	7.6离开break和continue
+		递归?
+	7.7变量范围
+		val a = 1;
+		{
+			val a = 2 // 编译通过 
+			println(a)
+		}
+		println(a)
+	7.8重构指令式风格的代码
+8.函数和闭包
+	8.1方法
+	8.2本地函数
+		import scala.io.Source
+			object LongLines {
+				def processFile(filename: String, width: Int) {
+					def processLine(line: String) {
+						if (line.length > width)
+							print(filename +": "+ line)
+					}
+					val source = Source.fromFile(filename)
+					for (line <- source.getLines)
+						processLine(line)
+				}
+		}
+		processLine的范围局限于processFile之内，外部无法访问
+	8.3函数是第一类值
+		一等函数
+		scala> var increase = (x: Int) => x + 1
+		increase: (Int) => Int = <function>
+		scala> increase(10)
+		res0: Int = 11
+		scala> increase = (x: Int) => {
+				println("We")
+				println("are")
+				println("here!")
+				x + 1
+			}
+	8.4函数文本的短格式
+		一种让函数文本更简短的方式是去除参数类型
+			someNumbers.filter((x) => x > 0)
+		第二种去除无用字符的方式是省略类型是被推断的参数之外的括号
+			someNumbers.filter(x => x > 0)
+	8.5占位符语法
+		如果想让函数文本更简洁，可以把下划线当做一个或更多参数的占位符，只要每个参数在函数文
+		本内仅出现一次。比如，_ > 0对于检查值是否大于零的函数来说就是非常短的标注：
+		scala> someNumbers.filter(_ > 0)
+		res9: List[Int] = List(5, 10)
+		你可以把下划线看作表达式里需要被“填入”的“空白”。这个空白在每次函数被调用的时候用函
+		数的参数填入
+		val f = (_: Int) + (_: Int)
+	8.6偏应用函数
+		一个下划线替换整个参数列表
+		someNumbers.foreach(println _) === someNumbers.foreach(x => println(x))
+		显示省略的函数参数
+	8.7闭包
+	8.8重复参数
+		Scala允许你指明函数的最后一个参数可以是重复的。这可以允许客户向函数传入可变长度参数
+		列表。想要标注一个重复参数，在参数的类型之后放一个星号。
+		scala> def echo(args: String*) =
+			for (arg <- args) println(arg)
+		echo: (String*)Unit
+		scala> echo("hello", "world!")
+	8.9尾递归
+9.控制抽象
+	9.1减少代码重复
+		高阶函数：higher-order function——带其它函数做参数的函数
+	9.2简化客户代码
+	9.3Curry化
+		scala> def curriedSum(x: Int)(y: Int) = x + y
+		curriedSum: (Int)(Int)Int
+		scala> curriedSum(1)(2)
+		res5: Int = 3
+	9.4编写新的控制结构
+	9.5叫名参数：by-name parameter
+10.组合与继承
+	10.1二维布局库
+		
