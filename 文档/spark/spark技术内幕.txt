@@ -1,0 +1,42 @@
+3.RDD
+	3.1数据检查点和记录数据的更新
+	3.2RDD
+		3.2.1RDD是只读的,分区记录的集合
+		3.2.2partition(分片),每个分区会映射成BlockManager的一个Block,会被一个task计算
+		3.2.3partitioner即分片函数,只有key-value的RDD才有,非key-value的是none.Partitioner决定RDD的分片数量
+			也决定parent RDD Shuffle输出时的分片数量
+			3.2.3.1 HashPartitioner
+			3.2.3.2 RangePartitioner
+		3.2.5RDD检查点
+	3.3
+		3.3.1窄依赖实现
+				OneToOneDependency
+				RangeDependency
+			宽依赖实现
+				ShuffleDependency
+		3.3.2
+			Spark根据宽依赖将DAG划分为不同的stage(阶段)
+			在一个stage内部每个partition都会被分配一个计算任务task
+			stage只有在它没有parent stage或者parent stage都执行完之后才可以执行
+			
+	3.4RDD的计算
+		3.4.1 
+			原始RDD在经过一系列运算后,会在最后一个RDD上触发一个动作,生成一个Job.
+			Job被划分为一批计算任务Task,这批Task会被交到计算节点上去计算
+			计算节点计算逻辑的部分被称为Executor,Executor准备好环境后会通过
+			org.apache.spark.scheduler.Task#run来计算
+			spark的task分2种
+				org.apache.spark.scheduler.ShuffleMapTask
+				org.apache.spark.scheduler.ResultTask
+			DAG最后阶段为每个结果partition生成ResultTask,其余阶段ShuffleMapTask
+		3.4.2Task执行起点
+4.Scheduler模块
+	4.1模块概述
+		4.1.1
+			DAGScheduler
+			TaskScheduler	
+			org.apache.spark.scheduler.TaskSchedulerImpl
+		4.1.2
+			org.apache.spark.scheduler.DAGScheduler		
+			org.apache.spark.scheduler.SchedulerBackend
+			org.apache.spark.scheduler.TaskScheduler为创建它的SparkContext调度任务

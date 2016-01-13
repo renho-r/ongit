@@ -1,4 +1,8 @@
 2-3.step
+	/******
+		用括号传递给变量(对象)一个或多个参数时，Scala 会把它转换成对 apply 方法的调用；与此相似的，
+		当对带有括号并包括一到若干参数的进行赋值时，编译器将使用对象的 update 方法对括号里的参数和等号右边的对象执行调用。
+	*********/
 	2-3.7.Array可变得
 		这个for表达式的第一行代码演示了Scala的另一个通用规则：如果方法仅带一个参数，你
 		可以不带点或括号的调用它。本例中的to实际上是带一个Int参数的方法。代码0 to 2被
@@ -317,4 +321,40 @@
 	9.5叫名参数：by-name parameter
 10.组合与继承
 	10.1二维布局库
-		
+11.scala的层级
+12.特质
+	12.1特质的定义除了使用关键字trait之外，与类定义无异。
+		trait Philosophical {
+			def philosophize() {
+				println("I consume memory, therefore I am!")
+			}
+		}
+		一旦特质被定义了，就可以使用extends或with关键字，把它混入到类中
+		class Frog extends Philosophical {
+			override def toString = "green"
+		}
+		从特质继承的方法可以像从超类继承的方法那样使用。
+		如果想把特质混入到显式扩展超类的类里，可以用extends指明待扩展的超类，用with混入特质。
+13.包和引用
+	13.2引用
+		用选择子句：import selector clause做到。下面是一些例子：
+		import Fruits.{Apple, Orange}
+		这次只引用了对象Fruits的Apple和Orange成员。
+		import Fruits.{Apple => McIntosh, Orange}
+		这次从对象Fruits引用了Apple和Orange两个成员。不过，Apple对象重命名为McIntosh。因
+		此这个对象可以用Fruits.Apple或McIntosh访问。重命名子句的格式是“<原始名> => <新名>”。
+		import java.sql.{Date => SDate}
+		这次以SDate的名字引用了SQL的日期类，因此你可以在同时引用普通的Java日期类Date。
+		import java.{sql => S}
+		这个以名称S引用了java.sql包，这样你就可以写成S.Date。
+		import Fruits.{_}
+		这个引用了对象Fruits的所有成员。这与import Fruits._同义。
+		import Fruits.{Apple => McIntosh, _}
+		这个从Fruits对象引用所有成员，不过重命名Apple为McIntosh。
+		import Fruits.{Pear => _, _}
+		这个引用了除Pear之外的所有Fruits成员。
+	13.3隐式引用
+		Scala隐式地添加了一些引用到每个程序中
+		import java.lang._ // java.lang包的所有东西
+		import scala._ // scala包的所有东西
+		import Predef._ // Predef对象的所有东西
