@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://www.cnblogs.com/hseagle/p/3673139.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/bundle-LessIsMoreRight.css">
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/134061.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/hseagle/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/hseagle/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/hseagle/wlwmanifest.xml">
+<script async="" type="text/javascript" src="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/gpt.js"></script><script src="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'hseagle', cb_enable_mathjax=true;</script>
+<script src="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/blog-common.js" type="text/javascript"></script>
+<script src="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/pubads_impl_78.js" async=""></script></head>
+<body>
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<script type="text/javascript" src="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/pdfobject.js"></script>
+<script src="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/highlight.pack.js"></script>
+<script>
+hljs.configure({tabReplace: '  '});
+hljs.initHighlightingOnLoad();
+</script>
+<!--PageBeginHtml Block End-->
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/hseagle/">富贵有定数，学问则无定数。求一分，便得一分</a></div>
+<div class="subtitle">快乐源于简单</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/hseagle/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/hseagle/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/hseagle/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-76&nbsp;
+文章-0&nbsp;
+评论-47&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园.html">Apache Spark源码走读之5 -- DStream处理的容错性分析</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p><span style="color: #0000ff;"><em><strong>欢迎转载，转载请注明出处，徽沪一郎，谢谢。</strong></em></span></p>
+<p><span style="color: #0000ff;"><span style="color: #000000;">在流数据的处理过程中，为了保证处理结果的可信度(<strong>不能多算，也不能漏算</strong>)，需要做到对<span style="color: #0000ff;"><span style="color: #000000;">所有的输入数据有且仅有一次处理</span></span>。在Spark Streaming的处理机制中，不能多算，比较容易理解。那么它又是如何作到即使数据处理结点被重启，在重启之后这些数据也会被再次处理呢？<br></span></span></p>
+<h1><span style="color: #0000ff;"><span style="color: #000000;">环境搭建</span></span></h1>
+<p><span style="color: #0000ff;"><span style="color: #000000;">为了有一个感性的认识，先运行一下简单的Spark Streaming示例。首先确认已经安装了openbsd-netcat。</span></span></p>
+<h2><span style="color: #0000ff;"><span style="color: #000000;">运行netcat</span></span></h2>
+<pre><code class="bash hljs ">nc -lk <span class="hljs-number">9999</span>
+</code>
+</pre>
+<h2>运行spark-shell</h2>
+<pre><code class="bash hljs ">SPARK_JAVA_OPTS=-Dspark.cleaner.ttl=<span class="hljs-number">10000</span> MASTER=local-cluster[<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">1024</span>] bin/spark-shell
+</code>
+</pre>
+<p>在spark-shell中输入如下内容</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">import</span> org.apache.spark.streaming._
+<span class="hljs-keyword">import</span> org.apache.spark.streaming.StreamingContext._
+<span class="hljs-keyword">val</span> ssc = <span class="hljs-keyword">new</span> StreamingContext(sc, Seconds(<span class="hljs-number">3</span>))
+<span class="hljs-keyword">val</span> lines = ssc.socketTextStream(<span class="hljs-string">"localhost"</span>, <span class="hljs-number">9999</span>)
+<span class="hljs-keyword">val</span> words = lines.flatMap( _.split(<span class="hljs-string">" "</span>))
+<span class="hljs-keyword">val</span> pairs = words.map(word =&gt; (word,<span class="hljs-number">1</span>))
+<span class="hljs-keyword">val</span> wordCount = pairs.reduceByKey(_ + _)
+wordCount.print()
+ssc.start()
+ssc.awaitTermination()
+</code>
+</pre>
+<p><span style="color: #0000ff;"><span style="color: #000000;">当ssc.start()执行之后，在nc一侧输入一些内容并回车，spark-shell上就会显示出统计的结果。</span></span></p>
+<h1><span style="color: #0000ff;"><span style="color: #000000;">数据接收过程</span></span></h1>
+<p><span style="color: #0000ff;"><span style="color: #000000;">来看一下代码实现层面，从两个角度来说，一是控制层面(control panel)，另一是数据层面(data panel)。</span></span></p>
+<p><span style="color: #0000ff;"><span style="color: #000000;">Spark Streaming的数据接收过程的控制层面大致如下图所示。<br></span></span></p>
+<p><span style="color: #0000ff;"><span style="color: #000000;"><img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/011926384865332.png" alt=""></span></span></p>
+<p><span style="color: #0000ff;"><span style="color: #000000;">简要讲解一下上图的意思，<br></span></span></p>
+<ol>
+<li><span style="color: #0000ff;"><span style="color: #000000;">数据真正接收到是发生在<strong>SocketReceiver.receive</strong>函数中，将接收到的数据放入到<strong>BlockGenerator.currentBuffer</strong></span></span></li>
+<li><span style="color: #0000ff;"><span style="color: #000000;">在BlockGenerator中有一个重复定时器，处理函数为<strong>updateCurrentBuffer</strong>, updateCurrentBuffer将当前buffer中的数据封装为一个新的<strong>Block，</strong>放入到<strong>blocksForPush</strong>队列中 </span></span></li>
+<li><span style="color: #0000ff;"><span style="color: #000000;">同样是在BlockGenerator中有一个BlockPushingThread，其职责就是不停的将blocksForPush队列中的成员通过<strong>pushArrayBuffer</strong>函数传递给blockmanager,让BlockManager将数据存储到MemoryStore中</span></span></li>
+<li><span style="color: #0000ff;"><span style="color: #000000;">pushArrayBuffer还会将已经由BlockManager存储的Block的id号传递给ReceiverTracker，ReceiverTracker会将存储的blockId放到对应StreamId的队列中</span></span></li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ol>
+<p><span style="color: #0000ff;"><span style="color: #000000;">socket.receive-&gt;receiver.store-&gt;pushSingle-&gt;blockgenerator.updateCurrentBuffer-&gt;blockgenerator.keepPushBlocks-&gt;pushArrayBufer</span></span></p>
+<p><span style="color: #0000ff;"><span style="color: #000000;">-&gt;ReceiverTracker.addBlocks</span></span></p>
+<p>pushArrayBuffer函数的定义如下</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">def</span> pushArrayBuffer(
+      arrayBuffer: ArrayBuffer[_],
+      optionalMetadata: Option[Any],
+      optionalBlockId: Option[StreamBlockId]
+    ) {
+    <span class="hljs-keyword">val</span> blockId = optionalBlockId.getOrElse(nextBlockId)
+    <span class="hljs-keyword">val</span> time = System.currentTimeMillis
+    blockManager.put(blockId, arrayBuffer.asInstanceOf[ArrayBuffer[Any]],
+      storageLevel, tellMaster = <span class="hljs-keyword">true</span>)
+    logDebug(<span class="hljs-string">"Pushed block "</span> + blockId + <span class="hljs-string">" in "</span> + (System.currentTimeMillis - time)  + <span class="hljs-string">" ms"</span>)
+    reportPushedBlock(blockId, arrayBuffer.size, optionalMetadata)
+  }
+</code></pre>
+<h2><span style="color: #0000ff;"><span style="color: #000000;">数据结构的变化过程</span></span></h2>
+<p><span style="color: #0000ff;"><span style="color: #000000;">Spark Streaming数据处理高效的原因之一就是批量的进行数据分析，那么这些批量的数据是如何聚集起来的呢？换种方式来表述这个问题，在某一时刻，接收到的数据是单一的，也就是我们最多只能组成&lt;t,data&gt;这种数据元组，而在runJob的时候是批量的提取和分析数据的，这个批量数据的组成是在什么时候完成的呢？</span></span></p>
+<p><span style="color: #0000ff;"><span style="color: #000000;">下图大到勾勒出一条新的message被socketreceiver接收之后，是如何通过一系列的处理而放入到BlockManager中，并同时由ReceiverTracker记录下相应的元数据的。</span></span></p>
+<p>&nbsp;<img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/021229385649525.png" alt=""></p>
+<ol>
+<li>首先new message被放入到blockManager.currentBuffer</li>
+<li>定时器超时处理过程，将整个currentBuffer中的数据打包成一条Block，放入到ArrayBlockingQueue,该数据结构支持FIFO</li>
+<li>keepPushingBlocks将每一条Block(block中包含时间戳，接收到的原始数据）让BlockManager进行保存，同时通知ReceiverTracker已经将哪些block存储到了blockmanager中</li>
+<li>ReceiverTracker将每一个stream接收到但还没有进行处理的block放入到receiverBlockInfo,其为一Hashmap. 在后面的generateJobs中会从receiverBlockInfo提取数据以生成相应的RDD</li>
+</ol>
+<h1><span style="color: #0000ff;"><span style="color: #000000;">数据处理过程</span></span></h1>
+<p><span style="color: #0000ff;"><span style="color: #000000;">数据处理中最重要的函数就是generateJobs, generateJobs会引发下述的函数调用过程，具体的代码就不一一罗列了。</span></span></p>
+<ol>
+<li>jobgenerator.generateJobs-&gt;dstreamgraph.generateJobs-&gt;dstream.generateJob-&gt;getOrCompute-&gt;compute 生成RDD</li>
+<li>job调用job.func</li>
+</ol>
+<p>JobGenerator.generateJobs函数定义如下</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">private</span> <span class="hljs-keyword">def</span> generateJobs(time: Time) {
+    SparkEnv.set(ssc.env)
+    Try(graph.generateJobs(time)) <span class="hljs-keyword">match</span> {
+      <span class="hljs-keyword">case</span> Success(jobs) =&gt;
+        <span class="hljs-keyword">val</span> receivedBlockInfo = graph.getReceiverInputStreams.map { stream =&gt;
+          <span class="hljs-keyword">val</span> streamId = stream.id
+          <span class="hljs-keyword">val</span> receivedBlockInfo = stream.getReceivedBlockInfo(time)
+          (streamId, receivedBlockInfo)
+        }.toMap
+        jobScheduler.submitJobSet(JobSet(time, jobs, receivedBlockInfo))
+      <span class="hljs-keyword">case</span> Failure(e) =&gt;
+        jobScheduler.reportError(<span class="hljs-string">"Error generating jobs for time "</span> + time, e)
+    }
+    eventActor ! DoCheckpoint(time)
+  }
+</code>
+</pre>
+<p>我们先来谈一谈数据处理阶段是如何与上述的接收阶段中存储下来的数据挂上钩的。</p>
+<p>假设上一次进行RDD处理发生在时间点t1,现在是时间点t2，那么在&lt;t2,t1&gt;之间有哪些blocks没有被处理呢？</p>
+<p>想必你已经知道答案了，没有被处理的blocks全部保存在ReceiverTracker的<strong>receiverBlockInfo</strong>之中</p>
+<p>在generateJob时，每一个DStream都会调用getReceivedBlockInfo，你说没有跟ReceiverTracker中的receivedBlockInfo连起来啊，别急！且看数据输入的源头<strong>ReceiverInputDStream</strong>中的getReceivedBlockInfo是如何定义的。代码列举如下。</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">private</span>[streaming] <span class="hljs-keyword">def</span> getReceivedBlockInfo(time: Time) = {
+    receivedBlockInfo(time)
+  }
+</code>
+</pre>
+<p>那么此处的receivedBlockInfo(time)是从何而来的呢，这个要看ReceivedInputDStream中的compute函数实现</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">override</span> <span class="hljs-keyword">def</span> compute(validTime: Time): Option[RDD[T]] = {
+    <span class="hljs-comment">// If this is called for any time before the start time of the context,</span>
+    <span class="hljs-comment">// then this returns an empty RDD. This may happen when recovering from a</span>
+    <span class="hljs-comment">// master failure</span>
+    <span class="hljs-keyword">if</span> (validTime &gt;= graph.startTime) {
+      <span class="hljs-keyword">val</span> blockInfo = ssc.scheduler.receiverTracker.getReceivedBlockInfo(id)
+      receivedBlockInfo(validTime) = blockInfo
+      <span class="hljs-keyword">val</span> blockIds = blockInfo.map(_.blockId.asInstanceOf[BlockId])
+      Some(<span class="hljs-keyword">new</span> BlockRDD[T](ssc.sc, blockIds))
+    } <span class="hljs-keyword">else</span> {
+      Some(<span class="hljs-keyword">new</span> BlockRDD[T](ssc.sc, Array[BlockId]()))
+    }
+  }
+</code>
+</pre>
+<p>至此终于看到了receiverTracker中的getReceivedBlockInfo被调用，也就是说将接收阶段的数据和目前处理阶段的输入通道打通了</p>
+<p>函数调用路径，从generateJobs到sparkcontext.submitJobs. 这个时候要注意注册为DStreamGraph中的OutputStream上的操作会引发SparkContext.runJobs被调用。我们以print函数为例看一下调用过程。</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">def</span> print() {
+    <span class="hljs-keyword">def</span> foreachFunc = (rdd: RDD[T], time: Time) =&gt; {
+      <span class="hljs-keyword">val</span> first11 = rdd.take(<span class="hljs-number">11</span>)
+      println (<span class="hljs-string">"-------------------------------------------"</span>)
+      println (<span class="hljs-string">"Time: "</span> + time)
+      println (<span class="hljs-string">"-------------------------------------------"</span>)
+      first11.take(<span class="hljs-number">10</span>).foreach(println)
+      <span class="hljs-keyword">if</span> (first11.size &gt; <span class="hljs-number">10</span>) println(<span class="hljs-string">"..."</span>)
+      println()
+    }
+    <span class="hljs-keyword">new</span> ForEachDStream(<span class="hljs-keyword">this</span>, context.sparkContext.clean(foreachFunc)).register()
+  }
+</code>
+</pre>
+<p>注意<strong>rdd.take</strong>，这个会引发runJob调用,不信的话，我们可以看一看其定义中调用runJob的片段。</p>
+<pre><code class="&#39;scala&quot; hljs coffeescript">      val left = num - buf.size
+      val p = partsScanned <span class="hljs-keyword">until</span> math.min(partsScanned + numPartsToTry, totalParts)
+      val res = sc.runJob<span class="hljs-function"><span class="hljs-params">(<span class="hljs-keyword">this</span>, (it: Iterator[T]) =&gt; it.take(left).toArray, p, allowLocal = <span class="hljs-literal">true</span>)</span>
+
+      <span class="hljs-title">res</span>.<span class="hljs-title">foreach</span><span class="hljs-params">(buf ++= _.take(num - buf.size))</span>
+      <span class="hljs-title">partsScanned</span> += <span class="hljs-title">numPartsToTry</span>
+    }</span></code> </pre>
+<h2>小结一下数据处理过程</h2>
+<ul>
+<li>用time为关键字去取出在此时间之前加入的所有blockIds</li>
+<li>真正提交运行的时候，rdd中的blockfetcher以blockId为关键字去blockmanagermaster获取真正的数据，即从socket上接收到的原始数据</li>
+</ul>
+<h1>容错处理</h1>
+<p>JobGenerator.generateJobs函数的最后会发出DoCheckpoint通知，该通知会让相应的actor将DStreamCheckpointData写入到hdfs文件中，我们来看一看为什么需要写入checkpointdata以及哪些东西是包含在checkpointdata之中。</p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/021712472366760.png" alt=""></p>
+<p>在数据处理一节，我们已经分析到在generateJobs的时候会生成多个jobs,它们会通过sparkcontext.runJob接口而发送到cluster中被真正执行。</p>
+<p>假设在t2，worker挂掉了，挂掉的worker直到t3才完全恢复。由于挂掉的原因，上一次generateJobs生成的job不一定被完全处理了(也许有些已经处理了，有些还没有处理)，所以需要重新再提交一次。这里有一个问题，那就是可能导致针对同一批数据有重复处理的情况发生，从而无法达到exactly-once的语义效果。</p>
+<p><strong>问题2： </strong>在&lt;t2,t3&gt;这一段挂掉的时间之内，没有新的数据被接收<strong>，</strong>所以Spark Streaming的SocketReceiver适合用来充当client侧而不是server侧。SocketReceiver读取到的数据应该存在一个具有冗余备份机制的内存数据库或缓存队列里，如kafaka. 对问题2, Spark Streaming本身是解决不了的。当然这里再往下细究的话，会牵出负载均衡的问题。</p>
+<h2>checkpointData</h2>
+<p>checkpoint的成员变量有哪些呢，我们看一看其结构定义就清楚了。</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">val</span> master = ssc.sc.master
+  <span class="hljs-keyword">val</span> framework = ssc.sc.appName
+  <span class="hljs-keyword">val</span> sparkHome = ssc.sc.getSparkHome.getOrElse(<span class="hljs-keyword">null</span>)
+  <span class="hljs-keyword">val</span> jars = ssc.sc.jars
+  <span class="hljs-keyword">val</span> graph = ssc.graph
+  <span class="hljs-keyword">val</span> checkpointDir = ssc.checkpointDir
+  <span class="hljs-keyword">val</span> checkpointDuration = ssc.checkpointDuration
+  <span class="hljs-keyword">val</span> pendingTimes = ssc.scheduler.getPendingTimes().toArray
+  <span class="hljs-keyword">val</span> delaySeconds = MetadataCleaner.getDelaySeconds(ssc.conf)
+  <span class="hljs-keyword">val</span> sparkConfPairs = ssc.conf.getAll
+</code>
+</pre>
+<p>generatedRDDs是被包含在graph里面。所以不要突然之间惊惶失措，发觉没有将generatedRDDs保存起来。</p>
+<p>checkpoint的数据是通过<strong>CheckpointwriteHandler</strong>真正的写入到hdfs，通过<strong>CheckPiontReader</strong>而读入<strong>。CheckpointReade</strong>在重启的时候会被使用到，判断是第一次干净的启动还是因错误而重启，判断的依据全部在cp这个变量。</p>
+<p>为了达到重启之后而自动的检查并载入相应的checkpoint数据，那么在创建StreamingContext的时候就不能简单的通过调用new StreamingContext来完成，而是利用getOrCreate函数，代码示例如下。</p>
+<pre><code class="scala hljs "><span class="hljs-comment">// Function to create and setup a new StreamingContext</span>
+<span class="hljs-keyword">def</span> functionToCreateContext(): StreamingContext = {
+    <span class="hljs-keyword">val</span> ssc = <span class="hljs-keyword">new</span> StreamingContext(...)   <span class="hljs-comment">// new context</span>
+    <span class="hljs-keyword">val</span> lines = ssc.socketTextStream(...) <span class="hljs-comment">// create DStreams</span>
+    ...
+    ssc.checkpoint(checkpointDirectory)   <span class="hljs-comment">// set checkpoint directory</span>
+    ssc
+}
+
+<span class="hljs-comment">// Get StreaminContext from checkpoint data or create a new one</span>
+<span class="hljs-keyword">val</span> context = StreamingContext.getOrCreate(checkpointDirectory, functionToCreateContext _)
+
+<span class="hljs-comment">// Do additional setup on context that needs to be done,</span>
+<span class="hljs-comment">// irrespective of whether it is being started or restarted</span>
+context. ...
+
+<span class="hljs-comment">// Start the context</span>
+context.start()
+context.awaitTermination()
+</code></pre>
+<h1>小结</h1>
+<p>本文中讲述数据接收过程中所使用的两幅图使用tikz完成，里面包含的信息很丰富，有志于了解清楚Spark Streaming内部处理机制的同仁，不妨以此为参考进行详细的代码走读。</p>
+<p>如果有任何不对或错误之处，欢迎批评指正。</p>
+<h1>参考资料</h1>
+<ol>
+<li>Spark Streaming源码分析 checkpoint <a href="http://www.cnblogs.com/fxjwind/p/3596451.html">http://www.cnblogs.com/fxjwind/p/3596451.html</a></li>
+<li>Spark Streaming Introduction <a href="http://jerryshao.me/architecture/2013/04/02/spark-streaming-introduction/">http://jerryshao.me/architecture/2013/04/02/spark-streaming-introduction/</a></li>
+<li>deep dive with Spark Streaming <a href="http://www.meetup.com/spark-users/events/122694912/">http://www.meetup.com/spark-users/events/122694912/</a></li>
+</ol></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/hseagle/tag/Apache%20Spark/">Apache Spark</a></div>
+<div id="blog_post_info"><div id="green_channel">
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(3673139,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://msg.cnblogs.com/send/%E5%BE%BD%E6%B2%AA%E4%B8%80%E9%83%8E" target="_blank">联系我</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/icon_weibo_24.png" alt=""></a>
+<a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/" target="_blank"><img src="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followees">关注 - 5</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followers">粉丝 - 193</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+    <a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div class="diggit" onclick="votePost(3673139,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+	<div class="buryit" onclick="votePost(3673139,&#39;Bury&#39;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/hseagle/p/3673142.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/hseagle/p/3673142.html" title="发布于2014-04-25 21:22">Apache Spark源码走读之4 -- DStream实时流数据处理</a><br><a href="http://www.cnblogs.com/hseagle/p/3673138.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/hseagle/p/3673138.html" title="发布于2014-05-08 13:37">Apache Spark源码走读之6 -- 存储子系统分析</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2014-05-02 19:05</span> <a href="http://www.cnblogs.com/hseagle/">徽沪一郎</a> 阅读(<span id="post_view_count">3463</span>) 评论(<span id="post_comment_count">...</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=3673139" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/hseagle/p/3673139.html#" onclick="AddToWz(3673139);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=134061,cb_entryId=3673139,cb_blogApp=currentBlogApp,cb_blogUserGuid='8f4525b4-4a31-e211-aa8f-842b2b196315',cb_entryCreatedDate='2014/5/2 19:05:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div style="color:green;margin:50px 0;font-weight:bold;">努力加载评论中...</div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/hseagle/p/3673139.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/hseagle/p/3673139.html#top">返回顶部</a></div>
+<div id="comment_form_container"></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://www.jpush.cn/" target="_blank">【推荐】极光推送30多万开发者的选择，SDK接入量超过30亿了，你还没注册？</a><br><a href="http://click.aliyun.com/m/3037/" target="_blank">【阿里云SSD云盘】速度行业领先</a><br></div>
+<div id="opt_under_post"></div>
+<div id="ad_c1" class="c_ad_block"><a href="http://q.cnblogs.com/" target="_blank"><img width="300" height="250" src="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/not-to-stop-questioning.jpg" alt="博问" title="博问"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/536908/" target="_blank">阿里健康新年第一步 建公益寻药平台</a><br> ·  <a href="http://news.cnblogs.com/n/536907/" target="_blank">微软宣布Build 2016门票开售时间 及Microsoft Envision</a><br> ·  <a href="http://news.cnblogs.com/n/536906/" target="_blank">像李彦宏这样沉沦，还是像马化腾这样革命？</a><br> ·  <a href="http://news.cnblogs.com/n/536905/" target="_blank">A站完成软银中国6000万A轮融资并更换CEO</a><br> ·  <a href="http://news.cnblogs.com/n/536904/" target="_blank">三星电子宣布将为高通量产骁龙820芯片</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/536387/" target="_blank">Docker简介</a><br> ·  <a href="http://kb.cnblogs.com/page/536115/" target="_blank">Docker简明教程</a><br> ·  <a href="http://kb.cnblogs.com/page/535581/" target="_blank">Git协作流程</a><br> ·  <a href="http://kb.cnblogs.com/page/535355/" target="_blank">企业计算的终结</a><br> ·  <a href="http://kb.cnblogs.com/page/535278/" target="_blank">软件开发的核心</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+$(function () {
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);    
+});
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2015/12/01&#39;);return false;">&lt;</a></td><td align="center">2016年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2016/02/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td class="CalWeekendDay" align="center">2</td></tr><tr><td class="CalWeekendDay" align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center"><a href="http://www.cnblogs.com/hseagle/archive/2016/01/07.html"><u>7</u></a></td><td align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr><tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td class="CalTodayDay" align="center">14</td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr><tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr><tr><td class="CalWeekendDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td class="CalWeekendDay" align="center">30</td></tr><tr><td class="CalWeekendDay" align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"></div><script type="text/javascript">loadBlogSideColumn();</script><iframe src="./Apache Spark源码走读之5 -- DStream处理的容错性分析 - 徽沪一郎 - 博客园_files/container.html" style="visibility: hidden; display: none;"></iframe>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2016 徽沪一郎
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

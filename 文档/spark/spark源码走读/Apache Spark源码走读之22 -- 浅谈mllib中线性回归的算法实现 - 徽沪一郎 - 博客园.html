@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://www.cnblogs.com/hseagle/p/3908276.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/bundle-LessIsMoreRight.css">
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/134061.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/hseagle/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/hseagle/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/hseagle/wlwmanifest.xml">
+<script async="" type="text/javascript" src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/gpt.js"></script><script src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'hseagle', cb_enable_mathjax=true;</script>
+<script src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/blog-common.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: ['AMS'], useLabelIds: true } },
+  'HTML-CSS': { linebreaks: { automatic: true } },
+  SVG: { linebreaks: { automatic: true } }});</script><script type="text/javascript" src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/MathJax.js"></script><script src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/pubads_impl_78.js" async=""></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style></head>
+<body><div id="MathJax_Message" style="display: none;"></div>
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<script type="text/javascript" src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/pdfobject.js"></script>
+<script src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/highlight.pack.js"></script>
+<script>
+hljs.configure({tabReplace: '  '});
+hljs.initHighlightingOnLoad();
+</script>
+<!--PageBeginHtml Block End-->
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/hseagle/">富贵有定数，学问则无定数。求一分，便得一分</a></div>
+<div class="subtitle">快乐源于简单</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/hseagle/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/hseagle/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/hseagle/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-76&nbsp;
+文章-0&nbsp;
+评论-47&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园.html">Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p><span style="color: #0000ff;"><em><strong>欢迎转载，转载请注明出处，徽沪一郎。</strong></em></span></p>
+<h1>概要</h1>
+<p>本文简要描述线性回归算法在Spark MLLib中的具体实现，涉及线性回归算法本身及线性回归并行处理的理论基础，然后对代码实现部分进行走读。</p>
+<h2>线性回归模型</h2>
+<p>机器学习算法是的主要目的是找到最能够对数据做出合理解释的模型，这个模型是假设函数，一步步的推导基本遵循这样的思路<br><code class="scala">
+</code></p>
+<ol>
+<li>假设函数</li>
+<li>为了找到最好的假设函数，需要找到合理的评估标准，一般来说使用损失函数来做为评估标准</li>
+<li>根据损失函数推出目标函数</li>
+<li>现在问题转换成为如何找到目标函数的最优解，也就是目标函数的最优化</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ol>
+<p>具体到线性回归来说，上述就转换为</p>
+<p><img src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/151926500778543.png" alt=""></p>
+<p><img src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/151927022807138.png" alt=""></p>
+<h1>梯度下降法 </h1>
+<p>那么如何求得损失函数的最优解，针对最小二乘法来说可以使用梯度下降法。</p>
+<p><img src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/151928289838560.png" alt=""></p>
+<h2>算法实现</h2>
+<p><img src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/151930293589035.png" alt=""></p>
+<p><img src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/151930397645815.png" alt=""></p>
+<h2>随机梯度下降</h2>
+<p><img src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/151931562024499.png" alt=""></p>
+<p><img src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/151932069201309.png" alt=""></p>
+<h2>正则化</h2>
+<p><img src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/151933471557596.png" alt=""></p>
+<p>&nbsp;如何解决这些问题呢？可以采用收缩方法(shrinkage method)，收缩方法又称为正则化(regularization)。
+主要是岭回归(ridge regression)和lasso回归。通过对最小二乘估计加
+入罚约束,使某些系数的估计为0。</p>
+<p><img src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/151935089055171.png" alt=""></p>
+<h1>线性回归的代码实现</h1>
+<p>上面讲述了一些数学基础，在将这些数学理论用代码来实现的时候，最主要的是把握住相应的假设函数和最优化算法是什么，有没有相应的正则化规则。</p>
+<p>对于线性回归，这些都已经明确，分别为</p>
+<ol>
+<li>Y = A*X + B 假设函数</li>
+<li>随机梯度下降法</li>
+<li>岭回归或Lasso法，或什么都没有</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ol>
+<p>那么Spark mllib针对线性回归的代码实现也是依据该步骤来组织的代码，其类图如下所示</p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/151942037646581.png" alt=""></p>
+<p>函数调用路径</p>
+<p><img src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/151943281082615.png" alt=""></p>
+<p>train-&gt;run,run函数的处理逻辑</p>
+<ol>
+<li>利用最优化算法来求得最优解,optimizer.optimize</li>
+<li>根据最优解创建相应的回归模型, createModel</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</ol>
+<p>runMiniBatchSGD是真正计算Gradient和Loss的地方</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">def</span> runMiniBatchSGD(
+      data: RDD[(Double, Vector)],
+      gradient: Gradient,
+      updater: Updater,
+      stepSize: Double,
+      numIterations: Int,
+      regParam: Double,
+      miniBatchFraction: Double,
+      initialWeights: Vector): (Vector, Array[Double]) = {
+
+    <span class="hljs-keyword">val</span> stochasticLossHistory = <span class="hljs-keyword">new</span> ArrayBuffer[Double](numIterations)
+
+    <span class="hljs-keyword">val</span> numExamples = data.count()
+    <span class="hljs-keyword">val</span> miniBatchSize = numExamples * miniBatchFraction
+
+    <span class="hljs-comment">// if no data, return initial weights to avoid NaNs</span>
+    <span class="hljs-keyword">if</span> (numExamples == <span class="hljs-number">0</span>) {
+
+      logInfo(<span class="hljs-string">"GradientDescent.runMiniBatchSGD returning initial weights, no data found"</span>)
+      <span class="hljs-keyword">return</span> (initialWeights, stochasticLossHistory.toArray)
+
+    }
+
+    <span class="hljs-comment">// Initialize weights as a column vector</span>
+    <span class="hljs-keyword">var</span> weights = Vectors.dense(initialWeights.toArray)
+    <span class="hljs-keyword">val</span> n = weights.size
+
+    <span class="hljs-javadoc">/**
+     * For the first iteration, the regVal will be initialized as sum of weight squares
+     * if it's L2 updater; for L1 updater, the same logic is followed.
+     */</span>
+    <span class="hljs-keyword">var</span> regVal = updater.compute(
+      weights, Vectors.dense(<span class="hljs-keyword">new</span> Array[Double](weights.size)), <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, regParam)._2
+
+    <span class="hljs-keyword">for</span> (i  (c, v) <span class="hljs-keyword">match</span> { <span class="hljs-keyword">case</span> ((grad, loss), (label, features)) =&gt;
+            <span class="hljs-keyword">val</span> l = gradient.compute(features, label, bcWeights.value, Vectors.fromBreeze(grad))
+            (grad, loss + l)
+          },
+          combOp = (c1, c2) =&gt; (c1, c2) <span class="hljs-keyword">match</span> { <span class="hljs-keyword">case</span> ((grad1, loss1), (grad2, loss2)) =&gt;
+            (grad1 += grad2, loss1 + loss2)
+          })
+
+      <span class="hljs-javadoc">/**
+       * NOTE(Xinghao): lossSum is computed using the weights from the previous iteration
+       * and regVal is the regularization value computed in the previous iteration as well.
+       */</span>
+      stochasticLossHistory.append(lossSum / miniBatchSize + regVal)
+      <span class="hljs-keyword">val</span> update = updater.compute(
+        weights, Vectors.fromBreeze(gradientSum / miniBatchSize), stepSize, i, regParam)
+      weights = update._1
+      regVal = update._2
+    }
+
+    logInfo(<span class="hljs-string">"GradientDescent.runMiniBatchSGD finished. Last 10 stochastic losses %s"</span>.format(
+      stochasticLossHistory.takeRight(<span class="hljs-number">10</span>).mkString(<span class="hljs-string">", "</span>)))
+
+    (weights, stochasticLossHistory.toArray)
+
+  }
+</code></pre>
+<p>&nbsp;上述代码中最需要引起重视的部分是aggregate函数的使用,先看下aggregate函数的定义</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">def</span> aggregate[U: ClassTag](zeroValue: U)(seqOp: (U, T) =&gt; U, combOp: (U, U) =&gt; U): U = {
+    <span class="hljs-comment">// Clone the zero value since we will also be serializing it as part of tasks</span>
+    <span class="hljs-keyword">var</span> jobResult = Utils.clone(zeroValue, sc.env.closureSerializer.newInstance())
+    <span class="hljs-keyword">val</span> cleanSeqOp = sc.clean(seqOp)
+    <span class="hljs-keyword">val</span> cleanCombOp = sc.clean(combOp)
+    <span class="hljs-keyword">val</span> aggregatePartition = (it: Iterator[T]) =&gt; it.aggregate(zeroValue)(cleanSeqOp, cleanCombOp)
+    <span class="hljs-keyword">val</span> mergeResult = (index: Int, taskResult: U) =&gt; jobResult = combOp(jobResult, taskResult)
+    sc.runJob(<span class="hljs-keyword">this</span>, aggregatePartition, mergeResult)
+    jobResult
+  }
+</code></pre>
+<p>aggregate函数有三个入参,一是初始值ZeroValue,二是seqOp,三为combOp.</p>
+<ol>
+<li>seqOp seqOp会被并行执行,具体由各个executor上的task来完成计算</li>
+<li>combOp combOp则是串行执行, 其中combOp操作在JobWaiter的taskSucceeded函数中被调用</li>
+</ol>
+<p>为了进一步加深对aggregate函数的理解,现举一个小小例子。启动spark-shell后,运行如下代码</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">val</span> z = sc. parallelize (List (<span class="hljs-number">1</span> ,<span class="hljs-number">2</span> ,<span class="hljs-number">3</span> ,<span class="hljs-number">4</span> ,<span class="hljs-number">5</span> ,<span class="hljs-number">6</span>),<span class="hljs-number">2</span>)
+z.aggregate (<span class="hljs-number">0</span>)(math.max(_, _), _ + _)
+<span class="hljs-comment">// 运 行 结 果 为 9</span>
+res0: Int = <span class="hljs-number">9</span>
+</code></pre>
+<p>仔细观察一下运行时的日志输出, aggregate提交的job由一个stage(stage0)组成,由于整个数据集被分成两个partition,所以为stage0创建了两个task并行处理。</p>
+<h2>LeastSquareGradient</h2>
+<p>讲完了aggregate函数的执行过程, 回过头来继续讲组成seqOp的gradient.compute函数。</p>
+<p>LeastSquareGradient用来计算梯度和误差,注意cmopute中cumGraident会返回改变后的结果。这里计算公式依据的就是cost-function中的▽Q(w)</p>
+<pre><code class="scala hljs "><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LeastSquaresGradient</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Gradient</span> {</span>
+  <span class="hljs-keyword">override</span> <span class="hljs-keyword">def</span> compute(data: Vector, label: Double, weights: Vector): (Vector, Double) = {
+    <span class="hljs-keyword">val</span> brzData = data.toBreeze
+    <span class="hljs-keyword">val</span> brzWeights = weights.toBreeze
+    <span class="hljs-keyword">val</span> diff = brzWeights.dot(brzData) - label
+    <span class="hljs-keyword">val</span> loss = diff * diff
+    <span class="hljs-keyword">val</span> gradient = brzData * (<span class="hljs-number">2.0</span> * diff)
+
+    (Vectors.fromBreeze(gradient), loss)
+  }
+
+  <span class="hljs-keyword">override</span> <span class="hljs-keyword">def</span> compute(
+      data: Vector,
+      label: Double,
+      weights: Vector,
+      cumGradient: Vector): Double = {
+    <span class="hljs-keyword">val</span> brzData = data.toBreeze
+    <span class="hljs-keyword">val</span> brzWeights = weights.toBreeze
+    <span class="hljs-comment">//dot表示点积，是接受在实数R上的两个向量并返回一个实数标量的二元运算，它的结果是欧几里得空间的标准内积。</span>
+    <span class="hljs-comment">//两个向量的点积写作a·b。点乘的结果叫做点积，也称作数量积</span>
+    <span class="hljs-keyword">val</span> diff = brzWeights.dot(brzData) - label
+
+    <span class="hljs-comment">//下面这句话完成y += a*x</span>
+    brzAxpy(<span class="hljs-number">2.0</span> * diff, brzData, cumGradient.toBreeze)
+
+    diff * diff
+  }
+}
+</code></pre>
+<p>在上述代码中频繁出现breeze相关的函数,你一定会很好奇,这是个什么新鲜玩艺。</p>
+<p>说 开 了 其 实 一 点 也 不 稀 奇, 由 于 计 算 中 有 大 量 的 矩 阵(Matrix)及 向量(Vector)计算,为了更好支持和封装这些计算引入了breeze库。</p>
+<p>Breeze, Epic及Puck是scalanlp中三大支柱性项目, 具体可参数www.scalanlp.org</p>
+<h2>正则化过程</h2>
+<p>根据本次迭代出来的梯度和误差对权重系数进行更新,这个时候就需要用上正则化规则了。也就是下述语句会触发权重系数的更新</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">val</span> update = updater.compute(
+     weights, Vectors.fromBreeze(gradientSum / miniBatchSize), stepSize, i, regParam)
+</code></pre>
+<p>以岭回归为例，看其更新过程的代码实现。</p>
+<pre><code class="scala hljs "><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SquaredL2Updater</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Updater</span> {</span>
+  <span class="hljs-keyword">override</span> <span class="hljs-keyword">def</span> compute(
+      weightsOld: Vector,
+      gradient: Vector,
+      stepSize: Double,
+      iter: Int,
+      regParam: Double): (Vector, Double) = {
+    <span class="hljs-comment">// add up both updates from the gradient of the loss (= step) as well as</span>
+    <span class="hljs-comment">// the gradient of the regularizer (= regParam * weightsOld)</span>
+    <span class="hljs-comment">// w' = w - thisIterStepSize * (gradient + regParam * w)</span>
+    <span class="hljs-comment">// w' = (1 - thisIterStepSize * regParam) * w - thisIterStepSize * gradient</span>
+    <span class="hljs-keyword">val</span> thisIterStepSize = stepSize / math.sqrt(iter)
+    <span class="hljs-keyword">val</span> brzWeights: BV[Double] = weightsOld.toBreeze.toDenseVector
+    brzWeights :*= (<span class="hljs-number">1.0</span> - thisIterStepSize * regParam)
+    brzAxpy(-thisIterStepSize, gradient.toBreeze, brzWeights)
+    <span class="hljs-keyword">val</span> norm = brzNorm(brzWeights, <span class="hljs-number">2.0</span>)
+
+    (Vectors.fromBreeze(brzWeights), <span class="hljs-number">0.5</span> * regParam * norm * norm)
+  }
+}
+</code></pre>
+<h2>结果预测</h2>
+<p>计算出权重系数(weights)和截距intecept，就可以用来创建线性回归模型LinearRegressionModel，利用模型的predict函数来对观测值进行预测</p>
+<pre><code class="scala hljs "><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">LinearRegressionModel</span> <span class="hljs-params">(
+    override val weights: Vector,
+    override val intercept: Double)</span></span>
+  <span class="hljs-keyword">extends</span> GeneralizedLinearModel(weights, intercept) <span class="hljs-keyword">with</span> RegressionModel <span class="hljs-keyword">with</span> Serializable {
+
+  <span class="hljs-keyword">override</span> <span class="hljs-keyword">protected</span> <span class="hljs-keyword">def</span> predictPoint(
+      dataMatrix: Vector,
+      weightMatrix: Vector,
+      intercept: Double): Double = {
+    weightMatrix.toBreeze.dot(dataMatrix.toBreeze) + intercept
+  }
+}
+</code></pre>
+<p>&nbsp;注意LinearRegression的构造函数需要权重(weights)和截距(intercept)作为入参，对新的变量做出预测需要调用predictPoint</p>
+<h1>一个完整的示例程序</h1>
+<p>在spark-shell中执行如下语句来亲自体验一下吧。</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">import</span> org.apache.spark.mllib.regression.LinearRegressionWithSGD
+<span class="hljs-keyword">import</span> org.apache.spark.mllib.regression.LabeledPoint
+<span class="hljs-keyword">import</span> org.apache.spark.mllib.linalg.Vectors
+
+<span class="hljs-comment">// Load and parse the data</span>
+<span class="hljs-keyword">val</span> data = sc.textFile(<span class="hljs-string">"mllib/data/ridge-data/lpsa.data"</span>)
+<span class="hljs-keyword">val</span> parsedData = data.map { line =&gt;
+  <span class="hljs-keyword">val</span> parts = line.split(<span class="hljs-string">','</span>)
+  LabeledPoint(parts(<span class="hljs-number">0</span>).toDouble, Vectors.dense(parts(<span class="hljs-number">1</span>).split(<span class="hljs-string">' '</span>).map(_.toDouble)))
+}
+
+<span class="hljs-comment">// Building the model</span>
+<span class="hljs-keyword">val</span> numIterations = <span class="hljs-number">100</span>
+<span class="hljs-keyword">val</span> model = LinearRegressionWithSGD.train(parsedData, numIterations)
+
+<span class="hljs-comment">// Evaluate model on training examples and compute training error</span>
+<span class="hljs-keyword">val</span> valuesAndPreds = parsedData.map { point =&gt;
+  <span class="hljs-keyword">val</span> prediction = model.predict(point.features)
+  (point.label, prediction)
+}
+<span class="hljs-keyword">val</span> MSE = valuesAndPreds.map{<span class="hljs-keyword">case</span>(v, p) =&gt; math.pow((v - p), <span class="hljs-number">2</span>)}.mean()
+println(<span class="hljs-string">"training Mean Squared Error = "</span> + MSE)
+</code></pre>
+<h1>小结</h1>
+<p>再次强调，找到对应的<strong>假设函数</strong>，用于评估的<strong>损失函数</strong>，<strong>最优化求解方法</strong>，<strong>正则化规则</strong></p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/hseagle/tag/Apache%20Spark/">Apache Spark</a></div>
+<div id="blog_post_info"><div id="green_channel">
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(3908276,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://msg.cnblogs.com/send/%E5%BE%BD%E6%B2%AA%E4%B8%80%E9%83%8E" target="_blank">联系我</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/icon_weibo_24.png" alt=""></a>
+<a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/" target="_blank"><img src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followees">关注 - 5</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followers">粉丝 - 193</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+    <a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div class="diggit" onclick="votePost(3908276,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+	<div class="buryit" onclick="votePost(3908276,&#39;Bury&#39;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/hseagle/p/3901629.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/hseagle/p/3901629.html" title="发布于2014-08-11 13:40">Apache Spark技术实战之2  -- PackratParsers实例</a><br><a href="http://www.cnblogs.com/hseagle/p/3927887.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/hseagle/p/3927887.html" title="发布于2014-08-25 19:52">Apache Spark源码走读之23 -- Spark MLLib中拟牛顿法L-BFGS的源码实现</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2014-08-15 20:04</span> <a href="http://www.cnblogs.com/hseagle/">徽沪一郎</a> 阅读(<span id="post_view_count">2314</span>) 评论(<span id="post_comment_count">3</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=3908276" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/hseagle/p/3908276.html#" onclick="AddToWz(3908276);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=134061,cb_entryId=3908276,cb_blogApp=currentBlogApp,cb_blogUserGuid='8f4525b4-4a31-e211-aa8f-842b2b196315',cb_entryCreatedDate='2014/8/15 20:04:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<!--done-->
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/hseagle/p/3908276.html#3008823" class="layer">#1楼</a><a name="3008823" id="comment_anchor_3008823"></a>  <span class="comment_date">2014-08-16 08:45</span> <a id="a_comment_author_3008823" href="http://www.cnblogs.com/luweiseu/" target="_blank">wlu</a> <a href="http://msg.cnblogs.com/send/wlu" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3008823" class="blog_comment_body">非常赞。前段时间也着手看mlib的代码，但是第一个例子选了ALS，看了一周，愣是没搞懂。现在觉得跟随高手的脚步:)</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3008823,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3008823,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_3008823_avatar" style="display:none;">http://pic.cnblogs.com/face/72806/20130721170409.png</span>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/hseagle/p/3908276.html#3012003" class="layer">#2楼</a><a name="3012003" id="comment_anchor_3012003"></a>  <span class="comment_date">2014-08-20 11:50</span> <a id="a_comment_author_3012003" href="http://www.cnblogs.com/xuehuashenjian/" target="_blank">雪花神剑</a> <a href="http://msg.cnblogs.com/send/%E9%9B%AA%E8%8A%B1%E7%A5%9E%E5%89%91" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3012003" class="blog_comment_body"><a href="http://www.cnblogs.com/hseagle/p/3908276.html#3008823" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3008823);">@</a>lwee<br>请问楼主，博文中的图片是从什么书中摘录下的，想学习机器学习理论方面的知识。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3012003,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3012003,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/hseagle/p/3908276.html#3012023" class="layer">#3楼</a><a name="3012023" id="comment_anchor_3012023"></a>[<span class="louzhu">楼主</span>]<span id="comment-maxId" style="display:none;">3012023</span><span id="comment-maxDate" style="display:none;">2014/8/20 12:05:28</span>  <span class="comment_date">2014-08-20 12:05</span> <a id="a_comment_author_3012023" href="http://www.cnblogs.com/hseagle/" target="_blank">徽沪一郎</a> <a href="http://msg.cnblogs.com/send/%E5%BE%BD%E6%B2%AA%E4%B8%80%E9%83%8E" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3012023" class="blog_comment_body"><a href="http://www.cnblogs.com/hseagle/p/3908276.html#3012003" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3012003);">@</a>雪花神剑<br>是我自己先用latex写好，然后再贴上来的</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3012023,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3012023,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/hseagle/p/3908276.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/hseagle/p/3908276.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://www.jpush.cn/" target="_blank">【推荐】极光推送30多万开发者的选择，SDK接入量超过30亿了，你还没注册？</a><br><a href="http://click.aliyun.com/m/3037/" target="_blank">【阿里云SSD云盘】速度行业领先</a><br></div>
+<div id="opt_under_post"></div>
+<div id="ad_c1" class="c_ad_block"><a href="http://job.cnblogs.com/offer/51018/" target="_blank"><img width="300" height="250" src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/programming-is-an-art-form.jpg" alt="招聘ASP.NET 5开发工程师" title="招聘ASP.NET 5开发工程师"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/536914/" target="_blank">上海市质监局：小米空气净化器质量问题严重</a><br> ·  <a href="http://news.cnblogs.com/n/536913/" target="_blank">Qt不再使用LGPLv2.1授权</a><br> ·  <a href="http://news.cnblogs.com/n/536912/" target="_blank">微软开源Edge的JS引擎ChakraCore</a><br> ·  <a href="http://news.cnblogs.com/n/536911/" target="_blank">星巴克CEO看好中国经济，打算五年之内将中国门店数量翻番</a><br> ·  <a href="http://news.cnblogs.com/n/536910/" target="_blank">App Store 12月游戏收入近10亿美金，Clash of Clans高居榜首</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/536387/" target="_blank">Docker简介</a><br> ·  <a href="http://kb.cnblogs.com/page/536115/" target="_blank">Docker简明教程</a><br> ·  <a href="http://kb.cnblogs.com/page/535581/" target="_blank">Git协作流程</a><br> ·  <a href="http://kb.cnblogs.com/page/535355/" target="_blank">企业计算的终结</a><br> ·  <a href="http://kb.cnblogs.com/page/535278/" target="_blank">软件开发的核心</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+$(function () {
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);    
+});
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><p>邮箱: hs_xp@163.com<br>
+</p>
+<p>QQ: 58506256&nbsp; <br>
+</p>
+<p>QQ群: Spark零基础学习 367106111</p>
+<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=99253f4f95c7f17a8d77d6cf2acfacfa6556ae645d22f9c6a13d24142341761e"><img src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/group.png" alt="Spark零基础学习" title="Spark零基础学习" border="0"></a>
+<br>
+<p>&nbsp;</p>
+<embed src="http://service.weibo.com/staticjs/weiboshow.swf?verifier=8feb07ed&amp;uid=2060926175&amp;width=200&amp;height=500&amp;fansRow=2&amp;isTitle=1&amp;isWeibo=1&amp;isFans=1&amp;noborder=0&amp;ptype=1&amp;colors=cfe1f3,fafcff,444444,5093d5" quality="high" scale="noborder" align="L" height="500" width="200"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>园龄：<a href="http://home.cnblogs.com/u/hseagle/" title="入园时间：2012-11-18">3年1个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/hseagle/followers/">193</a><br>关注：<a href="http://home.cnblogs.com/u/hseagle/followees/">5</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger(&#39;8f4525b4-4a31-e211-aa8f-842b2b196315&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2015/12/01&#39;);return false;">&lt;</a></td><td align="center">2016年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2016/02/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td class="CalWeekendDay" align="center">2</td></tr><tr><td class="CalWeekendDay" align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center"><a href="http://www.cnblogs.com/hseagle/archive/2016/01/07.html"><u>7</u></a></td><td align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr><tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td class="CalTodayDay" align="center">14</td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr><tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr><tr><td class="CalWeekendDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td class="CalWeekendDay" align="center">30</td></tr><tr><td class="CalWeekendDay" align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+
+</div>
+</div>
+
+</div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(70)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark(34)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/hseagle/category/519033.html">Apache Storm(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/hseagle/category/514458.html">archlinux(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/hseagle/category/664228.html">BigData(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/hseagle/category/565169.html">Database(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/hseagle/category/759340.html">Elasticsearch(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/hseagle/category/470583.html">GDB(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/hseagle/category/554058.html">Hadoop(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/hseagle/category/519017.html">memory management(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/hseagle/category/646056.html">Scala(2)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(76)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/hseagle/archive/2016/01.html">2016年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/hseagle/archive/2015/11.html">2015年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/hseagle/archive/2015/04.html">2015年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/hseagle/archive/2015/03.html">2015年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/hseagle/archive/2015/02.html">2015年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/hseagle/archive/2015/01.html">2015年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/hseagle/archive/2014/12.html">2014年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/hseagle/archive/2014/11.html">2014年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/hseagle/archive/2014/10.html">2014年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/hseagle/archive/2014/09.html">2014年9月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/hseagle/archive/2014/08.html">2014年8月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/hseagle/archive/2014/07.html">2014年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/hseagle/archive/2014/06.html">2014年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/hseagle/archive/2014/05.html">2014年5月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/hseagle/archive/2014/04.html">2014年4月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/hseagle/archive/2014/03.html">2014年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/hseagle/archive/2014/02.html">2014年2月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/hseagle/archive/2014/01.html">2014年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/hseagle/archive/2013/12.html">2013年12月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/hseagle/archive/2013/11.html">2013年11月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/hseagle/archive/2013/10.html">2013年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/hseagle/archive/2013/09.html">2013年9月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/hseagle/archive/2013/08.html">2013年8月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/hseagle/archive/2013/06.html">2013年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/hseagle/archive/2013/05.html">2013年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/hseagle/archive/2013/04.html">2013年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/hseagle/archive/2013/03.html">2013年3月 (4)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	104754
+	</li>
+	<li class="liRank">
+		排名 -	1810
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">1. Apache Spark源码走读之1 -- Spark论文阅读笔记(14198)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673123.html">2. Apache Spark源码走读之2 -- Job的提交与运行(9805)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673132.html">3. Apache Spark源码走读之3 -- Task运行期之函数调用关系分析(7388)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(5476)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3756862.html">5. Apache Storm源码阅读笔记(4802)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3543782.html">1. Apache Storm 衍生项目之1 -- storm-yarn(5)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3732492.html">2. Apache Spark源码走读之9 -- Spark源码编译(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">3. Apache Spark源码走读之1 -- Spark论文阅读笔记(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(4)</a></li><li><a href="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园.html">5. Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现(3)</a></li></ul></div>
+</div>
+</div></div></div><script type="text/javascript">loadBlogSideColumn();</script><iframe src="./Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现 - 徽沪一郎 - 博客园_files/container.html" style="visibility: hidden; display: none;"></iframe>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2016 徽沪一郎
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

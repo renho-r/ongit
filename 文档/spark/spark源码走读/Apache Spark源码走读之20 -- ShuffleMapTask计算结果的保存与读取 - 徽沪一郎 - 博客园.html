@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://www.cnblogs.com/hseagle/p/3863966.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/bundle-LessIsMoreRight.css">
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/134061.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/hseagle/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/hseagle/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/hseagle/wlwmanifest.xml">
+<script async="" type="text/javascript" src="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/gpt.js"></script><script src="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'hseagle', cb_enable_mathjax=true;</script>
+<script src="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/blog-common.js" type="text/javascript"></script>
+<script src="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/pubads_impl_78.js" async=""></script><script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: ['AMS'], useLabelIds: true } },
+  'HTML-CSS': { linebreaks: { automatic: true } },
+  SVG: { linebreaks: { automatic: true } }});</script><script type="text/javascript" src="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/MathJax.js"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style></head>
+<body><div id="MathJax_Message" style="display: none;"></div>
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<script type="text/javascript" src="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/pdfobject.js"></script>
+<script src="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/highlight.pack.js"></script>
+<script>
+hljs.configure({tabReplace: '  '});
+hljs.initHighlightingOnLoad();
+</script>
+<!--PageBeginHtml Block End-->
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/hseagle/">富贵有定数，学问则无定数。求一分，便得一分</a></div>
+<div class="subtitle">快乐源于简单</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/hseagle/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/hseagle/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/hseagle/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-76&nbsp;
+文章-0&nbsp;
+评论-47&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园.html">Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p><em><span style="color: #3366ff;"><strong>欢迎转载，转载请注明出处，徽沪一郎。</strong></span></em></p>
+<h1>概要</h1>
+<p>ShuffleMapTask的计算结果保存在哪，随后Stage中的task又是如何知道从哪里去读取的呢，这个过程一直让我困惑不已。</p>
+<p>用比较通俗一点的说法来解释一下Shuffle数据的写入和读取过程</p>
+<ol>
+<li>每一个task负责处理一个特定的data partition</li>
+<li>task在初始化的时候就已经明确处理结果可能会产生多少个不同的data partition</li>
+<li>利用partitioner函数，task将处理结果存入到不同的partition，这些数据存放在当前task执行的机器上</li>
+<li>假设当前是stage 2有两个task, stage 2可能输出4个不同的data partition, task 0和task 1各自运行于不同的机器上，task 0中的部分处理结果会存入到data partition 0，task 1的部分处理结果也可能存入到data partition 0.</li>
+<li>由于stage 2产生了4个不同的data partition, 后续stage 1中的task个数就为4. task 0 就负责读取data partition 0的数据，对于(stage1, task0)来说，所要读取的data partition 0的内容由task 0和task 1中的partition 0共同组成。</li>
+<li>现在问题的关键转换成为(stage_1, task_0)如何知道(stage_2, task_x)有没有相应的输出是属于data partition 0的呢？这个问题的解决就是MapStatus</li>
+<li>每一个ShuffleMapTask在执行结束，都会上报一个MapStatus，在MapStatus中会反应出朝哪些data partition写入了数据，写入了数据则size为非零值，否则为零值</li>
+<li>(stage_1,task_0)会去获取stage_2中所有task的MapStatus，以判定(stage_2, task_x)产生的数据中有自己需要读入的内容</li>
+<li>假设(stage_1,task_0)知道(stage_2, task_0)生成了data partition 0中的数据，于是去(stage_2, task_0)运行时的机器去获取具体的数据，如果恰巧这个时候远端机器已经挂掉了，获取失败，怎么办？</li>
+<li>上报异常，由DAGScheduler重新调度(stage_2,task_0)，重新生成所需要的数据。</li>
+<li>Spark不像Hadoop中的MapReduce有一个明显的combine阶段，在spark中combine过程有两次调用，一是Shuffle数据写入过程,另一个是Shuffle数据读取过程。</li>
+</ol>
+<p>如果能够明白上述的过程，并对应到相应的代码，那就无须看下述的详细解释了。</p>
+<p>好了，让我们开始代码跟踪吧。</p>
+<h1>数据写入过程</h1>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="data:image/png;base64,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" alt=""></p>
+<p>数据写入动作最原始的触发点是ShuffleMapTask.runTask函数，看一看源码先。</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">override</span> <span class="hljs-keyword">def</span> runTask(context: TaskContext): MapStatus = {
+    metrics = Some(context.taskMetrics)
+    <span class="hljs-keyword">var</span> writer: ShuffleWriter[Any, Any] = <span class="hljs-keyword">null</span>
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">val</span> manager = SparkEnv.get.shuffleManager
+      writer = manager.getWriter[Any, Any](dep.shuffleHandle, partitionId, context)
+      writer.write(rdd.iterator(split, context).asInstanceOf[Iterator[_ 
+        <span class="hljs-keyword">if</span> (writer != <span class="hljs-keyword">null</span>) {
+          writer.stop(success = <span class="hljs-keyword">false</span>)
+        }
+        <span class="hljs-keyword">throw</span> e
+    } <span class="hljs-keyword">finally</span> {
+      context.executeOnCompleteCallbacks()
+    }
+  }
+</code></pre>
+<p>managerGetWriter返回的是HashShuffleWriter，所以调用过程是ShuffleMapTask.runTask-&gt;HashShuffleWriter.write-&gt;BlockObjectWriter.write. <span style="color: #ff0000;"><strong>注意dep.mapSideCombine这一分支判断。ReduceByKey(_ + _)中的(_ + _)在此处被执行一次，另一次执行是在read过程。</strong></span></p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">override</span> <span class="hljs-keyword">def</span> write(records: Iterator[_ &lt;: Product2[K, V]]): Unit = {
+    <span class="hljs-keyword">val</span> iter = <span class="hljs-keyword">if</span> (dep.aggregator.isDefined) {
+      <span class="hljs-keyword">if</span> (dep.mapSideCombine) {
+        dep.aggregator.get.combineValuesByKey(records, context)
+      } <span class="hljs-keyword">else</span> {
+        records
+      }
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dep.aggregator.isEmpty &amp;&amp; dep.mapSideCombine) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Aggregator is empty for map-side combine"</span>)
+    } <span class="hljs-keyword">else</span> {
+      records
+    }
+
+    <span class="hljs-keyword">for</span> (elem &lt;- iter) {
+      <span class="hljs-keyword">val</span> bucketId = dep.partitioner.getPartition(elem._1)
+      shuffle.writers(bucketId).write(elem)
+    }
+</code></pre>
+<p>HashShuffleWriter.write中主要处理两件事</p>
+<ol>
+<li>判断是否需要进行聚合,比如&lt;hello,1&gt;和&lt;hello,1&gt;都要写入的话,那么先生成&lt;hello,2&gt;然后再进行后续的写入工作</li>
+<li>利用Partitioner函数来决定&lt;k,val&gt;写入到哪一个文件中</li>
+</ol>
+<p>Partitioner是在什么时候注入的，RDD抽象类中，Partitioner为空？以reduceByKey为例，HashPartitioner会在后面<strong>combineByKey</strong>的代码创建<strong>ShuffledRDD</strong>的时候作为ShuffledRDD的构造函数传入。</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">def</span> reduceByKey(func: (V, V) =&gt; V, numPartitions: Int): RDD[(K, V)] = {
+    reduceByKey(<span class="hljs-keyword">new</span> HashPartitioner(numPartitions), func)
+  }
+</code></pre>
+<p>Stage在创建的时候通过构造函数入参明确需要从多少Partition读取数据，生成的Partition会有多少。看一看Stage的构造函数，读取的分区数目由RDD.partitions.size决定，输出的partitions由shuffleDep决定。</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">private</span>[spark] <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Stage</span><span class="hljs-params">(
+    val id: Int,
+    val rdd: RDD[_],
+    val numTasks: Int,
+    val shuffleDep: Option[ShuffleDependency[_, _, _]],  // Output shuffle if stage is a map stage
+    val parents: List[Stage],
+    val jobId: Int,
+    val callSite: CallSite)</span></span>
+<span class="hljs-keyword">extends</span> Logging {
+  <span class="hljs-keyword">val</span> isShuffleMap = shuffleDep.isDefined
+  <span class="hljs-keyword">val</span> numPartitions = rdd.partitions.size
+  <span class="hljs-keyword">val</span> outputLocs = Array.fill[List[MapStatus]](numPartitions)(Nil)
+  <span class="hljs-keyword">var</span> numAvailableOutputs = <span class="hljs-number">0</span>
+  <span class="hljs-keyword">private</span> <span class="hljs-keyword">var</span> nextAttemptId = <span class="hljs-number">0</span>
+</code></pre>
+<p>回到数据写入的问题上来，结果写入时的一个主要问题就是已经知道shuffle_id, map_id和要写入的elem,如何找到对应的写入文件。每一个临时文件由三元组(shuffle_id,map_id,reduce_id)来决定,当前已经知道了两个,还剩下一下reduce_id待确定。</p>
+<p>reduce_id是使用partitioner计算出来的结果,输入的是elem的键值。也就是dep.partitioner.getPartition(elem._1)。 根据计算出来的bucketid找到对应的writer，然后真正写入。</p>
+<p>在HashShuffleWriter.write中使用到的shuffle由ShuffleBlockManager的forMapTask函数生成,注意forMapTask中产生writers的代码逻辑。</p>
+<p>每个writer分配一下文件, 文件名由三元组(shuffle_id,map_id,reduce_id)组成,如果知道了这个三元组就可以找到对应的文件。</p>
+<p>如果consolidation没有打开,那么在一个task中,有多少个输出的partition就会有多少个中间文件。</p>
+<pre><code class="scala hljs ">      <span class="hljs-keyword">val</span> writers: Array[BlockObjectWriter] = <span class="hljs-keyword">if</span> (consolidateShuffleFiles) {
+        fileGroup = getUnusedFileGroup()
+        Array.tabulate[BlockObjectWriter](numBuckets) { bucketId =&gt;
+          <span class="hljs-keyword">val</span> blockId = ShuffleBlockId(shuffleId, mapId, bucketId)
+          blockManager.getDiskWriter(blockId, fileGroup(bucketId), serializer, bufferSize)
+        }
+      } <span class="hljs-keyword">else</span> {
+        Array.tabulate[BlockObjectWriter](numBuckets) { bucketId =&gt;
+          <span class="hljs-keyword">val</span> blockId = ShuffleBlockId(shuffleId, mapId, bucketId)
+          <span class="hljs-keyword">val</span> blockFile = blockManager.diskBlockManager.getFile(blockId)
+          <span class="hljs-comment">// Because of previous failures, the shuffle file may already exist on this machine.</span>
+          <span class="hljs-comment">// If so, remove it.</span>
+          <span class="hljs-keyword">if</span> (blockFile.exists) {
+            <span class="hljs-keyword">if</span> (blockFile.delete()) {
+              logInfo(s<span class="hljs-string">"Removed existing shuffle file $blockFile"</span>)
+            } <span class="hljs-keyword">else</span> {
+              logWarning(s<span class="hljs-string">"Failed to remove existing shuffle file $blockFile"</span>)
+            }
+          }
+          blockManager.getDiskWriter(blockId, blockFile, serializer, bufferSize)
+        }
+      }
+</code></pre>
+<p>getFile负责将三元组(shuffle_id,map_id,reduce_id)映射到文件名</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">def</span> getFile(filename: String): File = {
+    <span class="hljs-comment">// Figure out which local directory it hashes to, and which subdirectory in that</span>
+    <span class="hljs-keyword">val</span> hash = Utils.nonNegativeHash(filename)
+    <span class="hljs-keyword">val</span> dirId = hash % localDirs.length
+    <span class="hljs-keyword">val</span> subDirId = (hash / localDirs.length) % subDirsPerLocalDir
+
+    <span class="hljs-comment">// Create the subdirectory if it doesn't already exist</span>
+    <span class="hljs-keyword">var</span> subDir = subDirs(dirId)(subDirId)
+    <span class="hljs-keyword">if</span> (subDir == <span class="hljs-keyword">null</span>) {
+      subDir = subDirs(dirId).synchronized {
+        <span class="hljs-keyword">val</span> old = subDirs(dirId)(subDirId)
+        <span class="hljs-keyword">if</span> (old != <span class="hljs-keyword">null</span>) {
+          old
+        } <span class="hljs-keyword">else</span> {
+          <span class="hljs-keyword">val</span> newDir = <span class="hljs-keyword">new</span> File(localDirs(dirId), <span class="hljs-string">"%02x"</span>.format(subDirId))
+          newDir.mkdir()
+          subDirs(dirId)(subDirId) = newDir
+          newDir
+        }
+      }
+    }
+
+    <span class="hljs-keyword">new</span> File(subDir, filename)
+  }
+
+  <span class="hljs-keyword">def</span> getFile(blockId: BlockId): File = getFile(blockId.name)
+</code></pre>
+<p>产生的文件在哪呢，如果没有更改默认的配置，生成的目录结构类似于下</p>
+<pre><code class="bash hljs ">/tmp/spark-local-<span class="hljs-number">20140723092540</span>-<span class="hljs-number">7</span>f24
+/tmp/spark-local-<span class="hljs-number">20140723092540</span>-<span class="hljs-number">7</span>f24/<span class="hljs-number">0</span>d
+/tmp/spark-local-<span class="hljs-number">20140723092540</span>-<span class="hljs-number">7</span>f24/<span class="hljs-number">0</span>d/shuffle_0_0_1
+/tmp/spark-local-<span class="hljs-number">20140723092540</span>-<span class="hljs-number">7</span>f24/<span class="hljs-number">0</span>d/shuffle_0_1_0
+/tmp/spark-local-<span class="hljs-number">20140723092540</span>-<span class="hljs-number">7</span>f24/<span class="hljs-number">0</span>c
+/tmp/spark-local-<span class="hljs-number">20140723092540</span>-<span class="hljs-number">7</span>f24/<span class="hljs-number">0</span>c/shuffle_0_0_0
+/tmp/spark-local-<span class="hljs-number">20140723092540</span>-<span class="hljs-number">7</span>f24/<span class="hljs-number">0</span>e
+/tmp/spark-local-<span class="hljs-number">20140723092540</span>-<span class="hljs-number">7</span>f24/<span class="hljs-number">0</span>e/shuffle_0_1_1</code> </pre>
+<p>当所有的数据写入文件并提交以后，还需要生成MapStatus汇报给driver application. MapStatus在哪生成的呢？commitWritesAndBuildStatus就干这活。</p>
+<p>调用关系HashShuffleWriter.stop-&gt;commitWritesAndBuildStatus</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">private</span> <span class="hljs-keyword">def</span> commitWritesAndBuildStatus(): MapStatus = {
+    <span class="hljs-comment">// Commit the writes. Get the size of each bucket block (total block size).</span>
+    <span class="hljs-keyword">var</span> totalBytes = <span class="hljs-number">0</span>L
+    <span class="hljs-keyword">var</span> totalTime = <span class="hljs-number">0</span>L
+    <span class="hljs-keyword">val</span> compressedSizes = shuffle.writers.map { writer: BlockObjectWriter =&gt;
+      writer.commit()
+      writer.close()
+      <span class="hljs-keyword">val</span> size = writer.fileSegment().length
+      totalBytes += size
+      totalTime += writer.timeWriting()
+      MapOutputTracker.compressSize(size)
+    }
+
+    <span class="hljs-comment">// Update shuffle metrics.</span>
+    <span class="hljs-keyword">val</span> shuffleMetrics = <span class="hljs-keyword">new</span> ShuffleWriteMetrics
+    shuffleMetrics.shuffleBytesWritten = totalBytes
+    shuffleMetrics.shuffleWriteTime = totalTime
+    metrics.shuffleWriteMetrics = Some(shuffleMetrics)
+
+    <span class="hljs-keyword">new</span> MapStatus(blockManager.blockManagerId, compressedSizes)
+  }
+</code></pre>
+<p>compressedSize是一个非常让人疑惑的地方，原因慢慢道来，先看一下MapStatus的构造函数</p>
+<pre><code class="scala hljs "><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MapStatus</span><span class="hljs-params">(var location: BlockManagerId, var compressedSizes: Array[Byte])</span></span>
+</code></pre>
+<p>&nbsp;compressedSize是一个byte数组，每一个byte反应了该partiton中的数据大小。如Array(0)=128就表示在data partition 0中有128byte数据。</p>
+<p>问题的问题是一个byte只能表示255，如果超过255怎么办呢？</p>
+<p>当当当，数学闪亮登场了，注意到compressSize没，通过转换将2^8变换为1.1^256。一下子由255byte延伸到近35G.</p>
+<p>看一看这神奇的compressSize函数吧，只是聊聊几行代码而已。</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">def</span> compressSize(size: Long): Byte = {
+    <span class="hljs-keyword">if</span> (size == <span class="hljs-number">0</span>) {
+      <span class="hljs-number">0</span>
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (size &lt;= <span class="hljs-number">1</span>L) {
+      <span class="hljs-number">1</span>
+    } <span class="hljs-keyword">else</span> {
+      math.min(<span class="hljs-number">255</span>, math.ceil(math.log(size) / math.log(LOG_BASE)).toInt).toByte
+    }
+  }
+</code></pre>
+<p>&nbsp;ShuffleMapTask运行结束时，会将MapStatus结果封装在StatusUpdate消息中汇报给SchedulerBackend, 由DAGScheduler在handleTaskCompletion函数中将MapStatus加入到相应的Stage。这一过程略过，不再详述。</p>
+<p>MapOutputTrackerMaster会保存所有最新的MapStatus.</p>
+<p>只画张图来表示存储之后的示意。</p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgwAAAChCAIAAAAk+XBBAAAAA3NCSVQICAjb4U/gAAAACXBIWXMAAA7EAAAOxAGVKw4bAAAgAElEQVR4nO3daVwT19oA8BNCAgKCKVBAoAKiqGwiolaL4q4ouACvIsVW5eWKWMHrUkot1gUqVQE1VEVcWqkrorjhAiIqiizKIhJc2ItBdpJAgCTzfpjfzc0LJIYtm8//U3LOzHnOhCFPZubMHAKGYQgAAADoiZK0OwAAAEB2QZIAAAAgFCQJAAAAQkGSAAAAIBQkCQAAAEJBkgAAACAUJAkAAABCQZIAAAAgFCQJAAAAQkGSAEDmVFZWPn36lE6nI4Rqa2u5XK60ewQ+X5AkABBLXFycra0tgUBYtmxZjwvQaDQlJSUikRgaGkqj0foWpaamZsGCBVu2bElLSwsICHByclq4cGFbW1s/Og5A/2CfHxaLdePGDWn3AsifxMREhJCSkhKNRute6+PjgxCysrLqT4j58+f/+9//5r+9c+eOsrIyg8Hgl1y4cEGcdsRcDIBP+hyPJCIjI8vKyqTdCyB/NDU158yZw+PxDhw40KWKTqcXFhZqa2urq6v3uX0Gg3Hv3j0HBwd+yfz58z09Pflv6+rq9u7d+8l2xFwMAHEoeJJgsVgpKSkZGRn19fX4Gd74+PiQkBAGg0Gn09vb2/HF3r59e/v27SdPnnR2dgqu3tHR8fz587t379bU1HRpmc1mP3jw4O7duw0NDZLZFiAL7O3tZ82adfbs2Q8fPgiWHzlyZNOmTd2X73HXYjAYxcXFCKHc3NyHDx/yzyYRCAQikbh3717Bxl1cXJSUlBBCLS0ty5cvr66uptPp9fX1eO3Hjx/v379/79695uZmvKTLYjU1NXQ6va6uDiHE4/HodDqdTm9qauK3T6PR7ty5U1ZW9v79+4H4hICiUeQkUVVV5eXlRSQSy8vLrayssrOzy8vLc3JyeDxeWloalUotKSnh8Xhr1qzZv3+/urp6eHj4uHHj+P8/NBrNycmptbVVXV190qRJ06ZNc3R0vHTpEkIoIyNj3bp19fX1iYmJZmZmt27dkuqGAonatm1be3v7oUOH+CUsFuvOnTseHh6Ci/W4azU0NPz000/Dhw8/evTov/71LwcHh5kzZ9rY2OBf0BoaGmvXri0sLLS2tj558iSPx0MIeXh4qKmpIYQSEhK4XG5bWxuVSr1w4QJC6NixYytWrCCRSGlpaUZGRhkZGd0Xy8vLmzZt2pQpUxBCXC730aNH5ubm+JkxhNCuXbtu3bo1dOjQPXv2rFixQkKfIJAv0j7fNYiCgoJCQkLw1xcvXsSvQ+C/2o4cOYKX4/9Xubm5GIa9fPkSIZSQkIBXTZ061d/fH38dERFBJpPLy8sxDGtpabG0tOSfJp4+fbqOjg6LxZLglgHpSE1N/fHHHzEMs7a21tLSam5uxssPHTp06NAhDMO0tbUnT56MFwrbtTo6OjQ1NS0tLW/fvt3Z2Xn8+HGE0Jw5c/C1Ojo61q9fj/9v2tjYJCcnC3bgxx9/1NbWxl/zeDw1NbWoqCj8NYVC2bRpU/fFMAxbu3btyJEj+W8dHBzc3NwwDGOxWKqqqu3t7RiGcbnc7777bmA/LqAYFPlIgsfjHT58OD4+HiHk6upqZWXVfRlLS8uIiAi8qra2FiHEYDAQQlwu9/nz55qamvhidnZ2HR0d+fn5CKErV660trbu27dvx44dO3bs6OjoaGtrw88egM/Etm3bmpub8e93Lpf7119/rVu3rssywnYtEok0dOjQ2bNnL1y4UFlZ2dfX19HRMSUlBT9vSSKRjh49+vDhQ1tb2/z8/Dlz5vj5+fU4BJZAIERGRrq7uyOEKioqVFVV8fZ7XFLwLX7yCu85h8Px8vKi0+lKSkpBQUH9+1SAYlLkJBEYGGhsbOzh4WFnZ5eammpiYtJ9GQ0NjU2bNsXFxfn5+b158wYhhB/jE4nEESNGFBYW4oux2WwCgTB69GiE0OvXr42Njff+x7Nnz5hMpp2dneQ2DEjbypUrjYyMDh061NHRER8fv3Dhwu7Xq4XtWjjBL+5Zs2ZhGFZVVcUvmTFjxosXL44fP06hUI4dOxYVFdVjN3x9fd+9e7dhw4Zr166RyWTB9sUxdOjQAwcOXL161czMLDAwUE9Pr1erg8+EIicJAwODnJycqKioiooKZ2fnP/74o/syTCZz1qxZdXV1R48edXNzE6w6duzY48eP4+PjKysro6KiQkND8STB4/GKi4sFf9xhGAa3O31WSCRSYGDgP//8ExcXR6VSf/jhh+7LiNi1utDX10cI4YetcXFxeKGSkpKvr+/Dhw/JZPL58+d7XHHLli1UKjUiIiIgIEBVVbUPGxIQEJCXlzdjxoxDhw5NmjSppaWlD40AxabISSIhIYFEIgUEBNBoNDs7u4MHD3Zf5uDBg/n5+Vu2bOleNXLkSB8fHxUVlYyMjD/++OOnn37Cyy0tLWtqak6cOMFf8tq1a+Xl5YO0FUA2+fr6amlpbd261dLS8ssvv+y+gIhdC/3/owo6nW5oaIgf6eJnR/lsbGwcHByUlZW7t5CWlhYREfHzzz9/Mj2QSKQuw/YwDEMINTc3p6SkWFpaJiUlnThx4t27d/iNIAAIUuQkkZqamp6ejhDS1dX19vY2NDRECJHJZCKRWFZWxmQyMzIyWCxWS0tLXl5eZ2fnqVOnEEIMBgO/5Pjtt992dHRQKBRzc/POzk7+UFc3Nzd9ff2AgIA9e/ZkZGScOnXq2rVrZmZm0ttQICGtra2tra3466FDh65fv765uVkwDbS1tbFYLPy1iF0LIVRSUoK/wDDsypUrwcHB+NubN29ev36d32Btbe3r16/XrFmDv1VTU2tubm5sbExOTmYymQihJ0+eIIQSExNramr47QsuhmGYkZFRdXU1HjEuLq6iooJOp/N4vM7Ozt9//x1v2cfHR1NTE/8fAeD/kepl88H1ww8/GBsbR0ZGXr58ee7cuXl5eXj52rVrCQTC7NmzW1paaDTal19+SSaTv/7666ysLAqFoqen9/z5cwzD/P39u3xWzs7ObDYbw7Ds7GxTU1O8cMaMGbW1tdLcTiARFy9enDFjhqGh4cmTJ+vq6jAMq66uXrlyJV6bmZmJZwslJaXw8PCioiIRu5ahoaGpqenWrVvj4+M9PT23bdvG4/HwdsaPHz979mx3d/cDBw78+uuv48aNO3DgAL8P+fn5w4YN09bWPnv2LJvNnjRpEoFAGDVq1KVLlxYtWkQikU6cONFlMQzDKisrDQwM1NTULC0t7969O3nyZBMTk6ioqNra2iFDhixbtuzKlStBQUEBAQES/kiBXCBgGCbpvCQpTCZTRUWlqKiIw+FYWVmRyWR+VWNjI4VCwV+z2eza2lpjY2OEUENDg6qqqpqaGoZhW7du3bRpk7KycnNzM4vFqquri42N9fb2Xrp0KUKIy+Xm5eVpamqam5tLZeuA7Otx10IIGRkZubu7//LLL+/evTMxMRG8Ykyn0/X19VtaWl6/fk0mk8eMGYOvwtfR0dHZ2YlfJ+fxeJWVlUZGRkQikc1ms1gsbW3t7oshhBgMxuvXr8eNGzd06NCioiILCwslJSUej9fe3t7S0lJaWvrVV18NHz5cMh8LkC+KnCT6Izo6OiMj4+zZs4KFhw8fnjVrVo9DaQEQH54khI1ZAkCm9HBBDCCE3r59Gx8fP3z48Hnz5unq6uKX+NTU1CBDgP5js9kdHR3S7gUAYoEjiZ5xOJy//vorLi6upKSEQCCMHz/ez89v3rx50u4XkG/V1dWxsbGnT5/W0dHZsmXLypUrpd0jAD4BkgQAAAChFHkILAAAgH6CJAEAAEAoSBIAAACEgiQBgCyqra21tbXFHx8LgBTBEFggHWVlZa9fv87OzqbRaHjJ1KlTv/jiiwFpfOrUqQPSjq6ubn+mI+2zgoKCefPm+fn52djY3Lt3z9raWvJ9AAAHo5uApHE4nIULFyKElixZYmdnJ+J5Qa9fvxacaLPPGhoanj592v92EEKFhYX4tCK9JThVtQi1tbXJycmenp7+/v7Tpk1LT0+Pjo4+f/48f3VdXd3Jkyf3oQPdWVtbDx06tP/tqKur6+rq9r8dIJvkNUl0mUdFXsjppz2wAgICtLW1Q0JCpN0RKSsrK+teKOwLt8eFcf/8889APYT45s2bA9IOnur6sOKcOXPEzzeLFy+eOnVqj/PEgAEkx0lC7nouj30eDCwWSyrncIA8qq2t5T9Yt4unT5+ePn0aIZSUlNTj09TBgJDXry15/MKVxz4DION27979+PHj+/fvS7sjCktev7bk8QtXHvsMgOyrra2FiyKDR16/tuTxC7fPfZbTCzCfD7nbFQEQH5zI+69Hjx69e/du7dq1fVu9srJSX1+fRCINbK9w8DUksyCFA8UGN9MhhBCXyw0LC5s1a1ZCQkIfVn///v26detGjhzZ3Nw84H0DoA8IQKFJcl9StCOJ1tbWBw8eLF68uFdrEYnE4ODgvs0C39nZWVJSwmQyu8w1D4B0Sf7okyClk8CfYVxJhlO0I4nIyEgRI8pFGzJkSB/WIpFIc+fOnTNnTt+CAgCALFOoJBEfHx8SEsJgMOh0ent7O0IIw7Ds7OwbN250uUuWxWKlpKRkZGTU19fT6fTuTdH/g8lkihN6kC5FAACAdClOkigvL8/JyeHxeGlpaVQqtaSkpK6uzsHBITMzk0wmu7m5ubu740tWVVV5eXkRicTy8nIrK6vs7OwuTWEYFhwc7OjomJKSIrOXGZqbm6Ojo4uKinqszc3NjYiI6E/7jx49OnXqVH9akDtHjx4Vdp9wSUnJzp07JdwfAGQCJp967HlbWxtC6MiRI/jbffv2DRs2DH8dGRmJEGpoaMAwLCgoKCQkBC+/ePHijRs38NczZsxYtGgRhmHZ2dlLlixpbGwUvz/4nZ+1tbW97bM4uq+Yk5Mze/ZshFBSUlL35alUqpaWloWFRd/CcTic0NBQIpGIfxqfDy0traVLl3Yvv3z58ldffSXszyeb/0QiesVkMjMzM+vr63tVhWFYS0tLf/bwmpqazMxMNpstflwej1dSUpKXl9fe3j4YcUVUvX37VipxcU1NTZmZmX2LO+AU50iiu6VLl0ZHRyOEOBwO/pw4BoOBEOLxeIcPH46Pj0cIubq6WllZCa6VnJy8f//+8+fPDxs2TBq9FsuECRN+++03YbX+/v6LFi3qc+P4ZXx7e/s+tyCnXr169eeff3Yvd3d39/HxkXx/BsOdO3ecnZ1zc3O//fbb2NhYMauam5v37NljYmLy8OHDvsX97bffNmzY8OLFi5kzZ2ZmZooTt7q6evr06WZmZra2toaGhn0beSgirrAqBoMxf/780aNH29rajhw5MicnRzJxBa1Zs2bNmjV9iDsoJJmRBlCPPe9yJIFhWHNz8969ewMDA7du3YoQKi0txTCsuroaf/by+PHjb9++zV94xowZ9vb2qqqqP//8c2/7I+EjCQzDCgoKkJAjCQzD1q1b1+cjCRz/uApgGLZ//35hfz7Z/CfqsVeFhYXq6upFRUUYhjU1NVEolAcPHnyyCsOwtLS033//HSF0+fLl3gbFMOzkyZNmZmb4r/KHDx/q6Ojw/1NExF22bFlkZGRBQcGlS5eGDx9OJpMLCgoGKq6IqqCgoMePH3d2dt69e1dNTc3e3n4At1dEFd+pU6c0NDQsLS17G3eQyOL+LQ5xksSrV69Gjx796NEjDMPOnz/PTxIYhnV0dERFReGzF0RHR+OF+Nfir7/+SiAQrl271qv+iJkkdu3a9eTJEyaT2avGRSeJ9vb2e/fuPX/+XLC2e5JgsVgPHjy4c+cOfs5NUEtLy927d1NTU1tbW/mFgkniw38wGAwMw5hMJh7u48ePd+7cqa6uxhd7+/btrVu3urT/5s2bW7duPX78uKOjQzBidnY2hmEVFRXdV6mpqbl3797du3ebmpq6dPXVq1e3bt0qLi7uUs7j8TIzM69fv87/E2MYxuFw0tLS8LVevnzZ7SPsqr6+vsti1dXV169fz87OVowksWzZsilTpvDfenp6Tpw48ZNVuDdv3vQtSXR0dOjp6QUFBfFLDAwMtm7dKjruhw8fTpw4wS9/8OABQmj37t0DEldEFY/He/v2Lb/cx8dHT09voLZX9EeBKykpWb58+apVq2QnSSjy6aaNGzeOHTvW0dGxS3lCQgKJRAoICKDRaHZ2dgcPHhSsDQkJcXZ2Xr16dXFx8YB3aeLEiSkpKVOnTjUwMAgICLh9+7aIAbu1tbV4JhChrKxswoQJLi4ukydPdnFxEXavRmJiooeHB4vFKigoMDMzO3r0KL/q3LlzPj4+bDY7Pj7e3Nw8Ly+vy7qYwGX8hoaGsLCw4cOHh4SExMXFrVmzZt26dfhav/76q5eX1/fff29paYnPp8bj8dasWbN//351dfXw8PBx48Y1NTW1t7fv2rVr+PDhv/3226FDh9zd3b28vGxsbPjzRhw7dmzFihUkEiktLc3IyCgjIwMvb21tXbhw4ZMnT0xNTX18fCZMmPDNN9/89NNPCKGPHz+uWrXq1atX79+/Hzt27O7duxFCf//9t7m5uaura1xc3Ndffz1x4sT6+nphH2NLS0tQUJChoSGVSuUXHjx40M/PT01N7fbt23iSkHEcDkdEbVtbW1JS0vjx4/klEyZMyM7OLi0tFVHFL+nz+L0nT57U1NR0afzSpUuiu6SlpSV4vmXGjBlkMln0BoofV0QVgUAwNzfnlysrK/f2tE/f4uK4XG5gYOCRI0ckfCfEJ0gyIw2gHnvO5XKJROKWLVsYDMazZ88cHBxMTU1bWlrq6urc3NwQQtnZ2dnZ2Rs3bnzy5Am+SkREhKOjI/562rRp8+fPxzCssbHRzMzMwsKi+49uYWJiYhBCHz58ELPPTCYzPz//yJEj+A0Wnp6ef//9d35+fmdnp+AyNjY2wjYWzx+rVq2qq6tra2vz9fVFCB0+fBivFTySKCoqUldX5/cNP2/w+PFjDMPS09MNDAzwI5uGhgYlJSVvb298MRGX8a2trS0sLPAf3bW1tUOGDJk0aVJ+fj6GYaWlpQQCAe8G/v2em5uLYdjLly8RQgkJCXgLI0eOHD16dEZGBt4+Quj06dMYhvF4PDU1taioKPw1hULZtGkTvkpwcDD/t9WLFy8QQhcuXODxeBiGLViwAG8Kw7CQkBACgYAf6Kxfv55MJv/999/V1dXnz58X8afBMIzL5VIolHXr1uFvr169qq+vz2Kx8Lf47Zk9rig7/0S3bt3iH0Z37xX+5xA8lXrmzBn8jyKiil+CJ4w+HEns27cPIXT//n1+yffff48Qqq+vFycurqWlhUAgpKenD0hcEVWCLfzzzz/fffed4BHwYMcNDQ29cuUKhmFeXl5wJDEolJSUvvvuu4iIiKVLl1paWm7durWqqsrIyMjPz8/Hx4dAIPj5+Y0YMYJAIHh6ekZFRcXHxyclJVGp1Pb29piYmNzc3OfPn//555/q6upWVlbFxcVOTk6XL1/+ZNwrV67gO/fu3bu7D6jtkbq6urW19caNG/E9JiwsDCEUGxtrbGw8d+7c3bt3p6ent7a2Ojk5paeni2jH29tbW1tbVVX18OHDhoaG+Fm1LiIjI83NzfX19fG3fn5+qqqq4eHheNX06dPx2R0oFMqjR4/wn+F8PV7G19bWNjExwX8Q6ejomJqajh49Gr/MY2JioqmpWVNTgxCytLSMiIjAxwXgxxb4wAG8BWtra3yGNTs7OyUlJfxuFQKBEBkZiQ9WrqioUFVV5a+Snp6uqamJv7a2tiYSiVlZWQQCoays7P79+zdu3NixY8eOHTtev36tpqaGf/t88cUXKioqnp6eBgYGK1euFP0XUVJS0tLS4r/duXPn4sWL1dTU8LfffPON6NVlgbOzc2JiorCjT/xPIDhBLD4tXV1dnYiq/vdKWOP19fXix01MTFy4cGGvZqXtQ1z+sWZzc/ORI0fs7e0TExPxES4SiJuTk1NZWbl8+fJehZMARXssx8mTJw8cOEChUBBC//M//zN37lwul6ujo4MQ+ueff/T09JSUlMLCwg4ePFhUVMThcG7evEkmkxFCvr6++I9xXK8e0eHm5oYfqfSZiYmJiYnJqlWrDh06VFtb++bNm5SUlA0bNnz8+PGvv/4SpwUVFZXJkyc/e/ase1V6errgLJUaGhomJib43YV5eXkzZszgV02bNk1wRTqd7uLismXLli73ohOJRMG3JBIJE3g4gbKyMn5aQENDY9OmTXFxcRkZGXiq4PF4+DKCR9NKSkokEol/JsHX1zctLS00NNTCwoJMJvNXGTly5PXr1zs7O0kkUkdHB4/HGzNmDELo9evXCKFff/21+7QzBAJBSUlJ/CN3/nbV1dXl5+cvW7ZM2CbLrHPnzq1atWrz5s3CFuCnPYQQl8tFCOH7v+iq/utP3Pb29ujo6HPnzkksroaGxvLly5WVlUNCQry9vW1tbceNGzeocdva2nbt2tXjjzypU6gjCRyeIfiv8QyBEDIwMFBSUkIIaWhokEgkGxubCRMmDOC/wUDR1dWdNm1aSEhIcnKyrq6uv7+/mCuqqan1OGWxsrJydXW1YIm+vr6qqir+Gr8gySd4h7m+vn5QUFBYWFjfnmrFZDJnzZpVV1d39OhR8ZPoli1bqFRqREREQEAAv5MIoV27dlEolF9++eXDhw+7du1ycXHBD9V5PB6Xy6XRaIKN9OrkdXf4CAjxf0dL/PFuQn355ZfJycmCh0R8+FzignOG40dpurq6Iqr6/iEOXNzt27fv3bvX1NRUYnGJRKKhoaGfn9/Vq1e5XG6v9v++xf3ll190dHROnz5NpVKpVOqbN28aGhqoVGr3a4SSp2hHEgqjoKBg3rx5+fn5urq6oaGh4qzy7t27Hh8hNXHixJMnT75//37kyJF4SUNDA34vnrW19dWrV4uKisaOHYtXxcbGBgYG8tcNCQnJyspavXp1ZmamhYVFrzbh4MGD+fn5aWlp4q+SlpYWERHx8uVLwfSA09bWXrBggZOTU2pqqoeHx8SJE/FyS0tLhFBoaCj/V1h1dXVaWpqnp2eveivIyMhITU3t4cOHGIYRBA5EurwVLO9zrAHE4XDs7e3x3xbda0eNGqWqqvrx40d+SXV1NYFAcHBwGDJkiLCq/vfKxsYGIdSlcSsrKzU1NRFd4pdQqdRJkybhu+tAxRVR1aWRb775ZuzYsb06juxb3Obm5qdPnz59+hQv//DhA5vNplKpmpqatra24kcfDAp4JDGwEhMTvxGiDzuu+MzMzCorKz/5U47/1JDnz5+XlJQEBwfjbzs7O/m/poOCgshkMn7POUKosrKytLQUv3HE398fwzA3N7cHDx7k5eWtX7+eP608h8PhcDgEAiEuLk5HRwe/di1Yxe8D/lue/xbDMLyWxWK1tLTk5eV1dnbiT/hgMBj41YKOjg5hqyCEnjx5ghBKTEysqanhr7Jnz57CwkIymWxhYaGmpsY/NjI1NXV2dr5w4cLq1asfPXp048aN//3f/8XvJeTxePiAdDE/c/6HRiAQ/Pz8CgsL8WtFGIa9evUKIUSn0/mnv2TQvXv3fvzxR2H7jIaGhpubm+Alrvz8/OnTp+vq6oqo6n+vZs6caWxsLNh4QUEBfmT5ybh//fWXsrKyl5cX/pbBYIgYoiZ+XBFV3RGJxF5dC+lb3BMnTtAEuLi4jBo1ikajrV69WvzQg0WSV8kHkDz2vM997nFFJpO5bt06TU3NzZs379mzZ+7cuYWFhXjV7du3DQwMiERiVFQUfmdDYmKijo7OunXroqKiFixYIHifVHR0NP6zXUVF5cCBAxiGsdns48ePq6urDxs27MyZMx0dHa6urgghGxubS5cu/fnnnxoaGlpaWmfOnGlqajpy5AiJRNLT04uLi+OP3xg5cuS9e/doNNqXX35JJpO//vrrrKwsCoWip6eXkZERExNDJpN1dHTOnj1bU1ODXyq3srJKTU1ls9mTJk0iEAijRo26dOnSokWLSCQSPl7+3LlzXa46WFhYvHv3DsOwurq6mTNn4oVfffUVfgfGrVu38LGMAQEB5eXloj9hNpt9+PBhAoEwfPjw69ev4x8vPqLJwsJi3rx53377rZqamr+/f1VV1UD9WQdVj73Ky8sbMmRIZWUlhmENDQ0UCoU/XkhEFQ4/LSl6kJiwj+Lo0aNjx47Fh6IlJyfr6+vz74AREffUqVOzZ88+/x8xMTFOTk74/tz/uMKqOjo6rly5wh/WmJSU5OHhMYDbK6JKkEyNbpLF/VscsvmfKdrAJglcU1PTs2fPaDTaJxths9lZWVn5+fkcDqdLVUNDQ0ZGRq+eVSWmtra2iooK/HV9fT1/RKkIXC63rKwM72RbW1tdXR1eHhsbe+fOnZqaGhqNlpOT8+DBgx07dgQEBPBXLC4uzs3NFTFgsQ+Ki4uzsrI6OzsrKyuFfT6yuSsK69XFixfnzJlz4sSJRYsWxcfHi1mVnp6O3y4wc+ZMPIn2KiiGYdu3b1+9ejU+5pv/a0ZE3DNnznQ/s7dq1aoBjNtj1bt374YMGaKlpeXt7e3j47N9+3YRT1gawLhdyFSSkL+ZonGEz2yOa7nb2IGVl5e3bNmykpKSLoVPnjwR/8L+IJHNv46IXjGZzNLSUvx6gPhV/QyKEKqpqWloaLCwsMDHj8hC3B6rmpubS0pKVFRUzM3NRQ9sGdi44pPwLieL+7c4ZPM/UzRIEn127dq1ZcuWrVixYtWqVV999VV7e/vLly+zs7OPHTvWfeSrhMnmX0cqvZLWRwFxBzecDO7f4pDN/0zRIEn0x4MHD6hU6qtXr1pbW83NzT09PX18fMQfdlJRUbFq1SphtTExMb0dCM8nm38dSBIQd8DCyeD+LQ7Z/M8UDZKEQpLNvw4kCYg7UGAILAAAAKHk+Ga6Hm9rAgAAMIDkOEnI4DG+aJDVAAByR46TBABABKn8KJHWL6HPLUGqDmEAABBkSURBVK4kQZIAQAHJ3XE2kFmQJOTD5/CDBQAggyBJyAH4VQgAkBYYAvtfjx49wh9W2ludnZ0FBQXv3r2T5UeEAgBAH0CSQAghLpcbFhY2a9ashISE3q6bnp5ubm5uY2MzatQoOzu7wsLCweghAABIhaIlidbW1ps3b/Z2LSKRGBwcbG9v39sVm5ubt27deuDAgYKCggMHDtBoNFdXVzab3dt2AABANinaNYnIyMge524UR5eZnMVx//79U6dO4dO6WVlZtbS07N69Oysry9HRsW99AAAAmaJQRxLx8fEhISEMBoNOp7e3tyOEMAzLzs6+ceNGfn6+4JIsFislJSUjI6O+vp5Op3dviv4fgnM+dzd//nz+xJ8Ioblz56J+T7AMAACyQ3GSRHl5eU5ODo/HS0tLo1KpJSUldXV1Dg4OmZmZZDLZzc3N3d0dX7KqqsrLy4tIJJaXl1tZWWVnZ3dpCsOw4OBgR0fHlJQU/vygPRo6dKjg2+bmZk1NzSlTpgzspgEAgLQozummESNG7Ny5c9++fYsXL964cSNCKDw8/P379xs2bEAI+fv7b968ubGxkUKhREdH29raOjk5ISH3H7x48aKhoSErK2vYsGG96sPVq1d37NjRh9NWAAAgmxQnSXS3dOlSY2NjhBCHw2lqakIIMRgMCoXC4/EOHz5sbW3t7u7u6ura5XRTcnJybGzs+fPne/tdT6PR3r59+8cffwzgJgAAgHQpzumm7iwsLBYvXhwaGrpt2zYWi4UQwu9jCAwMNDY29vDwsLOzS01NNTEx4a9Cp9NdXFzMzc17myHYbPb27dsvXLgger5DAGQZi8XKyspqaGiQfGgGg1FXVyfJiNK6vamzszM/P//du3fycpOsIieJwsJCBweH6dOnR0ZGCg5vNTAwyMnJiYqKqqiocHZ2Fvztr6+vHxQUFBYWlpiYKH4gHo8XEBAQFhZmYGAwkBsAgATduXPH2dk5Nzf322+/jY2NlVjc5ubmPXv2mJiYPHz4UGJBpXV7U2Fh4bhx48aPHz9q1Kjp06fX19dLJm6/YPKpx563tbUhhI4cOYK/dXJyWrJkCf76/PnzCKHS0lIMw65cuYIXfvz40c7OzszMDH87Y8aMRYsW8Xi8RYsWaWpq0mg0cXrC4/E2b96ckZHBLykrKxO/zwDIgsLCQnV19aKiIgzDmpqaKBTKgwcPJBM6LS3t999/RwhdvnxZMhGbmpqmTJly6dIl/PYmMplsZmbW1tY22HHZbPa6detKSkrYbHZ4eDhCaMuWLYMdtP8U6poEmUwmEollZWVMJvPVq1csFqu8vJzBYHR0dMTHxyOE6uvr6+vrU1NT9fT0pk2bpqur6+3tffXqVXx1DofD4XAIBEJcXJy9vf2SJUuePXtGoVBEROTxeL6+vioqKqWlpXgGqq6uzsnJOXfunCQ2GIABsmPHDmtr6zFjxiCEtLS0FixYsH379qysLAmEnj59uoGBwfbt2yUQCyet25saGxsjIiI0NTURQtu3bz9x4kRVVdWgRhwY0s5SfSSs52vXriUQCLNnz25pabl48SKJRNLU1PTw8EhKSiIQCA4ODrW1tT/88IOxsXFkZOTly5fnzp2bl5fHZrOPHz+urq4+bNiwM2fOdHR0uLq6IoRsbGwuXbokohtr1qzp/pHGxMT0qs8ASFdra6uqqur69ev5Jfv370cIlZSUSKYDpaWlSIJHEi0tLYJvHz9+jBCS2JET39ixY5OSkiQctA/k9WtLxBduQ0OD4Ova2lr8dXV1NZfLxTAMP7bIy8vLyclpb28f7K7yQZIAsikjIwMh9PPPP/NLzpw5gxBKSEiQTAcknCS6uHnzpqamZmtrqySD3rt3b+/evZKM2GcKdboJJ3iCSPA1/6qyhoYGQsjGxkbCHQNANtXW1iKEvvjiC34JfpeohIcbSYuEb28qKSmJiYmJjIw0MTFxcXGR/S8iRR7dBAAQn5qaGv81l8tFCH0O47nx25sCAgIkFtHIyOj7778PDAwsKSlxcXHp6OiQWOi+UcAjiYGVmJiIn5/tTkVFJSUlRcL9AWDAGRoaIoTwG05xDAYDIaSrqyu1PkmEVG5vIpPJY8aMCQ8PHzp06C+//JKTk/P1119LLHofQJL4hCVLlixZskTavQBgEI0aNUpVVfXjx4/8kurqanyghxR7NdikfnuTr6/vL7/8QiQSpRJdfHC6CYDPnYaGhpubW3p6Or8kPz9/+vTpCnwkgWHY1q1b165da2VlhZeUl5dLuA9EIlFTU9PS0lLCcXsLjiQAAGj79u1TpkypqqoyMjJqbGxMTk7uw+RdfdbZ2Ykk+Ix9ad3eVFtb++zZM2dnZ2VlZYTQgQMHwsLC1NXVBzVo/0GSAAAgGxubM2fOrFmzZsWKFdeuXTtx4sTUqVMlE/rp06f4U0BiYmLU1dVdXFwGO6KPj8/p06cRQoKP5ImJiRnsuPfv3/fy8jI1NZ03b15ra+v06dN9fHwGO2j/ETA5echUFwSC/PVcHvsMPitMJrO0tBS/RCHtviim6urqDx8+UCgUMzMzafdFXPL6tSWPX7jy2GcAwGdOjk839ThfEAAAgAEkx0lC7n6VQ1YDAMgdGAILAABAKEgSAAAAhIIkAQAAQChIEgAAAISCJPFfjx49OnXqVB9WlLuZzQEAQEyQJBBCiMvlhoWFzZo1KyEhobfryuXM5gAAIB5FSxKtra19eOYMkUgMDg62t7fv7Yrt7e2RkZH37t1ra2sLDw9/8uTJb7/91ttGAABAZilakoiMjCwrK+vbun2Ymgqf2dzU1FRFRWX79u3m5ubyMbM5AACIR6GSRHx8fEhICIPBoNPp7e3tCCEMw7Kzs2/cuJGfny+4JIvFSklJycjIqK+vp9Pp3Zui/weTyRQRUV9fX1NTk/+WRCJ9//33A7MxAAAgAxQnSZSXl+fk5PB4vLS0NCqVWlJSUldX5+DgkJmZSSaT3dzc3N3d8SWrqqq8vLyIRGJ5ebmVlVV2dnaXpjAMCw4OdnR0TElJaW5uFrMD+CMeFyxYMJBbBQAAUiXHj+XoYsSIETt37ty3b9/ixYs3btyIEAoPD3///v2GDRsQQv7+/ps3b25sbKRQKNHR0ba2tk5OTkjIozJevHjR0NCQlZU1bNgwcULL3czmAAAgJsVJEt0tXbrU2NgYIcThcPD5exkMBoVC4fF4hw8ftra2dnd3d3V17XK6KTk5OTY29vz58+JfosBnNscwLCIiwsXF5e3bt5/DDPIAgM+B4pxu6s7CwmLx4sWhoaHbtm1jsVgIIR6PhxAKDAw0Njb28PCws7NLTU01MTHhr0Kn011cXMzNzXt1EZs/s/nOnTsrKipycnIGelMAAEA6FDlJFBYWOjg4TJ8+PTIyUnB4q4GBQU5OTlRUVEVFhbOzs+DsVPr6+kFBQWFhYYmJiX2I6OvrixCS/ZnNAQBATIqcJDZu3Dh27FhHR8cu5QkJCSQSKSAggEaj2dnZHTx4ULA2JCTE2dl59erVxcXFvY0oLzObAwCAmBQqSZDJZCKRWFZWxmQyMzIyWCxWfn4+g8Gor6+Pj49HCNXX1+fk5KSmpqanpyOEdHV1vb29DQ0N8dU5HA6HwyEQCHFxcTo6OkuWLGlsbBQdsba29vr16/wJ3OVlZnMAABAXJp+E9Xzt2rUEAmH27NktLS0XL14kkUiampoeHh5JSUkEAsHBwaG2tvaHH34wNjaOjIy8fPny3Llz8/Ly2Gz28ePH1dXVhw0bdubMmY6ODldXV4SQjY3NpUuXRHTj77//RgiZmpr+61//8vb2PnHiRB/6DAAAMkteZ10WMV80Ps6V/5rL5ero6CCEPnz4oKenp6SkxGQyVVRUioqKOByOlZVVP0ciiT+zOcxxDQCQO/L6tSWPX7jy2GcAwGdOoa5JAAAAGFiKfDPdgEhMTNy/f3+PVSoqKikpKRLuDwAASJK8ngCRx1M38thnAMBnDk43AQAAEAqSBAAAAKEgSQAAABAKkgQAAAChIEkAAAAQSo6HwPY4XxAAAIABJMdJQu6Gk0JWAwDIHTjdBAAAQChIEgAAAISCJAEAAEAoSBIAAACEgiTxX48ePTp16lR/WigvL3/79u1A9QcAAKQOkgRCCHG53LCwsFmzZiUkJPS5kZaWFicnp0OHDg1gxwAAQLoULUm0trbevHmzt2sRicTg4GB7e/v+hP73v/9Np9P70wIAAMgaOb5PokeRkZFaWlp9W3fIkCF9jhsfH29iYqKtrd3nFgAAQAYp1JFEfHx8SEgIg8Gg0+nt7e0IIQzDsrOzb9y4kZ+fL7gki8VKSUnJyMior6/v8ec//T+YTOYn41ZXV589e/ann34aqA0BAAAZoThJory8PCcnh8fjpaWlUanUkpKSuro6BweHzMxMMpns5ubm7u6OL1lVVeXl5UUkEsvLy62srLKzs7s0hWFYcHCwo6NjSkpKc3Oz6LgYhgUGBh46dIhIJA7KhgEAgPQozummESNG7Ny5c9++fYsXL964cSNCKDw8/P379xs2bEAI+fv7b968ubGxkUKhREdH29raOjk5ISGPynjx4kVDQ0NWVtawYcM+GffIkSOurq4mJiYDuzkAACALFCdJdLd06VJjY2OEEIfDaWpqQggxGAwKhcLj8Q4fPmxtbe3u7u7q6trldFNycnJsbOz58+fFuUTx+vXr3Nzcfg6cBQAAmaXIScLCwsLAwCA0NLSurk5ZWRkhxOPxEEKBgYFJSUkeHh7jx48PCwtbuHAhfxU6ne7i4rJlyxYxL2KvWbPGxcWFSqXib1ksVkFBAZVKXblypY6OziBsEwAASJQiJ4nCwsLly5fHxsY6OjpeuHCBX25gYJCTk/PHH3/s3r3b2dk5OjoaPyWFENLX13dxcdm1a5eDg8OSJUs+GYLNZsfFxfHfMpnM/Pz8mpqaOXPmQJIAACgAxblw3d3GjRvHjh3r6OjYpTwhIYFEIgUEBNBoNDs7u4MHDwrWhoSEODs7r169uri4+JMh8vLyaAL09PS8vLxoNNqYMWMGcksAAEBKFCpJkMlkIpFYVlbGZDIzMjJYLFZ+fj6Dwaivr4+Pj0cI1dfX5+TkpKampqenI4R0dXW9vb0NDQ3x1TkcDofDIRAIcXFxOjo6S5YsaWxslOb2AACAtClUklBSUvruu+8iIiKWLl1qaWm5devWqqoqIyMjPz8/Hx8fAoHg5+c3YsQIAoHg6ekZFRUVHx+flJREpVLb29tjYmJyc3OfP3/+559/qqurW1lZFRcXOzk5Xb58WdqbBQAAUkOQu/ndcASC0J7j41z5r7lcLn554MOHD3p6ekpKSkwmU0VFpaioiMPhWFlZkclkqfcZAABkk7x+bcnjF6489hkA8JlTqNNNAAAABpYiD4EdEImJifv37++xSkVFJSUlRcL9AQAASZLXEyDyeOpGHvsMAPjMwekmAAAAQkGSAAAAIBQkCQAAAEJBkgAAACAUJAkAAABCQZIAAAAglBzfJ9HjpHIAAAAGEIzcBwAAIBScbgIAACAUJAkAAABCQZIAAAAgFCQJAAAAQkGSAAAAIBQkCQAAAEJBkgAAACAUJAkAAABC/R9ojfx9EwIQ/AAAAABJRU5ErkJggg==" alt=""></p>
+<p>&nbsp;</p>
+<h1>数据读取过程</h1>
+<p>ShuffledRDD.compute函数是读取过程的触发点。</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">override</span> <span class="hljs-keyword">def</span> compute(split: Partition, context: TaskContext): Iterator[P] = {
+    <span class="hljs-keyword">val</span> dep = dependencies.head.asInstanceOf[ShuffleDependency[K, V, C]]
+    SparkEnv.get.shuffleManager.getReader(dep.shuffleHandle, split.index, split.index + <span class="hljs-number">1</span>, context)
+      .read()
+      .asInstanceOf[Iterator[P]]
+  }
+</code></pre>
+<p>shuffleManager.getReader返回的是HashShuffleReader，所以看一看HashShuffleReader中的read函数的具体实现。</p>
+<p>read函数处理逻辑中需要注意到一点即combine过程有可能会被再次执行。<span style="color: #ff0000;"><strong>注意dep.aggregator.isDefined这一分支判断。ReduceByKey(_ + _)中的(_ + _)在此处被执行。</strong></span></p>
+<pre><code class="scala hljs "><span class="hljs-keyword">override</span> <span class="hljs-keyword">def</span> read(): Iterator[Product2[K, C]] = {
+    <span class="hljs-keyword">val</span> iter = BlockStoreShuffleFetcher.fetch(handle.shuffleId, startPartition, context,
+      Serializer.getSerializer(dep.serializer))
+
+    <span class="hljs-keyword">if</span> (dep.aggregator.isDefined) {
+      <span class="hljs-keyword">if</span> (dep.mapSideCombine) {
+        <span class="hljs-keyword">new</span> InterruptibleIterator(context, dep.aggregator.get.combineCombinersByKey(iter, context))
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">new</span> InterruptibleIterator(context, dep.aggregator.get.combineValuesByKey(iter, context))
+      }
+    } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (dep.aggregator.isEmpty &amp;&amp; dep.mapSideCombine) {
+      <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Aggregator is empty for map-side combine"</span>)
+    } <span class="hljs-keyword">else</span> {
+      iter
+    }
+  }
+</code></pre>
+<p>一路辗转，终于来到了读取过程中非常关键的所在BlockStoreShuffleFetcher。</p>
+<p>BlockStoreShuffleFetcher需要回答如下问题</p>
+<ol>
+<li>所要获取的mapid的mapstatus的内容是什么</li>
+<li>根据获得的mapstatus去相应的blockmanager获取具体的数据</li>
+</ol>
+<pre><code class="scala hljs "> <span class="hljs-keyword">val</span> blockManager = SparkEnv.get.blockManager
+
+  <span class="hljs-keyword">val</span> startTime = System.currentTimeMillis
+  <span class="hljs-keyword">val</span> statuses = SparkEnv.get.mapOutputTracker.getServerStatuses(shuffleId, reduceId)
+  logDebug(<span class="hljs-string">"Fetching map output location for shuffle %d, reduce %d took %d ms"</span>.format(
+  shuffleId, reduceId, System.currentTimeMillis - startTime))
+
+  <span class="hljs-keyword">val</span> splitsByAddress = <span class="hljs-keyword">new</span> HashMap[BlockManagerId, ArrayBuffer[(Int, Long)]]
+  <span class="hljs-keyword">for</span> (((address, size), index) 
+    (address, splits.map(s =&gt; (ShuffleBlockId(shuffleId, s._1, reduceId), s._2)))
+  }
+  <span class="hljs-keyword">val</span> blockFetcherItr = blockManager.getMultiple(blocksByAddress, serializer)
+  <span class="hljs-keyword">val</span> itr = blockFetcherItr.flatMap(unpackBlock)
+</code></pre>
+<p>一个ShuffleMapTask会生成一个MapStatus，MapStatus中含有当前ShuffleMapTask产生的数据落到各个Partition中的大小。如果大小为0,则表示该分区没有数据产生。MapStatus中另一个重要的成员变量就是BlockManagerId，该变量表示目标数据在哪个BlockManager当中。</p>
+<p>MapoutputTrackerMaster拥有最新的MapStatus信息，为了执行效率，MapoutputTrackerWorker会定期更新数据到本地，所以MapoutputTracker先从本地查找，如果找不到再从MapoutputTrackerMaster上同步最新数据。</p>
+<p>索引即是reduceId，如果array(0) == 0,就表示上一个ShuffleMapTask中生成的数据中没有任意的内容可以作为reduceId为0的ResultTask的输入。如果不能理解，返回仔细看一下MapStatus的结构图。</p>
+<p>BlockManager.getMultiple用于读取BlockManager中的数据，根据配置确定生成tNettyBlockFetcherIterator还是BasicBlockFetcherIterator。<br><br>如果所要获取的文件落在本地，则调用getLocal读取，否则发送请求到远端blockmanager。看一下BlockFetcherIterator的initialize函数</p>
+<pre><code class="scala hljs ">    <span class="hljs-keyword">override</span> <span class="hljs-keyword">def</span> initialize() {
+      <span class="hljs-comment">// Split local and remote blocks.</span>
+      <span class="hljs-keyword">val</span> remoteRequests = splitLocalRemoteBlocks()
+      <span class="hljs-comment">// Add the remote requests into our queue in a random order</span>
+      fetchRequests ++= Utils.randomize(remoteRequests)
+
+      <span class="hljs-comment">// Send out initial requests for blocks, up to our maxBytesInFlight</span>
+      <span class="hljs-keyword">while</span> (!fetchRequests.isEmpty &amp;&amp;
+        (bytesInFlight == <span class="hljs-number">0</span> || bytesInFlight + fetchRequests.front.size &lt;= maxBytesInFlight)) {
+        sendRequest(fetchRequests.dequeue())
+      }
+
+      <span class="hljs-keyword">val</span> numFetches = remoteRequests.size - fetchRequests.size
+      logInfo(<span class="hljs-string">"Started "</span> + numFetches + <span class="hljs-string">" remote fetches in"</span> + Utils.getUsedTimeMs(startTime))
+
+      <span class="hljs-comment">// Get Local Blocks</span>
+      startTime = System.currentTimeMillis
+      getLocalBlocks()
+      logDebug(<span class="hljs-string">"Got local blocks in "</span> + Utils.getUsedTimeMs(startTime) + <span class="hljs-string">" ms"</span>)
+}
+</code></pre>
+<p>至此，数据读取的正常流程讲述完毕。</p>
+<h1>数据读取异常</h1>
+<p>如果数据读取中碰到异常怎么办？比如，</p>
+<ol>
+<li>已知(stage_2,task_0)产生的parition_0的数据在机器m1, 当前任务在m2执行，于是从m2向m1发起远程获取请求，如果m2中拥有目标数据的JVM进程异常退出，则相应的目标数据无法获取。</li>
+</ol>
+<p>如果无法获取目标数据，就会上报FetchFailedException.</p>
+<pre><code class="scala hljs ">    <span class="hljs-keyword">def</span> unpackBlock(blockPair: (BlockId, Option[Iterator[Any]])) : Iterator[T] = {
+      <span class="hljs-keyword">val</span> blockId = blockPair._1
+      <span class="hljs-keyword">val</span> blockOption = blockPair._2
+      blockOption <span class="hljs-keyword">match</span> {
+        <span class="hljs-keyword">case</span> Some(block) =&gt; {
+          block.asInstanceOf[Iterator[T]]
+        }
+        <span class="hljs-keyword">case</span> None =&gt; {
+          blockId <span class="hljs-keyword">match</span> {
+            <span class="hljs-keyword">case</span> ShuffleBlockId(shufId, mapId, _) =&gt;
+              <span class="hljs-keyword">val</span> address = statuses(mapId.toInt)._1
+              <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> FetchFailedException(address, shufId.toInt, mapId.toInt, reduceId)
+            <span class="hljs-keyword">case</span> _ =&gt;
+              <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> SparkException(
+                <span class="hljs-string">"Failed to get block "</span> + blockId + <span class="hljs-string">", which is not a shuffle block"</span>)
+          }
+        }
+      }
+    }
+</code></pre>
+<p>&nbsp;FetchFailedExecption会被包装在StatutsUpdate上报给SchedulerBackend,然后一路处理下去，最终将丢失目标数据的归属Task重新提交。比如当前是(stage_1, task_0)，需要读取(stage_2, task_1)产生的目标数据，但是对应的目标数据丢失，这个时候就需要将(stage_2, task_1)重新提交运行。</p>
+<p>注意DAGScheduler中的FetchFailed处理分支，一路跟踪下去就会看到任务被重新提交了</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">case</span> FetchFailed(bmAddress, shuffleId, mapId, reduceId) =&gt;
+        <span class="hljs-comment">// Mark the stage that the reducer was in as unrunnable</span>
+        <span class="hljs-keyword">val</span> failedStage = stageIdToStage(task.stageId)
+        runningStages -= failedStage
+        <span class="hljs-comment">// TODO: Cancel running tasks in the stage</span>
+        logInfo(<span class="hljs-string">"Marking "</span> + failedStage + <span class="hljs-string">" ("</span> + failedStage.name +
+          <span class="hljs-string">") for resubmision due to a fetch failure"</span>)
+        <span class="hljs-comment">// Mark the map whose fetch failed as broken in the map stage</span>
+        <span class="hljs-keyword">val</span> mapStage = shuffleToMapStage(shuffleId)
+        <span class="hljs-keyword">if</span> (mapId != -<span class="hljs-number">1</span>) {
+          mapStage.removeOutputLoc(mapId, bmAddress)
+          mapOutputTracker.unregisterMapOutput(shuffleId, mapId, bmAddress)
+        }
+        logInfo(<span class="hljs-string">"The failed fetch was from "</span> + mapStage + <span class="hljs-string">" ("</span> + mapStage.name +
+          <span class="hljs-string">"); marking it for resubmission"</span>)
+        <span class="hljs-keyword">if</span> (failedStages.isEmpty &amp;&amp; eventProcessActor != <span class="hljs-keyword">null</span>) {
+          <span class="hljs-comment">// Don't schedule an event to resubmit failed stages if failed isn't empty, because</span>
+          <span class="hljs-comment">// in that case the event will already have been scheduled. eventProcessActor may be</span>
+          <span class="hljs-comment">// null during unit tests.</span>
+          <span class="hljs-keyword">import</span> env.actorSystem.dispatcher
+          env.actorSystem.scheduler.scheduleOnce(
+            RESUBMIT_TIMEOUT, eventProcessActor, ResubmitFailedStages)
+        }
+        failedStages += failedStage
+        failedStages += mapStage
+        <span class="hljs-comment">// TODO: mark the executor as failed only if there were lots of fetch failures on it</span>
+        <span class="hljs-keyword">if</span> (bmAddress != <span class="hljs-keyword">null</span>) {
+          handleExecutorLost(bmAddress.executorId, Some(task.epoch))
+        }
+</code></pre>
+<h1>文件清除</h1>
+<p>生成的中间数据是在什么时候被清除的呢？</p>
+<p>当Driver Application退出的时候,该Application生成的临时文件将会被一一清除，注意是application结束生命，不是job。一个application可以包含一至多个job。</p>
+<h1>实验</h1>
+<p>以local-cluster方式运行spark-shell，观察/tmp/spark-local*目录下的文件变化，具体指令如下</p>
+<pre><code class="bash hljs ">MASTER=local-cluster[<span class="hljs-number">2</span>,<span class="hljs-number">2</span>,<span class="hljs-number">512</span>] bin/spark-shell
+<span class="hljs-comment">#进入spark-shell之后，输入</span>
+sc.textFile(<span class="hljs-string">"README.md"</span>).flatMap(_.split(<span class="hljs-string">" "</span>)).map(w=&gt;(w,<span class="hljs-number">1</span>)).reduceByKey(_ + _)
+</code></pre>
+<h1>小结</h1>
+<p>Shuffle数据的写入和读取是Spark Core这一部分最为复杂的内容，彻底了解该部分内容才能深刻意识到Spark实现的精髓所在。</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/hseagle/tag/Apache%20Spark/">Apache Spark</a></div>
+<div id="blog_post_info"><div id="green_channel">
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(3863966,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://msg.cnblogs.com/send/%E5%BE%BD%E6%B2%AA%E4%B8%80%E9%83%8E" target="_blank">联系我</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/icon_weibo_24.png" alt=""></a>
+<a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/" target="_blank"><img src="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followees">关注 - 5</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followers">粉丝 - 193</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+    <a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div class="diggit" onclick="votePost(3863966,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+	<div class="buryit" onclick="votePost(3863966,&#39;Bury&#39;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/hseagle/p/3858694.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/hseagle/p/3858694.html" title="发布于2014-07-21 23:36">Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放</a><br><a href="http://www.cnblogs.com/hseagle/p/3887507.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/hseagle/p/3887507.html" title="发布于2014-08-02 21:57">Apache Spark技术实战之1 -- KafkaWordCount</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2014-07-24 12:58</span> <a href="http://www.cnblogs.com/hseagle/">徽沪一郎</a> 阅读(<span id="post_view_count">2310</span>) 评论(<span id="post_comment_count">0</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=3863966" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/hseagle/p/3863966.html#" onclick="AddToWz(3863966);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=134061,cb_entryId=3863966,cb_blogApp=currentBlogApp,cb_blogUserGuid='8f4525b4-4a31-e211-aa8f-842b2b196315',cb_entryCreatedDate='2014/7/24 12:58:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/hseagle/p/3863966.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/hseagle/p/3863966.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://www.jpush.cn/" target="_blank">【推荐】极光推送30多万开发者的选择，SDK接入量超过30亿了，你还没注册？</a><br><a href="http://click.aliyun.com/m/3037/" target="_blank">【阿里云SSD云盘】速度行业领先</a><br></div>
+<div id="opt_under_post"></div>
+<div id="ad_c1" class="c_ad_block"><a href="http://q.cnblogs.com/" target="_blank"><img width="300" height="250" src="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/not-to-stop-questioning.jpg" alt="博问" title="博问"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/536914/" target="_blank">上海市质监局：小米空气净化器质量问题严重</a><br> ·  <a href="http://news.cnblogs.com/n/536913/" target="_blank">Qt不再使用LGPLv2.1授权</a><br> ·  <a href="http://news.cnblogs.com/n/536912/" target="_blank">微软开源Edge的JS引擎ChakraCore</a><br> ·  <a href="http://news.cnblogs.com/n/536911/" target="_blank">星巴克CEO看好中国经济，打算五年之内将中国门店数量翻番</a><br> ·  <a href="http://news.cnblogs.com/n/536910/" target="_blank">App Store 12月游戏收入近10亿美金，Clash of Clans高居榜首</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/536387/" target="_blank">Docker简介</a><br> ·  <a href="http://kb.cnblogs.com/page/536115/" target="_blank">Docker简明教程</a><br> ·  <a href="http://kb.cnblogs.com/page/535581/" target="_blank">Git协作流程</a><br> ·  <a href="http://kb.cnblogs.com/page/535355/" target="_blank">企业计算的终结</a><br> ·  <a href="http://kb.cnblogs.com/page/535278/" target="_blank">软件开发的核心</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+$(function () {
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);    
+});
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><p>邮箱: hs_xp@163.com<br>
+</p>
+<p>QQ: 58506256&nbsp; <br>
+</p>
+<p>QQ群: Spark零基础学习 367106111</p>
+<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=99253f4f95c7f17a8d77d6cf2acfacfa6556ae645d22f9c6a13d24142341761e"><img src="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/group.png" alt="Spark零基础学习" title="Spark零基础学习" border="0"></a>
+<br>
+<p>&nbsp;</p>
+<embed src="http://service.weibo.com/staticjs/weiboshow.swf?verifier=8feb07ed&amp;uid=2060926175&amp;width=200&amp;height=500&amp;fansRow=2&amp;isTitle=1&amp;isWeibo=1&amp;isFans=1&amp;noborder=0&amp;ptype=1&amp;colors=cfe1f3,fafcff,444444,5093d5" quality="high" scale="noborder" align="L" height="500" width="200"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>园龄：<a href="http://home.cnblogs.com/u/hseagle/" title="入园时间：2012-11-18">3年1个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/hseagle/followers/">193</a><br>关注：<a href="http://home.cnblogs.com/u/hseagle/followees/">5</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger(&#39;8f4525b4-4a31-e211-aa8f-842b2b196315&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2015/12/01&#39;);return false;">&lt;</a></td><td align="center">2016年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2016/02/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td class="CalWeekendDay" align="center">2</td></tr><tr><td class="CalWeekendDay" align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center"><a href="http://www.cnblogs.com/hseagle/archive/2016/01/07.html"><u>7</u></a></td><td align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr><tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td class="CalTodayDay" align="center">14</td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr><tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr><tr><td class="CalWeekendDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td class="CalWeekendDay" align="center">30</td></tr><tr><td class="CalWeekendDay" align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+
+</div>
+</div>
+
+</div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(70)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark(34)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/hseagle/category/519033.html">Apache Storm(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/hseagle/category/514458.html">archlinux(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/hseagle/category/664228.html">BigData(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/hseagle/category/565169.html">Database(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/hseagle/category/759340.html">Elasticsearch(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/hseagle/category/470583.html">GDB(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/hseagle/category/554058.html">Hadoop(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/hseagle/category/519017.html">memory management(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/hseagle/category/646056.html">Scala(2)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(76)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/hseagle/archive/2016/01.html">2016年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/hseagle/archive/2015/11.html">2015年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/hseagle/archive/2015/04.html">2015年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/hseagle/archive/2015/03.html">2015年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/hseagle/archive/2015/02.html">2015年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/hseagle/archive/2015/01.html">2015年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/hseagle/archive/2014/12.html">2014年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/hseagle/archive/2014/11.html">2014年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/hseagle/archive/2014/10.html">2014年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/hseagle/archive/2014/09.html">2014年9月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/hseagle/archive/2014/08.html">2014年8月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/hseagle/archive/2014/07.html">2014年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/hseagle/archive/2014/06.html">2014年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/hseagle/archive/2014/05.html">2014年5月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/hseagle/archive/2014/04.html">2014年4月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/hseagle/archive/2014/03.html">2014年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/hseagle/archive/2014/02.html">2014年2月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/hseagle/archive/2014/01.html">2014年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/hseagle/archive/2013/12.html">2013年12月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/hseagle/archive/2013/11.html">2013年11月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/hseagle/archive/2013/10.html">2013年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/hseagle/archive/2013/09.html">2013年9月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/hseagle/archive/2013/08.html">2013年8月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/hseagle/archive/2013/06.html">2013年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/hseagle/archive/2013/05.html">2013年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/hseagle/archive/2013/04.html">2013年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/hseagle/archive/2013/03.html">2013年3月 (4)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	104754
+	</li>
+	<li class="liRank">
+		排名 -	1810
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">1. Apache Spark源码走读之1 -- Spark论文阅读笔记(14198)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673123.html">2. Apache Spark源码走读之2 -- Job的提交与运行(9805)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673132.html">3. Apache Spark源码走读之3 -- Task运行期之函数调用关系分析(7388)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(5476)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3756862.html">5. Apache Storm源码阅读笔记(4802)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3543782.html">1. Apache Storm 衍生项目之1 -- storm-yarn(5)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3732492.html">2. Apache Spark源码走读之9 -- Spark源码编译(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">3. Apache Spark源码走读之1 -- Spark论文阅读笔记(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3908276.html">5. Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现(3)</a></li></ul></div>
+</div>
+</div></div></div><script type="text/javascript">loadBlogSideColumn();</script><iframe src="./Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取 - 徽沪一郎 - 博客园_files/container.html" style="visibility: hidden; display: none;"></iframe>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2016 徽沪一郎
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

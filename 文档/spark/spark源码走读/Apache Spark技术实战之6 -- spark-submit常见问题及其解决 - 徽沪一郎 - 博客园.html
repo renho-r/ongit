@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://www.cnblogs.com/hseagle/p/4052572.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/bundle-LessIsMoreRight.css">
+<link type="text/css" rel="stylesheet" href="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/134061.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/hseagle/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/hseagle/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/hseagle/wlwmanifest.xml">
+<script async="" type="text/javascript" src="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/gpt.js"></script><script src="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'hseagle', cb_enable_mathjax=true;</script>
+<script src="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/blog-common.js" type="text/javascript"></script>
+<script src="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/pubads_impl_78.js" async=""></script><script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: ['AMS'], useLabelIds: true } },
+  'HTML-CSS': { linebreaks: { automatic: true } },
+  SVG: { linebreaks: { automatic: true } }});</script><script type="text/javascript" src="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/MathJax.js"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><style type="text/css">.MathJax_Display {text-align: center; margin: 1em 0em; position: relative; display: block!important; text-indent: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; width: 100%}
+.MathJax .merror {background-color: #FFFF88; color: #CC0000; border: 1px solid #CC0000; padding: 1px 3px; font-style: normal; font-size: 90%}
+.MathJax .MJX-monospace {font-family: monospace}
+.MathJax .MJX-sans-serif {font-family: sans-serif}
+#MathJax_Tooltip {background-color: InfoBackground; color: InfoText; border: 1px solid black; box-shadow: 2px 2px 5px #AAAAAA; -webkit-box-shadow: 2px 2px 5px #AAAAAA; -moz-box-shadow: 2px 2px 5px #AAAAAA; -khtml-box-shadow: 2px 2px 5px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true'); padding: 3px 4px; z-index: 401; position: absolute; left: 0; top: 0; width: auto; height: auto; display: none}
+.MathJax {display: inline; font-style: normal; font-weight: normal; line-height: normal; font-size: 100%; font-size-adjust: none; text-indent: 0; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0; min-height: 0; border: 0; padding: 0; margin: 0}
+.MathJax img, .MathJax nobr, .MathJax a {border: 0; padding: 0; margin: 0; max-width: none; max-height: none; min-width: 0; min-height: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+img.MathJax_strut {border: 0!important; padding: 0!important; margin: 0!important; vertical-align: 0!important}
+.MathJax span {display: inline; position: static; border: 0; padding: 0; margin: 0; vertical-align: 0; line-height: normal; text-decoration: none}
+.MathJax nobr {white-space: nowrap!important}
+.MathJax img {display: inline!important; float: none!important}
+.MathJax * {transition: none; -webkit-transition: none; -moz-transition: none; -ms-transition: none; -o-transition: none}
+.MathJax_Processing {visibility: hidden; position: fixed; width: 0; height: 0; overflow: hidden}
+.MathJax_Processed {display: none!important}
+.MathJax_ExBox {display: block!important; overflow: hidden; width: 1px; height: 60ex; min-height: 0; max-height: none}
+.MathJax .MathJax_EmBox {display: block!important; overflow: hidden; width: 1px; height: 60em; min-height: 0; max-height: none}
+.MathJax .MathJax_HitBox {cursor: text; background: white; opacity: 0; filter: alpha(opacity=0)}
+.MathJax .MathJax_HitBox * {filter: none; opacity: 1; background: transparent}
+#MathJax_Tooltip * {filter: none; opacity: 1; background: transparent}
+@font-face {font-family: MathJax_Main; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Main-Regular.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Main-Regular.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Main-bold; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Main-Bold.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Main-Bold.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Main-italic; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Main-Italic.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Main-Italic.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Math-italic; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Math-Italic.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Math-Italic.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Caligraphic; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Caligraphic-Regular.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Caligraphic-Regular.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Size1; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Size1-Regular.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Size1-Regular.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Size2; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Size2-Regular.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Size2-Regular.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Size3; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Size3-Regular.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Size3-Regular.otf?rev=2.4-beta-2') format('opentype')}
+@font-face {font-family: MathJax_Size4; src: url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/woff/MathJax_Size4-Regular.woff?rev=2.4-beta-2') format('woff'), url('http://mathjax.b0.upaiyun.com/fonts/HTML-CSS/TeX/otf/MathJax_Size4-Regular.otf?rev=2.4-beta-2') format('opentype')}
+.MathJax .noError {vertical-align: ; font-size: 90%; text-align: left; color: black; padding: 1px 3px; border: 1px solid}
+</style></head>
+<body><div style="visibility: hidden; overflow: hidden; position: absolute; top: 0px; height: 1px; width: auto; padding: 0px; border: 0px; margin: 0px; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal;"><div id="MathJax_Hidden"></div></div><div id="MathJax_Message" style="display: none;"></div>
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<script type="text/javascript" src="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/pdfobject.js"></script>
+<script src="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/highlight.pack.js"></script>
+<script>
+hljs.configure({tabReplace: '  '});
+hljs.initHighlightingOnLoad();
+</script>
+<!--PageBeginHtml Block End-->
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/hseagle/">富贵有定数，学问则无定数。求一分，便得一分</a></div>
+<div class="subtitle">快乐源于简单</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/hseagle/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/hseagle/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/hseagle/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-76&nbsp;
+文章-0&nbsp;
+评论-47&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园.html">Apache Spark技术实战之6 -- spark-submit常见问题及其解决</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p><span style="color: #0000ff;"><em><strong>除本人同意外，严禁一切转载，徽沪一郎。</strong></em></span></p>
+<h1>概要</h1>
+<p>编写了独立运行的Spark Application之后，需要将其提交到Spark Cluster中运行，一般会采用spark-submit来进行应用的提交，在使用spark-submit的过程中，有哪些事情需要注意的呢？</p>
+<p>本文试就此做一个小小的总结。</p>
+<h1>spark-defaults.conf</h1>
+<p>Spark-defaults.conf的作用范围要搞清楚，编辑driver所在机器上的spark-defaults.conf，该文件会影响 到driver所提交运行的application，及专门为该application提供计算资源的executor的启动参数</p>
+<p>只需要在driver所在的机器上编辑该文件，不需要在worker或master所运行的机器上编辑该文件</p>
+<p>举个实际的例子</p>
+<pre><code class="bash hljs ">spark.executor.extraJavaOptions	   -XX:MaxPermSize=<span class="hljs-number">896</span>m
+spark.executor.memory		   <span class="hljs-number">5</span>g
+spark.serializer        org.apache.spark.serializer.KryoSerializer
+spark.cores.max		<span class="hljs-number">32</span>
+spark.shuffle.manager	SORT
+spark.driver.memory	<span class="hljs-number">2</span>g
+</code></pre>
+<p>&nbsp;上述配置表示为该application提供计算资源的executor启动时, heap memory需要有5g。</p>
+<p>这里需要引起注意的是，如果worker在加入cluster的时候，申明自己所在的机器只有4g内存，那么为上述的application分配executor是，该worker不能提供任何资源，因为4g&lt;5g，无法满足最低的资源需求。</p>
+<h1>spark-env.sh</h1>
+<p>spark-env.sh中最主要的是指定ip地址，如果运行的是master，就需要指定SPARK_MASTER_IP，如果准备运行driver或worker就需要指定SPARK_LOCAL_IP，要和本机的IP地址一致，否则启动不了。</p>
+<p>配置举例如下</p>
+<pre><code class="bash hljs "><span class="hljs-keyword">export</span> SPARK_MASTER_IP=<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>
+<span class="hljs-keyword">export</span> SPARK_LOCAL_IP=<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>
+</code></pre>
+<p>启动spark集群</p>
+<p>第一步启动master</p>
+<pre><code class="bash hljs "><span class="hljs-variable">$SPARK_HOME</span>/sbin/start-master.sh
+</code></pre>
+<p>第二步启动worker</p>
+<pre><code class="bash hljs "><span class="hljs-variable">$SPARK_HOME</span>/bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:<span class="hljs-number">7077</span>
+</code></pre>
+<p>将master替换成MASTER实际运行的ip地址</p>
+<p>如果想在一台机器上运行多个worker(主要是用于测试目的),那么在启动第二个及后面的worker时需要指定—webui-port的内容，否则会报端口已经被占用的错误,启动第二个用的是8083，第三个就用8084，依此类推。</p>
+<pre><code class="bash hljs "><span class="hljs-variable">$SPARK_HOME</span>/bin/spark-class org.apache.spark.deploy.worker.Worker spark://master:<span class="hljs-number">7077</span>
+    –webui-port <span class="hljs-number">8083</span>
+</code></pre>
+<p>&nbsp;这种启动worker的方式只是为了测试是启动方便，正规的方式是用SPARK_HOME/sbin/start-slaves.sh来启动多个worker，由于涉及到ssh的配置，比较麻烦，我这是图简单的办法。</p>
+<p>用<span class="MathJax_Preview"></span><span class="MathJax" id="MathJax-Element-1-Frame" role="textbox" aria-readonly="true"><nobr><span class="math" id="MathJax-Span-1" style="width: 22.469em; display: inline-block;"><span style="display: inline-block; position: relative; width: 17.83em; height: 0px; font-size: 126%;"><span style="position: absolute; clip: rect(1.774em 1000.003em 3.117em -0.485em); top: -2.683em; left: 0.003em;"><span class="mrow" id="MathJax-Span-2"><span class="mi" id="MathJax-Span-3" style="font-family: MathJax_Math-italic;">S<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.064em;"></span></span><span class="mi" id="MathJax-Span-4" style="font-family: MathJax_Math-italic;">P<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.125em;"></span></span><span class="mi" id="MathJax-Span-5" style="font-family: MathJax_Math-italic;">A</span><span class="mi" id="MathJax-Span-6" style="font-family: MathJax_Math-italic;">R</span><span class="mi" id="MathJax-Span-7" style="font-family: MathJax_Math-italic;">K<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.064em;"></span></span><span class="mi" id="MathJax-Span-8" style="font-family: MathJax_Main;">_</span><span class="mi" id="MathJax-Span-9" style="font-family: MathJax_Math-italic;">H<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.064em;"></span></span><span class="mi" id="MathJax-Span-10" style="font-family: MathJax_Math-italic;">O</span><span class="mi" id="MathJax-Span-11" style="font-family: MathJax_Math-italic;">M<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.064em;"></span></span><span class="mi" id="MathJax-Span-12" style="font-family: MathJax_Math-italic;">E<span style="display: inline-block; overflow: hidden; height: 1px; width: 0.003em;"></span></span><span class="texatom" id="MathJax-Span-13"><span class="mrow" id="MathJax-Span-14"><span class="mo" id="MathJax-Span-15" style="font-family: MathJax_Main;">/</span></span></span><span class="mi" id="MathJax-Span-16" style="font-family: MathJax_Math-italic;">s</span><span class="mi" id="MathJax-Span-17" style="font-family: MathJax_Math-italic;">b</span><span class="mi" id="MathJax-Span-18" style="font-family: MathJax_Math-italic;">i</span><span class="mi" id="MathJax-Span-19" style="font-family: MathJax_Math-italic;">n</span><span class="texatom" id="MathJax-Span-20"><span class="mrow" id="MathJax-Span-21"><span class="mo" id="MathJax-Span-22" style="font-family: MathJax_Main;">/</span></span></span><span class="mi" id="MathJax-Span-23" style="font-family: MathJax_Math-italic;">s</span><span class="mi" id="MathJax-Span-24" style="font-family: MathJax_Math-italic;">t</span><span class="mi" id="MathJax-Span-25" style="font-family: MathJax_Math-italic;">a</span><span class="mi" id="MathJax-Span-26" style="font-family: MathJax_Math-italic;">r</span><span class="mi" id="MathJax-Span-27" style="font-family: MathJax_Math-italic;">t</span><span class="mo" id="MathJax-Span-28" style="font-family: MathJax_Main; padding-left: 0.247em;">−</span><span class="mi" id="MathJax-Span-29" style="font-family: MathJax_Math-italic; padding-left: 0.247em;">s</span><span class="mi" id="MathJax-Span-30" style="font-family: MathJax_Math-italic;">l</span><span class="mi" id="MathJax-Span-31" style="font-family: MathJax_Math-italic;">a</span><span class="mi" id="MathJax-Span-32" style="font-family: MathJax_Math-italic;">v</span><span class="mi" id="MathJax-Span-33" style="font-family: MathJax_Math-italic;">e</span><span class="mo" id="MathJax-Span-34" style="font-family: MathJax_Main;">.</span><span class="mi" id="MathJax-Span-35" style="font-family: MathJax_Math-italic; padding-left: 0.186em;">s</span><span class="mi" id="MathJax-Span-36" style="font-family: MathJax_Math-italic;">h</span></span><span style="display: inline-block; width: 0px; height: 2.689em;"></span></span></span><span style="border-left-width: 0.004em; border-left-style: solid; display: inline-block; overflow: hidden; width: 0px; height: 1.388em; vertical-align: -0.381em;"></span></span></nobr></span><script type="math/tex" id="MathJax-Element-1">SPARK\_HOME/sbin/start-slave.sh</script>来启动worker时有一个默认的前提，即在每台机器上$SPARK_HOME必须在同一个目录。</p>
+<p>使用相同的用户名和用户组来启动Master和Worker，否则Executor在启动后会报连接无法建立的错误。</p>
+<p>我在实际的使用当中，遇到”no route to host”的错误信息，起初还是认为网络没有配置好，后来网络原因排查之后，忽然意识到有可能使用了不同的用户名和用户组，使用相同的用户名/用户组之后，问题消失。</p>
+<h1>spark-submit</h1>
+<p>spark集群运行正常之后，接下来的问题就是提交application到集群运行了。</p>
+<p>Spark-submit用于Spark application的提交和运行，在使用这个指令的时候最大的困惑就是如何指定应用所需要的依赖包。</p>
+<p>首先查看一下spark-submit的帮助文件</p>
+<pre><code class="bash hljs "><span class="hljs-variable">$SPARK_HOME</span>/bin/submit --help
+</code></pre>
+<p>有几个选项可以用来指定所依赖的库，分别为</p>
+<ul>
+<li>--driver-class-path driver所依赖的包，多个包之间用冒号(:)分割</li>
+<li>--jars &nbsp; driver和executor都需要的包，多个包之间用逗号(,)分割</li>
+</ul>
+<p>为了简单起见，就通过—jars来指定依赖，运行指令如下</p>
+<pre><code class="bash hljs "><span class="hljs-variable">$SPARK_HOME</span>/bin/spark-submit –class 应用程序的类名 \
+--master spark://master:<span class="hljs-number">7077</span> \
+--jars 依赖的库文件 \
+spark应用程序的jar包
+</code></pre>
+<p><span style="color: #ff0000;"><strong>需要提醒的时，这些上传到worker的文件，需要定时做手工清理，否则会占用许多磁盘空间</strong></span></p>
+<h2>问题1</h2>
+<p>由于Spark在计算的时候会将中间结果存储到/tmp目录，而目前linux又都支持tmpfs，其实说白了就是将/tmp目录挂载到内存当中。</p>
+<p>那么这里就存在一个问题，中间结果过多导致/tmp目录写满而出现如下错误</p>
+<pre name="code">No Space Left on the device</pre>
+<p>解决办法就是针对tmp目录不启用tmpfs,修改/etc/fstab</p>
+<h2>问题2</h2>
+<p>有时可能会遇到<strong>java.lang.OutOfMemory, unable to create new native thread</strong>的错误，导致这种错误的原因比较多。</p>
+<p>有一种情况并非真的是内存不足引起的，而是由于超出了允许的最大文件句柄数或最大进程数。</p>
+<p>排查的步骤就是查看一下允许打开的文件句柄数和最大进程数，如果数值过低，使用ulimit将其调高之后，再试试问题是否已经解决。</p>
+<pre><code class="bash hljs ">ulimit <span class="hljs-operator">-a</span>
+</code></pre>
+<p>修改允许打开的最大进程数</p>
+<pre><code class="bash hljs ">ulimit -u <span class="hljs-number">65535</span>
+</code></pre>
+<p>修改允许打开的文件句柄</p>
+<pre><code class="bash hljs ">ulimit -n <span class="hljs-number">65535</span>
+</code></pre>
+<h1>spark-shell</h1>
+<p>上面讲述了spark-submit提交Spark Application如何解决依赖库的问题，那如果是spark-shell的话，该怎么办呢？</p>
+<p>spark-shell的话，利用--driver-class-path选项来指定所依赖的jar文件，注意的是--driver-class-path后如果需要跟着多个jar文件的话，jar文件之间使用冒号(:)来分割。</p>
+<h1>小结</h1>
+<p>本文部分内容已由本人徽沪一郎在CSDN中通过”<a href="http://www.csdn.net/article/2014-10-24/2822278-how-to-bulida-spark-and-cassandra-based-high-performance-data-pipeline/2" target="_blank">使用Spark+Cassandra打造高性能数据分析平台</a>“发表。</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/hseagle/tag/Apache%20Spark/">Apache Spark</a></div>
+<div id="blog_post_info"><div id="green_channel">
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(4052572,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://msg.cnblogs.com/send/%E5%BE%BD%E6%B2%AA%E4%B8%80%E9%83%8E" target="_blank">联系我</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/icon_weibo_24.png" alt=""></a>
+<a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/" target="_blank"><img src="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followees">关注 - 5</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followers">粉丝 - 193</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+    <a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div class="diggit" onclick="votePost(4052572,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">1</span>
+    </div>
+	<div class="buryit" onclick="votePost(4052572,&#39;Bury&#39;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/hseagle/p/3998853.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/hseagle/p/3998853.html" title="发布于2014-09-28 21:18">Apache Spark技术实战之5 -- SparkR的安装及使用</a><br><a href="http://www.cnblogs.com/hseagle/p/4104386.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/hseagle/p/4104386.html" title="发布于2014-11-17 21:11">Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2014-10-26 20:43</span> <a href="http://www.cnblogs.com/hseagle/">徽沪一郎</a> 阅读(<span id="post_view_count">2635</span>) 评论(<span id="post_comment_count">0</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=4052572" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/hseagle/p/4052572.html#" onclick="AddToWz(4052572);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=134061,cb_entryId=4052572,cb_blogApp=currentBlogApp,cb_blogUserGuid='8f4525b4-4a31-e211-aa8f-842b2b196315',cb_entryCreatedDate='2014/10/26 20:43:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/hseagle/p/4052572.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/hseagle/p/4052572.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://www.jpush.cn/" target="_blank">【推荐】极光推送30多万开发者的选择，SDK接入量超过30亿了，你还没注册？</a><br><a href="http://click.aliyun.com/m/3037/" target="_blank">【阿里云SSD云盘】速度行业领先</a><br></div>
+<div id="opt_under_post"></div>
+<div id="ad_c1" class="c_ad_block"><a href="http://www.cnblogs.com/onepixel/p/5062456.html" target="_blank"><img width="300" height="250" src="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/explain-it-simply.jpg" alt="explain it simply" title="explain it simply"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/536914/" target="_blank">上海市质监局：小米空气净化器质量问题严重</a><br> ·  <a href="http://news.cnblogs.com/n/536913/" target="_blank">Qt不再使用LGPLv2.1授权</a><br> ·  <a href="http://news.cnblogs.com/n/536912/" target="_blank">微软开源Edge的JS引擎ChakraCore</a><br> ·  <a href="http://news.cnblogs.com/n/536911/" target="_blank">星巴克CEO看好中国经济，打算五年之内将中国门店数量翻番</a><br> ·  <a href="http://news.cnblogs.com/n/536910/" target="_blank">App Store 12月游戏收入近10亿美金，Clash of Clans高居榜首</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/536387/" target="_blank">Docker简介</a><br> ·  <a href="http://kb.cnblogs.com/page/536115/" target="_blank">Docker简明教程</a><br> ·  <a href="http://kb.cnblogs.com/page/535581/" target="_blank">Git协作流程</a><br> ·  <a href="http://kb.cnblogs.com/page/535355/" target="_blank">企业计算的终结</a><br> ·  <a href="http://kb.cnblogs.com/page/535278/" target="_blank">软件开发的核心</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+$(function () {
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);    
+});
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><p>邮箱: hs_xp@163.com<br>
+</p>
+<p>QQ: 58506256&nbsp; <br>
+</p>
+<p>QQ群: Spark零基础学习 367106111</p>
+<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=99253f4f95c7f17a8d77d6cf2acfacfa6556ae645d22f9c6a13d24142341761e"><img src="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/group.png" alt="Spark零基础学习" title="Spark零基础学习" border="0"></a>
+<br>
+<p>&nbsp;</p>
+<embed src="http://service.weibo.com/staticjs/weiboshow.swf?verifier=8feb07ed&amp;uid=2060926175&amp;width=200&amp;height=500&amp;fansRow=2&amp;isTitle=1&amp;isWeibo=1&amp;isFans=1&amp;noborder=0&amp;ptype=1&amp;colors=cfe1f3,fafcff,444444,5093d5" quality="high" scale="noborder" align="L" height="500" width="200"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>园龄：<a href="http://home.cnblogs.com/u/hseagle/" title="入园时间：2012-11-18">3年1个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/hseagle/followers/">193</a><br>关注：<a href="http://home.cnblogs.com/u/hseagle/followees/">5</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger(&#39;8f4525b4-4a31-e211-aa8f-842b2b196315&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="日历">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2015/12/01&#39;);return false;">&lt;</a></td><td align="center">2016年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2016/02/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td class="CalWeekendDay" align="center">2</td></tr><tr><td class="CalWeekendDay" align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center"><a href="http://www.cnblogs.com/hseagle/archive/2016/01/07.html"><u>7</u></a></td><td align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr><tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td class="CalTodayDay" align="center">14</td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr><tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr><tr><td class="CalWeekendDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td class="CalWeekendDay" align="center">30</td></tr><tr><td class="CalWeekendDay" align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+
+</div>
+</div>
+
+</div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(70)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark(34)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/hseagle/category/519033.html">Apache Storm(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/hseagle/category/514458.html">archlinux(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/hseagle/category/664228.html">BigData(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/hseagle/category/565169.html">Database(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/hseagle/category/759340.html">Elasticsearch(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/hseagle/category/470583.html">GDB(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/hseagle/category/554058.html">Hadoop(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/hseagle/category/519017.html">memory management(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/hseagle/category/646056.html">Scala(2)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(76)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/hseagle/archive/2016/01.html">2016年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/hseagle/archive/2015/11.html">2015年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/hseagle/archive/2015/04.html">2015年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/hseagle/archive/2015/03.html">2015年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/hseagle/archive/2015/02.html">2015年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/hseagle/archive/2015/01.html">2015年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/hseagle/archive/2014/12.html">2014年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/hseagle/archive/2014/11.html">2014年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/hseagle/archive/2014/10.html">2014年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/hseagle/archive/2014/09.html">2014年9月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/hseagle/archive/2014/08.html">2014年8月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/hseagle/archive/2014/07.html">2014年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/hseagle/archive/2014/06.html">2014年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/hseagle/archive/2014/05.html">2014年5月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/hseagle/archive/2014/04.html">2014年4月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/hseagle/archive/2014/03.html">2014年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/hseagle/archive/2014/02.html">2014年2月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/hseagle/archive/2014/01.html">2014年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/hseagle/archive/2013/12.html">2013年12月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/hseagle/archive/2013/11.html">2013年11月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/hseagle/archive/2013/10.html">2013年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/hseagle/archive/2013/09.html">2013年9月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/hseagle/archive/2013/08.html">2013年8月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/hseagle/archive/2013/06.html">2013年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/hseagle/archive/2013/05.html">2013年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/hseagle/archive/2013/04.html">2013年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/hseagle/archive/2013/03.html">2013年3月 (4)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	104754
+	</li>
+	<li class="liRank">
+		排名 -	1810
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">1. Apache Spark源码走读之1 -- Spark论文阅读笔记(14198)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673123.html">2. Apache Spark源码走读之2 -- Job的提交与运行(9805)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673132.html">3. Apache Spark源码走读之3 -- Task运行期之函数调用关系分析(7388)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(5476)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3756862.html">5. Apache Storm源码阅读笔记(4802)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3543782.html">1. Apache Storm 衍生项目之1 -- storm-yarn(5)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3732492.html">2. Apache Spark源码走读之9 -- Spark源码编译(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">3. Apache Spark源码走读之1 -- Spark论文阅读笔记(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3908276.html">5. Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现(3)</a></li></ul></div>
+</div>
+</div></div></div><script type="text/javascript">loadBlogSideColumn();</script><iframe src="./Apache Spark技术实战之6 -- spark-submit常见问题及其解决 - 徽沪一郎 - 博客园_files/container.html" style="visibility: hidden; display: none;"></iframe>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2016 徽沪一郎
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+<div style="position: absolute; width: 0px; height: 0px; overflow: hidden; padding: 0px; border: 0px; margin: 0px;"><div id="MathJax_Font_Test" style="position: absolute; visibility: hidden; top: 0px; left: 0px; width: auto; padding: 0px; border: 0px; margin: 0px; white-space: nowrap; text-align: left; text-indent: 0px; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; font-size: 40px; font-weight: normal; font-style: normal; font-family: MathJax_Main, sans-serif;"></div></div></body></html>

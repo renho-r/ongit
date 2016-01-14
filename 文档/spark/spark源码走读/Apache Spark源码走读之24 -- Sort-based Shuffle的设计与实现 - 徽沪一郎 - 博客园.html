@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://www.cnblogs.com/hseagle/p/3979744.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/bundle-LessIsMoreRight.css">
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/134061.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/hseagle/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/hseagle/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/hseagle/wlwmanifest.xml">
+<script async="" type="text/javascript" src="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/gpt.js"></script><script src="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'hseagle', cb_enable_mathjax=true;</script>
+<script src="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/blog-common.js" type="text/javascript"></script>
+<script src="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/pubads_impl_78.js" async=""></script><script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: ['AMS'], useLabelIds: true } },
+  'HTML-CSS': { linebreaks: { automatic: true } },
+  SVG: { linebreaks: { automatic: true } }});</script><script type="text/javascript" src="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/MathJax.js"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style></head>
+<body><div id="MathJax_Message" style="display: none;"></div>
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<script type="text/javascript" src="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/pdfobject.js"></script>
+<script src="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/highlight.pack.js"></script>
+<script>
+hljs.configure({tabReplace: '  '});
+hljs.initHighlightingOnLoad();
+</script>
+<!--PageBeginHtml Block End-->
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/hseagle/">富贵有定数，学问则无定数。求一分，便得一分</a></div>
+<div class="subtitle">快乐源于简单</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/hseagle/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/hseagle/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/hseagle/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-76&nbsp;
+文章-0&nbsp;
+评论-47&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园.html">Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>欢迎转载，转载请注明出处。</p>
+<h1>概要</h1>
+<p>Spark 1.1中对spark core的一个重大改进就是引入了sort-based shuffle处理机制，本文就该处理机制的实现进行初步的分析。</p>
+<h1>Sort-based Shuffle之初体验</h1>
+<p>通过一个小的实验来直观的感受一下sort-based shuffle算法会产生哪些中间文件，具体实验步骤如下所述。</p>
+<p>步骤1： 修改conf/spark-default.conf, 加入如下内容</p>
+<pre><code class="bash hljs ">spark.shuffle.manager SORT
+</code></pre>
+<p>步骤2: 运行spark-shell</p>
+<pre><code class="bash hljs ">SPARK_LOCAL_IP=<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span> <span class="hljs-variable">$SPARK_HOME</span>/bin/spark-shell
+</code></pre>
+<p>&nbsp;步骤3: 执行wordcount</p>
+<pre><code class="bash hljs ">sc.textFile(<span class="hljs-string">"README.md"</span>).flatMap(l =&gt; l.split(<span class="hljs-string">" "</span>)).map(w=&gt;(w,<span class="hljs-number">1</span>)).reduceByKey(_ + _).collect
+</code></pre>
+<p>&nbsp;步骤4: 查看生成的中间文件</p>
+<pre><code class="bash hljs ">find /tmp/spark-local* -type f
+</code></pre>
+<p>文件查找结果如下所示</p>
+<pre><code class="bash hljs ">/tmp/spark-local-<span class="hljs-number">20140919091822</span>-aa66/<span class="hljs-number">0</span>f/shuffle_0_1_0.index
+/tmp/spark-local-<span class="hljs-number">20140919091822</span>-aa66/<span class="hljs-number">30</span>/shuffle_0_0_0.index
+/tmp/spark-local-<span class="hljs-number">20140919091822</span>-aa66/<span class="hljs-number">0</span>c/shuffle_0_0_0.data
+/tmp/spark-local-<span class="hljs-number">20140919091822</span>-aa66/<span class="hljs-number">15</span>/shuffle_0_1_0.data
+</code></pre>
+<p>可以看到生成了两人种后缀的文件，分别为data和index类型，这两者的用途在后续分析中会详细讲述。</p>
+<p>如果我们做一下对比实验，将shuffle模式改为Hash，再来观看生成的文件，就会找到区别。将原先配置文件中的<strong>SORT</strong>改为<strong>HASH</strong>，重新启动spark-shell，执行相同的wordcount之后，在tmp目录下找到的文件列表如下。</p>
+<pre><code class="bash hljs ">/tmp/spark-local-<span class="hljs-number">20140919092949</span>-<span class="hljs-number">14</span>cc/<span class="hljs-number">10</span>/shuffle_0_1_3
+/tmp/spark-local-<span class="hljs-number">20140919092949</span>-<span class="hljs-number">14</span>cc/<span class="hljs-number">0</span>f/shuffle_0_1_2
+/tmp/spark-local-<span class="hljs-number">20140919092949</span>-<span class="hljs-number">14</span>cc/<span class="hljs-number">0</span>f/shuffle_0_0_3
+/tmp/spark-local-<span class="hljs-number">20140919092949</span>-<span class="hljs-number">14</span>cc/<span class="hljs-number">0</span>c/shuffle_0_0_0
+/tmp/spark-local-<span class="hljs-number">20140919092949</span>-<span class="hljs-number">14</span>cc/<span class="hljs-number">0</span>d/shuffle_0_1_0
+/tmp/spark-local-<span class="hljs-number">20140919092949</span>-<span class="hljs-number">14</span>cc/<span class="hljs-number">0</span>d/shuffle_0_0_1
+/tmp/spark-local-<span class="hljs-number">20140919092949</span>-<span class="hljs-number">14</span>cc/<span class="hljs-number">0</span>e/shuffle_0_1_1
+/tmp/spark-local-<span class="hljs-number">20140919092949</span>-<span class="hljs-number">14</span>cc/<span class="hljs-number">0</span>e/shuffle_0_0_2
+</code></pre>
+<p>两者生成的文件数量差异非常大，具体数值计算如下</p>
+<ol>
+<li>在HASH模式下，每一次shuffle会生成M*R的数量的文件，如上述wordcount例子中，整个job有一次shuffle过程，由于输入文件默认分片为2,故M个数为2,而spark.default.parallelism配置的值为4，故R为4,所以总共生成1*2*4=8个文件。shuffle_0_1_2解读为shuffle+shuffle_id+map_id+reduce_id，故0_1_2表示由第0次shuffle中的第1个maptask生成的文件，该文件内容会被第2个reduce task消费</li>
+<li>在SORT模式下，一个Map Task只生成一个文件，而不管生成的文件要被多少的Reduce消费，故文件个数是M的数量，由于wordcount中的默认分片为2,故只生成两个data文件</li>
+</ol>
+<h1>多次shuffle</h1>
+<p>刚才的示例中只有一次shuffle过程，我们可以通过小小的改动来达到两次shuffle，代码如下</p>
+<pre><code class="bash hljs ">sc.textFile(<span class="hljs-string">"README.md"</span>).flatMap(l =&gt; l.split(<span class="hljs-string">" "</span>)).map(w =&gt; (w,<span class="hljs-number">1</span>)).reduceByKey(_ + _).map(p=&gt;(p._2,p._1)).groupByKey.collect
+</code></pre>
+<p>上述代码将reduceByKey的结果通过map进行反转，即将原来的(w, count)转换为(count,w)，然后根据出现次数进行归类。 groupByKey会再次导致数据shuffle过程。</p>
+<p>在HASH模式下产生的文件如下所示</p>
+<pre><code class="bash hljs ">/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">12</span>/shuffle_0_3_3
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">0</span>c/shuffle_0_0_0
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">11</span>/shuffle_0_2_3
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">11</span>/shuffle_0_3_2
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">11</span>/shuffle_1_1_3
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">10</span>/shuffle_0_2_2
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">10</span>/shuffle_0_1_3
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">10</span>/shuffle_0_3_1
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">10</span>/shuffle_1_0_3
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">10</span>/shuffle_1_1_2
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">0</span>f/shuffle_0_0_3
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">0</span>f/shuffle_0_3_0
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">0</span>f/shuffle_0_2_1
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">0</span>f/shuffle_0_1_2
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">0</span>f/shuffle_1_0_2
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">0</span>f/shuffle_1_1_1
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">0</span>d/shuffle_0_0_1
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">0</span>d/shuffle_0_1_0
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">0</span>d/shuffle_1_0_0
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">0</span>e/shuffle_0_2_0
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">0</span>e/shuffle_0_1_1
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">0</span>e/shuffle_0_0_2
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">0</span>e/shuffle_1_0_1
+/tmp/spark-local-<span class="hljs-number">20140919094531</span>-<span class="hljs-number">1</span>cb6/<span class="hljs-number">0</span>e/shuffle_1_1_0
+</code></pre>
+<p>引入一次新的shuffle，产生了大量的中间文件</p>
+<p>如果是使用SORT，效果如何呢？只会增加M个文件，由于在新的shuffle过程中，map task数目为4,所以总共的文件是2+4=6。</p>
+<pre><code class="bash hljs ">/tmp/spark-local-<span class="hljs-number">20140919094731</span>-<span class="hljs-number">034</span>a/<span class="hljs-number">29</span>/shuffle_0_3_0.data
+/tmp/spark-local-<span class="hljs-number">20140919094731</span>-<span class="hljs-number">034</span>a/<span class="hljs-number">30</span>/shuffle_0_0_0.index
+/tmp/spark-local-<span class="hljs-number">20140919094731</span>-<span class="hljs-number">034</span>a/<span class="hljs-number">15</span>/shuffle_0_1_0.data
+/tmp/spark-local-<span class="hljs-number">20140919094731</span>-<span class="hljs-number">034</span>a/<span class="hljs-number">36</span>/shuffle_0_2_0.data
+/tmp/spark-local-<span class="hljs-number">20140919094731</span>-<span class="hljs-number">034</span>a/<span class="hljs-number">0</span>c/shuffle_0_0_0.data
+/tmp/spark-local-<span class="hljs-number">20140919094731</span>-<span class="hljs-number">034</span>a/<span class="hljs-number">32</span>/shuffle_0_2_0.index
+/tmp/spark-local-<span class="hljs-number">20140919094731</span>-<span class="hljs-number">034</span>a/<span class="hljs-number">32</span>/shuffle_1_1_0.index
+/tmp/spark-local-<span class="hljs-number">20140919094731</span>-<span class="hljs-number">034</span>a/<span class="hljs-number">0</span>f/shuffle_0_1_0.index
+/tmp/spark-local-<span class="hljs-number">20140919094731</span>-<span class="hljs-number">034</span>a/<span class="hljs-number">0</span>f/shuffle_1_0_0.index
+/tmp/spark-local-<span class="hljs-number">20140919094731</span>-<span class="hljs-number">034</span>a/<span class="hljs-number">0</span>a/shuffle_1_1_0.data
+/tmp/spark-local-<span class="hljs-number">20140919094731</span>-<span class="hljs-number">034</span>a/<span class="hljs-number">2</span>b/shuffle_1_0_0.data
+/tmp/spark-local-<span class="hljs-number">20140919094731</span>-<span class="hljs-number">034</span>a/<span class="hljs-number">0</span>d/shuffle_0_3_0.index
+</code></pre>
+<p>值得指出的是shuffle_0和shuffle_1的执行次序问题，数字越大越先执行，由于spark job提交的时候是从后往前倒推的，故0是最后将执行，而前面的先执行。</p>
+<h1>Sort-based Shuffle的设计思想</h1>
+<p>sort-based shuffle的总体指导思想是一个map task最终只生成一个shuffle文件，那么后续的reduce task是如何从这一个shuffle文件中得到自己的partition呢，这个时候就需要引入一个新的文件类型即index文件。</p>
+<p>其具体实现步骤如下:</p>
+<ol>
+<li>Map Task在读取自己输入的partition之后，将计算结果写入到ExternalSorter</li>
+<li>ExternalSorter会使用一个map来存储新的计算结果，新的计算结果根据partiton分类，如果是有combine操作，则需要将新的值与原有的值进行合并</li>
+<li>如果ExternalSorter中的map占用的内存已经超越了使用的阀值，则将map中的内容spill到磁盘中，每一次spill产生一个不同的文件</li>
+<li>当输入Partition中的所有数据都已经处理完毕之后，这时有可能一部分计算结果在内存中，另一部分计算结果在spill的一到多个文件之中，这时通过merge操作将内存和spill文件中的内容合并整到一个文件里</li>
+<li>最后将每一个partition的在data文件中的起始位置和结束位置写入到index文件</li>
+</ol>
+<p>相应的源文件</p>
+<ol>
+<li>SortShuffleManager.scala</li>
+<li>SortShuffleWriter.scala</li>
+<li>ExternalSorter.scala</li>
+<li>IndexShuffleBlockManager.scala</li>
+</ol>
+<p>几个重要的函数</p>
+<p>SortShuffleWriter.write</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">override</span> <span class="hljs-keyword">def</span> write(records: Iterator[_ &gt;: Product2[K, V]]): Unit = {
+    <span class="hljs-keyword">if</span> (dep.mapSideCombine) {
+      <span class="hljs-keyword">if</span> (!dep.aggregator.isDefined) {
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IllegalStateException(<span class="hljs-string">"Aggregator is empty for map-side combine"</span>)
+      }
+      sorter = <span class="hljs-keyword">new</span> ExternalSorter[K, V, C](
+        dep.aggregator, Some(dep.partitioner), dep.keyOrdering, dep.serializer)
+      sorter.insertAll(records)
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-comment">// In this case we pass neither an aggregator nor an ordering to the sorter, because we don't</span>
+      <span class="hljs-comment">// care whether the keys get sorted in each partition; that will be done on the reduce side</span>
+      <span class="hljs-comment">// if the operation being run is sortByKey.</span>
+      sorter = <span class="hljs-keyword">new</span> ExternalSorter[K, V, V](
+        None, Some(dep.partitioner), None, dep.serializer)
+      sorter.insertAll(records)
+    }
+
+    <span class="hljs-keyword">val</span> outputFile = shuffleBlockManager.getDataFile(dep.shuffleId, mapId)
+    <span class="hljs-keyword">val</span> blockId = shuffleBlockManager.consolidateId(dep.shuffleId, mapId)
+    <span class="hljs-keyword">val</span> partitionLengths = sorter.writePartitionedFile(blockId, context, outputFile)
+    shuffleBlockManager.writeIndexFile(dep.shuffleId, mapId, partitionLengths)
+
+    mapStatus = <span class="hljs-keyword">new</span> MapStatus(blockManager.blockManagerId,
+      partitionLengths.map(MapOutputTracker.compressSize))
+  }
+</code></pre>
+<p>ExternalSorter.insertAll</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">def</span> insertAll(records: Iterator[_  {
+        <span class="hljs-keyword">if</span> (hadValue) mergeValue(oldValue, kv._2) <span class="hljs-keyword">else</span> createCombiner(kv._2)
+      }
+      <span class="hljs-keyword">while</span> (records.hasNext) {
+        elementsRead += <span class="hljs-number">1</span>
+        kv = records.next()
+        map.changeValue((getPartition(kv._1), kv._1), update)
+        maybeSpill(usingMap = <span class="hljs-keyword">true</span>)
+      }
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-comment">// Stick values into our buffer</span>
+      <span class="hljs-keyword">while</span> (records.hasNext) {
+        elementsRead += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">val</span> kv = records.next()
+        buffer.insert((getPartition(kv._1), kv._1), kv._2.asInstanceOf[C])
+        maybeSpill(usingMap = <span class="hljs-keyword">false</span>)
+      }
+    }
+  }
+</code></pre>
+<p>writePartitionedFile将内存中的数据和spill文件中内容一起合并到一个文件当中</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">def</span> writePartitionedFile(
+      blockId: BlockId,
+      context: TaskContext,
+      outputFile: File): Array[Long] = {
+
+    <span class="hljs-comment">// Track location of each range in the output file</span>
+    <span class="hljs-keyword">val</span> lengths = <span class="hljs-keyword">new</span> Array[Long](numPartitions)
+
+    <span class="hljs-keyword">if</span> (bypassMergeSort &amp;&amp; partitionWriters != <span class="hljs-keyword">null</span>) {
+      <span class="hljs-comment">// We decided to write separate files for each partition, so just concatenate them. To keep</span>
+      <span class="hljs-comment">// this simple we spill out the current in-memory collection so that everything is in files.</span>
+      spillToPartitionFiles(<span class="hljs-keyword">if</span> (aggregator.isDefined) map <span class="hljs-keyword">else</span> buffer)
+      partitionWriters.foreach(_.commitAndClose())
+      <span class="hljs-keyword">var</span> out: FileOutputStream = <span class="hljs-keyword">null</span>
+      <span class="hljs-keyword">var</span> in: FileInputStream = <span class="hljs-keyword">null</span>
+      <span class="hljs-keyword">try</span> {
+        out = <span class="hljs-keyword">new</span> FileOutputStream(outputFile)
+        <span class="hljs-keyword">for</span> (i &lt;- <span class="hljs-number">0</span> until numPartitions) {
+          in = <span class="hljs-keyword">new</span> FileInputStream(partitionWriters(i).fileSegment().file)
+          <span class="hljs-keyword">val</span> size = org.apache.spark.util.Utils.copyStream(in, out, <span class="hljs-keyword">false</span>)
+          in.close()
+          in = <span class="hljs-keyword">null</span>
+          lengths(i) = size
+        }
+      } <span class="hljs-keyword">finally</span> {
+        <span class="hljs-keyword">if</span> (out != <span class="hljs-keyword">null</span>) {
+          out.close()
+        }
+        <span class="hljs-keyword">if</span> (in != <span class="hljs-keyword">null</span>) {
+          in.close()
+        }
+      }
+    } <span class="hljs-keyword">else</span> {
+      <span class="hljs-comment">// Either we're not bypassing merge-sort or we have only in-memory data; get an iterator by</span>
+      <span class="hljs-comment">// partition and just write everything directly.</span>
+      <span class="hljs-keyword">for</span> ((id, elements) &lt;- <span class="hljs-keyword">this</span>.partitionedIterator) {
+        <span class="hljs-keyword">if</span> (elements.hasNext) {
+          <span class="hljs-keyword">val</span> writer = blockManager.getDiskWriter(
+            blockId, outputFile, ser, fileBufferSize, context.taskMetrics.shuffleWriteMetrics.get)
+          <span class="hljs-keyword">for</span> (elem </code></pre>
+<p>而数据读取过程中则需要使用IndexShuffleBlockManager来获取Partiton的具体位置</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">override</span> <span class="hljs-keyword">def</span> getBlockData(blockId: ShuffleBlockId): ManagedBuffer = {
+    <span class="hljs-comment">// The block is actually going to be a range of a single map output file for this map, so</span>
+    <span class="hljs-comment">// find out the consolidated file, then the offset within that from our index</span>
+    <span class="hljs-keyword">val</span> indexFile = getIndexFile(blockId.shuffleId, blockId.mapId)
+
+    <span class="hljs-keyword">val</span> in = <span class="hljs-keyword">new</span> DataInputStream(<span class="hljs-keyword">new</span> FileInputStream(indexFile))
+    <span class="hljs-keyword">try</span> {
+      in.skip(blockId.reduceId * <span class="hljs-number">8</span>)
+      <span class="hljs-keyword">val</span> offset = in.readLong()
+      <span class="hljs-keyword">val</span> nextOffset = in.readLong()
+      <span class="hljs-keyword">new</span> FileSegmentManagedBuffer(
+        getDataFile(blockId.shuffleId, blockId.mapId),
+        offset,
+        nextOffset - offset)
+    } <span class="hljs-keyword">finally</span> {
+      in.close()
+    }
+  }
+</code></pre>
+<h1>参数资料</h1>
+<ol>
+<li><a href="http://jerryshao.me/architecture/2014/01/04/spark-shuffle-detail-investigation/" target="_blank">详细探究spark的shuffle 实现</a></li>
+<li><a href="https://issues.apache.org/jira/browse/SPARK-2045" target="_blank">spark-2045 sort-based shuffle implementation</a></li>
+</ol></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/hseagle/tag/Apache%20Spark/">Apache Spark</a></div>
+<div id="blog_post_info"><div id="green_channel">
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(3979744,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://msg.cnblogs.com/send/%E5%BE%BD%E6%B2%AA%E4%B8%80%E9%83%8E" target="_blank">联系我</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/icon_weibo_24.png" alt=""></a>
+<a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/" target="_blank"><img src="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followees">关注 - 5</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followers">粉丝 - 193</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+    <a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div class="diggit" onclick="votePost(3979744,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+	<div class="buryit" onclick="votePost(3979744,&#39;Bury&#39;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/hseagle/p/3959412.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/hseagle/p/3959412.html" title="发布于2014-09-06 14:54">Apache Spark技术实战之4 -- 利用Spark将json文件导入Cassandra</a><br><a href="http://www.cnblogs.com/hseagle/p/3998853.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/hseagle/p/3998853.html" title="发布于2014-09-28 21:18">Apache Spark技术实战之5 -- SparkR的安装及使用</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2014-09-19 10:22</span> <a href="http://www.cnblogs.com/hseagle/">徽沪一郎</a> 阅读(<span id="post_view_count">2164</span>) 评论(<span id="post_comment_count">2</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=3979744" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/hseagle/p/3979744.html#" onclick="AddToWz(3979744);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=134061,cb_entryId=3979744,cb_blogApp=currentBlogApp,cb_blogUserGuid='8f4525b4-4a31-e211-aa8f-842b2b196315',cb_entryCreatedDate='2014/9/19 10:22:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<!--done-->
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/hseagle/p/3979744.html#3033130" class="layer">#1楼</a><a name="3033130" id="comment_anchor_3033130"></a>  <span class="comment_date">2014-09-23 18:06</span> <a id="a_comment_author_3033130" href="http://www.cnblogs.com/w397090770/" target="_blank">右手牵左手</a> <a href="http://msg.cnblogs.com/send/%E5%8F%B3%E6%89%8B%E7%89%B5%E5%B7%A6%E6%89%8B" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3033130" class="blog_comment_body">不错，学习了。这里有篇文章对比了hash和sort性能。<a href="http://www.iteblog.com/archives/1138" target="_blank">Spark shuffle：hash和sort性能对比</a></div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3033130,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3033130,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/hseagle/p/3979744.html#3033680" class="layer">#2楼</a><a name="3033680" id="comment_anchor_3033680"></a>[<span class="louzhu">楼主</span>]<span id="comment-maxId" style="display:none;">3033680</span><span id="comment-maxDate" style="display:none;">2014/9/24 13:58:50</span>  <span class="comment_date">2014-09-24 13:58</span> <a id="a_comment_author_3033680" href="http://www.cnblogs.com/hseagle/" target="_blank">徽沪一郎</a> <a href="http://msg.cnblogs.com/send/%E5%BE%BD%E6%B2%AA%E4%B8%80%E9%83%8E" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3033680" class="blog_comment_body"><a href="http://www.cnblogs.com/hseagle/p/3979744.html#3033130" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,3033130);">@</a>右手牵左手 谢谢鼓励。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3033680,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3033680,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/hseagle/p/3979744.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/hseagle/p/3979744.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://www.jpush.cn/" target="_blank">【推荐】极光推送30多万开发者的选择，SDK接入量超过30亿了，你还没注册？</a><br><a href="http://click.aliyun.com/m/3037/" target="_blank">【阿里云SSD云盘】速度行业领先</a><br></div>
+<div id="opt_under_post"></div>
+<div id="ad_c1" class="c_ad_block"><a href="http://job.cnblogs.com/offer/51018/" target="_blank"><img width="300" height="250" src="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/programming-is-an-art-form.jpg" alt="招聘ASP.NET 5开发工程师" title="招聘ASP.NET 5开发工程师"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/536914/" target="_blank">上海市质监局：小米空气净化器质量问题严重</a><br> ·  <a href="http://news.cnblogs.com/n/536913/" target="_blank">Qt不再使用LGPLv2.1授权</a><br> ·  <a href="http://news.cnblogs.com/n/536912/" target="_blank">微软开源Edge的JS引擎ChakraCore</a><br> ·  <a href="http://news.cnblogs.com/n/536911/" target="_blank">星巴克CEO看好中国经济，打算五年之内将中国门店数量翻番</a><br> ·  <a href="http://news.cnblogs.com/n/536910/" target="_blank">App Store 12月游戏收入近10亿美金，Clash of Clans高居榜首</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/536387/" target="_blank">Docker简介</a><br> ·  <a href="http://kb.cnblogs.com/page/536115/" target="_blank">Docker简明教程</a><br> ·  <a href="http://kb.cnblogs.com/page/535581/" target="_blank">Git协作流程</a><br> ·  <a href="http://kb.cnblogs.com/page/535355/" target="_blank">企业计算的终结</a><br> ·  <a href="http://kb.cnblogs.com/page/535278/" target="_blank">软件开发的核心</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+$(function () {
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);    
+});
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><p>邮箱: hs_xp@163.com<br>
+</p>
+<p>QQ: 58506256&nbsp; <br>
+</p>
+<p>QQ群: Spark零基础学习 367106111</p>
+<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=99253f4f95c7f17a8d77d6cf2acfacfa6556ae645d22f9c6a13d24142341761e"><img src="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/group.png" alt="Spark零基础学习" title="Spark零基础学习" border="0"></a>
+<br>
+<p>&nbsp;</p>
+<embed src="http://service.weibo.com/staticjs/weiboshow.swf?verifier=8feb07ed&amp;uid=2060926175&amp;width=200&amp;height=500&amp;fansRow=2&amp;isTitle=1&amp;isWeibo=1&amp;isFans=1&amp;noborder=0&amp;ptype=1&amp;colors=cfe1f3,fafcff,444444,5093d5" quality="high" scale="noborder" align="L" height="500" width="200"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>园龄：<a href="http://home.cnblogs.com/u/hseagle/" title="入园时间：2012-11-18">3年1个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/hseagle/followers/">193</a><br>关注：<a href="http://home.cnblogs.com/u/hseagle/followees/">5</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger(&#39;8f4525b4-4a31-e211-aa8f-842b2b196315&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2015/12/01&#39;);return false;">&lt;</a></td><td align="center">2016年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2016/02/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td class="CalWeekendDay" align="center">2</td></tr><tr><td class="CalWeekendDay" align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center"><a href="http://www.cnblogs.com/hseagle/archive/2016/01/07.html"><u>7</u></a></td><td align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr><tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td class="CalTodayDay" align="center">14</td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr><tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr><tr><td class="CalWeekendDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td class="CalWeekendDay" align="center">30</td></tr><tr><td class="CalWeekendDay" align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+
+</div>
+</div>
+
+</div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(70)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark(34)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/hseagle/category/519033.html">Apache Storm(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/hseagle/category/514458.html">archlinux(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/hseagle/category/664228.html">BigData(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/hseagle/category/565169.html">Database(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/hseagle/category/759340.html">Elasticsearch(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/hseagle/category/470583.html">GDB(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/hseagle/category/554058.html">Hadoop(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/hseagle/category/519017.html">memory management(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/hseagle/category/646056.html">Scala(2)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(76)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/hseagle/archive/2016/01.html">2016年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/hseagle/archive/2015/11.html">2015年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/hseagle/archive/2015/04.html">2015年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/hseagle/archive/2015/03.html">2015年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/hseagle/archive/2015/02.html">2015年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/hseagle/archive/2015/01.html">2015年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/hseagle/archive/2014/12.html">2014年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/hseagle/archive/2014/11.html">2014年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/hseagle/archive/2014/10.html">2014年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/hseagle/archive/2014/09.html">2014年9月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/hseagle/archive/2014/08.html">2014年8月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/hseagle/archive/2014/07.html">2014年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/hseagle/archive/2014/06.html">2014年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/hseagle/archive/2014/05.html">2014年5月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/hseagle/archive/2014/04.html">2014年4月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/hseagle/archive/2014/03.html">2014年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/hseagle/archive/2014/02.html">2014年2月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/hseagle/archive/2014/01.html">2014年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/hseagle/archive/2013/12.html">2013年12月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/hseagle/archive/2013/11.html">2013年11月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/hseagle/archive/2013/10.html">2013年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/hseagle/archive/2013/09.html">2013年9月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/hseagle/archive/2013/08.html">2013年8月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/hseagle/archive/2013/06.html">2013年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/hseagle/archive/2013/05.html">2013年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/hseagle/archive/2013/04.html">2013年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/hseagle/archive/2013/03.html">2013年3月 (4)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	104754
+	</li>
+	<li class="liRank">
+		排名 -	1810
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">1. Apache Spark源码走读之1 -- Spark论文阅读笔记(14198)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673123.html">2. Apache Spark源码走读之2 -- Job的提交与运行(9805)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673132.html">3. Apache Spark源码走读之3 -- Task运行期之函数调用关系分析(7388)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(5476)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3756862.html">5. Apache Storm源码阅读笔记(4802)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3543782.html">1. Apache Storm 衍生项目之1 -- storm-yarn(5)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3732492.html">2. Apache Spark源码走读之9 -- Spark源码编译(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">3. Apache Spark源码走读之1 -- Spark论文阅读笔记(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3908276.html">5. Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现(3)</a></li></ul></div>
+</div>
+</div></div></div><script type="text/javascript">loadBlogSideColumn();</script><iframe src="./Apache Spark源码走读之24 -- Sort-based Shuffle的设计与实现 - 徽沪一郎 - 博客园_files/container.html" style="visibility: hidden; display: none;"></iframe>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2016 徽沪一郎
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

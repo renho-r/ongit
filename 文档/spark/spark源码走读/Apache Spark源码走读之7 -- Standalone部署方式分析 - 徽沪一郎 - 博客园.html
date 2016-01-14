@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://www.cnblogs.com/hseagle/p/3673147.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/bundle-LessIsMoreRight.css">
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/134061.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/hseagle/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/hseagle/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/hseagle/wlwmanifest.xml">
+<script async="" type="text/javascript" src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/gpt.js"></script><script src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'hseagle', cb_enable_mathjax=true;</script>
+<script src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/blog-common.js" type="text/javascript"></script>
+<script src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/pubads_impl_78.js" async=""></script><script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: ['AMS'], useLabelIds: true } },
+  'HTML-CSS': { linebreaks: { automatic: true } },
+  SVG: { linebreaks: { automatic: true } }});</script><script type="text/javascript" src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/MathJax.js"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style></head>
+<body><div id="MathJax_Message" style="display: none;"></div>
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<script type="text/javascript" src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/pdfobject.js"></script>
+<script src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/highlight.pack.js"></script>
+<script>
+hljs.configure({tabReplace: '  '});
+hljs.initHighlightingOnLoad();
+</script>
+<!--PageBeginHtml Block End-->
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/hseagle/">富贵有定数，学问则无定数。求一分，便得一分</a></div>
+<div class="subtitle">快乐源于简单</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/hseagle/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/hseagle/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/hseagle/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-76&nbsp;
+文章-0&nbsp;
+评论-47&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园.html">Apache Spark源码走读之7 -- Standalone部署方式分析</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p><span style="color: #3366ff;"><em><strong>欢迎转载，转载请注明出处，徽沪一郎。</strong></em></span></p>
+<h1><span style="color: #000000;">楔子</span></h1>
+<p><span style="color: #000000;">在Spark源码走读系列之2中曾经提到Spark能以Standalone的方式来运行cluster，但没有对Application的提交与具体运行流程做详细的分析，本文就这些问题做一个比较详细的分析，并且对在standalone模式下如何实现HA进行讲解。<br></span></p>
+<h1><span style="color: #000000;">没有HA的Standalone运行模式<br></span></h1>
+<p><span style="color: #000000;">先从比较简单的说起，所谓的没有ha是指master节点没有ha。</span></p>
+<p><span style="color: #000000;">组成cluster的两大元素即Master和Worker。slave worker可以有1到多个，这些worker都处于active状态。</span></p>
+<p><span style="color: #000000;">Driver Application可以运行在Cluster之内，也可以在cluster之外运行，先从简单的讲起即Driver Application独立于Cluster。那么这样的整体框架如下图所示，由driver，master和多个slave worker来共同组成整个的运行环境。</span></p>
+<p><span style="color: #000000;"><img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/092145550738738.png" alt=""></span></p>
+<h2><span style="color: #000000;">执行顺序</span></h2>
+<h3><span style="color: #000000;">步骤1 运行master</span></h3>
+<pre><code class="bash hljs "><span class="hljs-variable">$SPARK_HOME</span>/sbin/start_master.sh
+</code></pre>
+<p>在<strong>start_master.sh</strong>中最关键的一句就是</p>
+<pre><code class="bash hljs "><span class="hljs-string">"<span class="hljs-variable">$sbin</span>"</span>/spark-daemon.sh start org.apache.spark.deploy.master.Master <span class="hljs-number">1</span> --ip <span class="hljs-variable">$SPARK_MASTER_IP</span> --port <span class="hljs-variable">$SPARK_MASTER_PORT</span> --webui-port <span class="hljs-variable">$SPARK_MASTER_WEBUI_PORT</span>
+</code></pre>
+<p><span style="color: #000000;">检测Master的jvm进程</span></p>
+<pre><code class="bash hljs ">root     <span class="hljs-number">23438</span>     <span class="hljs-number">1</span> <span class="hljs-number">67</span> <span class="hljs-number">22</span>:<span class="hljs-number">57</span> pts/<span class="hljs-number">0</span>    <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">05</span> /opt/java/bin/java -cp :/root/working/spark-<span class="hljs-number">0.9</span>.<span class="hljs-number">1</span>-bin-hadoop2/conf:/root/working/spark-<span class="hljs-number">0.9</span>.<span class="hljs-number">1</span>-bin-hadoop2/assembly/target/scala-<span class="hljs-number">2.10</span>/spark-assembly_2.<span class="hljs-number">10</span>-<span class="hljs-number">0.9</span>.<span class="hljs-number">1</span>-hadoop2.<span class="hljs-number">2.0</span>.jar -Dspark.akka.logLifecycleEvents=<span class="hljs-literal">true</span> -Djava.library.path= -Xms512m -Xmx512m org.apache.spark.deploy.master.Master --ip localhost --port <span class="hljs-number">7077</span> --webui-port <span class="hljs-number">8080</span>
+</code></pre>
+<p><span style="color: #000000;">Master的日志在$SPARK_HOME/logs目录下</span></p>
+<h2><span style="color: #000000;">步骤2 运行worker，可以启动多个</span></h2>
+<pre><code class="bash hljs ">./bin/spark-class org.apache.spark.deploy.worker.Worker spark://localhost:<span class="hljs-number">7077</span>
+</code></pre>
+<p><span style="color: #000000;">worker运行时，需要注册到指定的master url，这里就是spark://localhost:7077. </span></p>
+<p><span style="color: #000000;">Master侧收到RegisterWorker通知，其处理代码如下</span></p>
+<pre><code class="scala hljs "><span class="hljs-keyword">case</span> RegisterWorker(id, workerHost, workerPort, cores, memory, workerUiPort, publicAddress) =&gt;
+    {
+      logInfo(<span class="hljs-string">"Registering worker %s:%d with %d cores, %s RAM"</span>.format(
+        workerHost, workerPort, cores, Utils.megabytesToString(memory)))
+      <span class="hljs-keyword">if</span> (state == RecoveryState.STANDBY) {
+        <span class="hljs-comment">// ignore, don't send response</span>
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (idToWorker.contains(id)) {
+        sender ! RegisterWorkerFailed(<span class="hljs-string">"Duplicate worker ID"</span>)
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">val</span> worker = <span class="hljs-keyword">new</span> WorkerInfo(id, workerHost, workerPort, cores, memory,
+          sender, workerUiPort, publicAddress)
+        <span class="hljs-keyword">if</span> (registerWorker(worker)) {
+          persistenceEngine.addWorker(worker)
+          sender ! RegisteredWorker(masterUrl, masterWebUiUrl)
+          schedule()
+        } <span class="hljs-keyword">else</span> {
+          <span class="hljs-keyword">val</span> workerAddress = worker.actor.path.address
+          logWarning(<span class="hljs-string">"Worker registration failed. Attempted to re-register worker at same "</span> +
+            <span class="hljs-string">"address: "</span> + workerAddress)
+          sender ! RegisterWorkerFailed(<span class="hljs-string">"Attempted to re-register worker at same address: "</span>
+            + workerAddress)
+        }
+      }
+    }
+</code></pre>
+<h2><span style="color: #000000;">步骤3 运行Spark-shell</span></h2>
+<pre><code class="bash hljs ">MASTER=spark://localhost:<span class="hljs-number">7077</span> <span class="hljs-variable">$SPARK_HOME</span>/bin/spark-shell</code>
+</pre>
+<p>spark-shell属于application，有关appliation的运行日志存储在<strong>$SPARK_HOME/works</strong>目录下</p>
+<p>spark-shell作为application,在Master侧其处理的分支是RegisterApplication,具体处理代码如下。</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">case</span> RegisterApplication(description) =&gt; {
+      <span class="hljs-keyword">if</span> (state == RecoveryState.STANDBY) {
+        <span class="hljs-comment">// ignore, don't send response</span>
+      } <span class="hljs-keyword">else</span> {
+        logInfo(<span class="hljs-string">"Registering app "</span> + description.name)
+        <span class="hljs-keyword">val</span> app = createApplication(description, sender)
+        registerApplication(app)
+        logInfo(<span class="hljs-string">"Registered app "</span> + description.name + <span class="hljs-string">" with ID "</span> + app.id)
+        persistenceEngine.addApplication(app)
+        sender ! RegisteredApplication(app.id, masterUrl)
+        schedule()
+      }
+    }
+</code></pre>
+<p>每当有新的application注册到master，master都要调度schedule函数将application发送到相应的worker，在对应的worker启动相应的ExecutorBackend. 具体代码请参考Master.scala中的schedule函数，代码就不再列出。</p>
+<h2>步骤4 结果检测</h2>
+<pre><code class="bash hljs ">/opt/java/bin/java -cp :/root/working/spark-<span class="hljs-number">0.9</span>.<span class="hljs-number">1</span>-bin-hadoop2/conf:/root/working/spark-<span class="hljs-number">0.9</span>.<span class="hljs-number">1</span>-bin-hadoop2/assembly/target/scala-<span class="hljs-number">2.10</span>/spark-assembly_2.<span class="hljs-number">10</span>-<span class="hljs-number">0.9</span>.<span class="hljs-number">1</span>-hadoop2.<span class="hljs-number">2.0</span>.jar -Dspark.akka.logLifecycleEvents=<span class="hljs-literal">true</span> -Djava.library.path= -Xms512m -Xmx512m org.apache.spark.deploy.master.Master --ip localhost --port <span class="hljs-number">7077</span> --webui-port <span class="hljs-number">8080</span>
+root     <span class="hljs-number">23752</span> <span class="hljs-number">23745</span> <span class="hljs-number">21</span> <span class="hljs-number">23</span>:<span class="hljs-number">00</span> pts/<span class="hljs-number">0</span>    <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">25</span> /opt/java/bin/java -cp :/root/working/spark-<span class="hljs-number">0.9</span>.<span class="hljs-number">1</span>-bin-hadoop2/conf:/root/working/spark-<span class="hljs-number">0.9</span>.<span class="hljs-number">1</span>-bin-hadoop2/assembly/target/scala-<span class="hljs-number">2.10</span>/spark-assembly_2.<span class="hljs-number">10</span>-<span class="hljs-number">0.9</span>.<span class="hljs-number">1</span>-hadoop2.<span class="hljs-number">2.0</span>.jar -Djava.library.path= -Xms512m -Xmx512m org.apache.spark.repl.Main
+root     <span class="hljs-number">23986</span> <span class="hljs-number">23938</span> <span class="hljs-number">25</span> <span class="hljs-number">23</span>:<span class="hljs-number">02</span> pts/<span class="hljs-number">2</span>    <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">03</span> /opt/java/bin/java -cp :/root/working/spark-<span class="hljs-number">0.9</span>.<span class="hljs-number">1</span>-bin-hadoop2/conf:/root/working/spark-<span class="hljs-number">0.9</span>.<span class="hljs-number">1</span>-bin-hadoop2/assembly/target/scala-<span class="hljs-number">2.10</span>/spark-assembly_2.<span class="hljs-number">10</span>-<span class="hljs-number">0.9</span>.<span class="hljs-number">1</span>-hadoop2.<span class="hljs-number">2.0</span>.jar -Dspark.akka.logLifecycleEvents=<span class="hljs-literal">true</span> -Djava.library.path= -Xms512m -Xmx512m org.apache.spark.deploy.worker.Worker spark://localhost:<span class="hljs-number">7077</span>
+root     <span class="hljs-number">24047</span> <span class="hljs-number">23986</span> <span class="hljs-number">34</span> <span class="hljs-number">23</span>:<span class="hljs-number">02</span> pts/<span class="hljs-number">2</span>    <span class="hljs-number">00</span>:<span class="hljs-number">00</span>:<span class="hljs-number">04</span> /opt/java/bin/java -cp :/root/working/spark-<span class="hljs-number">0.9</span>.<span class="hljs-number">1</span>-bin-hadoop2/conf:/root/working/spark-<span class="hljs-number">0.9</span>.<span class="hljs-number">1</span>-bin-hadoop2/assembly/target/scala-<span class="hljs-number">2.10</span>/spark-assembly_2.<span class="hljs-number">10</span>-<span class="hljs-number">0.9</span>.<span class="hljs-number">1</span>-hadoop2.<span class="hljs-number">2.0</span>.jar -Xms512M -Xmx512M org.apache.spark.executor.CoarseGrainedExecutorBackend akka.tcp://spark@localhost:<span class="hljs-number">40053</span>/user/CoarseGrainedScheduler <span class="hljs-number">0</span> localhost <span class="hljs-number">4</span> akka.tcp://sparkWorker@localhost:<span class="hljs-number">53568</span>/user/Worker app-<span class="hljs-number">20140511230059</span>-<span class="hljs-number">0000</span>
+</code></pre>
+<p><span style="color: #000000;">从运行的进程之间的关系可以看出，worker和master之间的连接建立完毕之后，如果有新的driver application连接上master，master会要求worker启动相应的ExecutorBackend进程。此后若有什么Task需要运行，则会运行在这些Executor之上。可以从以下的日志信息得出此结论，当然看源码亦可。</span></p>
+<pre><code class="ini hljs ">14/05/11 23:02:36 INFO Worker: Asked to launch executor app-20140511230059-0000/0 for Spark shell
+14/05/11 23:02:36 INFO ExecutorRunner: Launch command: "/opt/java/bin/java" "-cp" ":/root/working/spark-0.9.1-bin-hadoop2/conf:/root/working/spark-0.9.1-bin-hadoop2/assembly/target/scala-2.10/spark-assembly_2.10-0.9.1-hadoop2.2.0.jar" "-Xms512M" "-Xmx512M" "org.apache.spark.executor.CoarseGrainedExecutorBackend" "akka.tcp://spark@localhost:40053/user/CoarseGrainedScheduler" "0" "localhost" "4" "akka.tcp://sparkWorker@localhost:53568/user/Worker" "app-20140511230059-0000"
+</code></pre>
+<p>worker中启动exectuor的相关源码见worker中的receive函数，相关代码如下</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">case</span> LaunchExecutor(masterUrl, appId, execId, appDesc, cores_, memory_) =&gt;
+      <span class="hljs-keyword">if</span> (masterUrl != activeMasterUrl) {
+        logWarning(<span class="hljs-string">"Invalid Master ("</span> + masterUrl + <span class="hljs-string">") attempted to launch executor."</span>)
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">try</span> {
+          logInfo(<span class="hljs-string">"Asked to launch executor %s/%d for %s"</span>.format(appId, execId, appDesc.name))
+          <span class="hljs-keyword">val</span> manager = <span class="hljs-keyword">new</span> ExecutorRunner(appId, execId, appDesc, cores_, memory_,
+            self, workerId, host,
+            appDesc.sparkHome.map(userSparkHome =&gt; <span class="hljs-keyword">new</span> File(userSparkHome)).getOrElse(sparkHome),
+            workDir, akkaUrl, ExecutorState.RUNNING)
+          executors(appId + <span class="hljs-string">"/"</span> + execId) = manager
+          manager.start()
+          coresUsed += cores_
+          memoryUsed += memory_
+          masterLock.synchronized {
+            master ! ExecutorStateChanged(appId, execId, manager.state, None, None)
+          }
+        } <span class="hljs-keyword">catch</span> {
+          <span class="hljs-keyword">case</span> e: Exception =&gt; {
+            logError(<span class="hljs-string">"Failed to launch exector %s/%d for %s"</span>.format(appId, execId, appDesc.name))
+            <span class="hljs-keyword">if</span> (executors.contains(appId + <span class="hljs-string">"/"</span> + execId)) {
+              executors(appId + <span class="hljs-string">"/"</span> + execId).kill()
+              executors -= appId + <span class="hljs-string">"/"</span> + execId
+            }
+            masterLock.synchronized {
+              master ! ExecutorStateChanged(appId, execId, ExecutorState.FAILED, None, None)
+            }
+          }
+        }
+      }
+</code></pre>
+<p><span style="color: #000000;">关于standalone的部署，需要详细研究的源码文件如下所列。</span></p>
+<ul>
+<li><span style="color: #000000;">deploy/master/Master.scala</span></li>
+<li>deploy/worker/worker.scala</li>
+<li>executor/CoarseGrainedExecutorBackend.scala</li>
+</ul>
+<p><span style="color: #000000;">查看进程之间的父子关系，请用<strong>"pstree"</strong></span></p>
+<p><span style="color: #000000;">使用下图来小结单Master的部署情况。</span></p>
+<p><span style="color: #000000;"><img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/120949369847534.png" alt=""></span></p>
+<h2><span style="color: #000000;">类的动态加载和反射</span></h2>
+<p><span style="color: #000000;">在谈部署Driver到Cluster上之前，我们先回顾一下java的一大特性“类的动态加载和反射机制”。本人不是一直写java代码出身，所以好多东西都是边用边学，难免挂一漏万。</span></p>
+<p><span style="color: #000000;">所谓的反射，其实就是要解决在运行期实现类的动态加载。</span></p>
+<p><span style="color: #000000;">来个简单的例子</span></p>
+<pre><code class="java hljs "><span class="hljs-keyword">package</span> test;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Demo</span> {</span>
+
+    <span class="hljs-keyword">public</span> <span class="hljs-title">Demo</span>() {
+        System.out.println(<span class="hljs-string">"Hi!"</span>);
+    }
+
+    <span class="hljs-annotation">@SuppressWarnings</span>(<span class="hljs-string">"unchecked"</span>)
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">void</span> <span class="hljs-title">main</span>(String[] args) <span class="hljs-keyword">throws</span> Exception {
+        Class clazz = Class.forName(<span class="hljs-string">"test.Demo"</span>);
+        Demo demo = (Demo) clazz.newInstance();
+    }
+}
+</code></pre>
+<p>谈到这里，就自然想到了一个面试题，“谈一谈Class.forName和ClassLoader.loadClass的区别"。说到面试，我总是很没有信心，面试官都很屌的, :)。</p>
+<h2>在cluster中运行Driver Application</h2>
+<p>上一节之所以写到类的动态加载与反射都是为了谈这一节的内容奠定基础。</p>
+<p>将Driver application部署到Cluster中，启动的时序大体如下图所示。</p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/121107552349942.png" alt=""></p>
+<ul>
+<li>&nbsp;首先启动Master,然后启动Worker</li>
+<li>使用”deploy.Client"将Driver Application提交到Cluster中</li>
+</ul>
+<pre><code class="bash hljs ">./bin/spark-class org.apache.spark.deploy.Client launch
+   [client-options] \
+      \
+   [application-options]
+</code></pre>
+<ul>
+<li>Master在收到RegisterDriver的请求之后，会发送LaunchDriver给worker,要求worker启动一个Driver的jvm process</li>
+<li>Driver Application在新生成的JVM进程中运行开始时会注册到master中，发送RegisterApplication给Master</li>
+<li>Master发送LaunchExecutor给Worker，要求Worker启动执行ExecutorBackend的JVM Process</li>
+<li>一当ExecutorBackend启动完毕，Driver Application就可以将任务提交到ExecutorBackend上面执行，即LaunchTask指令</li>
+</ul>
+<h2><span style="color: #000000;">提交侧的代码，详见deploy/Client.scala</span></h2>
+<pre><code class="scala hljs ">    driverArgs.cmd <span class="hljs-keyword">match</span> {
+      <span class="hljs-keyword">case</span> <span class="hljs-string">"launch"</span> =&gt;
+        <span class="hljs-comment">// TODO: We could add an env variable here and intercept it in `sc.addJar` that would</span>
+        <span class="hljs-comment">//       truncate filesystem paths similar to what YARN does. For now, we just require</span>
+        <span class="hljs-comment">//       people call `addJar` assuming the jar is in the same directory.</span>
+        <span class="hljs-keyword">val</span> env = Map[String, String]()
+        System.getenv().foreach{<span class="hljs-keyword">case</span> (k, v) =&gt; env(k) = v}
+
+        <span class="hljs-keyword">val</span> mainClass = <span class="hljs-string">"org.apache.spark.deploy.worker.DriverWrapper"</span>
+
+        <span class="hljs-keyword">val</span> classPathConf = <span class="hljs-string">"spark.driver.extraClassPath"</span>
+        <span class="hljs-keyword">val</span> classPathEntries = sys.props.get(classPathConf).toSeq.flatMap { cp =&gt;
+          cp.split(java.io.File.pathSeparator)
+        }
+
+        <span class="hljs-keyword">val</span> libraryPathConf = <span class="hljs-string">"spark.driver.extraLibraryPath"</span>
+        <span class="hljs-keyword">val</span> libraryPathEntries = sys.props.get(libraryPathConf).toSeq.flatMap { cp =&gt;
+          cp.split(java.io.File.pathSeparator)
+        }
+
+        <span class="hljs-keyword">val</span> javaOptionsConf = <span class="hljs-string">"spark.driver.extraJavaOptions"</span>
+        <span class="hljs-keyword">val</span> javaOpts = sys.props.get(javaOptionsConf)
+        <span class="hljs-keyword">val</span> command = <span class="hljs-keyword">new</span> Command(mainClass, Seq(<span class="hljs-string">"{{WORKER_URL}}"</span>, driverArgs.mainClass) ++
+          driverArgs.driverOptions, env, classPathEntries, libraryPathEntries, javaOpts)
+
+        <span class="hljs-keyword">val</span> driverDescription = <span class="hljs-keyword">new</span> DriverDescription(
+          driverArgs.jarUrl,
+          driverArgs.memory,
+          driverArgs.cores,
+          driverArgs.supervise,
+          command)
+
+        masterActor ! RequestSubmitDriver(driverDescription)
+</code></pre>
+<h2><span style="color: #000000;">接收侧</span></h2>
+<p><span style="color: #000000;">从Deploy.client发送出来的消息被谁接收呢？答案比较明显，那就是Master。 Master.scala中的receive函数有专门针对RequestSubmitDriver的处理，具体代码如下</span></p>
+<pre><code class="scala hljs "><span class="hljs-keyword">case</span> RequestSubmitDriver(description) =&gt; {
+      <span class="hljs-keyword">if</span> (state != RecoveryState.ALIVE) {
+        <span class="hljs-keyword">val</span> msg = s<span class="hljs-string">"Can only accept driver submissions in ALIVE state. Current state: $state."</span>
+        sender ! SubmitDriverResponse(<span class="hljs-keyword">false</span>, None, msg)
+      } <span class="hljs-keyword">else</span> {
+        logInfo(<span class="hljs-string">"Driver submitted "</span> + description.command.mainClass)
+        <span class="hljs-keyword">val</span> driver = createDriver(description)
+        persistenceEngine.addDriver(driver)
+        waitingDrivers += driver
+        drivers.add(driver)
+        schedule()
+
+        <span class="hljs-comment">// TODO: It might be good to instead have the submission client poll the master to determine</span>
+        <span class="hljs-comment">//       the current status of the driver. For now it's simply "fire and forget".</span>
+
+        sender ! SubmitDriverResponse(<span class="hljs-keyword">true</span>, Some(driver.id),
+          s<span class="hljs-string">"Driver successfully submitted as ${driver.id}"</span>)
+      }
+    }
+</code></pre>
+<h2><span style="color: #000000;">SparkEnv</span></h2>
+<p><span style="color: #000000;">SparkEnv对于整个Spark的任务来说非常关键，不同的role在创建SparkEnv时传入的参数是不相同的，如Driver和Executor则存在重要区别。</span></p>
+<p><span style="color: #000000;">在Executor.scala中，创建SparkEnv的代码如下所示</span></p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">private</span> <span class="hljs-keyword">val</span> env = {
+    <span class="hljs-keyword">if</span> (!isLocal) {
+      <span class="hljs-keyword">val</span> _env = SparkEnv.create(conf, executorId, slaveHostname, <span class="hljs-number">0</span>,
+        isDriver = <span class="hljs-keyword">false</span>, isLocal = <span class="hljs-keyword">false</span>)
+      SparkEnv.set(_env)
+      _env.metricsSystem.registerSource(executorSource)
+      _env
+    } <span class="hljs-keyword">else</span> {
+      SparkEnv.get
+    }
+  }
+</code></pre>
+<p><span style="color: #000000;">Driver Application则会创建SparkContext，在SparkContext创建过程中，比较重要的一步就是生成SparkEnv,其代码如下</span></p>
+<pre><code class="scala hljs "> <span class="hljs-keyword">private</span>[spark] <span class="hljs-keyword">val</span> env = SparkEnv.create(
+    conf,
+    <span class="hljs-string">""</span>,
+    conf.get(<span class="hljs-string">"spark.driver.host"</span>),
+    conf.get(<span class="hljs-string">"spark.driver.port"</span>).toInt,
+    isDriver = <span class="hljs-keyword">true</span>,
+    isLocal = isLocal,
+    listenerBus = listenerBus)
+  SparkEnv.set(env)
+</code></pre>
+<h1><span style="color: #000000;">Standalone模式下HA的实现</span></h1>
+<p><span style="color: #000000;">Spark在standalone模式下利用zookeeper来实现了HA机制，这里所说的HA是专门针对Master节点的，因为上面所有的分析可以看出Master是整个cluster中唯一可能出现单点失效的节点。</span></p>
+<p><span style="color: #000000;">采用zookeeper之后，整个cluster的组成如下图所示。</span></p>
+<p><span style="color: #000000;"><img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/092146069481533.png" alt=""></span></p>
+<p>为了使用zookeeper，Master在启动的时候需要指定如下的参数，修改conf/spark-env.sh, SPARK_DAEMON_JAVA_OPTS中添加如下选项。</p>
+<table>
+<tbody>
+<tr>
+<td>System property</td>
+<td>Meaning</td>
+</tr>
+<tr>
+<td>spark.deploy.recoveryMode</td>
+<td>Set to ZOOKEEPER to enable standby Master recovery mode (default: NONE).</td>
+</tr>
+<tr>
+<td>spark.deploy.zookeeper.url</td>
+<td>The ZooKeeper cluster url (e.g., 192.168.1.100:2181,192.168.1.101:2181).</td>
+</tr>
+<tr>
+<td>spark.deploy.zookeeper.dir</td>
+<td>The directory in ZooKeeper to store recovery state (default: /spark).</td>
+</tr>
+</tbody>
+</table>
+<h2>实现HA的原理</h2>
+<p>&nbsp;zookeeper提供了一个Leader Election机制，利用这个机制，可以实现HA功能，具体请参考<a title="zookeeper recipes" href="http://zookeeper.apache.org/doc/trunk/recipes.html#sc_leaderElection">zookeeper recipes</a></p>
+<p>在Spark中没有直接使用zookeeper的api，而是使用了<strong>curator</strong>，curator对zookeeper做了相应的封装，在使用上更为友好。</p>
+<h1>小结</h1>
+<p>步步演进讲到在standalone模式下，如何利用zookeeper来实现ha。从中可以看出standalone master一个最主要的任务就是resource management和job scheduling，看到这两个主要功能的时候，您也许会想到这不就是YARN要解决的问题。对了，从本质上来说standalone是yarn的一个简化版本。</p>
+<p>本系列下篇内容就要仔细讲讲spark部署到YARN上的实现细节。</p>
+<h1>&nbsp;参考资料</h1>
+<ol>
+<li>Spark Standalone Mode <a href="http://spark.apache.org/docs/latest/spark-standalone.html">http://spark.apache.org/docs/latest/spark-standalone.html</a></li>
+<li>Cluster Mode Overview&nbsp; <a href="http://spark.apache.org/docs/latest/cluster-overview.html">http://spark.apache.org/docs/latest/cluster-overview.html</a></li>
+</ol></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/hseagle/tag/Apache%20Spark/">Apache Spark</a></div>
+<div id="blog_post_info"><div id="green_channel">
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(3673147,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://msg.cnblogs.com/send/%E5%BE%BD%E6%B2%AA%E4%B8%80%E9%83%8E" target="_blank">联系我</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/icon_weibo_24.png" alt=""></a>
+<a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/" target="_blank"><img src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followees">关注 - 5</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followers">粉丝 - 193</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+    <a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div class="diggit" onclick="votePost(3673147,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+	<div class="buryit" onclick="votePost(3673147,&#39;Bury&#39;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/hseagle/p/3673138.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/hseagle/p/3673138.html" title="发布于2014-05-08 13:37">Apache Spark源码走读之6 -- 存储子系统分析</a><br><a href="http://www.cnblogs.com/hseagle/p/3728713.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/hseagle/p/3728713.html" title="发布于2014-05-15 10:48">Apache Spark源码走读之8 -- Spark on Yarn</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2014-05-12 12:09</span> <a href="http://www.cnblogs.com/hseagle/">徽沪一郎</a> 阅读(<span id="post_view_count">4116</span>) 评论(<span id="post_comment_count">0</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=3673147" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/hseagle/p/3673147.html#" onclick="AddToWz(3673147);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=134061,cb_entryId=3673147,cb_blogApp=currentBlogApp,cb_blogUserGuid='8f4525b4-4a31-e211-aa8f-842b2b196315',cb_entryCreatedDate='2014/5/12 12:09:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/hseagle/p/3673147.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/hseagle/p/3673147.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://www.jpush.cn/" target="_blank">【推荐】极光推送30多万开发者的选择，SDK接入量超过30亿了，你还没注册？</a><br><a href="http://click.aliyun.com/m/3037/" target="_blank">【阿里云SSD云盘】速度行业领先</a><br></div>
+<div id="opt_under_post"></div>
+<div id="ad_c1" class="c_ad_block"><a href="http://q.cnblogs.com/" target="_blank"><img width="300" height="250" src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/not-to-stop-questioning.jpg" alt="博问" title="博问"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/536908/" target="_blank">阿里健康新年第一步 建公益寻药平台</a><br> ·  <a href="http://news.cnblogs.com/n/536907/" target="_blank">微软宣布Build 2016门票开售时间 及Microsoft Envision</a><br> ·  <a href="http://news.cnblogs.com/n/536906/" target="_blank">像李彦宏这样沉沦，还是像马化腾这样革命？</a><br> ·  <a href="http://news.cnblogs.com/n/536905/" target="_blank">A站完成软银中国6000万A轮融资并更换CEO</a><br> ·  <a href="http://news.cnblogs.com/n/536904/" target="_blank">三星电子宣布将为高通量产骁龙820芯片</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="under_post_kb"></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+$(function () {
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);    
+});
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><p>邮箱: hs_xp@163.com<br>
+</p>
+<p>QQ: 58506256&nbsp; <br>
+</p>
+<p>QQ群: Spark零基础学习 367106111</p>
+<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=99253f4f95c7f17a8d77d6cf2acfacfa6556ae645d22f9c6a13d24142341761e"><img src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/group.png" alt="Spark零基础学习" title="Spark零基础学习" border="0"></a>
+<br>
+<p>&nbsp;</p>
+<embed src="http://service.weibo.com/staticjs/weiboshow.swf?verifier=8feb07ed&amp;uid=2060926175&amp;width=200&amp;height=500&amp;fansRow=2&amp;isTitle=1&amp;isWeibo=1&amp;isFans=1&amp;noborder=0&amp;ptype=1&amp;colors=cfe1f3,fafcff,444444,5093d5" quality="high" scale="noborder" align="L" height="500" width="200"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>园龄：<a href="http://home.cnblogs.com/u/hseagle/" title="入园时间：2012-11-18">3年1个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/hseagle/followers/">193</a><br>关注：<a href="http://home.cnblogs.com/u/hseagle/followees/">5</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger(&#39;8f4525b4-4a31-e211-aa8f-842b2b196315&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2015/12/01&#39;);return false;">&lt;</a></td><td align="center">2016年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2016/02/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td class="CalWeekendDay" align="center">2</td></tr><tr><td class="CalWeekendDay" align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center"><a href="http://www.cnblogs.com/hseagle/archive/2016/01/07.html"><u>7</u></a></td><td align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr><tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td class="CalTodayDay" align="center">14</td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr><tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr><tr><td class="CalWeekendDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td class="CalWeekendDay" align="center">30</td></tr><tr><td class="CalWeekendDay" align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+
+</div>
+</div>
+
+</div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(70)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark(34)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/hseagle/category/519033.html">Apache Storm(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/hseagle/category/514458.html">archlinux(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/hseagle/category/664228.html">BigData(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/hseagle/category/565169.html">Database(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/hseagle/category/759340.html">Elasticsearch(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/hseagle/category/470583.html">GDB(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/hseagle/category/554058.html">Hadoop(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/hseagle/category/519017.html">memory management(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/hseagle/category/646056.html">Scala(2)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(76)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/hseagle/archive/2016/01.html">2016年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/hseagle/archive/2015/11.html">2015年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/hseagle/archive/2015/04.html">2015年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/hseagle/archive/2015/03.html">2015年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/hseagle/archive/2015/02.html">2015年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/hseagle/archive/2015/01.html">2015年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/hseagle/archive/2014/12.html">2014年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/hseagle/archive/2014/11.html">2014年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/hseagle/archive/2014/10.html">2014年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/hseagle/archive/2014/09.html">2014年9月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/hseagle/archive/2014/08.html">2014年8月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/hseagle/archive/2014/07.html">2014年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/hseagle/archive/2014/06.html">2014年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/hseagle/archive/2014/05.html">2014年5月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/hseagle/archive/2014/04.html">2014年4月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/hseagle/archive/2014/03.html">2014年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/hseagle/archive/2014/02.html">2014年2月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/hseagle/archive/2014/01.html">2014年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/hseagle/archive/2013/12.html">2013年12月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/hseagle/archive/2013/11.html">2013年11月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/hseagle/archive/2013/10.html">2013年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/hseagle/archive/2013/09.html">2013年9月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/hseagle/archive/2013/08.html">2013年8月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/hseagle/archive/2013/06.html">2013年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/hseagle/archive/2013/05.html">2013年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/hseagle/archive/2013/04.html">2013年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/hseagle/archive/2013/03.html">2013年3月 (4)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	104754
+	</li>
+	<li class="liRank">
+		排名 -	1810
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">1. Apache Spark源码走读之1 -- Spark论文阅读笔记(14196)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673123.html">2. Apache Spark源码走读之2 -- Job的提交与运行(9805)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673132.html">3. Apache Spark源码走读之3 -- Task运行期之函数调用关系分析(7388)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(5475)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3756862.html">5. Apache Storm源码阅读笔记(4802)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3543782.html">1. Apache Storm 衍生项目之1 -- storm-yarn(5)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3732492.html">2. Apache Spark源码走读之9 -- Spark源码编译(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">3. Apache Spark源码走读之1 -- Spark论文阅读笔记(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3908276.html">5. Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现(3)</a></li></ul></div>
+</div>
+</div></div></div><script type="text/javascript">loadBlogSideColumn();</script><iframe src="./Apache Spark源码走读之7 -- Standalone部署方式分析 - 徽沪一郎 - 博客园_files/container.html" style="visibility: hidden; display: none;"></iframe>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2016 徽沪一郎
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>
