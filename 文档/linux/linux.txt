@@ -113,6 +113,8 @@ mysql环境:
 			启动mysql数据库，会输出一系列有用的信息，告诉你接下去如何初始化mysql
 			[root@CentOS mysql]# service mysqld start
 	3.可远程连接mysql
+		CREATE USER 'renho'@'%' IDENTIFIED BY 'password';
+		GRANT all ON *.* TO 'renho'@'%'
 		update user set host = '%' where user = 'root' and host = 'localhost';
 		UPDATE user SET Password = PASSWORD('root123') WHERE user = 'root';
 		FLUSH PRIVILEGES;
