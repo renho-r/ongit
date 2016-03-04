@@ -358,3 +358,266 @@
 		import java.lang._ // java.lang包的所有东西
 		import scala._ // scala包的所有东西
 		import Predef._ // Predef对象的所有东西
+
+
+scala中级
+1.泛型
+	1.1泛型类
+		class Triple[F, S, T](val first: F, val second: S, val third: T)
+		val triple = new Triple("Spark", 3, 3.1415)
+    	val bigData = new Triple[String, String, Char]("Spark", "Hadoop", 'R')
+		class Renho[R: ClassTag]
+    	ClassTag: 不确定ClassTag类型
+    	class Renho[R: ClassTag]
+		class ConcreteRenho[U: ClassTag, T: ClassTag] extends Renho[U]()
+    1.2泛型方法
+    	def getData[T](list : List[T]) = list(list.length / 2)
+    	val f = getData[Int] _
+    1.3Bounds
+    	1.3.1
+    		class Pair[T <: Comparable[T]](val first : T,val second : T)
+    			T<:Comparable[T] 限定T是Comparable[T]子类
+    	1.3.2
+    		def replaceFirst[R >: T](newFirst:R)= new Pair_Lower_Bound[R](newFirst,second)
+    			R >: T 限定R是T的父类
+    	1.3.3
+    		class Pair_NotPerfect[T <% Comparable[T]](val first : T,val second : T)
+    			T <% Comparable[T] 视图界定,限定如果T不是Comparable[T]的子类,T可以转换成Comparable[T](隐式转换)
+	1.4
+		class Pair_Ordering[T : Ordering] (val first : T, val second : T){
+		  def bigger(implicit ordered: Ordering[T]) = {
+		    if (ordered.compare(first, second) > 0) first else second
+		  }
+		}
+		Pair_Ordering[T : Ordering]: Ordering[T]是泛型
+		def bigger(implicit ordered: Ordering[T])
+			implicit隐式转换,隐式值,自动传
+	1.5
+		def arrayMake[T: Manifest](first: T, second: T)
+			T: Manifest有一个Manifest的隐式值
+		def mkArray[T: ClassTag](elems: T*) = Array[T](elems: _*)
+
+		def manif[T](x: List[T])(implicit m: Manifest[T])
+		<:<
+	1.6协变,逆变
+		class C[+T](val args: T)
+		class S[+T](arg : T) extends C[T](arg)
+			如果x是y的子类型,则C[x]是C[y]的子类型
+		trait Friend[-T]{
+			def makeFriend(somebody: T)
+		}
+		-T逆变
+	1.7
+		class P[+T](val first: T, val second: T){
+		def replaceFirst[R >: T](newFirst: R) = new P[R](newFirst, second)
+	1.8链式调用
+		class Animal { def breathe: this.type = this } 
+		class Cat extends Animal { def eat : this.type = this }
+		val cat = new Cat
+		cat.breathe.eat 
+			this.type:任何类和对象都有的属性,
+	1.9路径依赖
+		val i: Outer#Inner = new o1.Inner 
+	1.10结构类型
+		def init( res: {def open():Unit} ) { 
+		    res.open 
+		}
+		init(new { def open()=println("Opened") })
+	    type X = { def open():Unit }
+	    def init(res:X) = res.open
+	    init(new { def open()=println("Opened again") })
+	    
+	    object A { def open() {println("A single object Opened")} }
+	    init(A)
+	    
+	    val structural = new Structural
+	    init(structural)
+	    type关键字是把 = 后面的内容命名别名
+		init规定传进的参数只要有open方法就行
+	1.11
+		object Log { def >>:(data:String):Log.type = { println(data); Log } }
+		"Hadoop" >>: "Spark" >>: Log
+		>>:右结合 中值类型
+		class Infix_Type[A,B]
+		val infix: Int Infix_Type String = null
+	1.12自身类型
+		class Self { 
+		    self => 
+		    val tmp="Scala" 
+		    def foo = self.tmp + this.tmp
+		}
+		别名self相当于this
+		trait S1
+		class S2 { this:S1 => }
+			限定S2在实例化时必须混入S1
+		trait T { this:S1 => } 
+		object S4 extends T with S1
+	1.13抽象类型
+		trait Reader{
+		  type In <: java.io.Serializable
+		  type Contents
+		  def read(in: In): Contents
+		}
+		class FileReader extends Reader {
+		  type In = String
+		  type Contents = BufferedSource
+		  override def read(name: In)  = Source.fromFile(name)
+		}
+		尽量使用抽象类型
+2.隐式转换和隐式参数(外观模式?)
+	2.1隐式转换
+		class RichFile(val file:File){
+		   def read = Source.fromFile(file.getPath()).mkString
+		}
+		 
+		object Context{
+		    implicit def file2RichFile(file:File)= new RichFile(file) //File -> RichFile
+		}
+		object Hello_Implicit_Conversions {
+		
+		  def main(args: Array[String]) {
+		   	  import Context.file2RichFile
+			  println(new File(".classpath").read)  
+		  }
+		}
+		查找范围:当前作用域, 伴生对象
+	2.2隐式参数
+		object Context_Implicits{
+		    implicit val default:String = "Flink"
+		}
+		 
+		object Param{
+		   def print(content:String)(implicit language:String){
+		      println(language+":"+content)
+		   }
+		}
+		object Implicit_Parameters {
+		
+		  def main(args: Array[String]) {
+		    Param.print("Spark")("Scala")
+		    
+		    import Context_Implicits._
+		    Param.print("Hadoop")
+		  }
+		}
+	2.3 Implicit_Conversions_with_Implicit_Parameters
+		def bigger[T](a: T, b: T)(implicit ordered: T => Ordered[T])
+	      = if(ordered(a) > b) a else b
+	//    	= if (a > b) a else b
+	2.4上下文界定
+		class Pair_Implicits[T: Ordering](val first: T, val second: T){
+		存在隐式值Ordering[T]
+		def bigger =if (implicitly[Ordering[T]].compare(first, second) > 0) 
+			first else second
+		def bigger ={
+		  import Ordered._
+		  if (first > second) first else second
+		}
+	2.5隐式类
+		object Context_Helper{  
+		    implicit class FileEnhancer(file : File){    
+		        def read = Source.fromFile(file.getPath).mkString  
+		    }
+		    implicit class Op(x:Int){
+		         def addSAP(second: Int) = x + second
+		    }
+		}
+		object Implicits_Class {
+		
+		  def main(args: Array[String]){
+		    import Context_Helper._
+		    println(1.addSAP(2))
+		    println(new File(".classpath").read)
+		  }
+		}
+		重构,增强代码功能
+	2.6隐式对象
+		abstract class Template[T] {
+		  def add(x: T, y: T): T
+		}
+		abstract class SubTemplate[T] extends Template[T] {
+		  def unit: T
+		}
+		object Implicits_Object {
+		
+		  def main(args: Array[String]) {
+			  implicit object StringAdd extends SubTemplate[String] {
+		        override def add(x: String, y: String) = x concat y
+		        override def unit: String = ""
+		      }
+		      implicit object IntAdd extends SubTemplate[Int] {
+		        override def add(x: Int, y: Int) = x + y
+		        override def unit: Int = 0
+		      }
+		      def sum[T](xs: List[T])(implicit m: SubTemplate[T]): T =
+		        if (xs.isEmpty) m.unit
+		        else m.add(xs.head, sum(xs.tail))
+		
+		      println(sum(List(1, 2, 3, 4, 5)))
+		      println(sum(List("Scala", "Spark", "Kafka")))
+		  }
+		}
+	2.7隐式转换规则
+3.scala并发
+	3.1继承scala.actors.Actor
+		override act
+	3.2
+		val actor_Message = actor{
+	      while(true){
+	        receive { //apply isDefinedAt
+	          case msg => println("Message content from inbox: " + msg)
+	        }
+	      }
+	    }
+	    receive偏函数 apply isDefinedAt
+	    actor_Message ! "Spark"
+	3.3 case class, case object 模式匹配
+		receive {
+          case Person(name, age) => {
+            println("Name: " + name + " : " + "Age: " + age)
+            sender ! "Echo!!!"
+          }
+          case  _ => println("Something else...")
+        }
+        sender返回消息
+        1.case _ 消耗无用消息
+        2.不能依赖消息被传递过来的顺序
+        3.case 内部执行是线性的,不存在资源争用
+        4.尽量不要使用全局变量,尽量以消息的形式传递给其它消费者
+        ???????一个act对应一个或多个线程
+    3.4 react loop线程重用
+4.模式匹配
+	4.1 case class 参数默认val, 伴生对象提供的2个重要方法
+		4.1.1 apply 工厂,构造
+		4.1.2 onapply 解构
+		Extractor
+	4.2for循环表达式
+		for(index @"Flink" <- List("scala", "spark", "Flink")) println(index)
+		index 是 Flink别名
+	4.3
+		val (c,d) = (1000,2000)
+		//val (e,F) = (1000,2000)//要求小写
+		object Test { val 1 = 1 } 
+		//object Test { val 1 = 2 }//不成立,运行时报错, 匹配是lazy级别的
+	4.4模式匹配下的Extractor(提取器)
+		object :> {
+		    def unapply[A] (list: List[A]) = {
+		        Some( (list.init, list.last) )
+		    }
+		}
+		
+		object Extractor_Advanced {
+		
+		  def main(args: Array[String]) {
+		    (1 to 9).toList match{ case _ :> 9 => println("Hadoop") }
+		    (1 to 9).toList match{ case x :> 8 :> 9 => {println("Spark"); println(x)} }
+		    (1 to 9).toList match{ case :>(:>(_,8),9) => println("Flink") }
+		  }
+		}
+	4.5 type class
+		scala中object有具体类 object名 + $
+		typeOf
+		classOf 和 getClass
+	4.6每个class对象都是一个单例类型,它是单例类型的唯一实例,type
+		
+    	
