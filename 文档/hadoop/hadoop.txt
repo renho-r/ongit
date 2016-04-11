@@ -157,8 +157,8 @@ http://www.linuxidc.com/Linux/2015-01/112029p2.htm
 	关闭
 		sbin/stop-dfs.sh
 		sbin/stop-yarn.sh
-10.http://master:50070/
-	http://10.1.37.100:8088/
+10.	http://master:50070/
+	yarn:http://10.1.37.100:8088/
 11.测试hadoop
 	1.1 mkdir input
 	1.2 新建file1.txt， file2.txt
@@ -220,3 +220,5 @@ http://www.linuxidc.com/Linux/2015-01/112029p2.htm
 15.强制离开安全模式
 	hadoop dfsadmin -safemode leave
 	命令强制离开	
+16.修复
+	./hdfs fsck /
