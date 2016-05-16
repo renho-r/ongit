@@ -1,26 +1,79 @@
-ï»¿1.ä¸‹è½½æºä»£ç ->mvn dependency:sources 
-2.ä¸‹è½½doc->mvn dependency:resolve -Dclassifier=javadoc
+1.ÏÂÔØÔ´´úÂë->mvn dependency:sources 
+2.ÏÂÔØdoc->mvn dependency:resolve -Dclassifier=javadoc
 
 eclipse+mvn
-	ç¯å¢ƒå˜é‡:M2_HOME
+	»·¾³±äÁ¿:M2_HOME
 			--E:\maven\apache-maven-3.3.3
 			M2_REPO
 			--E:\maven\apache-maven-3.3.3\localmavenrepo
 			MAVEN_HOME
 			--E:\maven\apache-maven-3.3.3
 	E:\maven\apache-maven-3.3.3\conf\settings.xml
-		settingsä¸­æ·»åŠ :
+		settingsÖĞÌí¼Ó:
 			<settings >
   				<localRepository>E:/maven/apache-maven-3.3.3/localmavenrepo</localRepository>
   			</settings>
-  	eclipse->windows->preferences->maven->User Settings->è·¯å¾„ä¿®æ”¹æˆE:\maven\apache-maven-3.3.3\conf\settings.xml
-  ä¸‹è½½å¤±è´¥åé‡æ–°ä¸‹è½½
-  	æ˜¯åˆ°ä¸‹è½½ä¿å­˜åœ¨æœ¬åœ°çš„è·¯å¾„æŠŠè¿™ä¸ªåŒ…é‡Œçš„åç¼€å.lastUpdated æ–‡ä»¶åˆ é™¤
-  	ç„¶åç‚¹å‡»mavenå·¥ç¨‹é¡¹ç›®Maven->Maven Update Project è¿™æ ·jaré‡æ–°ä¸‹è½½å¥½ æˆ–è€… run configurations ä¸­çš„Maven Build ç‚¹å‡»New ä¸€ä¸ªé…ç½®é¡µé¢ï¼Œåœ¨Goalsé‡Œé¢è®¾ç½®compile -U
+  	eclipse->windows->preferences->maven->User Settings->Â·¾¶ĞŞ¸Ä³ÉE:\maven\apache-maven-3.3.3\conf\settings.xml
+  ÏÂÔØÊ§°ÜºóÖØĞÂÏÂÔØ
+  	ÊÇµ½ÏÂÔØ±£´æÔÚ±¾µØµÄÂ·¾¶°ÑÕâ¸ö°üÀïµÄºó×ºÃû.lastUpdated ÎÄ¼şÉ¾³ı
+  	È»ºóµã»÷maven¹¤³ÌÏîÄ¿Maven->Maven Update Project ÕâÑùjarÖØĞÂÏÂÔØºÃ »òÕß run configurations ÖĞµÄMaven Build µã»÷New Ò»¸öÅäÖÃÒ³Ãæ£¬ÔÚGoalsÀïÃæÉèÖÃcompile -U
   	
-3.è‡ªå®šä¹‰å®‰è£…jar
+3.×Ô¶¨Òå°²×°jar
 mvn install:install-file -DgroupId=io.netty -DartifactId=netty-all -Dversion=5.0.0.Alpha2 -Dpackaging=jar -Dfile=C:\Users\renho\Downloads\netty-5.0.0.Alpha2\netty-5.0.0.Alpha2\jar\all-in-one\netty-all-5.0.0.Alpha2.jar
 
-4.å¯¼å‡ºå¸¦jaråŒ…
-	pom.xmlå³é”®maven build -> goals=dependency:copy-dependencies ->runå¯¼å‡ºçš„jaråœ¨targed/dependency
-			æˆ–maven build -> goals=dependency:copy-dependencies -DoutputDirectory=lib å¯¼å‡ºjaråœ¨libä¸‹
+4.µ¼³ö´øjar°ü
+	pom.xmlÓÒ¼ümaven build -> goals=dependency:copy-dependencies ->runµ¼³öµÄjarÔÚtarged/dependency
+			»òmaven build -> goals=dependency:copy-dependencies -DoutputDirectory=lib µ¼³öjarÔÚlibÏÂ
+
+1.½âÑ¹apache-maven-3.3.3-bin.zipºó¸´ÖÆµ½E:\mavenÖĞ
+2.ĞÂ½¨»·¾³±äÁ¿Ãû"MAVEN_HOME",Öµ"E:\maven\apache-maven-3.3.3"
+3.ĞŞ¸Ä»·¾³±äÁ¿PATH
+	Ôö¼Ó";%MAVEN_HOME%\bin"
+4.cmdÖĞÊäÈëmvn -v²âÊÔ»·¾³±äÁ¿ÊÇ·ñ³É¹¦
+5.¸ü¸ÄmavenµÄ²Ö¿âÄ¬ÈÏ´æ·ÅµØÖ·
+	ĞŞ¸ÄE:\maven\apache-maven-3.3.3\confÏÂµÄsettings.xml ÎÄ¼ş
+	¸ü¸ÄlocalRepository ÅäÖÃ½Ú<localRepository>E:/maven/apache-maven-3.3.3/localmavenrepo</localRepository>
+	Î»ÖÃ×Ô¼ºÉèÖÃ
+6.ÏÂÔØÏà¹Ø°ü
+	cmd->mvn help:system
+7.eclipse
+	7.1ÏÈ½¨mavenÔÙµ¼Èëeclipse
+		1.ÔÚe:\maven\apache-maven-3.3.3>ÏÂÖ´ĞĞ
+			mvn archetype:generate -DgroupId=com.renho.testmaven -DartifactId=mavenTest -DarchetypeArtifactId=maven-archetype-quickstart -DinteractiveMode=false
+			»á¿´¼ûÉú³ÉmavenTest
+		2.ÔÚe:\maven\apache-maven-3.3.3\mavenTest>ÏÂÖ´ĞĞ
+			mvn eclipse:eclipse
+			¿ÉÒÔ×ª»»ÎªeclipseÏîÄ¿
+		3.µ¼Èëµ½eclipse
+		4.ĞŞ¸ÄE:\maven\apache-maven-3.3.3\mavenTest\pom.xml
+			Ôö¼Ó
+			<dependency>
+				<groupId>mysql</groupId>
+				<artifactId>mysql-connector-java</artifactId>
+				<version>5.0.8</version>
+			</dependency>
+		5.ÔÚe:\maven\apache-maven-3.3.3\mavenTest>ÏÂÖ´ĞĞ
+			mvn eclipse:eclipse
+			maven»áÏÂÔØmysqlÏà¹ØjarÎÄ¼ş,²¢×Ô¶¯ĞŞ¸ÄÏîÄ¿classpath
+	7.2Ö±½ÓÔÚeclipseÖĞĞÂ½¨mavenÏîÄ¿
+		7.1ĞÂ½¨ÆÕÍ¨ÏîÄ¿
+		7.2È»ºó"Configure"->"Convert to maven project"
+		7.3ÏîÄ¿ÏÂÖ´ĞĞcmd -> maven install
+8.µ¼³öÏîÄ¿(´øjar)
+	8.1ÔÚe:\maven\apache-maven-3.3.3\mavenTestÏÂĞÂ½¨libÎÄ¼ş¼Ğ
+		cmd->e:\maven\apache-maven-3.3.3\mavenTestÏÂÖ´ĞĞ
+		mvn dependency:copy-dependencies -DoutputDirectory=lib 
+		ÔÙÊ¹ÓÃeclipseµ¼³ö
+9.ÏÂÔØjarÎÄ¼ş
+	cmd->mvn compile
+10.ĞŞ¸Äeclipse maven¿âÂ·¾¶
+	ĞÂÔö»·¾³±äÁ¿:M2_REPO:E:\maven\apache-maven-3.3.3\localmavenrepo
+	"Window"-> "Preferences"->"Maven"->"User Settings"Â·¾¶
+		E:\maven\apache-maven-3.3.3\conf\settings.xml
+11.ÊÖ¶¯°²×°µ½±¾µØMaven×ÊÔ´¿â
+	11.1cmd->
+			mvn install:install-file -DgroupId=commons -DartifactId=commons-beanutils -Dversion=1.9.2 -Dpackaging=jar -Dfile=E:\ÎÄµµ\java\commons-beanutils-1.9.2-bin\commons-beanutils-1.9.2\commons-beanutils-1.9.2.jar
+12.´ò°ü·¢²¼
+	
+other
+	maven¿â:http://mvnrepository.com/

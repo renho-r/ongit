@@ -4,7 +4,7 @@
 		maxElementsInMemory="10000"  
 		maxElementsOnDisk="1000"  
 		eternal="false"  
-		overflowToDisk="true"  
+		overflowToDisk="false"  
 		timeToIdleSeconds="5"  
 		timeToLiveSeconds="10"  
 		memoryStoreEvictionPolicy="LFU"  

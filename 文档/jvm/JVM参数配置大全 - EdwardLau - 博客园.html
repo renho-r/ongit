@@ -1,0 +1,522 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0066)http://www.cnblogs.com/edwardlauxh/archive/2010/04/25/1918603.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>JVM参数配置大全 - EdwardLau - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./JVM参数配置大全 - EdwardLau - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./JVM参数配置大全 - EdwardLau - 博客园_files/bundle-SimpleBlue.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/edwardlauxh/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/edwardlauxh/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/edwardlauxh/wlwmanifest.xml">
+<script src="./JVM参数配置大全 - EdwardLau - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'edwardlauxh', cb_enable_mathjax=false;</script>
+<script src="./JVM参数配置大全 - EdwardLau - 博客园_files/blog-common.js" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/edwardlauxh/">Edward的成长日记</a></div>
+<div class="subtitle">专注Springsource产品研究</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/edwardlauxh/">首页</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"><a id="MyLinks1_ContactLink" class="menu" rel="nofollow" href="http://msg.cnblogs.com/send/EdwardLau">联系</a></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/edwardlauxh/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/edwardlauxh/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-125&nbsp;
+文章-0&nbsp;
+评论-26&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="./JVM参数配置大全 - EdwardLau - 博客园_files/JVM参数配置大全 - EdwardLau - 博客园.html">JVM参数配置大全</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>前阵子遇到几个面试题都是关于对Java内存控制的,因此从网上找到这篇文章,希望自己对Java的内存分配有重新的认识 </p>
+<p>/usr/local/jdk/bin/java -Dresin.home=/usr/local/resin -server -Xms1800M -Xmx1800M -Xmn300M -Xss512K -XX:PermSize=300M -XX:MaxPermSize=300M -XX:SurvivorRatio=8 -XX:MaxTenuringThreshold=5 -XX:GCTimeRatio=19 -Xnoclassgc -XX:+DisableExplicitGC -XX:+UseParNewGC -XX:+UseConcMarkSweepGC -XX:+UseCMSCompactAtFullCollection -XX:CMSFullGCsBeforeCompaction=0 -XX:-CMSParallelRemarkEnabled -XX:CMSInitiatingOccupancyFraction=70 -XX:SoftRefLRUPolicyMSPerMB=0 -XX:+PrintClassHistogram -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintHeapAtGC -Xloggc:log/gc.log </p>
+<ol>
+<li><strong>堆大小设置<br></strong>JVM 中最大堆大小有三方面限制：相关操作系统的数据模型（32-bt还是64-bit）限制；系统的可用虚拟内存限制；系统的可用物理内存限制。32位系统下，一般限制在1.5G~2G；64为操作系统对内存无限制。我在Windows Server 2003 系统，3.5G物理内存，JDK5.0下测试，最大可设置为1478m。<br><strong>典型设置：</strong> 
+<ul>
+<li>java <strong>-Xmx3550m -Xms3550m -Xmn2g</strong> <strong>-Xss128k</strong><br><strong>-</strong><strong>Xmx3550m</strong>：设置JVM最大可用内存为3550M。<br><strong>-Xms3550m</strong>：设置JVM促使内存为3550m。此值可以设置与-Xmx相同，以避免每次垃圾回收完成后JVM重新分配内存。<br><strong>-Xmn2g</strong>：设置年轻代大小为2G。<strong>整个堆大小=年轻代大小 + 年老代大小 + 持久代大小</strong>。持久代一般固定大小为64m，所以增大年轻代后，将会减小年老代大小。此值对系统性能影响较大，Sun官方推荐配置为整个堆的3/8。<br><strong>-Xss128k</strong>：设置每个线程的堆栈大小。JDK5.0以后每个线程堆栈大小为1M，以前每个线程堆栈大小为256K。更具应用的线程所需内存大小进行调整。在相同物理内存下，减小这个值能生成更多的线程。但是操作系统对一个进程内的线程数还是有限制的，不能无限生成，经验值在3000~5000左右。 </li>
+<li>java -Xmx3550m -Xms3550m -Xss128k <strong>-XX:NewRatio=4 -XX:SurvivorRatio=4 -XX:MaxPermSize=16m -XX:MaxTenuringThreshold=0</strong><br><strong>-XX:NewRatio=4</strong>:设置年轻代（包括Eden和两个Survivor区）与年老代的比值（除去持久代）。设置为4，则年轻代与年老代所占比值为1：4，年轻代占整个堆栈的1/5<br><strong>-XX:SurvivorRatio=4</strong>：设置年轻代中Eden区与Survivor区的大小比值。设置为4，则两个Survivor区与一个Eden区的比值为2:4，一个Survivor区占整个年轻代的1/6<br><strong>-XX:MaxPermSize=16m</strong>:设置持久代大小为16m。<br><strong>-XX:MaxTenuringThreshold=0</strong>：设置垃圾最大年龄。<strong>如果设置为0的话，则年轻代对象不经过Survivor区，直接进入年老代</strong>。对于年老代比较多的应用，可以提高效率。<strong>如果将此值设置为一个较大值，则年轻代对象会在Survivor区进行多次复制，这样可以增加对象再年轻代的存活时间</strong>，增加在年轻代即被回收的概论。</li>
+</ul>
+</li>
+<li><strong>回收器选择<br></strong>JVM给了三种选择：<strong>串行收集器、并行收集器、并发收集器</strong>，但是串行收集器只适用于小数据量的情况，所以这里的选择主要针对并行收集器和并发收集器。默认情况下，JDK5.0以前都是使用串行收集器，如果想使用其他收集器需要在启动时加入相应参数。JDK5.0以后，JVM会根据当前<a href="http://java.sun.com/j2se/1.5.0/docs/guide/vm/server-class.html">系统配置</a>进行判断。  <ol>
+<li><strong>吞吐量优先</strong>的并行收集器<br>如上文所述，并行收集器主要以到达一定的吞吐量为目标，适用于科学技术和后台处理等。<br><strong>典型配置</strong>：  
+<ul>
+<li>java -Xmx3800m -Xms3800m -Xmn2g -Xss128k <strong>-XX:+UseParallelGC -XX:ParallelGCThreads=20</strong><br><strong>-XX:+UseParallelGC</strong>：选择垃圾收集器为并行收集器。<strong>此配置仅对年轻代有效。即上述配置下，年轻代使用并发收集，而年老代仍旧使用串行收集。<br></strong><strong>-XX:ParallelGCThreads=20</strong>：配置并行收集器的线程数，即：同时多少个线程一起进行垃圾回收。此值最好配置与处理器数目相等。 </li>
+<li>java -Xmx3550m -Xms3550m -Xmn2g -Xss128k -XX:+UseParallelGC -XX:ParallelGCThreads=20 <strong>-XX:+UseParallelOldGC<br></strong><strong>-XX:+UseParallelOldGC</strong>：配置年老代垃圾收集方式为并行收集。JDK6.0支持对年老代并行收集。 </li>
+<li>java -Xmx3550m -Xms3550m -Xmn2g -Xss128k -XX:+UseParallelGC <strong>-XX:MaxGCPauseMillis=100<br></strong><strong>-XX:MaxGCPauseMillis=100</strong><strong>:</strong>设置每次年轻代垃圾回收的最长时间，如果无法满足此时间，JVM会自动调整年轻代大小，以满足此值。 </li>
+<li>java -Xmx3550m -Xms3550m -Xmn2g -Xss128k -XX:+UseParallelGC -XX:MaxGCPauseMillis=100<strong>-XX:+UseAdaptiveSizePolicy<br>-XX:+UseAdaptiveSizePolicy</strong>：设置此选项后，并行收集器会自动选择年轻代区大小和相应的Survivor区比例，以达到目标系统规定的最低相应时间或者收集频率等，此值建议使用并行收集器时，一直打开。</li>
+</ul>
+</li>
+</ol></li>
+<li><strong>响应时间优先</strong>的并发收集器<br>如上文所述，并发收集器主要是保证系统的响应时间，减少垃圾收集时的停顿时间。适用于应用服务器、电信领域等。<br><strong>典型配置</strong>：  
+<ul>
+<li>java -Xmx3550m -Xms3550m -Xmn2g -Xss128k -XX:ParallelGCThreads=20 <strong>-XX:+UseConcMarkSweepGC -XX:+UseParNewGC<br></strong><strong>-XX:+UseConcMarkSweepGC</strong>：设置年老代为并发收集。测试中配置这个以后，-XX:NewRatio=4的配置失效了，原因不明。所以，此时年轻代大小最好用-Xmn设置。<br><strong>-XX:+UseParNewGC</strong>:设置年轻代为并行收集。可与CMS收集同时使用。JDK5.0以上，JVM会根据系统配置自行设置，所以无需再设置此值。 </li>
+<li>java -Xmx3550m -Xms3550m -Xmn2g -Xss128k -XX:+UseConcMarkSweepGC <strong>-XX:CMSFullGCsBeforeCompaction=5 -XX:+UseCMSCompactAtFullCollection</strong><br><strong>-XX:CMSFullGCsBeforeCompaction</strong>：由于并发收集器不对内存空间进行压缩、整理，所以运行一段时间以后会产生“碎片”，使得运行效率降低。此值设置运行多少次GC以后对内存空间进行压缩、整理。<br><strong>-XX:+UseCMSCompactAtFullCollection</strong>：打开对年老代的压缩。可能会影响性能，但是可以消除碎片</li>
+</ul>
+</li>
+</ol>
+<li><strong>辅助信息<br></strong>JVM提供了大量命令行参数，打印信息，供调试使用。主要有以下一些：  
+<ul>
+<li><strong>-XX:+PrintGC<br></strong>输出形式<strong>：[GC 118250K-&gt;113543K(130112K), 0.0094143 secs]</strong>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [Full GC 121376K-&gt;10414K(130112K), 0.0650971 secs]</strong></p>
+</li>
+<li><strong>-XX:+PrintGCDetails<br></strong>输出形式<strong>：[GC [DefNew: 8614K-&gt;781K(9088K), 0.0123035 secs] 118250K-&gt;113543K(130112K), 0.0124633 secs]</strong>
+<p><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [GC [DefNew: 8614K-&gt;8614K(9088K), 0.0000665 secs][Tenured: 112761K-&gt;10414K(121024K), 0.0433488 secs] 121376K-&gt;10414K(130112K), 0.0436268 secs]</strong></p>
+</li>
+<li><strong>-XX:+PrintGCTimeStamps</strong> -XX:+PrintGC：PrintGCTimeStamps可与上面两个混合使用<br>输出形式：<strong>11.851: [GC 98328K-&gt;93620K(130112K), 0.0082960 secs]<br></strong> </li>
+<li><strong>-XX:+PrintGCApplicationConcurrentTime:</strong>打印每次垃圾回收前，程序未中断的执行时间。可与上面混合使用<br>输出形式：<strong>Application time: 0.5291524 seconds<br></strong> </li>
+<li><strong>-XX:+PrintGCApplicationStoppedTime</strong>：打印垃圾回收期间程序暂停的时间。可与上面混合使用<br>输出形式：<strong>Total time for which application threads were stopped: 0.0468229 seconds<br></strong> </li>
+<li><strong>-XX:PrintHeapAtGC</strong>:打印GC前后的详细堆栈信息<br>输出形式：<br>34.702: [GC {Heap before gc invocations=7:<br>def new generation&nbsp;&nbsp; total 55296K, used 52568K [0x1ebd0000, 0x227d0000, 0x227d0000)<br><strong>eden space 49152K, 99% used</strong> [0x1ebd0000, 0x21bce430, 0x21bd0000)<br><strong>from space 6144K, 55% used</strong> [0x221d0000, 0x22527e10, 0x227d0000)<br>to&nbsp;&nbsp; space 6144K,&nbsp;&nbsp; 0% used [0x21bd0000, 0x21bd0000, 0x221d0000)<br>tenured generation&nbsp;&nbsp; total 69632K, used 2696K [0x227d0000, 0x26bd0000, 0x26bd0000)<br><strong>the space 69632K,&nbsp;&nbsp; 3% used</strong> [0x227d0000, 0x22a720f8, 0x22a72200, 0x26bd0000)<br>compacting perm gen total 8192K, used 2898K [0x26bd0000, 0x273d0000, 0x2abd0000)<br>&nbsp;&nbsp; the space 8192K, 35% used [0x26bd0000, 0x26ea4ba8, 0x26ea4c00, 0x273d0000)<br>&nbsp;&nbsp;&nbsp; ro space 8192K, 66% used [0x2abd0000, 0x2b12bcc0, 0x2b12be00, 0x2b3d0000)<br>&nbsp;&nbsp;&nbsp; rw space 12288K, 46% used [0x2b3d0000, 0x2b972060, 0x2b972200, 0x2bfd0000)<br>34.735: [DefNew: 52568K-&gt;3433K(55296K), 0.0072126 secs] 55264K-&gt;6615K(124928K)<strong>Heap after gc invocations=8:<br></strong>def new generation&nbsp;&nbsp; total 55296K, used 3433K [0x1ebd0000, 0x227d0000, 0x227d0000)<br><strong>eden space 49152K,&nbsp;&nbsp; 0% used</strong> [0x1ebd0000, 0x1ebd0000, 0x21bd0000)<br>from space 6144K, 55% used [0x21bd0000, 0x21f2a5e8, 0x221d0000)<br>to&nbsp;&nbsp; space 6144K,&nbsp;&nbsp; 0% used [0x221d0000, 0x221d0000, 0x227d0000)<br>tenured generation&nbsp;&nbsp; total 69632K, used 3182K [0x227d0000, 0x26bd0000, 0x26bd0000)<br><strong>the space 69632K,&nbsp;&nbsp; 4% used </strong>[0x227d0000, 0x22aeb958, 0x22aeba00, 0x26bd0000)<br>compacting perm gen total 8192K, used 2898K [0x26bd0000, 0x273d0000, 0x2abd0000)<br>&nbsp;&nbsp; the space 8192K, 35% used [0x26bd0000, 0x26ea4ba8, 0x26ea4c00, 0x273d0000)<br>&nbsp;&nbsp;&nbsp; ro space 8192K, 66% used [0x2abd0000, 0x2b12bcc0, 0x2b12be00, 0x2b3d0000)<br>&nbsp;&nbsp;&nbsp; rw space 12288K, 46% used [0x2b3d0000, 0x2b972060, 0x2b972200, 0x2bfd0000)<br>}<br>, 0.0757599 secs]  </li>
+<li><strong>-Xloggc:filename</strong>:与上面几个配合使用，把相关日志信息记录到文件以便分析。</li>
+</ul>
+</li>
+<li><strong>常见配置汇总</strong> <ol>
+<li>堆设置  
+<ul>
+<li><strong>-Xms</strong>:初始堆大小  </li>
+<li><strong>-Xmx</strong>:最大堆大小  </li>
+<li><strong>-XX:NewSize=n</strong>:设置年轻代大小  </li>
+<li><strong>-XX:NewRatio=n:</strong>设置年轻代和年老代的比值。如:为3，表示年轻代与年老代比值为1：3，年轻代占整个年轻代年老代和的1/4  </li>
+<li><strong>-XX:SurvivorRatio=n</strong>:年轻代中Eden区与两个Survivor区的比值。注意Survivor区有两个。如：3，表示Eden：Survivor=3：2，一个Survivor区占整个年轻代的1/5  </li>
+<li><strong>-XX:MaxPermSize=n</strong>:设置持久代大小</li>
+</ul>
+</li>
+</ol></li>
+<li>收集器设置  
+<ul>
+<li><strong>-XX:+UseSerialGC</strong>:设置串行收集器  </li>
+<li><strong>-XX:+UseParallelGC</strong>:设置并行收集器  </li>
+<li><strong>-XX:+UseParalledlOldGC</strong>:设置并行年老代收集器  </li>
+<li><strong>-XX:+UseConcMarkSweepGC</strong>:设置并发收集器</li>
+</ul>
+</li>
+<li>垃圾回收统计信息  
+<ul>
+<li><strong>-XX:+PrintGC</strong> </li>
+<li><strong>-XX:+PrintGCDetails</strong> </li>
+<li><strong>-XX:+PrintGCTimeStamps</strong> </li>
+<li><strong>-Xloggc:filename</strong></li>
+</ul>
+</li>
+<li>并行收集器设置  
+<ul>
+<li><strong>-XX:ParallelGCThreads=n</strong>:设置并行收集器收集时使用的CPU数。并行收集线程数。  </li>
+<li><strong>-XX:MaxGCPauseMillis=n</strong>:设置并行收集最大暂停时间  </li>
+<li><strong>-XX:GCTimeRatio=n</strong>:设置垃圾回收时间占程序运行时间的百分比。公式为1/(1+n)</li>
+</ul>
+</li>
+<li>并发收集器设置  
+<ul>
+<li><strong>-XX:+CMSIncrementalMode</strong>:设置为增量模式。适用于单CPU情况。  </li>
+<li><strong>-XX:ParallelGCThreads=n</strong>:设置并发收集器年轻代收集方式为并行收集时，使用的CPU数。并行收集线程数。</li>
+</ul>
+</li>
+<p><strong>四、调优总结</strong> </p>
+<ol>
+<li><strong>年轻代大小选择</strong> 
+<ul>
+<li><strong>响应时间优先的应用</strong>：<strong>尽可能设大，直到接近系统的最低响应时间限制</strong>（根据实际情况选择）。在此种情况下，年轻代收集发生的频率也是最小的。同时，减少到达年老代的对象。  </li>
+<li><strong>吞吐量优先的应用</strong>：尽可能的设置大，可能到达Gbit的程度。因为对响应时间没有要求，垃圾收集可以并行进行，一般适合8CPU以上的应用。</li>
+</ul>
+</li>
+<li><strong>年老代大小选择</strong> 
+<ul>
+<li><strong>响应时间优先的应用</strong>：年老代使用并发收集器，所以其大小需要小心设置，一般要考虑<strong>并发会话率</strong>和<strong>会话持续时间</strong>等一些参数。如果堆设置小了，可以会造成内存碎片、高回收频率以及应用暂停而使用传统的标记清除方式；如果堆大了，则需要较长的收集时间。最优化的方案，一般需要参考以下数据获得：  
+<ul>
+<li>并发垃圾收集信息  </li>
+<li>持久代并发收集次数  </li>
+<li>传统GC信息  </li>
+<li>花在年轻代和年老代回收上的时间比例</li>
+</ul>
+</li>
+</ul>
+</li>
+减少年轻代和年老代花费的时间，一般会提高应用的效率
+<li><strong>吞吐量优先的应用</strong>：一般吞吐量优先的应用都有一个很大的年轻代和一个较小的年老代。原因是，这样可以尽可能回收掉大部分短期对象，减少中期的对象，而年老代尽存放长期存活对象。</li>
+<li><strong>较小堆引起的碎片问题<br></strong>因为年老代的并发收集器使用标记、清除算法，所以不会对堆进行压缩。当收集器回收时，他会把相邻的空间进行合并，这样可以分配给较大的对象。但是，当堆空间较小时，运行一段时间以后，就会出现“碎片”，如果并发收集器找不到足够的空间，那么并发收集器将会停止，然后使用传统的标记、清除方式进行回收。如果出现“碎片”，可能需要进行如下配置：  
+<ul>
+<li><strong>-XX:+UseCMSCompactAtFullCollection</strong>：使用并发收集器时，开启对年老代的压缩。  </li>
+<li><strong>-XX:CMSFullGCsBeforeCompaction=0</strong>：上面配置开启的情况下，这里设置多少次Full GC后，对年老代进行压缩</li>
+</ul>
+</li>
+<li>jvm的内存限制</li>
+</ol>
+<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; windows2003是1612M</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/edwardlauxh/category/277226.html">Core Java</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(1918603,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://msg.cnblogs.com/send/EdwardLau" target="_blank">联系我</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./JVM参数配置大全 - EdwardLau - 博客园_files/icon_weibo_24.png" alt=""></a>
+<a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./JVM参数配置大全 - EdwardLau - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/edwardlauxh/" target="_blank"><img src="./JVM参数配置大全 - EdwardLau - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/edwardlauxh/">EdwardLau</a><br>
+<a href="http://home.cnblogs.com/u/edwardlauxh/followees">关注 - 0</a><br>
+<a href="http://home.cnblogs.com/u/edwardlauxh/followers">粉丝 - 62</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+    <a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div class="diggit" onclick="votePost(1918603,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">3</span>
+    </div>
+	<div class="buryit" onclick="votePost(1918603,&#39;Bury&#39;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/24/1918604.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/24/1918604.html" title="发布于2010-04-24 01:15">我所在的所谓的开发团队</a><br><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/25/1918602.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/25/1918602.html" title="发布于2010-04-25 23:07">Tomcat中对内存的分配与溢出的处理办法</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2010-04-25 23:01</span> <a href="http://www.cnblogs.com/edwardlauxh/">EdwardLau</a> 阅读(<span id="post_view_count">17985</span>) 评论(<span id="post_comment_count">2</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=1918603" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/25/1918603.html#" onclick="AddToWz(1918603);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=81698,cb_entryId=1918603,cb_blogApp=currentBlogApp,cb_blogUserGuid='a4ff643b-e111-e011-ac81-842b2b196315',cb_entryCreatedDate='2010/4/25 23:01:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<!--done-->
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/25/1918603.html#3056622" class="layer">#1楼</a><a name="3056622" id="comment_anchor_3056622"></a>  <span class="comment_date">2014-11-03 19:46</span> <a id="a_comment_author_3056622" href="http://home.cnblogs.com/u/634491/" target="_blank">jzhx107</a> <a href="http://msg.cnblogs.com/send/jzhx107" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3056622" class="blog_comment_body">不错，谢谢！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3056622,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3056622,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/25/1918603.html#3372047" class="layer">#2楼</a><a name="3372047" id="comment_anchor_3372047"></a><span id="comment-maxId" style="display:none;">3372047</span><span id="comment-maxDate" style="display:none;">2016/3/4 16:29:54</span>  <span class="comment_date">2016-03-04 16:29</span> <a id="a_comment_author_3372047" href="http://www.cnblogs.com/westward/" target="_blank">WesTward</a> <a href="http://msg.cnblogs.com/send/WesTward" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3372047" class="blog_comment_body">楼主总结的非常好，非常全！</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3372047,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3372047,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_3372047_avatar" style="display:none;">http://pic.cnblogs.com/face/799589/20160126234300.png</span>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/25/1918603.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/25/1918603.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"></div>
+<div id="opt_under_post"></div>
+<div id="ad_c1" class="c_ad_block"></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/545314/" target="_blank">源自钉钉，“阿里云办公”移动SaaS产品上线!</a><br> ·  <a href="http://news.cnblogs.com/n/545313/" target="_blank">谷歌和甲骨文诉讼案到底在争什么？可能影响整个技术行业</a><br> ·  <a href="http://news.cnblogs.com/n/545312/" target="_blank">Linux是最大的软件开发项目</a><br> ·  <a href="http://news.cnblogs.com/n/545311/" target="_blank">7-Zip发现多个高危漏洞</a><br> ·  <a href="http://news.cnblogs.com/n/545310/" target="_blank">湾区裁员人数比去年同期翻一番</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="ad_c2" class="c_ad_block"></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/543110/" target="_blank">架构漫谈（九）：理清技术、业务和架构的关系</a><br> ·  <a href="http://kb.cnblogs.com/page/542725/" target="_blank">架构漫谈（八）：从架构的角度看如何写好代码</a><br> ·  <a href="http://kb.cnblogs.com/page/542257/" target="_blank">架构漫谈（七）：不要空设架构师这个职位，给他实权</a><br> ·  <a href="http://kb.cnblogs.com/page/541740/" target="_blank">架构漫谈（六）：软件架构到底是要解决什么问题？</a><br> ·  <a href="http://kb.cnblogs.com/page/541188/" target="_blank">架构漫谈（五）：什么是软件</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+$(function () {
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);    
+});
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/edwardlauxh/">EdwardLau</a><br>园龄：<a href="http://home.cnblogs.com/u/edwardlauxh/" title="入园时间：2010-12-28">5年4个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/edwardlauxh/followers/">62</a><br>关注：<a href="http://home.cnblogs.com/u/edwardlauxh/followees/">0</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger(&#39;a4ff643b-e111-e011-ac81-842b2b196315&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar"><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2010/03/01&#39;);return false;">&lt;</a></td><td align="center">2010年4月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2010/05/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center"><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/01.html"><u>1</u></a></td><td align="center"><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/02.html"><u>2</u></a></td><td class="CalWeekendDay" align="center"><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/03.html"><u>3</u></a></td></tr><tr><td class="CalWeekendDay" align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td align="center">8</td><td align="center">9</td><td class="CalWeekendDay" align="center"><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/10.html"><u>10</u></a></td></tr><tr><td class="CalWeekendDay" align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center"><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/16.html"><u>16</u></a></td><td class="CalWeekendDay" align="center">17</td></tr><tr><td class="CalWeekendDay" align="center">18</td><td align="center">19</td><td align="center"><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/20.html"><u>20</u></a></td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td class="CalWeekendDay" align="center"><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/24.html"><u>24</u></a></td></tr><tr><td class="CalWeekendDay" align="center"><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/25.html"><u>25</u></a></td><td align="center">26</td><td align="center">27</td><td align="center"><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/28.html"><u>28</u></a></td><td align="center"><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/29.html"><u>29</u></a></td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td></tr><tr><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/edwardlauxh/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/edwardlauxh/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/edwardlauxh/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/edwardlauxh/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/edwardlauxh/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/edwardlauxh/tag/App%20Store/">App Store</a>(1)</li><li><a href="http://www.cnblogs.com/edwardlauxh/tag/%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/">学习方法</a>(1)</li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(125)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/edwardlauxh/category/320836.html">Android</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/edwardlauxh/category/277552.html">bemdao(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/edwardlauxh/category/277564.html">Chrome(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/edwardlauxh/category/277545.html">CMMI3(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/edwardlauxh/category/277226.html">Core Java(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/edwardlauxh/category/277556.html">CSS</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/edwardlauxh/category/277549.html">Eclipse(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/edwardlauxh/category/277563.html">glassfish(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/edwardlauxh/category/277225.html">Hibernate(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/edwardlauxh/category/277557.html">Http(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/edwardlauxh/category/320832.html">IOS(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="http://www.cnblogs.com/edwardlauxh/category/277227.html">Java EE(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="http://www.cnblogs.com/edwardlauxh/category/277555.html">Javascript(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="http://www.cnblogs.com/edwardlauxh/category/405874.html">JDBC(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="http://www.cnblogs.com/edwardlauxh/category/403344.html">JPA(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="http://www.cnblogs.com/edwardlauxh/category/277554.html">jQuery(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_16" href="http://www.cnblogs.com/edwardlauxh/category/277558.html">Liferay(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_17" href="http://www.cnblogs.com/edwardlauxh/category/277562.html">Linux&amp;Unix(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_18" href="http://www.cnblogs.com/edwardlauxh/category/277565.html">Logging(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_19" href="http://www.cnblogs.com/edwardlauxh/category/330633.html">Mac OS(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_20" href="http://www.cnblogs.com/edwardlauxh/category/277544.html">Maven(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_21" href="http://www.cnblogs.com/edwardlauxh/category/277548.html">Mysql(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_22" href="http://www.cnblogs.com/edwardlauxh/category/277553.html">Oracle(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_23" href="http://www.cnblogs.com/edwardlauxh/category/432486.html">Resin(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_24" href="http://www.cnblogs.com/edwardlauxh/category/431497.html">Shell(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_25" href="http://www.cnblogs.com/edwardlauxh/category/277224.html">Spring(11)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_26" href="http://www.cnblogs.com/edwardlauxh/category/403345.html">SpringData(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_27" href="http://www.cnblogs.com/edwardlauxh/category/277547.html">SQL Server(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_28" href="http://www.cnblogs.com/edwardlauxh/category/277559.html">Struts1.x</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_29" href="http://www.cnblogs.com/edwardlauxh/category/277560.html">Struts2.x</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_30" href="http://www.cnblogs.com/edwardlauxh/category/431504.html">svn(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_31" href="http://www.cnblogs.com/edwardlauxh/category/277561.html">Tomcat(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_32" href="http://www.cnblogs.com/edwardlauxh/category/277566.html">Windows(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_33" href="http://www.cnblogs.com/edwardlauxh/category/277550.html">工作(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_34" href="http://www.cnblogs.com/edwardlauxh/category/277551.html">生活(13)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_35" href="http://www.cnblogs.com/edwardlauxh/category/277546.html">转载(9)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(125)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/edwardlauxh/archive/2012/12.html">2012年12月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/edwardlauxh/archive/2012/11.html">2012年11月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/edwardlauxh/archive/2012/09.html">2012年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/edwardlauxh/archive/2012/08.html">2012年8月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/edwardlauxh/archive/2012/07.html">2012年7月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/edwardlauxh/archive/2012/06.html">2012年6月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/edwardlauxh/archive/2012/03.html">2012年3月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/edwardlauxh/archive/2012/02.html">2012年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/edwardlauxh/archive/2011/10.html">2011年10月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/edwardlauxh/archive/2011/04.html">2011年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/edwardlauxh/archive/2011/03.html">2011年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/edwardlauxh/archive/2011/02.html">2011年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/edwardlauxh/archive/2011/01.html">2011年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/edwardlauxh/archive/2010/10.html">2010年10月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/edwardlauxh/archive/2010/09.html">2010年9月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/edwardlauxh/archive/2010/08.html">2010年8月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/edwardlauxh/archive/2010/07.html">2010年7月 (17)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/edwardlauxh/archive/2010/06.html">2010年6月 (20)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/edwardlauxh/archive/2010/05.html">2010年5月 (14)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/edwardlauxh/archive/2010/04.html">2010年4月 (15)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/edwardlauxh/archive/2010/03.html">2010年3月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/edwardlauxh/archive/2010/02.html">2010年2月 (8)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/04/25/1918603.html#3372047">1. Re:JVM参数配置大全</a></li>
+        <li class="recent_comment_body">楼主总结的非常好，非常全！</li>
+        <li class="recent_comment_author">--WesTward</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/03/11/1918618.html#3308673">2. Re:Web.xml中Filter过滤器标签几个说明</a></li>
+        <li class="recent_comment_body">今天使用js做的web文件管理插件elfinder的时候，正好用到这个功能，不过我是先自己猜对的，因为公司有一个现成的例子，但是今天这个功能的实现者不在，我只有自己鼓捣了，真的让自己鼓捣出来了</li>
+        <li class="recent_comment_author">--xiaoxiaojiang</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/edwardlauxh/archive/2012/08/10/2632292.html#3227211">3. Re:Jpa规范中persistence.xml 配置文件解析</a></li>
+        <li class="recent_comment_body">楼主，有个问题请教。我这个项目里面为什么persistent.xml不是配置的你的东西？我这里配置的全部是实体类。为什么呢？ com.nantian.transfer.entity.TAccess......</li>
+        <li class="recent_comment_author">--诺浅</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/edwardlauxh/archive/2012/12/08/2808360.html#3182527">4. Re:resin 4 集群</a></li>
+        <li class="recent_comment_body">我照着您的文档做的配置，但到了最后一步："使用/etc/init.d/resin stop -server app-0后" 不能正常访问，请问该怎样解决？</li>
+        <li class="recent_comment_author">--7955013010</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/edwardlauxh/archive/2012/08/10/2632292.html#3142877">5. Re:Jpa规范中persistence.xml 配置文件解析</a></li>
+        <li class="recent_comment_body">本来想配置一下做测试的，结果运行一次后 表都没了！坑死我了还好DBA闪回了~大家注意 最后绝对不能填create-drop他会在SESSION关闭后删除所有表开启式再创建。...</li>
+        <li class="recent_comment_author">--sealv</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/03/21/1918615.html">1. Java时间日期格式转换(212765)</a></li><li><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/03/11/1918618.html">2. Web.xml中Filter过滤器标签几个说明(21422)</a></li><li><a href="http://www.cnblogs.com/edwardlauxh/archive/2012/08/10/2632292.html">3. Jpa规范中persistence.xml 配置文件解析(18153)</a></li><li><a href="./JVM参数配置大全 - EdwardLau - 博客园_files/JVM参数配置大全 - EdwardLau - 博客园.html">4. JVM参数配置大全(17985)</a></li><li><a href="http://www.cnblogs.com/edwardlauxh/archive/2011/10/27/2226902.html">5. [转载]Linux  命令 有关用户权限修改(17825)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/edwardlauxh/archive/2012/12/08/2808360.html">1. resin 4 集群(4)</a></li><li><a href="http://www.cnblogs.com/edwardlauxh/archive/2012/08/10/2632292.html">2. Jpa规范中persistence.xml 配置文件解析(2)</a></li><li><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/06/02/1918584.html">3. [使用心得]maven2之m2eclipse使用手册之三第一个Simple MavenProject与Pom.xml配置说明(2)</a></li><li><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/03/11/1918618.html">4. Web.xml中Filter过滤器标签几个说明(2)</a></li><li><a href="./JVM参数配置大全 - EdwardLau - 博客园_files/JVM参数配置大全 - EdwardLau - 博客园.html">5. JVM参数配置大全(2)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/03/21/1918615.html">1. Java时间日期格式转换(6)</a></li><li><a href="./JVM参数配置大全 - EdwardLau - 博客园_files/JVM参数配置大全 - EdwardLau - 博客园.html">2. JVM参数配置大全(3)</a></li><li><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/03/11/1918618.html">3. Web.xml中Filter过滤器标签几个说明(2)</a></li><li><a href="http://www.cnblogs.com/edwardlauxh/archive/2010/06/02/1918584.html">4. [使用心得]maven2之m2eclipse使用手册之三第一个Simple MavenProject与Pom.xml配置说明(2)</a></li><li><a href="http://www.cnblogs.com/edwardlauxh/archive/2012/08/10/2632292.html">5. Jpa规范中persistence.xml 配置文件解析(2)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2016 EdwardLau
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>
