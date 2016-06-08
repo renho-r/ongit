@@ -1,0 +1,14 @@
+<target name="scala.tasks">
+	    <taskdef resource="scala/tools/ant/antlib.xml">
+	        <classpath>
+	            <pathelement location="${build-dir}/NetXpert/WEB-INF/lib/scala-compiler.jar" />
+	        	<pathelement location="${build-dir}/NetXpert/WEB-INF/lib/scala-library.jar" />
+	        	<pathelement location="${build-dir}/NetXpert/WEB-INF/lib/scala-reflect.jar" />
+	        </classpath>
+	    </taskdef>
+	</target>
+	<target name="compile-scala" depends="scala.tasks">
+		<fsc srcdir="${build-dir}/netflow/ui/jsrc" destdir="${classes}" classpathref="build.class.path">
+		<include name="**/*.scala" />
+		</fsc>
+	</target>
