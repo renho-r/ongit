@@ -6,13 +6,7 @@
 	HWADDR=08:00:27:23:63:BA
 	TYPE="Ethernet"
 	NETMASK=255.255.255.0
-网关
-	vi /etc/sysconfig/network
-	GATEWAY=10.1.37.1
-DNS
-	vi /etc/resolv.conf
-	nameserver 10.1.1.7
-	nameserver 10.1.1.8
+
 linux虚拟机代理:
 	1.在宿主机上ping代理上网的网站获取IP地址
 	2.执行以下操作
@@ -75,6 +69,9 @@ mysql环境:
 				删除ibdata1
 					ib_logfile1
 					ib_logfile101等
+		8.密码
+			more /root/.mysql_secret
+			SET PASSWORD = PASSWORD('root123');
 	2.源码安装
 		2.1下载源码包mysql-5.6.26.tar.gz
 		2.2安装必要的软件包
@@ -113,8 +110,6 @@ mysql环境:
 			启动mysql数据库，会输出一系列有用的信息，告诉你接下去如何初始化mysql
 			[root@CentOS mysql]# service mysqld start
 	3.可远程连接mysql
-		CREATE USER 'renho'@'%' IDENTIFIED BY 'password';
-		GRANT all ON *.* TO 'renho'@'%'
 		update user set host = '%' where user = 'root' and host = 'localhost';
 		UPDATE user SET Password = PASSWORD('root123') WHERE user = 'root';
 		FLUSH PRIVILEGES;
@@ -135,3 +130,23 @@ tomcat环境
 		6.1修改/usr/local/tomcat/apache-tomcat-8.0.29/conf/server.xml
 			<Connector port="8080"中增加
 				
+
+
+
+
+Centos6.5
+	1.新建用户
+		useradd -d /home/renho renho
+		passwd renho
+	2.安装python
+		2.1下载Python-3.5.1.tar.xz
+		2.2 tar -xvf Python-3.5.1.tar.xz
+		2.3 ./configure
+		2.4 make
+		2.5 make install
+		2.6 mv /usr/bin/python /usr/bin/python2.6
+		2.7 ln -s /usr/local/bin/python3.5 /usr/bin/python
+	3.端口跳转
+	4.mysql开机启动
+		chkconfig --list
+		chkconfig mysql on

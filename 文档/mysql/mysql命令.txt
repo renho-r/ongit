@@ -88,3 +88,6 @@
 	mysql>drop user renho;
 	回收权限
 		mysql>revoke select on *.* from renho;  //如果权限不存在会报错
+15.命令行连接
+	SET character_set_client = utf8 ; 
+	SET character_set_connection = utf8 ; 
