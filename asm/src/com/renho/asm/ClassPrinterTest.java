@@ -8,7 +8,7 @@ import org.objectweb.asm.Opcodes;
 
 public class ClassPrinterTest {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, InstantiationException, IllegalAccessException {
 		ClassPrinter cp = new ClassPrinter();
 		ClassReader cr = new ClassReader("java.lang.Runnable");
 		cr.accept(cp, 0);
@@ -23,8 +23,8 @@ public class ClassPrinterTest {
 		byte[] b = cw.toByteArray();
 //		MyClassLoader myClassLoader = new MyClassLoader();
 //		Class<?> c = myClassLoader.defineClass("pkg.Comparable", b);
-		ClassReader crPc = new ClassReader(b);
-		crPc.accept(cp, 0);
+//		ClassReader crPc = new ClassReader(b);
+//		crPc.accept(cp, 0);
 	}
 
 }
