@@ -1,0 +1,1149 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- saved from url=(0057)http://blog.csdn.net/stephenxu111/article/details/9310715 -->
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">   
+   
+
+    <script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/tracking.js" charset="utf-8"></script>  
+
+    <script type="text/javascript">
+        var protocol = window.location.protocol;
+        document.write('<script type="text/javascript" src="' + protocol + '//csdnimg.cn/pubfooter/js/repoAddr2.js?v=' + Math.random() + '"></' + 'script>');
+    </script><script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/repoAddr2.js"></script>
+
+  
+ <meta http-equiv="Cache-Control" content="no-siteapp"><link rel="alternate" media="handheld" href="http://blog.csdn.net/stephenxu111/article/details/9310715#">
+
+    <title>mysqldump使用常用参数说明 - 
+        - 博客频道 - CSDN.NET</title>
+    
+    <meta name="description" content="1.典型相关分析的基本思想  首先，什么是非典型的即经典的相关分析。给你两组变量X=[x1,x2,...,xm]，Y=[y1,y2,...,yn]，要研究X和Y之间的相关性，就是要得到一个X和Y的协方差矩阵cov(X,Y)，矩阵中的每一个值uij表示的就是X的第i维特征xi和Y的第j维特征yj之间的相关性。之后的相关性研究工作就是要基于这个矩阵展开。  这样做的一个弊端就是，只考虑了xi和">
+    <script src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/jquery.js" type="text/javascript"></script>
+      <script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/jquery-version.js"></script>
+    <script type="text/javascript" src="http://static.blog.csdn.net/scripts/ad.js?v=1.1"></script>
+        <!--new top-->
+       
+        <link rel="stylesheet" href="http://c.csdnimg.cn/public/common/toolbar/css/index.css">
+        <!--new top-->
+    
+      <!-- ad begin -->
+         <script language="javascript" type="text/javascript" src="http://ads.csdn.net/js/tracking.js"></script>
+    <!-- ad end-->
+
+    <link rel="Stylesheet" type="text/css" href="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/style.css">
+    <link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://blog.csdn.net/stephenxu111/rss/list">
+    <link rel="shortcut icon" href="http://c.csdnimg.cn/public/favicon.ico">
+    <link type="text/css" rel="stylesheet" href="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/default.css">
+ 
+
+
+<script src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/share.js"></script><link rel="stylesheet" type="text/css" href="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/job_reco.css"><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style><link href="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/bdsstyle.css" rel="stylesheet" type="text/css"><link rel="stylesheet" type="text/css" href="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/style(1).css"><link type="text/css" rel="stylesheet" href="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/style(2).css"><script src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/logger.js"></script><link rel="stylesheet" href="http://bdimg.share.baidu.com/static/api/css/share_style0_16.css?v=6aba13f0.css"></head>
+<body><div id="MathJax_Message" style="display: none;"></div><iframe frameborder="0" style="display: none;"></iframe>
+    <!-- 广告位开始 -->
+        <ins data-revive-zoneid="149" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins>
+    <!-- 广告位结束 -->
+
+    
+   
+      <!--new top-->
+    <script id="toolbar-tpl-scriptId" fixed="true" prod="blog" skin="black" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/html.js" type="text/javascript"></script><div class="csdn-toolbar csdn-toolbar-skin-black ">        <div class="container row center-block ">          <div class="col-md-3 pull-left logo clearfix"><a href="http://www.csdn.net/?ref=toolbar" title="CSDN首页" target="_blank" class="icon"></a><a title="频道首页" href="http://blog.csdn.net/?ref=toolbar_logo" class="img blog-icon"></a></div>          <div class="pull-right login-wrap unlogin">            <ul class="btns">              <li class="loginlink"><a href="https://passport.csdn.net/account/login?ref=toolbar" target="_top">登录&nbsp;</a>|<a target="_top" href="http://passport.csdn.net/account/mobileregister?ref=toolbar&action=mobileRegister">&nbsp;注册</a></li>              <li class="search">                <div class="icon on-search-icon">                  <div class="wrap">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <form action="http://so.csdn.net/search" method="get" target="_blank">                      <input type="hidden" value="toolbar" name="ref" accesskey="2">                      <div class="border">                        <input placeholder="搜索" type="text" value="" name="q" accesskey="2"><span class="icon-enter-sm"></span>                      </div>                    </form>                  </div>                </div>              </li>              <li class="favor">                <div class="icon on-favor-icon">                  <div class="wrap">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <div style="display:none;" class="favor-success"><span class="msg">收藏成功</span>                      <div class="btns"><span class="btn btn-primary ok">确定</span></div>                    </div>                    <div style="display:none;" class="favor-failed"><span class="icon-danger-lg"></span><span class="msg">收藏失败，请重新收藏</span>                      <div class="btns"><span class="btn btn-primary ok">确定</span></div>                    </div>                    <form role="form" class="form-horizontal favor-form">                      <div class="form-group">                        <div class="clearfix">                          <label for="input-title" class="col-sm-2 control-label">标题</label>                          <div class="col-sm-10">                            <input id="inputTitle" type="text" placeholder="" class="title form-control">                          </div>                        </div>                        <div class="alert alert-danger"><strong></strong>标题不能为空</div>                      </div>                      <div class="form-group">                        <label for="input-url" class="col-sm-2 control-label">网址</label>                        <div class="col-sm-10">                          <input id="input-url" type="text" placeholder="" class="url form-control">                        </div>                      </div>                      <div class="form-group">                        <label for="input-tag" class="col-sm-2 tag control-label">标签</label>                        <div class="col-sm-10">                          <input id="input-tag" type="text" class="form-control tag">                        </div>                      </div>                      <div class="form-group">                        <label for="input-description" class="description col-sm-2 control-label">摘要</label>                        <div class="col-sm-10">                          <textarea id="input-description" class="form-control description"></textarea>                        </div>                      </div>                      <div class="form-group">                        <div class="col-sm-offset-2 col-sm-10 ft">                          <div class="col-sm-4 pull-left">                            <div class="checkbox">                              <label>                                <input type="checkbox" name="share" checked="checked" class="share">公开                              </label>                            </div>                          </div>                          <div class="col-sm-8 pull-right favor-btns">                            <button type="button" class="cancel btn btn-default">取消</button>                            <button type="submit" class="submit btn btn-primary">收藏</button>                          </div>                        </div>                      </div>                    </form>                  </div>                </div>              </li>              <li class="notify">                <div style="display:none" class="number"></div>                <div style="display:none" class="icon-hasnotes-sm"></div>                <div id="header_notice_num"></div>                <div class="icon on-notify-icon">                  <div class="wrap">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <div id="note1" class="csdn_note">                      <div class="box"></div>                    <iframe src="about:block" frameborder="0" allowtransparency="true" style="z-index:-1;position:absolute;top:0;left:0;width:100%;height:100%;background:transparent"></iframe></div>                  </div>                </div>              </li>              <li class="ugc">                <div class="icon on-ugc-icon">                  <div class="wrap clearfix">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <dl>                      <dt><a href="http://geek.csdn.net/news/expert?ref=toolbar" target="_blank" class="p-news clearfix" style="display:none;"><em class="icon"></em><span>分享资讯</span></a></dt>                      <dt style="border: none;"><a href="http://u.download.csdn.net/upload?ref=toolbar" target="_blank" class="p-doc clearfix"><em class="icon"></em><span>传PPT/文档</span></a></dt>                      <dt><a href="http://bbs.csdn.net/topics/new?ref=toolbar" target="_blank" class="p-ask clearfix"><em class="icon"></em><span>提问题</span></a></dt>                      <dt><a href="http://write.blog.csdn.net/postedit?ref=toolbar" target="_blank" class="p-blog clearfix"><em class="icon"></em><span>写博客</span></a></dt>                      <dt><a href="http://u.download.csdn.net/upload?ref=toolbar" target="_blank" class="p-src clearfix"><em class="icon"></em><span>传资源</span></a></dt>                      <dt><a href="https://code.csdn.net/projects/new?ref=toolbar" target="_blank" class="c-obj clearfix"><em class="icon"></em><span>创建项目</span></a></dt>                      <dt><a href="https://code.csdn.net/snippets/new?ref=toolbar" target="_blank" class="c-code clearfix"><em class="icon"></em><span>创建代码片</span></a></dt>                    </dl>                  </div>                </div>              </li>              <li class="profile">                <div class="icon on-profile-icon"><img src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/100x100.jpg" class="curr-icon-img">                  <div class="wrap clearfix">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                    <div class="bd">                      <dl class="clearfix">                        <dt class="pull-left img"><a target="_blank" href="http://my.csdn.net/?ref=toolbar" class="avatar"><img src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/100x100.jpg"></a></dt>                        <dd class="info" style="border: none;"><a target="_blank" href="http://my.csdn.net/?ref=toolbar" class="nickname"></a><a class="set-nick" href="https://passport.csdn.net/account/profile">设置昵称<span class="write-icon"></span></a><span class="dec"><a class="fill-dec" href="http://my.csdn.net/" target="_blank">编辑自我介绍，让更多人了解你<span class="write-icon"></span></a></span></dd>                      </dl>                    </div>                    <div class="ft clearfix"><a target="_blank" href="http://my.csdn.net/my/account/changepwd?ref=toolbar" class="pull-left"><span class="icon-cog"></span>帐号设置</a><a href="https://passport.csdn.net/account/logout?ref=toolbar" target="_top" class="pull-left" style="margin-left:132px; width:18px; height:27px; white-space:nowrap; overflow:hidden;"><span class="icon-signout"></span><span class="out">退出</span></a></div>                  </div>                </div>              </li>              <li class="apps">                <div id="chasnew123" class="hasnew" style="display: none;"></div>                <div id="cappsarea123" class="icon on-apps-icon">                  <div class="wrap clearfix">                    <div class="curr-icon-wrap">                      <div class="curr-icon"></div>                    </div>                  <div class="detail">                    <dl>                      <dt>                        <h5>社区</h5>                      </dt>                      <dd> <a href="http://blog.csdn.net/?ref=toolbar" target="_blank">博客</a></dd>                      <dd> <a href="http://bbs.csdn.net/?ref=toolbar" target="_blank">论坛</a></dd>                      <dd> <a href="http://download.csdn.net/?ref=toolbar" target="_blank">下载</a></dd>                      <dd> <a href="http://lib.csdn.net/?ref=toolbar" target="_blank">知识库</a></dd>                      <dd><a href="http://ask.csdn.net/?ref=toolbar" target="_blank">技术问答</a></dd>                      <dd><a href="http://geek.csdn.net/?ref=toolbar" target="_blank">极客头条</a></dd>                      <dd style="display:none"> <a href="http://hero.csdn.net/?ref=toolbar" target="_blank">英雄会</a></dd>                    </dl>                  </div>                  <div class="detail">                    <dl>                      <dt>                        <h5>服务</h5>                      </dt>                      <dd style="display:none"> <a href="http://job.csdn.net/?ref=toolbar" target="_blank">JOB<img src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/new.gif" style="display: none; margin-top: -26px; width: 23px;"></a></dd>                      <dd> <a href="http://edu.csdn.net/?ref=toolbar" target="_blank">学院<img src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/new.gif" style="display: none; margin-top: -26px; width: 23px;"></a></dd>                      <dd> <a href="https://code.csdn.net/?ref=toolbar" target="_blank">CODE</a></dd>                      <dd> <a href="http://huiyi.csdn.net/?ref=toolbar" target="_blank">活动</a></dd>                      <dd> <a href="http://www.csto.com/?ref=toolbar" target="_blank">CSTO</a></dd>                      <dd> <a href="http://mall.csdn.net/?ref=toolbar" target="_blank">C币兑换<img src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/new.gif" style="display: none; margin-top: -26px; width: 23px;"></a></dd>                    </dl>                  </div>                  <div class="detail last">                    <dl>                      <dt>                        <h5>俱乐部</h5>                      </dt>                      <dd> <a href="http://cto.csdn.net/?ref=toolbar" target="_blank">CTO俱乐部</a></dd>                      <dd> <a href="http://student.csdn.net/?ref=toolbar" target="_blank">高校俱乐部</a></dd>                    </dl>                  </div>                </div>              </div>            </li>            </ul>          </div>        </div>    </div>
+     <!--new top-->
+    <div id="container">
+        <div id="header">
+    <div class="header">
+        <div id="blog_title">
+            <h2>
+                <a href="http://blog.csdn.net/stephenxu111"></a></h2>
+            <h3>凡努力过的，必产生影响。</h3>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+        
+     
+    </div>
+</div>
+<div id="navigator">
+    <div class="navigator_bg">
+    </div>
+    <div class="navigator">
+        <ul>
+            
+                <li id="btnContents"><a href="http://blog.csdn.net/stephenxu111?viewmode=contents"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_mulu&#39;])">
+                    <img src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/ico_list.gif">目录视图</span></a></li>
+                <li id="btnView"><a href="http://blog.csdn.net/stephenxu111?viewmode=list"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_zhaiyao&#39;])">
+                    <img src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/ico_summary.gif">摘要视图</span></a></li>
+                <li id="btnRss"><a href="http://blog.csdn.net/stephenxu111/rss/list"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_RSS&#39;])">
+                    <img src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/ico_rss.gif">订阅</span></a></li>                
+            
+
+            </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    var username = "stephenxu111";
+    var _blogger = username;
+    var blog_address = "http://blog.csdn.net/stephenxu111";
+    var static_host = "http://static.blog.csdn.net";
+    var currentUserName = "";  
+</script>
+
+        <div id="body">
+            <div id="main">
+                <div class="main">
+                        <div class="ad_class">
+<div class="notice tracking-ad" data-mod="popu_3"> 
+
+<a href="http://huiyi.csdn.net/activity/product/goods_list?project_id=3200">
+<font color="blue">【CSDN技术主题月】深度学习框架的重构与思考
+</font></a>
+&nbsp;&nbsp;&nbsp;
+
+<a href="http://blog.csdn.net/PK.html">
+<font color="blue">【观点】有了深度学习，你还学传统机器学习算法么？
+</font></a>
+&nbsp;&nbsp;&nbsp;
+<a href="http://lib.csdn.net/base/deeplearning">
+<font color="red">【知识库】深度学习知识图谱上线啦
+</font></a>
+
+
+</div>                        </div>
+                        
+
+
+<!-- 广告位开始 -->
+<ins data-revive-zoneid="72" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins>
+<!-- 广告位结束 -->
+
+  
+<link href="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/comment1.css" type="text/css" rel="stylesheet">
+<link href="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/style1.css" type="text/css" rel="stylesheet">
+<script language="JavaScript" type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/jquery.cookie.js"></script>
+<script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/main.js"></script>
+<link rel="stylesheet" href="http://static.blog.csdn.net/public/res-min/markdown_views.css?v=1.0">
+<link rel="stylesheet" href="http://static.blog.csdn.net/css/category.css?v=1.0">
+<script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/MathJax.js"></script>
+<script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/web-storage-cache.min.js"></script>
+<script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/replace.min.js"></script>
+
+
+
+
+  <script type="text/ecmascript">
+      window.quickReplyflag = true;
+           
+            var isBole = false;
+            
+          
+    </script>
+<div id="article_details" class="details">
+    <div class="article_title">   
+         <span class="ico ico_type_Original"></span>
+
+
+    <h1>
+        <span class="link_title"><a href="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET.html">
+        mysqldump使用常用参数说明            
+        </a></span>
+    </h1>
+</div>
+
+   
+
+        <div class="article_manage clearfix">
+        <div class="article_r">
+            <span class="link_postdate">2013-07-16 19:28</span>
+            <span class="link_view" title="阅读次数">10301人阅读</span>
+            <span class="link_comments" title="评论次数"> <a href="http://blog.csdn.net/stephenxu111/article/details/9310715#comments" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_pinglun&#39;])">评论</a>(0)</span>
+            <span class="link_collect tracking-ad" data-mod="popu_171"> <a href="javascript:void(0);" onclick="javascript:collectArticle(&#39;mysqldump使用常用参数说明&#39;,&#39;9310715&#39;);return false;" title="收藏">收藏</a></span>
+             <span class="link_report"> <a href="http://blog.csdn.net/stephenxu111/article/details/9310715#report" onclick="javascript:report(9310715,2);return false;" title="举报">举报</a></span>
+
+        </div>
+    </div>
+    <div class="embody" style="display:none" id="embody">
+        <span class="embody_t">本文章已收录于：</span>
+        <div class="embody_c" id="lib" value="{&quot;err&quot;:0,&quot;msg&quot;:&quot;ok&quot;,&quot;data&quot;:[]}"></div>
+    </div>
+    <style type="text/css">        
+            .embody{
+                padding:10px 10px 10px;
+                margin:0 -20px;
+                border-bottom:solid 1px #ededed;                
+            }
+            .embody_b{
+                margin:0 ;
+                padding:10px 0;
+            }
+            .embody .embody_t,.embody .embody_c{
+                display: inline-block;
+                margin-right:10px;
+            }
+            .embody_t{
+                font-size: 12px;
+                color:#999;
+            }
+            .embody_c{
+                font-size: 12px;
+            }
+            .embody_c img,.embody_c em{
+                display: inline-block;
+                vertical-align: middle;               
+            }
+             .embody_c img{               
+                width:30px;
+                height:30px;
+            }
+            .embody_c em{
+                margin: 0 20px 0 10px;
+                color:#333;
+                font-style: normal;
+            }
+    </style>
+    <script type="text/javascript">
+        $(function () {
+            try
+            {
+                var lib = eval("("+$("#lib").attr("value")+")");
+                var html = "";
+                if (lib.err == 0) {
+                    $.each(lib.data, function (i) {
+                        var obj = lib.data[i];
+                        //html += '<img src="' + obj.logo + '"/>' + obj.name + "&nbsp;&nbsp;";
+                        html += ' <a href="' + obj.url + '" target="_blank">';
+                        html += ' <img src="' + obj.logo + '">';
+                        html += ' <em><b>' + obj.name + '</b></em>';
+                        html += ' </a>';
+                    });
+                    if (html != "") {
+                        setTimeout(function () {
+                            $("#lib").html(html);                      
+                            $("#embody").show();
+                        }, 100);
+                    }
+                }      
+            } catch (err)
+            { }
+            
+        });
+    </script>
+      <div class="category clearfix">
+        <div class="category_l">
+           <img src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/category_icon.jpg">
+            <span>分类：</span>
+        </div>
+        <div class="category_r">
+                    <label onclick="GetCategoryArticles(&#39;389177&#39;,&#39;stephenxu111&#39;,&#39;top&#39;,&#39;9310715&#39;);">
+                        <span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_fenlei&#39;]);">数据库<em>（26）</em></span>
+                      <img class="arrow-down" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/arrow_triangle _down.jpg" style="display:inline;">
+                      <img class="arrow-up" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/arrow_triangle_up.jpg" style="display:none;">
+                        <div class="subItem">
+                            <div class="subItem_t"><a href="http://blog.csdn.net/stephenxu111/article/category/389177" target="_blank">作者同类文章</a><i class="J_close">X</i></div>
+                            <ul class="subItem_l" id="top_389177">                            
+                            </ul>
+                        </div>
+                    </label>                    
+        </div>
+    </div>
+    <script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/category.js"></script>  
+        <div class="bog_copyright">         
+            <p class="copyright_p">版权声明：本文为博主原创文章，未经博主允许不得转载。</p>
+        </div>
+
+  
+
+  
+  
+     
+
+<div id="article_content" class="article_content">
+<p><span style="font-family:宋体;font-size:12px;color:fuchsia;"><span lang="EN-US" style="color:fuchsia;font-size: 10pt;">我用来实现自动全备份的脚本（可以满足一般有前后版本兼容要求的导出导入操作，我的字符集是latin1）：<br></span></span></p><p><span style="font-family:宋体;font-size:12px;color:fuchsia;"><span lang="EN-US" style="color:fuchsia;FONT-SIZE: 10pt;">&nbsp;mysqldump.exe -umyusername -pmypass -h localhost -P 3306 --triggers=false --complete-insert&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; -q --extended-insert=false&nbsp; --default-character-set=latin1 --no-create-db=TRUE&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --no-create-info=TRUE --add-drop-table=FALSE --replace=TRUE -B MY_DB &gt;&gt; "c:\123.sql"</span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">&nbsp;</span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;" lang="EN-US"><span style="color:#FF0000;">如果库中有不断增加的海量数据，不建议参与日常的全备份，可以用<strong><strong><span style="font-family:宋体;font-size:12px;"><span lang="EN-US" style="font-family:宋体;FONT-SIZE: 10pt;">--ignore-table</span></span></strong></strong>忽略这些表（否则导出文件太大，导出过程太长）。</span> <br></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">&nbsp;</span></span></p><div><h2><strong><span style="font-family:宋体;font-size:24px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 18pt;">另附：mysqldump</span>参数详细说明<span lang="EN-US"></span></span></strong></h2></div><div id="content"><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">Mysqldump</span></span><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">参数大全（参数来源于<span lang="EN-US">mysql5.5.19</span>源码）</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">&nbsp;</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">参数</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">参数说明</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--all-databases&nbsp;&nbsp;,&nbsp;-A</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">导出全部数据库。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--all-tablespaces&nbsp;&nbsp;,&nbsp;-Y</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">导出全部表空间。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--all-tablespaces</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--no-tablespaces&nbsp;&nbsp;,&nbsp;-y</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">不导出任何表空间信息。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--no-tablespaces</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--add-drop-database</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">每个数据库创建之前添加<span lang="EN-US">drop</span>数据库语句。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--add-drop-database</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--add-drop-table</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">每个数据表创建之前添加<span lang="EN-US">drop</span>数据表语句。<span lang="EN-US">(</span>默认为打开状态，使用<span lang="EN-US">--skip-add-drop-table</span>取消选项<span lang="EN-US">)</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;&nbsp;(</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">默认添加<span lang="EN-US">drop</span>语句<span lang="EN-US">)</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">–<span lang="EN-US">skip-add-drop-table&nbsp;&nbsp;(</span>取消<span lang="EN-US">drop</span>语句<span lang="EN-US">)</span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--add-locks</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">在每个表导出之前增加<span lang="EN-US">LOCK&nbsp;TABLES</span>并且之后<span lang="EN-US">UNLOCK&nbsp;&nbsp;TABLE</span>。<span lang="EN-US">(</span>默认为打开状态，使用<span lang="EN-US">--skip-add-locks</span>取消选项<span lang="EN-US">)</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;&nbsp;(</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">默认添加<span lang="EN-US">LOCK</span>语句<span lang="EN-US">)</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">–<span lang="EN-US">skip-add-locks&nbsp;&nbsp;&nbsp;(</span>取消<span lang="EN-US">LOCK</span>语句<span lang="EN-US">)</span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--allow-keywords</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">允许创建是关键词的列名字。这由表名前缀于每个列名做到。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--allow-keywords</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--apply-slave-statements</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">在<span lang="EN-US">'CHANGE&nbsp;MASTER'</span>前添加<span lang="EN-US">'STOP&nbsp;SLAVE'</span>，并且在导出的最后添加<span lang="EN-US">'START&nbsp;SLAVE'</span>。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--apply-slave-statements</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--character-sets-dir</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">字符集文件的目录<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;&nbsp;--character-sets-dir=/usr/local/<a href="http://lib.csdn.net/base/14" class="replace_word" title="undefined" target="_blank" style="color:#df3434; font-weight:bold;">MySQL</a>/share/mysql/charsets</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--comments</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">附加注释信息。默认为打开，可以用<span lang="EN-US">--skip-comments</span>取消<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;&nbsp;(</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">默认记录注释<span lang="EN-US">)</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--skip-comments&nbsp;&nbsp;&nbsp;(</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">取消注释<span lang="EN-US">)</span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--compatible</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">导出的数据将和其它数据库或旧版本的<span lang="EN-US">MySQL&nbsp;</span>相兼容。值可以为<span lang="EN-US">ansi</span>、<span lang="EN-US">mysql323</span>、<span lang="EN-US">mysql40</span>、<span lang="EN-US">postgresql</span>、<span lang="EN-US">oracle</span>、<span lang="EN-US">mssql</span>、<span lang="EN-US">db2</span>、<span lang="EN-US">maxdb</span>、<span lang="EN-US">no_key_options</span>、<span lang="EN-US">no_tables_options</span>、<span lang="EN-US">no_field_options</span>等，<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">要使用几个值，用逗号将它们隔开。它并不保证能完全兼容，而是尽量兼容。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--compatible=ansi</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--compact</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">导出更少的输出信息<span lang="EN-US">(</span>用于调试<span lang="EN-US">)</span>。去掉注释和头尾等结构。可以使用选项：<span lang="EN-US">--skip-add-drop-table&nbsp;&nbsp;--skip-add-locks&nbsp;--skip-comments&nbsp;--skip-disable-keys</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--compact</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--complete-insert,&nbsp;&nbsp;-c</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">使用完整的<span lang="EN-US">insert</span>语句<span lang="EN-US">(</span>包含列名称<span lang="EN-US">)</span>。这么做能提高插入效率，但是可能会受到<span lang="EN-US">max_allowed_packet</span>参数的影响而导致插入失败。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--complete-insert</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--compress,&nbsp;-C</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">在客户端和服务器之间启用压缩传递所有信息<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--compress</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--create-options,&nbsp;&nbsp;-a</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">在<span lang="EN-US">CREATE&nbsp;TABLE</span>语句中包括所有<span lang="EN-US">MySQL</span>特性选项。<span lang="EN-US">(</span>默认为打开状态<span lang="EN-US">)</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--databases,&nbsp;&nbsp;-B</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">导出几个数据库。参数后面所有名字参量都被看作数据库名。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--databases&nbsp;test&nbsp;mysql</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--debug</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">输出<span lang="EN-US">debug</span>信息，用于调试。默认值为：<span lang="EN-US">d:t:o,/tmp/mysqldump.trace</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--debug</span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--debug=</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">”<span lang="EN-US">&nbsp;d:t:o,/tmp/debug.trace</span>”<span lang="EN-US"></span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--debug-check</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">检查内存和打开文件使用说明并退出。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--debug-check</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--debug-info</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">输出调试信息并退出<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--debug-info</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--default-character-set</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">设置默认字符集，默认值为<span lang="EN-US">utf8</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--default-character-set=latin1</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--delayed-insert</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">采用延时插入方式（<span lang="EN-US">INSERT&nbsp;DELAYED</span>）导出数据<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--delayed-insert</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--delete-master-logs</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">master</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">备份后删除日志<span lang="EN-US">.&nbsp;</span>这个参数将自动激活<span lang="EN-US">--master-data</span>。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--delete-master-logs</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--disable-keys</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">对于每个表，用<span lang="EN-US">/*!40000&nbsp;ALTER&nbsp;TABLE&nbsp;tbl_name&nbsp;DISABLE&nbsp;KEYS&nbsp;*/;</span>和<span lang="EN-US">/*!40000&nbsp;ALTER&nbsp;TABLE&nbsp;tbl_name&nbsp;ENABLE&nbsp;KEYS&nbsp;*/;</span>语句引用<span lang="EN-US">INSERT</span>语句。这样可以更快地导入<span lang="EN-US">dump</span>出来的文件，因为它是在插入所有行后创建索引的。该选项只适合<span lang="EN-US">MyISAM</span>表，默认为打开状态。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--dump-slave</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">该选项将导致主的<span lang="EN-US">binlog</span>位置和文件名追加到导出数据的文件中。设置为<span lang="EN-US">1</span>时，将会以<span lang="EN-US">CHANGE&nbsp;MASTER</span>命令输出到数据文件；设置为<span lang="EN-US">2</span>时，在命令前增加说明信息。该选项将会打开<span lang="EN-US">--lock-all-tables</span>，除非<span lang="EN-US">--single-transaction</span>被指定。该选项会自动关闭<span lang="EN-US">--lock-tables</span>选项。默认值为<span lang="EN-US">0</span>。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--dump-slave=1</span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--dump-slave=2</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--events,&nbsp;-E</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">导出事件。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--events</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--extended-insert,&nbsp;&nbsp;-e</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">使用具有多个<span lang="EN-US">VALUES</span>列的<span lang="EN-US">INSERT</span>语法。这样使导出文件更小，并加速导入时的速度。默认为打开状态，使用<span lang="EN-US">--skip-extended-insert</span>取消选项。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases</span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases--skip-extended-insert&nbsp;&nbsp;&nbsp;(</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">取消选项<span lang="EN-US">)</span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--fields-terminated-by</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">导出文件中忽略给定字段。与<span lang="EN-US">--tab</span>选项一起使用，不能用于<span lang="EN-US">--databases</span>和<span lang="EN-US">--all-databases</span>选项<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;test&nbsp;test&nbsp;--tab=</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">”<span lang="EN-US">/home/mysql</span>”<span lang="EN-US">&nbsp;--fields-terminated-by=</span>”<span lang="EN-US">#</span>”<span lang="EN-US"></span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--fields-enclosed-by</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">输出文件中的各个字段用给定字符包裹。与<span lang="EN-US">--tab</span>选项一起使用，不能用于<span lang="EN-US">--databases</span>和<span lang="EN-US">--all-databases</span>选项<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;test&nbsp;test&nbsp;--tab=</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">”<span lang="EN-US">/home/mysql</span>”<span lang="EN-US">&nbsp;--fields-enclosed-by=</span>”<span lang="EN-US">#</span>”<span lang="EN-US"></span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--fields-optionally-enclosed-by</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">输出文件中的各个字段用给定字符选择性包裹。与<span lang="EN-US">--tab</span>选项一起使用，不能用于<span lang="EN-US">--databases</span>和<span lang="EN-US">--all-databases</span>选项<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;test&nbsp;test&nbsp;--tab=</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">”<span lang="EN-US">/home/mysql</span>”<span lang="EN-US">&nbsp;&nbsp;--fields-enclosed-by=</span>”<span lang="EN-US">#</span>”<span lang="EN-US">&nbsp;--fields-optionally-enclosed-by&nbsp;&nbsp;=</span>”<span lang="EN-US">#</span>”<span lang="EN-US"></span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--fields-escaped-by</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">输出文件中的各个字段忽略给定字符。与<span lang="EN-US">--tab</span>选项一起使用，不能用于<span lang="EN-US">--databases</span>和<span lang="EN-US">--all-databases</span>选项<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;mysql&nbsp;user&nbsp;--tab=</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">”<span lang="EN-US">/home/mysql</span>”<span lang="EN-US">&nbsp;--fields-escaped-by=</span>”<span lang="EN-US">#</span>”<span lang="EN-US"></span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--flush-logs</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">开始导出之前刷新日志。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">请注意：假如一次导出多个数据库<span lang="EN-US">(</span>使用选项<span lang="EN-US">--databases</span>或者<span lang="EN-US">--all-databases)</span>，将会逐个数据库刷新日志。除使用<span lang="EN-US">--lock-all-tables</span>或者<span lang="EN-US">--master-data</span>外。在这种情况下，日志将会被刷新一次，相应的所以表同时被锁定。因此，如果打算同时导出和刷新日志应该使用<span lang="EN-US">--lock-all-tables&nbsp;</span>或者<span lang="EN-US">--master-data&nbsp;</span>和<span lang="EN-US">--flush-logs</span>。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--flush-logs</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--flush-privileges</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">在导出<span lang="EN-US">mysql</span>数据库之后，发出一条<span lang="EN-US">FLUSH&nbsp;&nbsp;PRIVILEGES&nbsp;</span>语句。为了正确恢复，该选项应该用于导出<span lang="EN-US">mysql</span>数据库和依赖<span lang="EN-US">mysql</span>数据库数据的任何时候。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--flush-privileges</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--force</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">在导出过程中忽略出现的<span lang="EN-US">SQL</span>错误。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--force</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--help</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">显示帮助信息并退出。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;--help</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--hex-blob</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">使用十六进制格式导出二进制字符串字段。如果有二进制数据就必须使用该选项。影响到的字段类型有<span lang="EN-US">BINARY</span>、<span lang="EN-US">VARBINARY</span>、<span lang="EN-US">BLOB</span>。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--all-databases&nbsp;--hex-blob</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--host,&nbsp;-h</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">需要导出的主机信息<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--ignore-table</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">不导出指定表。指定忽略多个表时，需要重复多次，每次一个表。每个表必须同时指定数据库和表名。例如：<span lang="EN-US">--ignore-table=database.table1&nbsp;--ignore-table=database.table2&nbsp;</span>……<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--ignore-table=mysql.user</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--include-master-host-port</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">在<span lang="EN-US">--dump-slave</span>产生的<span lang="EN-US">'CHANGE&nbsp;&nbsp;MASTER&nbsp;TO..'</span>语句中增加<span lang="EN-US">'MASTER_HOST=&lt;host&gt;</span>，<span lang="EN-US">MASTER_PORT=&lt;port&gt;'&nbsp;&nbsp;</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--include-master-host-port</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--insert-ignore</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">在插入行时使用<span lang="EN-US">INSERT&nbsp;IGNORE</span>语句<span lang="EN-US">.</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--insert-ignore</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--lines-terminated-by</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">输出文件的每行用给定字符串划分。与<span lang="EN-US">--tab</span>选项一起使用，不能用于<span lang="EN-US">--databases</span>和<span lang="EN-US">--all-databases</span>选项。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;test&nbsp;test&nbsp;--tab=</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">”<span lang="EN-US">/tmp/mysql</span>”<span lang="EN-US">&nbsp;&nbsp;--lines-terminated-by=</span>”<span lang="EN-US">##</span>”<span lang="EN-US"></span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--lock-all-tables,&nbsp;&nbsp;-x</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">提交请求锁定所有数据库中的所有表，以保证数据的一致性。这是一个全局读锁，并且自动关闭<span lang="EN-US">--single-transaction&nbsp;</span>和<span lang="EN-US">--lock-tables&nbsp;</span>选项。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--lock-all-tables</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--lock-tables,&nbsp;&nbsp;-l</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">开始导出前，锁定所有表。用<span lang="EN-US">READ&nbsp;&nbsp;LOCAL</span>锁定表以允许<span lang="EN-US">MyISAM</span>表并行插入。对于支持事务的表例如<span lang="EN-US">InnoDB</span>和<span lang="EN-US">BDB</span>，<span lang="EN-US">--single-transaction</span>是一个更好的选择，因为它根本不需要锁定表。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">请注意当导出多个数据库时，<span lang="EN-US">--lock-tables</span>分别为每个数据库锁定表。因此，该选项不能保证导出文件中的表在数据库之间的逻辑一致性。不同数据库表的导出状态可以完全不同。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--lock-tables</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--log-error</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">附加警告和错误信息到给定文件<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;&nbsp;--log-error=/tmp/mysqldump_error_log.err</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--master-data</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">该选项将<span lang="EN-US">binlog</span>的位置和文件名追加到输出文件中。如果为<span lang="EN-US">1</span>，将会输出<span lang="EN-US">CHANGE&nbsp;MASTER&nbsp;</span>命令；如果为<span lang="EN-US">2</span>，输出的<span lang="EN-US">CHANGE&nbsp;&nbsp;MASTER</span>命令前添加注释信息。该选项将打开<span lang="EN-US">--lock-all-tables&nbsp;</span>选项，除非<span lang="EN-US">--single-transaction</span>也被指定（在这种情况下，全局读锁在开始导出时获得很短的时间；其他内容参考下面的<span lang="EN-US">--single-transaction</span>选项）。该选项自动关闭<span lang="EN-US">--lock-tables</span>选项。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--master-data=1;</span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--master-data=2;</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--max_allowed_packet</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">服务器发送和接受的最大包长度。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--max_allowed_packet=10240</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--net_buffer_length</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">TCP/IP</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">和<span lang="EN-US">socket</span>连接的缓存大小。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--net_buffer_length=1024</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--no-autocommit</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">使用<span lang="EN-US">autocommit/commit&nbsp;</span>语句包裹表。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--no-autocommit</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--no-create-db,&nbsp;&nbsp;-n</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">只导出数据，而不添加<span lang="EN-US">CREATE&nbsp;DATABASE&nbsp;</span>语句。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--no-create-db</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--no-create-info,&nbsp;&nbsp;-t</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">只导出数据，而不添加<span lang="EN-US">CREATE&nbsp;TABLE&nbsp;</span>语句。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--no-create-info</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--no-data,&nbsp;-d</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">不导出任何数据，只导出数据库表结构。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--no-data</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--no-set-names,&nbsp;&nbsp;-N</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">等同于<span lang="EN-US">--skip-set-charset</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--no-set-names</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--opt</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">等同于<span lang="EN-US">--add-drop-table,&nbsp;&nbsp;--add-locks,&nbsp;--create-options,&nbsp;--quick,&nbsp;--extended-insert,&nbsp;--lock-tables,&nbsp;&nbsp;--set-charset,&nbsp;--disable-keys&nbsp;</span>该选项默认开启<span lang="EN-US">,&nbsp;&nbsp;</span>可以用<span lang="EN-US">--skip-opt</span>禁用<span lang="EN-US">.</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--opt</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--order-by-primary</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">如果存在主键，或者第一个唯一键，对每个表的记录进行排序。在导出<span lang="EN-US">MyISAM</span>表到<span lang="EN-US">InnoDB</span>表时有效，但会使得导出工作花费很长时间。<span lang="EN-US">&nbsp;</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--order-by-primary</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--password,&nbsp;-p</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">连接数据库密码<span lang="EN-US"></span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--pipe(windows</span></span><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">系统可用<span lang="EN-US">)</span></span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">使用命名管道连接<span lang="EN-US">mysql</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--pipe</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--port,&nbsp;-P</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">连接数据库端口号<span lang="EN-US"></span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--protocol</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">使用的连接协议，包括：<span lang="EN-US">tcp,&nbsp;socket,&nbsp;pipe,&nbsp;memory.</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--protocol=tcp</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--quick,&nbsp;-q</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">不缓冲查询，直接导出到标准输出。默认为打开状态，使用<span lang="EN-US">--skip-quick</span>取消该选项。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;</span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--skip-quick</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--quote-names,-Q</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">使用（<span lang="EN-US">`</span>）引起表和列名。默认为打开状态，使用<span lang="EN-US">--skip-quote-names</span>取消该选项。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases</span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--skip-quote-names</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--replace</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">使用<span lang="EN-US">REPLACE&nbsp;INTO&nbsp;</span>取代<span lang="EN-US">INSERT&nbsp;INTO.</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--replace</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--result-file,&nbsp;&nbsp;-r</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">直接输出到指定文件中。该选项应该用在使用回车换行对（<span lang="EN-US">\\r\\n</span>）换行的系统上（例如：<span lang="EN-US">DOS</span>，<span lang="EN-US">Windows</span>）。该选项确保只有一行被使用。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--result-file=/tmp/mysqldump_result_file.txt</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--routines,&nbsp;-R</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">导出存储过程以及自定义函数。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--routines</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--set-charset</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">添加<span lang="EN-US">'SET&nbsp;NAMES&nbsp;&nbsp;default_character_set'</span>到输出文件。默认为打开状态，使用<span lang="EN-US">--skip-set-charset</span>关闭选项。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;</span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--skip-set-charset</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--single-transaction</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">该选项在导出数据之前提交一个<span lang="EN-US">BEGIN&nbsp;SQL</span>语句，<span lang="EN-US">BEGIN&nbsp;</span>不会阻塞任何应用程序且能保证导出时数据库的一致性状态。它只适用于多版本存储引擎，仅<span lang="EN-US">InnoDB</span>。本选项和<span lang="EN-US">--lock-tables&nbsp;</span>选项是互斥的，因为<span lang="EN-US">LOCK&nbsp;&nbsp;TABLES&nbsp;</span>会使任何挂起的事务隐含提交。要想导出大表的话，应结合使用<span lang="EN-US">--quick&nbsp;</span>选项。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--single-transaction</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--dump-date</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">将导出时间添加到输出文件中。默认为打开状态，使用<span lang="EN-US">--skip-dump-date</span>关闭选项。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases</span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--skip-dump-date</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--skip-opt</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">禁用–<span lang="EN-US">opt</span>选项<span lang="EN-US">.</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--skip-opt</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--socket,-S</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">指定连接<span lang="EN-US">mysql</span>的<span lang="EN-US">socket</span>文件位置，默认路径<span lang="EN-US">/tmp/mysql.sock</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--socket=/tmp/mysqld.sock</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--tab,-T</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">为每个表在给定路径创建<span lang="EN-US">tab</span>分割的文本文件。注意：仅仅用于<span lang="EN-US">mysqldump</span>和<span lang="EN-US">mysqld</span>服务器运行在相同机器上。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;test&nbsp;test&nbsp;--tab="/home/mysql"</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--tables</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">覆盖<span lang="EN-US">--databases&nbsp;(-B)</span>参数，指定需要导出的表名。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--databases&nbsp;test&nbsp;--tables&nbsp;test</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--triggers</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">导出触发器。该选项默认启用，用<span lang="EN-US">--skip-triggers</span>禁用它。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--triggers</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--tz-utc</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">在导出顶部设置时区<span lang="EN-US">TIME_ZONE='+00:00'&nbsp;</span>，以保证在不同时区导出的<span lang="EN-US">TIMESTAMP&nbsp;</span>数据或者数据被移动其他时区时的正确性。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--tz-utc</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--user,&nbsp;-u</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">指定连接的用户名。<span lang="EN-US"></span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--verbose,&nbsp;--v</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">输出多种平台信息。<span lang="EN-US"></span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--version,&nbsp;-V</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">输出<span lang="EN-US">mysqldump</span>版本信息并退出<span lang="EN-US"></span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--where,&nbsp;-w</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">只转储给定的<span lang="EN-US">WHERE</span>条件选择的记录。请注意如果条件包含命令解释符专用空格或字符，一定要将条件引用起来。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--where=</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">”<span lang="EN-US">&nbsp;user=</span>’<span lang="EN-US">root</span>’”<span lang="EN-US"></span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--xml,&nbsp;-X</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">导出<span lang="EN-US">XML</span>格式<span lang="EN-US">.</span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--xml</span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--plugin_dir</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">客户端插件的目录，用于兼容不同的插件版本。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--plugin_dir=</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">”<span lang="EN-US">/usr/local/lib/plugin</span>”<span lang="EN-US"></span></span></span></p><p><strong><strong><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="font-family:宋体;color:#006666;FONT-SIZE: 10pt;">--default_auth</span></span></strong></strong><span style="font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;"></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">客户端插件默认使用权限。<span lang="EN-US"></span></span></span></p><p><span style="font-family:宋体;font-size:12px;color:#006666;"><span lang="EN-US" style="color:#006666;FONT-SIZE: 10pt;">mysqldump&nbsp;&nbsp;-uroot&nbsp;-p&nbsp;--host=localhost&nbsp;--all-databases&nbsp;--default-auth=</span></span><span style="font-size:12px;color:#006666;"><span style="color:#006666;FONT-SIZE: 10pt;">”<span lang="EN-US">/usr/local/lib/plugin/&lt;PLUGIN&gt;</span>”<span lang="EN-US"></span></span></span></p></div><br>   
+</div>
+
+
+
+
+<!-- Baidu Button BEGIN -->
+
+
+
+
+<div class="bdsharebuttonbox tracking-ad bdshare-button-style0-16" style="float: right;" data-mod="popu_172" data-bd-bind="1476175747141">
+<a href="http://blog.csdn.net/stephenxu111/article/details/9310715#" class="bds_more" data-cmd="more" style="background-position:0 0 !important; background-image: url(http://bdimg.share.baidu.com/static/api/img/share/icons_0_16.png?v=d754dcc0.png) !important"></a>
+<a href="http://blog.csdn.net/stephenxu111/article/details/9310715#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间" style="background-position:0 -52px !important"></a>
+<a href="http://blog.csdn.net/stephenxu111/article/details/9310715#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博" style="background-position:0 -104px !important"></a>
+<a href="http://blog.csdn.net/stephenxu111/article/details/9310715#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博" style="background-position:0 -260px !important"></a>
+<a href="http://blog.csdn.net/stephenxu111/article/details/9310715#" class="bds_renren" data-cmd="renren" title="分享到人人网" style="background-position:0 -208px !important"></a>
+<a href="http://blog.csdn.net/stephenxu111/article/details/9310715#" class="bds_weixin" data-cmd="weixin" title="分享到微信" style="background-position:0 -1612px !important"></a>
+</div>
+<script>window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "1", "bdMiniList": false, "bdPic": "", "bdStyle": "0", "bdSize": "16" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+<!-- Baidu Button END -->
+
+   <link rel="stylesheet" href="http://static.blog.csdn.net/css/blog_detail.css">
+
+    
+<!--172.16.140.11-->
+
+<!-- Baidu Button BEGIN -->
+<script type="text/javascript" id="bdshare_js" data="type=tools&amp;uid=1536434" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/bds_s_v2.js"></script>
+
+<script type="text/javascript">
+    document.getElementById("bdshell_js").src = "http://bdimg.share.baidu.com/static/js/shell_v2.js?cdnversion=" + Math.ceil(new Date()/3600000)
+</script>
+<!-- Baidu Button END -->
+
+ 
+
+        <div id="digg" articleid="9310715">
+            <dl id="btnDigg" class="digg digg_disable" onclick="btndigga();">
+               
+                 <dt>顶</dt>
+                <dd>1</dd>
+            </dl>
+           
+              
+            <dl id="btnBury" class="digg digg_disable" onclick="btnburya();">
+              
+                  <dt>踩</dt>
+                <dd>0</dd>               
+            </dl>
+            
+        </div>
+     <div class="tracking-ad" data-mod="popu_222"><a href="javascript:void(0);">&nbsp;</a>   </div>
+    <div class="tracking-ad" data-mod="popu_223"> <a href="javascript:void(0);">&nbsp;</a></div>
+    <script type="text/javascript">
+                function btndigga() {
+                    $(".tracking-ad[data-mod='popu_222'] a").click();
+                }
+                function btnburya() {
+                    $(".tracking-ad[data-mod='popu_223'] a").click();
+                }
+            </script>
+
+   <ul class="article_next_prev">
+                <li class="prev_article"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_shangyipian&#39;]);location.href=&#39;/stephenxu111/article/details/9053945&#39;;">上一篇</span><a href="http://blog.csdn.net/stephenxu111/article/details/9053945" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_shangyipian&#39;])">ACE_Time_Value使用注意事项（续）</a></li>
+                <li class="next_article"><span onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_xiayipian&#39;]);location.href=&#39;/stephenxu111/article/details/9359359&#39;;">下一篇</span><a href="http://blog.csdn.net/stephenxu111/article/details/9359359" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_xiayipian&#39;])">english learning for my little girl</a></li>
+    </ul>
+
+    <div style="clear:both; height:10px;"></div>
+
+
+        <div class="similar_article" style="">
+                <h4>我的同类文章</h4>
+                <div class="similar_c" style="margin:20px 0px 0px 0px">
+                    <div class="similar_c_t">
+                                <label class="similar_cur">
+                                    <span style="cursor:pointer" onclick="GetCategoryArticles(&#39;389177&#39;,&#39;stephenxu111&#39;,&#39;foot&#39;,&#39;9310715&#39;);">数据库<em>（26）</em></span>
+                                </label>
+                    </div>
+                   
+                    <div class="similar_wrap tracking-ad" data-mod="popu_141" style="max-height:195px;">
+                        <a href="http://blog.csdn.net/" style="display:none">http://blog.csdn.net</a>
+                        <ul class="similar_list fl"><li><em>•</em><a href="http://blog.csdn.net/stephenxu111/article/details/8979265" id="foot_aritcle_8979265undefined17934153182432055" target="_blank" title="MySQL ODBC connector 在windows下自动安装的一个问题">MySQL ODBC connector 在windows下自动安装的一个问题</a><span>2013-05-27</span><label><i>阅读</i><b>5625</b></label></li> <li><em>•</em><a href="http://blog.csdn.net/stephenxu111/article/details/6077858" id="foot_aritcle_6077858undefined1624974012374878" target="_blank" title="查询数据库当前用户连接信息（MySQL，Oracle）">查询数据库当前用户连接信息（MySQL，Oracle）</a><span>2010-12-15</span><label><i>阅读</i><b>3899</b></label></li> <li><em>•</em><a href="http://blog.csdn.net/stephenxu111/article/details/5949347" id="foot_aritcle_5949347undefined9593146278057247" target="_blank" title="ORA-12514: TNS: 监听程序当前无法识别连接描述符中请求的服务">ORA-12514: TNS: 监听程序当前无法识别连接描述符中请求的服务</a><span>2010-10-18</span><label><i>阅读</i><b>2149</b></label></li> <li><em>•</em><a href="http://blog.csdn.net/stephenxu111/article/details/5491763" id="foot_aritcle_5491763undefined7168005248531699" target="_blank" title="使用mysqldump导出多表到一个文件">使用mysqldump导出多表到一个文件</a><span>2010-04-16</span><label><i>阅读</i><b>8401</b></label></li> <li><em>•</em><a href="http://blog.csdn.net/stephenxu111/article/details/4942054" id="foot_aritcle_4942054undefined9993152834940702" target="_blank" title="ora-12154 TNS：&quot;无法处理服务名&quot;">ora-12154 TNS："无法处理服务名"</a><span>2009-12-04</span><label><i>阅读</i><b>846</b></label></li> </ul>
+
+                        <ul class="similar_list fr"><li><em>•</em><a href="http://blog.csdn.net/stephenxu111/article/details/6401502" id="foot_aritcle_6401502undefined6070011586416513" target="_blank" title="MySQL子查询的性能问题">MySQL子查询的性能问题</a><span>2011-05-07</span><label><i>阅读</i><b>1775</b></label></li> <li><em>•</em><a href="http://blog.csdn.net/stephenxu111/article/details/5980136" id="foot_aritcle_5980136undefined8769280789420009" target="_blank" title="MySQL和Oracle时间取整">MySQL和Oracle时间取整</a><span>2010-11-01</span><label><i>阅读</i><b>5327</b></label></li> <li><em>•</em><a href="http://blog.csdn.net/stephenxu111/article/details/5561724" id="foot_aritcle_5561724undefined5069706237409264" target="_blank" title="SQL语句技巧记录（Oracle + MySQL）">SQL语句技巧记录（Oracle + MySQL）</a><span>2010-05-06</span><label><i>阅读</i><b>860</b></label></li> <li><em>•</em><a href="http://blog.csdn.net/stephenxu111/article/details/5182597" id="foot_aritcle_5182597undefined9871266488917172" target="_blank" title="基于OCCI访问Oracle的记录">基于OCCI访问Oracle的记录</a><span>2010-01-12</span><label><i>阅读</i><b>5062</b></label></li> <li><em>•</em><a href="http://blog.csdn.net/stephenxu111/article/details/4529457" id="foot_aritcle_4529457undefined8913539706263691" target="_blank" title="Oracle 自动归档设置问题">Oracle 自动归档设置问题</a><span>2009-09-07</span><label><i>阅读</i><b>999</b></label></li> </ul>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/389177" class="MoreArticle">更多文章</a></div>
+                </div>
+            </div>    
+    <script type="text/javascript">
+        $(function () {
+            GetCategoryArticles('389177', 'stephenxu111','foot','9310715');
+        });
+    </script>
+      
+</div>
+<div id="suggest">
+
+</div>
+         <script language="javascript" type="text/javascript">     
+             $(function(){
+                 $.get("/stephenxu111/svc/GetSuggestContent/9310715",function(data){
+                     $("#suggest").html(data);
+                 });     
+             });             
+         </script>  
+
+
+<style>
+.blog-ass-articl dd {
+color: #369;
+width: 99%; /*修改行*/
+float: left;
+overflow: hidden;
+font: normal normal 12px/23px "SimSun";
+height: 23px;
+margin: 0;
+padding: 0 0 0 10px;
+margin-right: 30px;
+background: url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;
+}
+</style>
+
+ <link rel="stylesheet" href="http://static.blog.csdn.net/css/replace.css">
+
+<div id="relate" data-mod="popu_218" class="tracking-ad" style="display: block;">
+        <div class="relate_t">
+            <h3><span>参考知识库</span></h3>
+        </div>
+        <div class="relate_c"></div>
+</div>
+ 
+
+<dl class="blog-ass-articl" id="res-relatived"> 
+    <div class="embody embody_b" id="libkeyparent" style="display:none">
+            <span class="embody_t">更多资料请参考：</span>
+            <div class="embody_c" id="libkey"></div>
+    </div>
+
+
+     <dt><span>猜你在找</span></dt>    
+
+
+   
+
+
+    <div id="adCollege" style="width: 42%;float: left;"> 
+        <script src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/job_reco.js" type="text/javascript"></script> 
+        <script type="text/javascript">
+            csdn.position.showEdu({
+                sourceType: "blog",
+                searchType: "detail",
+                searchKey: "9310715",
+                username: "",
+                recordcount: "5",
+                containerId: "adCollege" //容器DIV的id。 
+            });
+        </script> 
+    <div class="tracking-ad" data-mod="popu_84"><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;"><a href="http://edu.csdn.net/course/detail/290" title="MySQL数据库管理" strategy="v4:content" target="_blank">MySQL数据库管理</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;"><a href="http://edu.csdn.net/course/detail/2054" title="《C语言/C++学习指南》数据库篇(MySQL&amp; sqlite)" strategy="v4:content" target="_blank">《C语言/C++学习指南》数据库篇(MySQL&amp; sqlite)</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;"><a href="http://edu.csdn.net/course/detail/2672" title="在VC2015里学会使用MySQL数据库" strategy="v4:content" target="_blank">在VC2015里学会使用MySQL数据库</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;"><a href="http://edu.csdn.net/course/detail/2560" title="ssh+tomcat7.0+easyui+velocity+mysql数据库快速实战开发商业网站" strategy="v4:content" target="_blank">ssh+tomcat7.0+easyui+velocity+mysql数据库快速实战开发商业网站</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px; white-space: nowrap;"><a href="http://edu.csdn.net/course/detail/2850" title="MySQL数据库分布式集群就业培训班" strategy="v4:content" target="_blank">MySQL数据库分布式集群就业培训班</a></dd></div></div>  
+
+    
+     <div id="res" data-mod="popu_36" class="tracking-ad" style="width: 42%; float: left; margin-right: 30px; display: block;"><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/bailyzheng/article/details/8636692" title="MySQL学习总结" strategy="SearchAlgorithm">MySQL学习总结</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/xupan_jsj/article/details/6963814" title="数据库基础概述" strategy="SearchAlgorithm">数据库基础概述</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/ibmfahsion/article/details/7733964" title="《php开发典型模块大全》读书笔记  第三章  mysql数据库基础" strategy="SearchAlgorithm">《php开发典型模块大全》读书笔记  第三章  mysql数据库基础</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/Shirley_John_Thomas/article/details/52469161" title="MySQL基础讲解" strategy="SearchAlgorithm">MySQL基础讲解</a></dd><dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="http://blog.csdn.net/u013321328/article/details/48653005" title="数据库" strategy="SearchAlgorithm">数据库</a></dd></div>
+   
+</dl>
+
+
+<script type="text/javascript">
+    $(function () {
+        setTimeout(function () {
+            var searchtitletags = 'mysqldump使用常用参数说明' + ',' + $("#tags").html();
+            searchService({
+                index: 'blog',
+                query: searchtitletags,
+                from: 5,
+                size: 5,
+                appendTo: '#res',
+                url: 'recommend',
+                his: 2,
+                client: "blog_cf_enhance",
+                tmpl: '<dd style="background:url(http://static.blog.csdn.net/skin/default/images/blog-dot-red3.gif) no-repeat 0 10px;"><a href="#{ url }" title="#{ title }" strategy="#{ strategy }">#{ title }</a></dd>'
+            });
+        }, 500);
+    });    
+
+ </script>  
+
+    <div id="ad_cen">        
+<!-- 广告位开始 -->
+<ins data-revive-zoneid="71" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins>
+<!-- 广告位结束 -->    </div>  
+
+<div class="comment_class">
+    <div id="comment_title" class="panel_head">
+        <span class="see_comment">查看评论</span><a name="comments"></a></div>
+    <div id="comment_list"><br>&nbsp;&nbsp;暂无评论<br><br><div class="clear"></div></div>
+    <div id="comment_bar">
+    </div>
+    <div id="comment_form"><div class="guest_link">您还没有登录,请<a href="javascript:void(0);" onclick="javascript:loginbox();">[登录]</a>或<a href="http://passport.csdn.net/account/register?from=http%3A%2F%2Fblog.csdn.net%2Fstephenxu111%2Farticle%2Fdetails%2F9310715">[注册]</a></div></div>
+    <div class="announce">
+        * 以上用户言论只代表其个人观点，不代表CSDN网站的观点或立场<a name="reply"></a><a name="quote"></a></div>
+</div>
+
+<script type="text/javascript">
+    var fileName = '9310715';
+    var commentscount = 0;
+    var islock = false
+</script>
+<script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/comment.js"></script>
+    <div id="ad_bot">
+    </div>
+<div id="report_dialog">
+</div>
+
+<div id="d-top" style="bottom:60px;">
+        <a id="quick-reply" class="btn btn-top q-reply" title="快速回复" style="display:none;">
+            <img src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/blog-icon-reply.png" alt="快速回复">
+        </a>    
+
+    <a id="d-top-a" class="btn btn-top backtop" style="display: none;" title="返回顶部" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_huidaodingbu&#39;])">         
+         <img src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/top.png" alt="TOP">
+    </a>
+</div>
+<script type="text/javascript">
+    $(function ()
+    {
+        $("#ad_frm_0").height("90px");
+        
+        setTimeout(function(){
+            $("#ad_frm_2").height("200px");
+        },1000);    
+    });
+  
+</script>
+<style type="text/css">
+    .tag_list
+    {
+        background: none repeat scroll 0 0 #FFFFFF;
+        border: 1px solid #D7CBC1;
+        color: #000000;
+        font-size: 12px;
+        line-height: 20px;
+        list-style: none outside none;
+        margin: 10px 2% 0 1%;
+        padding: 1px;
+    }
+    .tag_list h5
+    {
+        background: none repeat scroll 0 0 #E0DBD3;
+        color: #47381C;
+        font-size: 12px;
+        height: 24px;
+        line-height: 24px;
+        padding: 0 5px;
+        margin: 0;
+    }
+    .tag_list h5 a
+    {
+        color: #47381C;
+    }
+    .classify
+    {
+        margin: 10px 0;
+        padding: 4px 12px 8px;
+    }
+    .classify a
+    {
+        margin-right: 20px;
+        white-space: nowrap;
+    }
+</style>
+
+
+<div class="tag_list" style="">
+
+    <h5>
+        <a href="http://www.csdn.net/tag/" target="_blank">核心技术类目</a></h5>
+    <div class="classify">
+<a title="全部主题" href="http://www.csdn.net/tag" target="_blank" onclick="LogClickCount(this,336);">全部主题</a>
+<a title="Hadoop" href="http://g.csdn.net/5272865" target="_blank" onclick="LogClickCount(this,336);">Hadoop</a>
+<a title="AWS" href="http://g.csdn.net/5272866" target="_blank" onclick="LogClickCount(this,336);">AWS</a>
+<a title="移动游戏" href="http://g.csdn.net/5272870" target="_blank" onclick="LogClickCount(this,336);">移动游戏</a>
+<a title="Java" href="http://g.csdn.net/5272871" target="_blank" onclick="LogClickCount(this,336);">Java</a>
+<a title="Android" href="http://g.csdn.net/5272872" target="_blank" onclick="LogClickCount(this,336);">Android</a>
+<a title="iOS" href="http://g.csdn.net/5272873" target="_blank" onclick="LogClickCount(this,336);">iOS</a>
+<a title="Swift" href="http://g.csdn.net/5272868" target="_blank" onclick="LogClickCount(this,336);">Swift</a>
+<a title="智能硬件" href="http://g.csdn.net/5272869" target="_blank" onclick="LogClickCount(this,336);">智能硬件</a>
+<a title="Docker" href="http://g.csdn.net/5272867" target="_blank" onclick="LogClickCount(this,336);">Docker</a>
+<a title="OpenStack" href="http://g.csdn.net/5272925" target="_blank" onclick="LogClickCount(this,336);">OpenStack</a>
+<a title="VPN" href="http://www.csdn.net/tag/vpn" target="_blank" onclick="LogClickCount(this,336);">VPN</a>
+<a title="Spark" href="http://g.csdn.net/5272924" target="_blank" onclick="LogClickCount(this,336);">Spark</a>
+<a title="ERP" href="http://www.csdn.net/tag/erp" target="_blank" onclick="LogClickCount(this,336);">ERP</a>
+<a title="IE10" href="http://www.csdn.net/tag/ie10" target="_blank" onclick="LogClickCount(this,336);">IE10</a>
+<a title="Eclipse" href="http://www.csdn.net/tag/eclipse" target="_blank" onclick="LogClickCount(this,336);">Eclipse</a>
+<a title="CRM" href="http://www.csdn.net/tag/crm" target="_blank" onclick="LogClickCount(this,336);">CRM</a>
+<a title="JavaScript" href="http://www.csdn.net/tag/javascript" target="_blank" onclick="LogClickCount(this,336);">JavaScript</a>
+<a title="数据库" href="http://www.csdn.net/tag/%E6%95%B0%E6%8D%AE%E5%BA%93" target="_blank" onclick="LogClickCount(this,336);">数据库</a>
+<a title="Ubuntu" href="http://www.csdn.net/tag/ubuntu" target="_blank" onclick="LogClickCount(this,336);">Ubuntu</a>
+<a title="NFC" href="http://www.csdn.net/tag/nfc" target="_blank" onclick="LogClickCount(this,336);">NFC</a>
+<a title="WAP" href="http://www.csdn.net/tag/wap" target="_blank" onclick="LogClickCount(this,336);">WAP</a>
+<a title="jQuery" href="http://www.csdn.net/tag/jquery" target="_blank" onclick="LogClickCount(this,336);">jQuery</a>
+<a title="BI" href="http://www.csdn.net/tag/bi" target="_blank" onclick="LogClickCount(this,336);">BI</a>
+<a title="HTML5" href="http://www.csdn.net/tag/html5" target="_blank" onclick="LogClickCount(this,336);">HTML5</a>
+<a title="Spring" href="http://www.csdn.net/tag/spring" target="_blank" onclick="LogClickCount(this,336);">Spring</a>
+<a title="Apache" href="http://www.csdn.net/tag/apache" target="_blank" onclick="LogClickCount(this,336);">Apache</a>
+<a title=".NET" href="http://www.csdn.net/tag/.net" target="_blank" onclick="LogClickCount(this,336);">.NET</a>
+<a title="API" href="http://www.csdn.net/tag/api" target="_blank" onclick="LogClickCount(this,336);">API</a>
+<a title="HTML" href="http://www.csdn.net/tag/html" target="_blank" onclick="LogClickCount(this,336);">HTML</a>
+<a title="SDK" href="http://www.csdn.net/tag/sdk" target="_blank" onclick="LogClickCount(this,336);">SDK</a>
+<a title="IIS" href="http://www.csdn.net/tag/iis" target="_blank" onclick="LogClickCount(this,336);">IIS</a>
+<a title="Fedora" href="http://www.csdn.net/tag/fedora" target="_blank" onclick="LogClickCount(this,336);">Fedora</a>
+<a title="XML" href="http://www.csdn.net/tag/xml" target="_blank" onclick="LogClickCount(this,336);">XML</a>
+<a title="LBS" href="http://www.csdn.net/tag/lbs" target="_blank" onclick="LogClickCount(this,336);">LBS</a>
+<a title="Unity" href="http://www.csdn.net/tag/unity" target="_blank" onclick="LogClickCount(this,336);">Unity</a>
+<a title="Splashtop" href="http://www.csdn.net/tag/splashtop" target="_blank" onclick="LogClickCount(this,336);">Splashtop</a>
+<a title="UML" href="http://www.csdn.net/tag/uml" target="_blank" onclick="LogClickCount(this,336);">UML</a>
+<a title="components" href="http://www.csdn.net/tag/components" target="_blank" onclick="LogClickCount(this,336);">components</a>
+<a title="Windows Mobile" href="http://www.csdn.net/tag/windowsmobile" target="_blank" onclick="LogClickCount(this,336);">Windows Mobile</a>
+<a title="Rails" href="http://www.csdn.net/tag/rails" target="_blank" onclick="LogClickCount(this,336);">Rails</a>
+<a title="QEMU" href="http://www.csdn.net/tag/qemu" target="_blank" onclick="LogClickCount(this,336);">QEMU</a>
+<a title="KDE" href="http://www.csdn.net/tag/kde" target="_blank" onclick="LogClickCount(this,336);">KDE</a>
+<a title="Cassandra" href="http://www.csdn.net/tag/cassandra" target="_blank" onclick="LogClickCount(this,336);">Cassandra</a>
+<a title="CloudStack" href="http://www.csdn.net/tag/cloudstack" target="_blank" onclick="LogClickCount(this,336);">CloudStack</a>
+<a title="FTC" href="http://www.csdn.net/tag/ftc" target="_blank" onclick="LogClickCount(this,336);">FTC</a>
+<a title="coremail" href="http://www.csdn.net/tag/coremail" target="_blank" onclick="LogClickCount(this,336);">coremail</a>
+<a title="OPhone " href="http://www.csdn.net/tag/ophone" target="_blank" onclick="LogClickCount(this,336);">OPhone </a>
+<a title="CouchBase" href="http://www.csdn.net/tag/couchbase" target="_blank" onclick="LogClickCount(this,336);">CouchBase</a>
+<a title="云计算" href="http://www.csdn.net/tag/%E4%BA%91%E8%AE%A1%E7%AE%97" target="_blank" onclick="LogClickCount(this,336);">云计算</a>
+<a title="iOS6" href="http://www.csdn.net/tag/iOS6" target="_blank" onclick="LogClickCount(this,336);">iOS6</a>
+<a title="Rackspace " href="http://www.csdn.net/tag/rackspace" target="_blank" onclick="LogClickCount(this,336);">Rackspace </a>
+<a title="Web App" href="http://www.csdn.net/tag/webapp" target="_blank" onclick="LogClickCount(this,336);">Web App</a>
+<a title="SpringSide" href="http://www.csdn.net/tag/springside" target="_blank" onclick="LogClickCount(this,336);">SpringSide</a>
+<a title="Maemo" href="http://www.csdn.net/tag/maemo" target="_blank" onclick="LogClickCount(this,336);">Maemo</a>
+<a title="Compuware" href="http://www.csdn.net/tag/compuware" target="_blank" onclick="LogClickCount(this,336);">Compuware</a>
+<a title="大数据" href="http://www.csdn.net/tag/%E5%A4%A7%E6%95%B0%E6%8D%AE" target="_blank" onclick="LogClickCount(this,336);">大数据</a>
+<a title="aptech" href="http://www.csdn.net/tag/aptech" target="_blank" onclick="LogClickCount(this,336);">aptech</a>
+<a title="Perl" href="http://www.csdn.net/tag/perl" target="_blank" onclick="LogClickCount(this,336);">Perl</a>
+<a title="Tornado" href="http://www.csdn.net/tag/tornado" target="_blank" onclick="LogClickCount(this,336);">Tornado</a>
+<a title="Ruby" href="http://www.csdn.net/tag/ruby" target="_blank" onclick="LogClickCount(this,336);">Ruby</a>
+<a title="Hibernate" href="http://www.csdn.net/hibernate" target="_blank" onclick="LogClickCount(this,336);">Hibernate</a>
+<a title="ThinkPHP" href="http://www.csdn.net/tag/thinkphp" target="_blank" onclick="LogClickCount(this,336);">ThinkPHP</a>
+<a title="HBase" href="http://www.csdn.net/tag/hbase" target="_blank" onclick="LogClickCount(this,336);">HBase</a>
+<a title="Pure" href="http://www.csdn.net/tag/pure" target="_blank" onclick="LogClickCount(this,336);">Pure</a>
+<a title="Solr" href="http://www.csdn.net/tag/solr" target="_blank" onclick="LogClickCount(this,336);">Solr</a>
+<a title="Angular" href="http://www.csdn.net/tag/angular" target="_blank" onclick="LogClickCount(this,336);">Angular</a>
+<a title="Cloud Foundry" href="http://www.csdn.net/tag/cloudfoundry" target="_blank" onclick="LogClickCount(this,336);">Cloud Foundry</a>
+<a title="Redis" href="http://www.csdn.net/tag/redis" target="_blank" onclick="LogClickCount(this,336);">Redis</a>
+<a title="Scala" href="http://www.csdn.net/tag/scala" target="_blank" onclick="LogClickCount(this,336);">Scala</a>
+<a title="Django" href="http://www.csdn.net/tag/django" target="_blank" onclick="LogClickCount(this,336);">Django</a>
+<a title="Bootstrap" href="http://www.csdn.net/tag/bootstrap" target="_blank" onclick="LogClickCount(this,336);">Bootstrap</a>
+    </div>
+
+</div>
+  <script language="javascript" type="text/javascript">     
+      $(function(){
+              setTimeout(function(){
+                  $.get("/stephenxu111/svc/GetTagContent",function(data){
+                      $(".tag_list").html(data).show();
+                  });     
+              });
+          },500);                       
+ </script> 
+
+
+<div id="pop_win" style="display:none ;position: absolute; z-index: 10000; border: 1px solid rgb(220, 220, 220); top: 222.5px; left: 630px; opacity: 1; background: none 0px 0px repeat scroll rgb(255, 255, 255);">
+    
+</div>
+<div id="popup_mask"></div>
+<style>
+    #popup_mask
+    {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #000;
+        z-index: 9999;
+        left: 0px;
+        top: 0px;
+        opacity: 0.3;
+        filter: alpha(opacity=30);
+        display: none;
+    }
+
+</style>
+
+
+
+
+<script type="text/javascript">
+    $(function(){
+        setTimeout(function(){
+            $(".comment_body:contains('回复')").each(function(index,item){
+                var u=$(this).text().split('：')[0].toString().replace("回复","")
+                var thisComment=$(this);
+                if(u)
+                {
+                    $.getJSON("https://passport.csdn.net/get/nick?callback=?", {users: u}, function(a) {
+                        if(a!=null&&a.data!=null&&a.data.length>0)
+                        {
+                            nick=a.data[0].n; 
+                            if(u!=nick)
+                            {
+                                thisComment.text(thisComment.text().replace(u,nick));  
+                            }
+                        }       
+                    });  
+                }
+            });         
+
+        },200);  
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },5000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },10000);
+
+        setTimeout(function(){
+            $(".math").each(function(index,value){$(this).find("span").last().css("color","#fff"); })
+        },15000);
+        
+        setTimeout(function(){
+            $("a img[src='http://js.tongji.linezing.com/stats.gif']").parent().css({"position":"absolute","left":"50%"});
+        },300);
+    });
+
+    function loginbox(){
+        var $logpop=$("#pop_win");
+        $logpop.html('<iframe src="https://passport.csdn.net/account/loginbox?service=http://static.blog.csdn.net/callback.htm" frameborder="0" height="600" width="400" scrolling="no"></iframe>');
+
+        $('#popup_mask').css({
+            opacity: 0.5,
+            width: $( document ).width() + 'px',
+            height:  $( document ).height() + 'px'
+        });
+        $('#popup_mask').css("display","block");
+ 
+        $logpop.css( {
+            top: ($( window ).height() - $logpop.height())/ 2  + $( window 
+       ).scrollTop() + 'px',
+            left:($( window ).width() - $logpop.width())/ 2
+        } );
+ 
+        setTimeout( function () {
+            $logpop.show();
+            $logpop.css( {
+                opacity: 1
+            } );
+        }, 200 );
+ 
+        $('#popup_mask').unbind("click");
+        $('#popup_mask').bind("click", function(){
+            $('#popup_mask').hide();
+            var $clopop = $("#pop_win");
+            $("#common_ask_div_sc").css("display","none");
+            $clopop.css( {
+                opacity: 0
+            } );
+            setTimeout( function () {
+                $clopop.hide();
+            }, 350 );
+            return false;
+        });
+    }   
+
+</script>
+ <script language="javascript" type="text/javascript" src="http://ads.csdn.net/js/async_new.js"></script>      
+
+
+                        <div class="clear">
+                        </div>
+                    </div>                   
+                
+            </div>
+                   
+           <div id="side">
+               
+    <div class="side">
+<div id="panel_Profile" class="panel">
+<ul class="panel_head"><span>个人资料</span></ul>
+<ul class="panel_body profile">
+<div id="blog_userface">
+    <a href="http://my.csdn.net/stephenxu111" target="_blank">
+    <img src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/1_stephenxu111.jpg" title="访问我的空间" style="max-width:90%">
+    </a>
+    <br>
+    <span><a href="http://my.csdn.net/stephenxu111" class="user_name" target="_blank">stephenxu111</a></span>
+</div>
+<div class="interact">
+
+    <a href="javascript:void(0);" class="attent" id="span_add_follow" title="[加关注]"></a>
+
+ <a href="javascript:void(0);" class="letter" title="[发私信]" onclick="window.open(&#39;http://msg.csdn.net/letters/model?receiver=stephenxu111&#39;,&#39;_blank&#39;,&#39;height=350,width=700&#39;);_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_sixin&#39;])"></a>  
+</div>
+<div id="blog_medal">
+                       <div class="ico_expert" onclick="javascript:location=&#39;http://blog.csdn.net/experts/rule.html&#39;" title="CSDN认证专家" style="cursor:pointer;width:60px;height:60px;background:url(&#39;http://c.csdnimg.cn/jifen/images/xunzhang/xunzhang/bokezhuanjiamiddle.png&#39;) no-repeat"></div>
+                <div id="bms_box">
+               </div>
+</div>
+<ul id="blog_rank">
+    <li>访问：<span>531005次</span></li>
+    <li>积分：<span>6717</span> </li>    
+    <li>等级： <span style="position:relative;display:inline-block;z-index:1">
+            <img src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/blog6.png" alt="" style="vertical-align: middle;" id="leveImg">
+            <div id="smallTittle" style=" position: absolute;  left: -24px;  top: 25px;  text-align: center;  width: 101px;  height: 32px;  background-color: #fff;  line-height: 32px;  border: 2px #DDDDDD solid;  box-shadow: 0px 2px 2px rgba (0,0,0,0.1);  display: none;   z-index: 999;">
+            <div style="left: 42%;  top: -8px;  position: absolute;  width: 0;  height: 0;  border-left: 10px solid transparent;  border-right: 10px solid transparent;  border-bottom: 8px solid #EAEAEA;"></div>
+            积分：6717 </div>
+        </span>  </li>
+    <li>排名：<span>第2457名</span></li>
+</ul>
+<ul id="blog_statistics">
+    <li>原创：<span>145篇</span></li>
+    <li>转载：<span>10篇</span></li>
+    <li>译文：<span>1篇</span></li>
+    <li>评论：<span>97条</span></li>
+</ul>
+</ul>
+</div>
+
+
+<div class="panel" id="panel_Search">
+    <ul class="panel_head"><span>文章搜索</span></ul>
+    <ul class="panel_body">
+        <form id="frmSearch" action="http://so.csdn.net/search" class="form_search" target="_blank">
+        <span><input id="inputSearch" type="text" class="blogsearch" title="请输入关键字"></span>
+        <input id="btnSubmit" type="button" value="搜索" title="search in blog">
+        <input type="hidden" name="q" id="inputQ">
+        <input type="hidden" name="t" value="blog">
+        <a id="btnSearchBlog" target="_blank"></a>
+        </form>
+    </ul>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#btnSubmit").click(function () {           
+            search();
+        });
+
+        $("#frmSearch").submit(function () {
+            search();
+            return false;
+        });
+
+        function search()
+        {
+            var url = "http://so.csdn.net/so/search/s.do?q=" + encodeURIComponent($("#inputSearch").val()) + "&u=" + username + "&t=blog";
+            window.location.href = url;
+        }   
+    });
+</script><div id="panel_Category" class="panel">
+<ul class="panel_head"><span>文章分类</span></ul>
+<ul class="panel_body">    
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/389158" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">配置管理</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/389179" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">网管开发</a><span>(43)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/687870" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">华为网管</a><span>(14)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/389156" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">C/C++</a><span>(36)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/393620" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">ACE</a><span>(9)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/1617313" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Node.js</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/389177" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">数据库</a><span>(27)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/389155" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">工作感受</a><span>(14)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/712990" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">云中漫步</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/411205" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Erlang</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/389249" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Linux</a><span>(6)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/389178" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">生活点滴</a><span>(7)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/539578" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">Android</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/703205" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">系统架构</a><span>(1)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/389157" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">网游研究</a><span>(2)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/571494" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">网络管理</a><span>(11)</span>
+                </li>
+                 <li>
+                    <a href="http://blog.csdn.net/stephenxu111/article/category/390564" onclick="_gaq.push([&#39;_trackEvent&#39;,&#39;function&#39;, &#39;onclick&#39;, &#39;blog_articles_wenzhangfenlei&#39;]); ">英语学习</a><span>(5)</span>
+                </li>
+</ul>
+</div><div id="panel_Archive" class="panel">
+<ul class="panel_head"><span>文章存档</span></ul>
+<ul class="panel_body">
+<div id="archive_list"><li><a href="http://blog.csdn.net/stephenxu111/article/month/2014/05">2014年05月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2013/10">2013年10月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2013/09">2013年09月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2013/07">2013年07月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2013/06">2013年06月</a><span>(1)</span></li><span class="hidelist" style="display:none;"><li><a href="http://blog.csdn.net/stephenxu111/article/month/2013/05">2013年05月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2013/02">2013年02月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2013/01">2013年01月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2012/07">2012年07月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2012/05">2012年05月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2012/04">2012年04月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2012/01">2012年01月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2011/08">2011年08月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2011/07">2011年07月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2011/05">2011年05月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2010/12">2010年12月</a><span>(3)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2010/11">2010年11月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2010/10">2010年10月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2010/09">2010年09月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2010/08">2010年08月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2010/07">2010年07月</a><span>(11)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2010/06">2010年06月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2010/05">2010年05月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2010/04">2010年04月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2010/02">2010年02月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2010/01">2010年01月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2009/12">2009年12月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2009/10">2009年10月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2009/09">2009年09月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2009/08">2009年08月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2009/07">2009年07月</a><span>(4)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2009/06">2009年06月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2009/05">2009年05月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2009/04">2009年04月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2009/02">2009年02月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2008/12">2008年12月</a><span>(5)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2008/11">2008年11月</a><span>(7)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2008/10">2008年10月</a><span>(6)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2008/08">2008年08月</a><span>(1)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2008/07">2008年07月</a><span>(2)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2008/06">2008年06月</a><span>(12)</span></li><li><a href="http://blog.csdn.net/stephenxu111/article/month/2008/05">2008年05月</a><span>(32)</span></li></span><div id="archive_list_button" class="list_closed">展开</div></div>
+</ul>
+</div>
+<div id="hotarticls" class="panel">
+<ul class="panel_head">
+    <span>       
+阅读排行    </span>
+</ul>
+
+<ul class="panel_body itemlist">
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/2465229" title="建立Windows下面的syslog日志服务器">建立Windows下面的syslog日志服务器</a><span>(40307)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/5807673" title="华为U2000网管研究实录 (1) - 安装">华为U2000网管研究实录 (1) - 安装</a><span>(15753)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/2446382" title="C++树的实现">C++树的实现</a><span>(13409)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/5593538" title="华为U2000统一网管 ">华为U2000统一网管 </a><span>(12801)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/5689948" title="更改终端服务（RDP 远程桌面） 默认3389端口">更改终端服务（RDP 远程桌面） 默认3389端口</a><span>(12742)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/4436181" title="MySQL汉字字段按拼音排序">MySQL汉字字段按拼音排序</a><span>(11902)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/6641810" title="“掌上运维” – 下一代网管的思考">“掌上运维” – 下一代网管的思考</a><span>(10384)</span>
+</li>
+<li>
+<a href="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET.html" title="mysqldump使用常用参数说明">mysqldump使用常用参数说明</a><span>(10291)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/4233742" title="Ubuntu Wubi安装">Ubuntu Wubi安装</a><span>(9912)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/4142761" title="华为T2000网管系统分析(2)">华为T2000网管系统分析(2)</a><span>(8523)</span>
+</li>
+</ul>
+</div>
+<div id="hotarticls2" class="panel">
+<ul class="panel_head"><span>评论排行</span></ul>
+<ul class="panel_body itemlist">
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/5807673" title="华为U2000网管研究实录 (1) - 安装">华为U2000网管研究实录 (1) - 安装</a><span>(6)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/2424520" title="C++使用心得">C++使用心得</a><span>(4)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/5182597" title="基于OCCI访问Oracle的记录">基于OCCI访问Oracle的记录</a><span>(4)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/2446382" title="C++树的实现">C++树的实现</a><span>(4)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/2622145" title="开发一个基于Erlang的网管代理">开发一个基于Erlang的网管代理</a><span>(4)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/5902952" title="华为U2000网管研究实录 (4) - 运行分析（系统监控客户端）">华为U2000网管研究实录 (4) - 运行分析（系统监控客户端）</a><span>(3)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/2690748" title="虚拟串口实现">虚拟串口实现</a><span>(3)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/7409808" title="技术招聘的经验教训">技术招聘的经验教训</a><span>(3)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/25990127" title="sip软电话yate client的编译过程">sip软电话yate client的编译过程</a><span>(3)</span>
+</li>
+<li>
+<a href="http://blog.csdn.net/stephenxu111/article/details/2396512" title="项目组小型任务管理工具-ToDoList">项目组小型任务管理工具-ToDoList</a><span>(3)</span>
+</li>
+</ul>
+</div>
+<div id="homepageArticles" class="panel tracking-ad" data-mod="popu_4">
+<ul class="panel_head"><span>推荐文章</span></ul>
+<ul class="panel_body" id="ad_commend">
+<ul>
+<li><a href="http://blog.csdn.net/googdev/article/details/52575079" target="_blank">* 2016 年最受欢迎的编程语言是什么？</a></li>
+<li><a href="http://blog.csdn.net/luoshengyang/article/details/52420761" target="_blank">* Chromium扩展（Extension）的页面（Page）加载过程分析</a></li>
+<li><a href="http://blog.csdn.net/googdev/article/details/52598892" target="_blank">* Android Studio 2.2 来啦</a></li>
+<li><a href="http://blog.csdn.net/anddlecn/article/details/52608697" target="_blank">* 手把手教你做音乐播放器（二）技术原理与框架设计</a></li>
+<li><a href="http://blog.csdn.net/defonds/article/details/52605670" target="_blank">* JVM 性能调优实战之：使用阿里开源工具 TProfiler 在海量业务代码中精确定位性能代码</a></li>
+
+
+</ul></ul>
+</div>
+
+
+<div id="newcomments" class="panel">
+<ul class="panel_head"><span>最新评论</span></ul>
+<ul class="panel_body itemlist">
+    <li>
+   
+         <a href="http://blog.csdn.net/stephenxu111/article/details/2448757#comments">ToDoList源码研究</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/llb0312" class="user_name">llb0312</a>:
+有点不懂
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/stephenxu111/article/details/2442773#comments">调整ACE日志时间输出格式</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/cqchengdan" class="user_name">cqchengdan</a>:
+我用ACE_DEBUG ((LM_INFO, ACE_TEXT ("hello")))可以正常编译运...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/stephenxu111/article/details/4941792#comments">艾德威特的Web NMS的OEM网管方案评估</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/WebNMS" class="user_name">WebNMS</a>:
+北京长河网络的CrossNMS 是基于Web的NMS产品, 可以完全替代国外同类产品。与 Zoho的...
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/stephenxu111/article/details/2446382#comments">C++树的实现</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/u011692164" class="user_name">calabash0210</a>:
+给个使用的例子可好？
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/stephenxu111/article/details/5807673#comments">华为U2000网管研究实录 (1) - 安装</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/qq_17118623" class="user_name">qq_17118623</a>:
+想问一下。。密码是什么。啊。
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/stephenxu111/article/details/2465229#comments">建立Windows下面的syslog日志服务器</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/woshuolisansi" class="user_name">woshuolisansi</a>:
+有乱码
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/stephenxu111/article/details/7187379#comments">程序员职业情商训练</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/Lshengcai" class="user_name">lishengcai6</a>:
+good
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/stephenxu111/article/details/2396512#comments">项目组小型任务管理工具-ToDoList</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/lvxialilin" class="user_name">lvxialilin</a>:
+你好！请教“管理员用ToDoList客户端在一个公共服务器上建立一个任务列表文件”这一步怎么配置啊？
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/stephenxu111/article/details/2396512#comments">C++树的实现</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/u013992365" class="user_name">骑小驴</a>:
+有点错误
+    </p>
+    </li>
+    <li>
+   
+         <a href="http://blog.csdn.net/stephenxu111/article/details/3669432#comments">如何对本机进程间端口通信抓包</a>
+    <p style="margin:0px;"><a href="http://blog.csdn.net/minidick" class="user_name">minidick</a>:
+非常感谢！
+    </p>
+    </li>
+</ul>
+</div>
+
+
+<div id="custom_column_986518" class="panel">
+<ul class="panel_head"><span>我的资源</span></ul>
+<ul class="panel_body">
+<ul><li><a href="http://www.codeproject.com/" target="_blank">CodeProject</a></li><li><a href="http://www.oschina.net/" target="_blank">开源中国社区</a></li><li><a href="http://www.opennms.org/" target="_blank">OpenNMS</a></li><li><a href="http://www.infoq.com/cn/" target="_blank">InfoQ中文</a></li><li><a href="http://www.cloudcomputing-china.cn/" target="_blank">中国云计算网</a></li></ul>
+</ul>
+</div>    </div>
+    <div class="clear">
+    </div>
+
+
+                   <!-- 广告位开始 --> 
+                    <ins data-revive-zoneid="190" data-revive-id="8c38e720de1c90a6f6ff52f3f89c4d57"></ins> 
+                    <!-- 广告位结束 -->
+
+           </div>   
+
+            <div class="clear">
+            </div>
+        </div>
+
+        
+
+<script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/cnick.js"></script>
+<script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/newblog.min.js"></script>
+
+
+<script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/showblogmedal.ashx"></script>
+<script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/JavaScript1.js"></script><link rel="stylesheet" type="text/css" href="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/pub_footer_2014.css"><div class="pub_fo"><div id="pub_footerall" class="pub_footer_new"><dl><dt></dt> <dd class="foot_sub_menu"><a href="http://www.csdn.net/company/about.html" target="_blank">公司简介</a><span>|</span><a href="http://www.csdn.net/company/recruit.html" target="_blank">招贤纳士</a><span>|</span><a href="http://www.csdn.net/company/marketing.html" target="_blank">广告服务</a><span>|</span><a href="http://www.csdn.net/company/account.html" target="_blank">银行汇款帐号</a><span>|</span><a href="http://www.csdn.net/company/contact.html" target="_blank">联系方式</a><span>|</span><a href="http://www.csdn.net/company/statement.html" target="_blank">版权声明</a><span>|</span><a href="http://www.csdn.net/company/layer.html" target="_blank">法律顾问</a><span>|</span><a href="mailto:webmaster@csdn.net">问题报告</a><span>|</span><a target="_blank" href="http://www.csdn.net/friendlink.html">合作伙伴</a><span>|</span><a href="http://bbs.csdn.net/forums/Service" target="_blank">论坛反馈</a></dd><dd class="foot_contact"><a href="javascript:void(0);" target="_blank" class="qq">网站客服</a><a href="http://wpa.qq.com/msgrd?v=3&uin=2251809102&site=qq&menu=yes" target="_blank" class="qq">杂志客服</a><a href="http://e.weibo.com/csdnsupport/profile" target="_blank" class="weibo">微博客服</a><a href="mailto:webmaster@csdn.net" class="email" title="联系邮箱">webmaster@csdn.net</a><span class="phone" title="服务热线">400-600-2320</span><span class="interval">|</span><span>北京创新乐知信息技术有限公司 版权所有</span><span class="interval">|</span><span>江苏乐知网络技术有限公司 提供商务支持</span></dd><dd class="foot_copyright"><span>京&nbsp;ICP&nbsp;证&nbsp;09002463&nbsp;号</span><span class="interval">|</span><span>Copyright © 1999-2016, CSDN.NET, All Rights Reserved&nbsp;</span><a href="http://www.hd315.gov.cn/beian/view.asp?bianhao=010202001032100010" target="_blank"><img src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/gongshang_logos.gif" alt="GongshangLogo" title=""></a></dd></dl></div></div><div id="note1" class="csdn_note" style="display:none; position:absolute; z-index:9999; width:440px">  <span class="notice_top_arrow"><span class="inner"></span></span>  <div class="box"></div></div><div class="csdn_notice_tip" style="display:none; position:absolute; z-index:9990; width:170px">  <iframe src="about:blank" frameborder="0" scrolling="no" style="z-index:-1;position:absolute;top:0;left:0;width:100%;height:100%;background:transparent"></iframe>  <div class="tip_text">您有<strong>0</strong>条新通知</div>  <a href="javascript:void 0" class="close2"></a></div><script id="noticeScript" type="text/javascript" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/notify.js"></script>
+
+    <script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/login.js"></script>
+<script type="text/javascript">document.write("<img src=http://counter.csdn.net/pv.aspx?id=24 border=0 width=0 height=0>");</script><img src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/pv.aspx" border="0" width="0" height="0">
+<script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/counter.js"></script><script type="text/javascript" charset="UTF-8" src="http://message.csdn.net/msg.popup.js"></script>
+<script type="text/javascript" src="http://ad.csdn.net/scripts/ad-blog.js"></script>
+<script type="text/javascript">
+    $(function () {
+        function __get_code_toolbar(snippet_id) {
+            return $("<span class='tracking-ad' data-mod='popu_167'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "' target='_blank' title='在CODE上查看代码片'  style='text-indent:0;'><img src='https://code.csdn.net/assets/CODE_ico.png' width=12 height=12 alt='在CODE上查看代码片' style='position:relative;top:1px;left:2px;'/></a></span>"
+                    + "<span class='tracking-ad' data-mod='popu_170'><a href='https://code.csdn.net/snippets/"
+                    + snippet_id
+                    + "/fork' target='_blank' title='派生到我的代码片' style='text-indent:0;'><img src='https://code.csdn.net/assets/ico_fork.svg' width=12 height=12 alt='派生到我的代码片' style='position:relative;top:2px;left:2px;'/></a></span>");
+        }
+        
+        $("[code_snippet_id]").each(function () {
+            __s_id = $(this).attr("code_snippet_id");
+            if (__s_id != null && __s_id != "" && __s_id != 0 && parseInt(__s_id) > 70020) {
+                __code_tool = __get_code_toolbar(__s_id);
+                $(this).prev().find(".tools").append(__code_tool);
+            }
+        });
+
+        $(".bar").show();
+    });
+</script>
+
+
+
+
+    </div><input type="hidden" id="aa_g_data_ids">
+      <!--new top-->
+    
+    <script id="csdn-toolbar-id" btnid="header_notice_num" wrapid="note1" count="5" subcount="5" type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/toolbar.js"></script>
+     <!--new top-->
+   
+    <link href="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/ask_float_block.css" type="text/css" rel="stylesheet">
+    <script language="JavaScript" type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/wmd.js"></script>
+    <script language="JavaScript" type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/showdown.js"></script>
+    <script language="JavaScript" type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/prettify.js"></script>
+    <script language="JavaScript" type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/ask_float_block.js"></script>
+   
+
+  <div id="a52b5334d" style="width: 1px; height: 1px; display: none;">
+                    <script id="adJs52b5334" src="http://ads.csdn.net/js/opt/52b5334.js?t=0.17932900739833713"></script>
+                    <script>document.getElementById("adJs52b5334").src = "http://ads.csdn.net/js/opt/52b5334.js?t=" + Math.random();</script>
+   </div>
+
+    <link rel="stylesheet" href="http://static.blog.csdn.net/css/blog_code.css">
+    <script type="text/javascript" src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/saveToCode.js"></script>
+      <script type="text/javascript" src="http://csdnimg.cn/rabbit/tracking-ad/main.js?75eacd8"></script>
+
+   
+ <div id="tag-suggest-pop">
+  <div class="relative">
+    <div class="close"></div>
+    <div class="content"></div>
+  </div>
+</div><link rel="stylesheet" type="text/css" media="screen" href="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/ask_float_fonts_css-6b30a53970eb5c3a2a045e3df585b475.css"><div data-mod="popu_64" class="csdn-tracking-statistics" chg-blk="0"><a id="com-quick-reply" title="快速回复" style="top:462px"></a><a id="com-d-top-a" style="top: 500px; display: block;" title="返回顶部" onclick=""></a> </div><div class="pop_edit ask_second comm_ask_second"><h3>提问</h3><span class="ask_float_span">您的问题将会被发布在“<a class="ask_float_channel" href="http://ask.csdn.net/" target="_blank" style="cursor:pointer">技术问答</a>”频道</span><a href="http://blog.csdn.net/stephenxu111/article/details/9310715#" nodetype="close" class="close">×</a><div class="context"><div class="err_div"><span class="err_ico"></span><span class="err_txt">该问题已存在，请勿重复提问</span></div><div class="input_div"><input id="askInputSecond" type="text" style="font-size:14px;" placeholder="问题标题"></div><div class="cm_box"><div class="cm_dialog"></div> <div class="pop_cm cm_add_link"><input type="text" placeholder="链接内容" id="af_cm_link_txt"><input type="text" placeholder="链接地址" id="af_cm_link_url"><input type="text" placeholder="链接提示" id="af_cm_link_tit"><div class="text-right"><span class="btn btn-default btn-sm" id="add_link_btn">插入链接</span> </div> </div><div class="pop_cm cm_add_img"><div class="nav-tabs"><a class="img_tab active" href="http://blog.csdn.net/stephenxu111/article/details/9310715#tab_upload">本地上传</a><a class="img_tab" href="http://blog.csdn.net/stephenxu111/article/details/9310715#tab_weburl">网络图片</a></div><div class="tab_panel active" id="tab_upload"><div class="set_img"><iframe src="./mysqldump使用常用参数说明 - - 博客频道 - CSDN.NET_files/upload.html"></iframe></div></div><div class="tab_panel" id="tab_weburl"><input type="text" placeholder="图片地址" id="af_cm_img_url"><input type="text" placeholder="图片说明" id="af_cm_img_alt"><div class="text-right"><span class="btn btn-default btn-sm" id="add_img_btn">插入图片</span> </div></div> </div></div> <textarea id="editor_all" rows="8" style="display: none;"></textarea><div class="editor-toolbar"><i class="separator">|</i><a class="icon-headline" title="标题一（Ctrl+Alt+1）"></a><a class="icon-heading" title="标题二（Ctrl+Alt+2）"></a><a class="icon-bold" title="粗体（Ctrl+B）"></a><a class="icon-italic" title="斜体（Ctrl+I）"></a><i class="separator">|</i><a class="icon-quote-left" title="引用（Ctrl+’）"></a><a class="icon-code" title="插入代码片（Ctrl+,）"></a><a class="icon-list-ul" title="无序列表（Ctrl+L）"></a><a class="icon-list-ol" title="有序列表（Ctrl+Alt+L）"></a><i class="separator">|</i><a class="icon-link" title="添加链接（Ctrl+K）"></a><a class="icon-picture" title="添加图片（Ctrl+Alt+I）"></a><i class="separator">|</i><a class="icon-reply" title="撤退（Ctrl+Z）"></a><a class="icon-share-alt" title="前进（Ctrl+Shift+Z）"></a><i class="separator">|</i><a class="icon-info" href="http://ask.csdn.net/pages/markdown" target="_blank" title="markdown语法参考"></a><a class="icon-preview" title="预览"></a><i class="separator">|</i></div><div class="CodeMirror cm-s-paper CodeMirror-focused"><div style="overflow: hidden; position: relative; width: 3px; height: 0px;"><textarea autocorrect="off" autocapitalize="off" spellcheck="false" style="position: absolute; padding: 0px; width: 1000px; height: 1em; outline: none; font-size: 4px;" tabindex="0"></textarea></div><div class="CodeMirror-hscrollbar"><div style="height: 1px;"></div></div><div class="CodeMirror-vscrollbar"><div style="width: 1px;"></div></div><div class="CodeMirror-scrollbar-filler"></div><div class="CodeMirror-gutter-filler"></div><div class="CodeMirror-scroll" tabindex="-1"><div class="CodeMirror-sizer" style="min-width: 33px;"><div style="position: relative;"><div class="CodeMirror-lines"><div style="position: relative; outline: none;"><div class="CodeMirror-measure"><pre>&nbsp;<span style="display: inline-block; width: 1px; margin-right: -1px;">&nbsp;</span></pre></div><div style="position: relative; z-index: 1;"></div><div class="CodeMirror-code"></div><div class="CodeMirror-cursor">&nbsp;</div><div class="CodeMirror-cursor CodeMirror-secondarycursor">&nbsp;</div></div></div></div></div><div style="position: absolute; height: 30px; width: 1px;"></div><div class="CodeMirror-gutters" style="display: none;"></div></div></div><div class="editor-statusbar"><span class="lines">0</span><span class="words">0</span><span class="cursor">0:0</span></div><div class="div_tags clearfix"><div id="divSearchTags" class="tags_con"><input type="text"></div><input type="hidden" name="txtSearchTags"></div><div id="ask2_tagRecomm_div" class="drt_tagRecomm tracking-ad" data-mod="popu_73"><span class="drt_tit">推荐标签：</span></div></div><div class="success"><div class="left_area"><input id="chk_cb" type="checkbox"><span class="wyxs">我要悬赏</span><input id="cb_num" class="cb_num" readonly="true"><span class="phib_rii"><span> 币</span></span></div><a href="http://blog.csdn.net/stephenxu111/article/details/9310715#" nodetype="cancel" class="cancel">取消</a><a href="http://blog.csdn.net/stephenxu111/article/details/9310715#" nodetype="ok" class="ok">发布</a></div></div><div id="common_ask_div_sc" class="searchContainer"><div class="sTitle">可能存在类似的问题：</div><div class="sFooter"><a class="sFirstNewAsk">我想提一个新问题</a></div></div><div id="mask_code"></div><div class="gist_edit"><div class="save_snippets clearfix"><div class="tit"><h3>保存代码片</h3><span>整理和分享保存的代码片，请访问<a href="https://code.csdn.net/snippets_manage" target="_blank">代码笔记</a></span></div><div class="con_form"><ul class="gist_edit_list clearfix"><li><span class="red">*</span><span class="txt">标题</span><input id="form_title" class="form-input" placeholder="mysqldump使用常用参数说明" type="text"></li><li><span class="red">*</span><span class="txt">描述</span><textarea id="form-textarea" class="form-textarea" placeholder="mysqldump使用常用参数说明： http://blog.csdn.net/stephenxu111/article/details/9310715"></textarea></li><li><span class="red">&nbsp;</span><span class="txt">标签</span><div id="divSearchTags"><input id="insertTag" class="insertTag" placeholder="请输入标签，按Enter生成(最多5项)" type="text" value="" name="insertTag" maxlength="21" style="color: rgb(51, 51, 51);"><input id="OrganTag" class="OrganTag" type="hidden" name="OrganTag" value=""><input id="OldOrganTag" class="OldOrganTag" type="hidden" name="OldOrganTag" value=""><input type="hidden" name="txtSearchTags"></div></li></ul></div><div class="bottom-bar"><a href="javascript:;" class="btn-submit btn-cancel">取消</a><span class="tracking-ad" data-mod="popu_250"><a class="btn-submit btn-confirm" href="javascript:;">确定</a></span></div></div></div></body></html>

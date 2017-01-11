@@ -32,6 +32,7 @@
     mysqldump -u$USER -p$PASSWD -h127.0.0.1 -P3306 --routines --default-character-set=utf8 --tables mysql user> db.table.sql
   11.4导出指定库的表(仅数据)到本地的目录(例如mysql库的user表,带过滤条件)
     mysqldump -u$USER -p$PASSWD -h127.0.0.1 -P3306 --routines --default-character-set=utf8 --no-create-db --no-create-info --tables mysql user --where="host='localhost'"> db.table.sql
+    -c 带字段名称
   11.5导出某个库的所有表结构
     mysqldump -u$USER -p$PASSWD -h127.0.0.1 -P3306 --routines --default-character-set=utf8 --no-data --databases mysql > db.nodata.sql
   11.6导出某个查询sql的数据为txt格式文件到本地的目录(各数据值之间用"制表符"分隔)
@@ -91,3 +92,4 @@
 15.命令行连接
 	SET character_set_client = utf8 ; 
 	SET character_set_connection = utf8 ; 
+  set character_set_results=utf8;

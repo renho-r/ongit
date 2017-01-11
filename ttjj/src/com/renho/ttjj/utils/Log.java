@@ -11,7 +11,7 @@ public enum Log {
 	public void log(String data) {
 		synchronized(this) {
 			try {
-				FileWriter fw = new FileWriter(new File(Config.DATA_PATH), true);
+				FileWriter fw = new FileWriter(new File(Config.DATA_PATH_CUS), true);
 				fw.write(data);
 				fw.write("\n");
 				fw.close();

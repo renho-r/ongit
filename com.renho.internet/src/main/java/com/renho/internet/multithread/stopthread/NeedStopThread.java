@@ -10,7 +10,7 @@ public class NeedStopThread implements Runnable {
 				TimeUnit.SECONDS.sleep(10);
 			} catch (InterruptedException e) {
 				System.out.println("停止线程!");
-				Thread.currentThread().interrupt();//重置中断标志,即Thread.currentThread().isInterrupted() = false;
+				Thread.currentThread().interrupt();//重置中断标志,即Thread.currentThread().isInterrupted() = true;
 			}
 		}
 	}

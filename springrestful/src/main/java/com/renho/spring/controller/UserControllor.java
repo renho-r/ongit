@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value="/user")
 public class UserControllor {
 
-	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	@RequestMapping(value="/{name}_{id}_{age}", method=RequestMethod.GET)
 	@ResponseBody
-	public String getUser(@PathVariable Long id, HttpServletRequest request) {
-		return "获取用户 id:" + id;
+	public String getUser(@PathVariable String id, @PathVariable String age, @PathVariable String name, HttpServletRequest request) {
+		return "获取用户 id:" + id + "---->name:" + name + "---->age:" + age;
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT)

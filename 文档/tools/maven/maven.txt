@@ -80,3 +80,31 @@ mvn install:install-file -DgroupId=io.netty -DartifactId=netty-all -Dversion=5.0
 		compile
 other
 	maven库:http://mvnrepository.com/
+13.打jar包
+	mvn clean compile
+	mvn clean test
+	mvn clean package
+	mvn clean install
+14.可执行jar, 添加以下plugin
+	<plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-shade-plugin</artifactId>
+		<version>1.2.1</version>
+		<executions>
+			<execution>
+				<phase>package</phase>
+				<goals>
+					<goal>shade</goal>
+				</goals>
+				<configuration>
+					<transformers>
+						<transformer
+							implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+							<mainClass>com.renho.Main</mainClass>
+						</transformer>
+					</transformers>
+				</configuration>
+			</execution>
+		</executions>
+	</plugin>
+mvn clean package
