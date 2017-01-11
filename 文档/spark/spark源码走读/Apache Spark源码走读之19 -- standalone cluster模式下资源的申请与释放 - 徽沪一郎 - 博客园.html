@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://www.cnblogs.com/hseagle/p/3858694.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/bundle-LessIsMoreRight.css">
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/134061.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/hseagle/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/hseagle/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/hseagle/wlwmanifest.xml">
+<script async="" type="text/javascript" src="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/gpt.js"></script><script src="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'hseagle', cb_enable_mathjax=true;</script>
+<script src="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/blog-common.js" type="text/javascript"></script>
+<script src="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/pubads_impl_78.js" async=""></script><script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: ['AMS'], useLabelIds: true } },
+  'HTML-CSS': { linebreaks: { automatic: true } },
+  SVG: { linebreaks: { automatic: true } }});</script><script type="text/javascript" src="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/MathJax.js"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style></head>
+<body><div id="MathJax_Message" style="display: none;"></div>
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<script type="text/javascript" src="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/pdfobject.js"></script>
+<script src="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/highlight.pack.js"></script>
+<script>
+hljs.configure({tabReplace: '  '});
+hljs.initHighlightingOnLoad();
+</script>
+<!--PageBeginHtml Block End-->
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/hseagle/">富贵有定数，学问则无定数。求一分，便得一分</a></div>
+<div class="subtitle">快乐源于简单</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/hseagle/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/hseagle/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/hseagle/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-76&nbsp;
+文章-0&nbsp;
+评论-47&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园.html">Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p><strong><em><span style="color: #3366ff;">欢迎转载，转载请注明出处，徽沪一郎。</span></em></strong></p>
+<h1>概要</h1>
+<p>本文主要讲述在standalone cluster部署模式下，Spark Application在整个运行期间，资源(主要是cpu core和内存)的申请与释放。</p>
+<p>构成Standalone cluster部署模式的四大组成部件如下图所示，分别为Master, worker, executor和driver，它们各自运行于独立的JVM进程。</p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="data:image/png;base64,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" alt=""></p>
+<p>从资源管理的角度来说</p>
+<ul>
+<li>Master&nbsp; 掌管整个cluster的资源，主要是指cpu core和memory，但Master自身并不拥有这些资源</li>
+<li>Worker 计算资源的实际贡献者，须向Master汇报自身拥有多少cpu core和memory, 在master的指示下负责启动executor</li>
+<li>Executor 执行真正计算的苦力，由master来决定该进程拥有的core和memory数值</li>
+<li>Driver 资源的实际占用者，Driver会提交一到多个job，每个job在拆分成多个task之后，会分发到各个executor真正的执行</li>
+</ul>
+<p>这些内容在standalone cluster模式下的容错性分析中也有所涉及，今天主要讲一下资源在分配之后不同场景下是如何被顺利回收的。</p>
+<h1>资源上报汇聚过程</h1>
+<p>standalone cluster下最主要的当然是master，master必须先于worker和driver程序正常启动。</p>
+<p>当master顺利启动完毕，可以开始worker的启动工作，worker在启动的时候需要向master发起注册，在注册消息中带有本worker节点的cpu core和内存。</p>
+<p>调用顺序如下preStart-&gt;registerWithMaster-&gt;tryRegisterAllMasters</p>
+<p>看一看tryRegisterAllMasters的代码</p>
+<pre><code class="scala hljs "> <span class="hljs-keyword">def</span> tryRegisterAllMasters() {
+    <span class="hljs-keyword">for</span> (masterUrl &lt;- masterUrls) {
+      logInfo(<span class="hljs-string">"Connecting to master "</span> + masterUrl + <span class="hljs-string">"..."</span>)
+      <span class="hljs-keyword">val</span> actor = context.actorSelection(Master.toAkkaUrl(masterUrl))
+      actor ! RegisterWorker(workerId, host, port, cores, memory, webUi.boundPort, publicAddress)
+    }
+  }
+</code></pre>
+<p>我们的疑问是RegisterWorker构造函数所需的参数memory和cores是从哪里获取的呢？</p>
+<p>注意一下Worker中的main函数会创建WorkerArguments，</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">def</span> main(argStrings: Array[String]) {
+    SignalLogger.register(log)
+    <span class="hljs-keyword">val</span> args = <span class="hljs-keyword">new</span> WorkerArguments(argStrings)
+    <span class="hljs-keyword">val</span> (actorSystem, _) = startSystemAndActor(args.host, args.port, args.webUiPort, args.cores,
+      args.memory, args.masters, args.workDir)
+    actorSystem.awaitTermination()
+  }
+</code></pre>
+<p>&nbsp;memory通过函数inferDefaultMemory获取，而cores通过inferDefaultCores获取。</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">def</span> inferDefaultCores(): Int = {
+    Runtime.getRuntime.availableProcessors()
+  }
+
+  <span class="hljs-keyword">def</span> inferDefaultMemory(): Int = {
+    <span class="hljs-keyword">val</span> ibmVendor = System.getProperty(<span class="hljs-string">"java.vendor"</span>).contains(<span class="hljs-string">"IBM"</span>)
+    <span class="hljs-keyword">var</span> totalMb = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">val</span> bean = ManagementFactory.getOperatingSystemMXBean()
+      <span class="hljs-keyword">if</span> (ibmVendor) {
+        <span class="hljs-keyword">val</span> beanClass = Class.forName(<span class="hljs-string">"com.ibm.lang.management.OperatingSystemMXBean"</span>)
+        <span class="hljs-keyword">val</span> method = beanClass.getDeclaredMethod(<span class="hljs-string">"getTotalPhysicalMemory"</span>)
+        totalMb = (method.invoke(bean).asInstanceOf[Long] / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span>).toInt
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">val</span> beanClass = Class.forName(<span class="hljs-string">"com.sun.management.OperatingSystemMXBean"</span>)
+        <span class="hljs-keyword">val</span> method = beanClass.getDeclaredMethod(<span class="hljs-string">"getTotalPhysicalMemorySize"</span>)
+        totalMb = (method.invoke(bean).asInstanceOf[Long] / <span class="hljs-number">1024</span> / <span class="hljs-number">1024</span>).toInt
+      }
+    } <span class="hljs-keyword">catch</span> {
+      <span class="hljs-keyword">case</span> e: Exception =&gt; {
+        totalMb = <span class="hljs-number">2</span>*<span class="hljs-number">1024</span>
+        System.out.println(<span class="hljs-string">"Failed to get total physical memory. Using "</span> + totalMb + <span class="hljs-string">" MB"</span>)
+      }
+    }
+    <span class="hljs-comment">// Leave out 1 GB for the operating system, but don't return a negative memory size</span>
+    math.max(totalMb - <span class="hljs-number">1024</span>, <span class="hljs-number">512</span>)
+  }
+</code></pre>
+<p>&nbsp;如果已经在配置文件中为显示指定了每个worker的core和memory，则使用配置文件中的值，具体配置参数为<strong>SPARK_WORKER_CORES</strong>和<strong>SPARK_WORKER_MEMORY</strong></p>
+<p>Master在收到RegisterWork消息之后，根据上报的信息为每一个worker创建相应的WorkerInfo.</p>
+<pre><code class="scala hljs ">    <span class="hljs-keyword">case</span> RegisterWorker(id, workerHost, workerPort, cores, memory, workerUiPort, publicAddress) =&gt;
+    {
+      logInfo(<span class="hljs-string">"Registering worker %s:%d with %d cores, %s RAM"</span>.format(
+        workerHost, workerPort, cores, Utils.megabytesToString(memory)))
+      <span class="hljs-keyword">if</span> (state == RecoveryState.STANDBY) {
+        <span class="hljs-comment">// ignore, don't send response</span>
+      } <span class="hljs-keyword">else</span> <span class="hljs-keyword">if</span> (idToWorker.contains(id)) {
+        sender ! RegisterWorkerFailed(<span class="hljs-string">"Duplicate worker ID"</span>)
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">val</span> worker = <span class="hljs-keyword">new</span> WorkerInfo(id, workerHost, workerPort, cores, memory,
+          sender, workerUiPort, publicAddress)
+        <span class="hljs-keyword">if</span> (registerWorker(worker)) {
+          persistenceEngine.addWorker(worker)
+          sender ! RegisteredWorker(masterUrl, masterWebUiUrl)
+          schedule()
+        } <span class="hljs-keyword">else</span> {
+          <span class="hljs-keyword">val</span> workerAddress = worker.actor.path.address
+          logWarning(<span class="hljs-string">"Worker registration failed. Attempted to re-register worker at same "</span> +
+            <span class="hljs-string">"address: "</span> + workerAddress)
+          sender ! RegisterWorkerFailed(<span class="hljs-string">"Attempted to re-register worker at same address: "</span>
+            + workerAddress)
+        }
+      }
+</code></pre>
+<h1>资源分配过程</h1>
+<p>如果在worker注册上来的时候，已经有Driver Application注册上来，那么就需要将原先处于未分配资源状态的driver application启动相应的executor。</p>
+<p>WorkerInfo在schedule函数中会被使用到，schedule函数处理逻辑概述如下</p>
+<ol>
+<li>查看目前存活的worker中剩余的内存是否能够满足application每个task的最低需求，如果是则将该worker加入到可分配资源的队列</li>
+<li>根据分发策略，如果是决定将工作平摊到每个worker，则每次在一个worker上占用一个core，直到所有可分配资源耗尽或已经满足driver的需求</li>
+<li>如果分发策略是分发到尽可能少的worker，则一次占用尽worker上的可分配core，直到driver的core需求得到满足</li>
+<li>根据步骤2或3的结果在每个worker上添加相应的executor，处理函数是<strong>addExecutor</strong></li>
+</ol>
+<p>为了叙述简单，现仅列出平摊到各个worker的分配处理过程</p>
+<pre><code class="scala hljs ">      <span class="hljs-keyword">for</span> (worker &gt; workers <span class="hljs-keyword">if</span> worker.coresFree &gt; <span class="hljs-number">0</span> &amp;&amp; worker.state == WorkerState.ALIVE) {
+        <span class="hljs-keyword">for</span> (app &lt;- waitingApps <span class="hljs-keyword">if</span> app.coresLeft &gt; <span class="hljs-number">0</span>) {
+          <span class="hljs-keyword">if</span> (canUse(app, worker)) {
+            <span class="hljs-keyword">val</span> coresToUse = math.min(worker.coresFree, app.coresLeft)
+            <span class="hljs-keyword">if</span> (coresToUse &gt; <span class="hljs-number">0</span>) {
+              <span class="hljs-keyword">val</span> exec = app.addExecutor(worker, coresToUse)
+              launchExecutor(worker, exec)
+              app.state = ApplicationState.RUNNING
+            }
+          }
+        }
+      }
+</code></pre>
+<p>launchExecutor主要负责两件事情</p>
+<ol>
+<li>记录下新添加的executor使用掉的cpu core和内存数目，记录过程发生在worker.addExecutor</li>
+<li>向worker发送LaunchExecutor指令</li>
+</ol>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">def</span> launchExecutor(worker: WorkerInfo, exec: ExecutorInfo) {
+    logInfo(<span class="hljs-string">"Launching executor "</span> + exec.fullId + <span class="hljs-string">" on worker "</span> + worker.id)
+    worker.addExecutor(exec)
+    worker.actor ! LaunchExecutor(masterUrl,
+      exec.application.id, exec.id, exec.application.desc, exec.cores, exec.memory)
+    exec.application.driver ! ExecutorAdded(
+      exec.id, worker.id, worker.hostPort, exec.cores, exec.memory)
+  }
+</code></pre>
+<p>worker在收到LaunchExecutor指令后，也会记一笔账，将要使用掉的cpu core和memory从可用资源中减去，然后使用ExecutorRunner来负责生成Executor进程，注意Executor运行于独立的进程。代码如下</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">case</span> LaunchExecutor(masterUrl, appId, execId, appDesc, cores_, memory_) =&gt;
+      <span class="hljs-keyword">if</span> (masterUrl != activeMasterUrl) {
+        logWarning(<span class="hljs-string">"Invalid Master ("</span> + masterUrl + <span class="hljs-string">") attempted to launch executor."</span>)
+      } <span class="hljs-keyword">else</span> {
+        <span class="hljs-keyword">try</span> {
+          logInfo(<span class="hljs-string">"Asked to launch executor %s/%d for %s"</span>.format(appId, execId, appDesc.name))
+          <span class="hljs-keyword">val</span> manager = <span class="hljs-keyword">new</span> ExecutorRunner(appId, execId, appDesc, cores_, memory_,
+            self, workerId, host,
+            appDesc.sparkHome.map(userSparkHome =&gt; <span class="hljs-keyword">new</span> File(userSparkHome)).getOrElse(sparkHome),
+            workDir, akkaUrl, conf, ExecutorState.RUNNING)
+          executors(appId + <span class="hljs-string">"/"</span> + execId) = manager
+          manager.start()
+          coresUsed += cores_
+          memoryUsed += memory_
+          masterLock.synchronized {
+            master ! ExecutorStateChanged(appId, execId, manager.state, None, None)
+          }
+        } <span class="hljs-keyword">catch</span> {
+          <span class="hljs-keyword">case</span> e: Exception =&gt; {
+            logError(<span class="hljs-string">"Failed to launch executor %s/%d for %s"</span>.format(appId, execId, appDesc.name))
+            <span class="hljs-keyword">if</span> (executors.contains(appId + <span class="hljs-string">"/"</span> + execId)) {
+              executors(appId + <span class="hljs-string">"/"</span> + execId).kill()
+              executors -= appId + <span class="hljs-string">"/"</span> + execId
+            }
+            masterLock.synchronized {
+              master ! ExecutorStateChanged(appId, execId, ExecutorState.FAILED, None, None)
+            }
+          }
+        }
+      }
+</code></pre>
+<p>在资源分配过程中需要注意到的是如果有多个Driver Application处于等待状态，资源分配的原则是FIFO，先到先得。</p>
+<h1>资源回收过程</h1>
+<p>worker中上报的资源最终被driver application中提交的job task所占用，如果application结束(包括正常和异常退出)，application所占用的资源就应该被顺利回收，即将占用的资源重新归入可分配资源行列。</p>
+<p>现在的问题转换成Master和Executor如何知道Driver Application已经退出了呢？</p>
+<p>有两种不同的处理方式，一种是先道别后离开，一种是不告而别。现分别阐述。</p>
+<p>何为先道别后离开，即driver application显式的通知master和executor，任务已经完成了，我要bye了。应用程序显式的调用SparkContext.stop</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">def</span> stop() {
+    postApplicationEnd()
+    ui.stop()
+    <span class="hljs-comment">// Do this only if not stopped already - best case effort.</span>
+    <span class="hljs-comment">// prevent NPE if stopped more than once.</span>
+    <span class="hljs-keyword">val</span> dagSchedulerCopy = dagScheduler
+    dagScheduler = <span class="hljs-keyword">null</span>
+    <span class="hljs-keyword">if</span> (dagSchedulerCopy != <span class="hljs-keyword">null</span>) {
+      metadataCleaner.cancel()
+      cleaner.foreach(_.stop())
+      dagSchedulerCopy.stop()
+      taskScheduler = <span class="hljs-keyword">null</span>
+      <span class="hljs-comment">// TODO: Cache.stop()?</span>
+      env.stop()
+      SparkEnv.set(<span class="hljs-keyword">null</span>)
+      ShuffleMapTask.clearCache()
+      ResultTask.clearCache()
+      listenerBus.stop()
+      eventLogger.foreach(_.stop())
+      logInfo(<span class="hljs-string">"Successfully stopped SparkContext"</span>)
+    } <span class="hljs-keyword">else</span> {
+      logInfo(<span class="hljs-string">"SparkContext already stopped"</span>)
+    }
+  }
+</code></pre>
+<p>显式调用SparkContext.stop的一个主要功能是会去显式的停止Executor，具体下达StopExecutor指令的代码见于CoarseGrainedSchedulerBackend中的stop函数</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">override</span> <span class="hljs-keyword">def</span> stop() {
+    stopExecutors()
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">if</span> (driverActor != <span class="hljs-keyword">null</span>) {
+        <span class="hljs-keyword">val</span> future = driverActor.ask(StopDriver)(timeout)
+        Await.ready(future, timeout)
+      }
+    } <span class="hljs-keyword">catch</span> {
+      <span class="hljs-keyword">case</span> e: Exception =&gt;
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> SparkException(<span class="hljs-string">"Error stopping standalone scheduler's driver actor"</span>, e)
+    }
+  }
+</code></pre>
+<p>那么Master又是如何知道Driver Application退出的呢？这要归功于Akka的通讯机制了，当相互通讯的任意一方异常退出，另一方都会收到<strong>DisassociatedEvent</strong>, Master也就是在这个消息处理中移除已经停止的Driver Application。</p>
+<pre><code class="scala hljs ">    <span class="hljs-keyword">case</span> DisassociatedEvent(_, address, _) =&gt; {
+      <span class="hljs-comment">// The disconnected client could've been either a worker or an app; remove whichever it was</span>
+      logInfo(s<span class="hljs-string">"$address got disassociated, removing it."</span>)
+      addressToWorker.get(address).foreach(removeWorker)
+      addressToApp.get(address).foreach(finishApplication)
+      <span class="hljs-keyword">if</span> (state == RecoveryState.RECOVERING &amp;&amp; canCompleteRecovery) { completeRecovery() }
+    }
+</code></pre>
+<p>不告而别的方式下Executor是如何知道自己所服务的application已经顺利完成使命了呢？道理和master的一样，还是通过DisassociatedEvent来感知。详见CoarseGrainedExecutorBackend中的receive函数</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">case</span> x: DisassociatedEvent =&gt;
+      logError(s<span class="hljs-string">"Driver $x disassociated! Shutting down."</span>)
+      System.exit(<span class="hljs-number">1</span>)
+</code></pre>
+<h1>异常情况下的资源回收</h1>
+<p>由于Master和Worker之间的心跳机制，如果worker异常退出， Master会由心跳机制感知到其消亡，进而将其上报的资源移除。</p>
+<p>Executor异常退出时，Worker中的监控线程ExecutorRunner会立即感知，进而上报给Master，Master会回收资源，并重新要求worker启动executor。</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/hseagle/tag/Apache%20Spark/">Apache Spark</a></div>
+<div id="blog_post_info"><div id="green_channel">
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(3858694,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://msg.cnblogs.com/send/%E5%BE%BD%E6%B2%AA%E4%B8%80%E9%83%8E" target="_blank">联系我</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/icon_weibo_24.png" alt=""></a>
+<a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/" target="_blank"><img src="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followees">关注 - 5</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followers">粉丝 - 193</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+    <a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div class="diggit" onclick="votePost(3858694,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">1</span>
+    </div>
+	<div class="buryit" onclick="votePost(3858694,&#39;Bury&#39;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/hseagle/p/3850841.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/hseagle/p/3850841.html" title="发布于2014-07-17 13:47">Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码</a><br><a href="http://www.cnblogs.com/hseagle/p/3863966.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/hseagle/p/3863966.html" title="发布于2014-07-24 12:58">Apache Spark源码走读之20 -- ShuffleMapTask计算结果的保存与读取</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2014-07-21 23:36</span> <a href="http://www.cnblogs.com/hseagle/">徽沪一郎</a> 阅读(<span id="post_view_count">1754</span>) 评论(<span id="post_comment_count">0</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=3858694" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/hseagle/p/3858694.html#" onclick="AddToWz(3858694);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=134061,cb_entryId=3858694,cb_blogApp=currentBlogApp,cb_blogUserGuid='8f4525b4-4a31-e211-aa8f-842b2b196315',cb_entryCreatedDate='2014/7/21 23:36:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/hseagle/p/3858694.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/hseagle/p/3858694.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://www.jpush.cn/" target="_blank">【推荐】极光推送30多万开发者的选择，SDK接入量超过30亿了，你还没注册？</a><br><a href="http://click.aliyun.com/m/3037/" target="_blank">【阿里云SSD云盘】速度行业领先</a><br></div>
+<div id="opt_under_post"></div>
+<div id="ad_c1" class="c_ad_block"><a href="http://www.cnblogs.com/onepixel/p/5062456.html" target="_blank"><img width="300" height="250" src="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/explain-it-simply.jpg" alt="explain it simply" title="explain it simply"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/536914/" target="_blank">上海市质监局：小米空气净化器质量问题严重</a><br> ·  <a href="http://news.cnblogs.com/n/536913/" target="_blank">Qt不再使用LGPLv2.1授权</a><br> ·  <a href="http://news.cnblogs.com/n/536912/" target="_blank">微软开源Edge的JS引擎ChakraCore</a><br> ·  <a href="http://news.cnblogs.com/n/536911/" target="_blank">星巴克CEO看好中国经济，打算五年之内将中国门店数量翻番</a><br> ·  <a href="http://news.cnblogs.com/n/536910/" target="_blank">App Store 12月游戏收入近10亿美金，Clash of Clans高居榜首</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/536387/" target="_blank">Docker简介</a><br> ·  <a href="http://kb.cnblogs.com/page/536115/" target="_blank">Docker简明教程</a><br> ·  <a href="http://kb.cnblogs.com/page/535581/" target="_blank">Git协作流程</a><br> ·  <a href="http://kb.cnblogs.com/page/535355/" target="_blank">企业计算的终结</a><br> ·  <a href="http://kb.cnblogs.com/page/535278/" target="_blank">软件开发的核心</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+$(function () {
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);    
+});
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><p>邮箱: hs_xp@163.com<br>
+</p>
+<p>QQ: 58506256&nbsp; <br>
+</p>
+<p>QQ群: Spark零基础学习 367106111</p>
+<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=99253f4f95c7f17a8d77d6cf2acfacfa6556ae645d22f9c6a13d24142341761e"><img src="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/group.png" alt="Spark零基础学习" title="Spark零基础学习" border="0"></a>
+<br>
+<p>&nbsp;</p>
+<embed src="http://service.weibo.com/staticjs/weiboshow.swf?verifier=8feb07ed&amp;uid=2060926175&amp;width=200&amp;height=500&amp;fansRow=2&amp;isTitle=1&amp;isWeibo=1&amp;isFans=1&amp;noborder=0&amp;ptype=1&amp;colors=cfe1f3,fafcff,444444,5093d5" quality="high" scale="noborder" align="L" height="500" width="200"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>园龄：<a href="http://home.cnblogs.com/u/hseagle/" title="入园时间：2012-11-18">3年1个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/hseagle/followers/">193</a><br>关注：<a href="http://home.cnblogs.com/u/hseagle/followees/">5</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger(&#39;8f4525b4-4a31-e211-aa8f-842b2b196315&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="日历">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2015/12/01&#39;);return false;">&lt;</a></td><td align="center">2016年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2016/02/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td class="CalWeekendDay" align="center">2</td></tr><tr><td class="CalWeekendDay" align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center"><a href="http://www.cnblogs.com/hseagle/archive/2016/01/07.html"><u>7</u></a></td><td align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr><tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td class="CalTodayDay" align="center">14</td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr><tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr><tr><td class="CalWeekendDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td class="CalWeekendDay" align="center">30</td></tr><tr><td class="CalWeekendDay" align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+
+</div>
+</div>
+
+</div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(70)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark(34)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/hseagle/category/519033.html">Apache Storm(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/hseagle/category/514458.html">archlinux(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/hseagle/category/664228.html">BigData(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/hseagle/category/565169.html">Database(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/hseagle/category/759340.html">Elasticsearch(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/hseagle/category/470583.html">GDB(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/hseagle/category/554058.html">Hadoop(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/hseagle/category/519017.html">memory management(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/hseagle/category/646056.html">Scala(2)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(76)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/hseagle/archive/2016/01.html">2016年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/hseagle/archive/2015/11.html">2015年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/hseagle/archive/2015/04.html">2015年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/hseagle/archive/2015/03.html">2015年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/hseagle/archive/2015/02.html">2015年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/hseagle/archive/2015/01.html">2015年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/hseagle/archive/2014/12.html">2014年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/hseagle/archive/2014/11.html">2014年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/hseagle/archive/2014/10.html">2014年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/hseagle/archive/2014/09.html">2014年9月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/hseagle/archive/2014/08.html">2014年8月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/hseagle/archive/2014/07.html">2014年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/hseagle/archive/2014/06.html">2014年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/hseagle/archive/2014/05.html">2014年5月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/hseagle/archive/2014/04.html">2014年4月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/hseagle/archive/2014/03.html">2014年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/hseagle/archive/2014/02.html">2014年2月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/hseagle/archive/2014/01.html">2014年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/hseagle/archive/2013/12.html">2013年12月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/hseagle/archive/2013/11.html">2013年11月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/hseagle/archive/2013/10.html">2013年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/hseagle/archive/2013/09.html">2013年9月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/hseagle/archive/2013/08.html">2013年8月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/hseagle/archive/2013/06.html">2013年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/hseagle/archive/2013/05.html">2013年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/hseagle/archive/2013/04.html">2013年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/hseagle/archive/2013/03.html">2013年3月 (4)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	104754
+	</li>
+	<li class="liRank">
+		排名 -	1810
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">1. Apache Spark源码走读之1 -- Spark论文阅读笔记(14198)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673123.html">2. Apache Spark源码走读之2 -- Job的提交与运行(9805)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673132.html">3. Apache Spark源码走读之3 -- Task运行期之函数调用关系分析(7388)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(5476)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3756862.html">5. Apache Storm源码阅读笔记(4802)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3543782.html">1. Apache Storm 衍生项目之1 -- storm-yarn(5)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3732492.html">2. Apache Spark源码走读之9 -- Spark源码编译(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">3. Apache Spark源码走读之1 -- Spark论文阅读笔记(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3908276.html">5. Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现(3)</a></li></ul></div>
+</div>
+</div></div></div><script type="text/javascript">loadBlogSideColumn();</script><iframe src="./Apache Spark源码走读之19 -- standalone cluster模式下资源的申请与释放 - 徽沪一郎 - 博客园_files/container.html" style="visibility: hidden; display: none;"></iframe>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2016 徽沪一郎
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

@@ -1,0 +1,7 @@
+1.
+
+淘汰算法
+	1.LRU:最近最少使用页面置换算法(Least Recently Used),也就是首先淘汰最长时间未被使用的页面,AccessTime最老的会被清掉.
+	2.LFU:最近最不常用页面置换算法(Least Frequently Used),也就是淘汰一定时期内被访问次数最少的页!
+			最少被使用，缓存的元素有一个hit属性，hit值最小的将会被清出缓存
+	3.FIFO

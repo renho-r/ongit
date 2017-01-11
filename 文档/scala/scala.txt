@@ -1,0 +1,638 @@
+2-3.step
+	/******
+		用括号传递给变量(对象)一个或多个参数时，Scala 会把它转换成对 apply 方法的调用；与此相似的，
+		当对带有括号并包括一到若干参数的进行赋值时，编译器将使用对象的 update 方法对括号里的参数和等号右边的对象执行调用。
+	*********/
+	2-3.7.Array可变得
+		这个for表达式的第一行代码演示了Scala的另一个通用规则：如果方法仅带一个参数，你
+		可以不带点或括号的调用它。本例中的to实际上是带一个Int参数的方法。代码0 to 2被
+		转换成方法调用(0).to(2)。1请注意这个语法仅在你显示指定方法调用的接受者时才起作
+		用。不可以写 pringln 10，但是可以写成“Console println 10”
+		greetStrings(i)转换成greetStrings.apply(i)
+		greetStrings(0) = "Hello"将被转化为greetStrings.update(0, "Hello")
+		val numNames = Array("zero", "one", "two")
+		val numNames2 = Array.apply("zero", "one", "two")
+	2-3.8.List不可变
+		val oneTwoThree = List(1, 2, 3)
+		表达式“1 :: twoThree”中，::是它右操作数，列表twoThree，的方法。你或许会疑惑::方法的关
+		联性上有什么东西搞错了，不过这只是一个简单的需记住的规则：如果一个方法被用作操作符标注，如a 
+		* b，那么方法被左操作数调用，就像a.*(b)——除非方法名以冒号结尾。这种情况下，方法被右操作数
+		调用。因此，1 :: twoThree里，::方法被twoThree调用，传入1，像这样：twoThree.::(1)。	
+		val oneTwoThree = 1 :: 2 :: 3 :: Nil
+	2-3.9.Tuple不可变
+		val pair = (99, "Luftballons")
+		你或许想知道为什么你不能像访问List里的元素那样访问元组的，就像pair(0)。那
+		是因为List的apply方法始终返回同样的类型，但是元组里的或许类型不同。_1可以有
+		一个结果类型，_2是另外一个，诸如此类。这些_N数字是基于1的，而不是基于0的，因
+		为对于拥有静态类型元组的其他语言，如Haskell和ML，从1开始是传统的设定。
+	2-3.10.Set和Map	
+		2-3.10.1Set
+			2-3.10.1.1可变集
+				var jetSet = Set("Boeing", "Airbus")
+				jetSet += "Lear"
+			2-3.10.1.2不可变集
+				import scala.collection.mutable.Set
+				val movieSet = Set("Hitch", "Poltergeist")
+				movieSet += "Shrek"
+				println(movieSet)
+			2-3.10.1.3不可变HashSet
+				import scala.collection.immutable.HashSet
+				val hashSet = HashSet("Tomatoes", "Chilies")
+				println(hashSet + "Coriander")
+		2-3.10.2Map
+			2-3.10.2.1可变Map
+				import scala.collection.mutable.Map
+				val treasureMap = Map[Int, String]()
+				treasureMap += (1 -> "Go to island.")
+				treasureMap += (2 -> "Find big X on ground.")
+				treasureMap += (3 -> "Dig.") 
+			2-3.10.2.2不可变Map(缺省的)
+				val romanNumeral = Map(
+					1 -> "I", 2 -> "II", 3 -> "III", 4 -> "IV", 5 -> "V"
+				)
+				println(romanNumeral(4))
+		2-3.10.3Scala里允许你对任何对象调用->的机制被称为隐式转换
+	2-3.11.函数式风格
+		能在任何可枚举的集合类型（包括数组，列表，集和映射）上调用的mkString方法
+		返回由每个数组元素调用toString
+		产生结果组成的字串，以传入字串间隔
+	2-3.12.readFromFile
+4.类和对象
+	4.1类,字段和方法
+		4.1.1public是scala默认的
+		4.1.2Scala里方法参数的一个重要特征是它们都是val，不是var
+		4.1.3如果没有发现任何显式的返回语句，Scala方法将返回方法中最后一个计算得到的值
+		4.1.4假如某个方法仅计算单个结果表达式，则可以去掉大括号。如果结果表达式很短，甚至可以把它放在def同一行里
+		4.1.5通常我们定义副作用为在方法外部某处改变状态或者执行I/O 活动。比方说，
+			在add这个例子里，副作用就是sum被重新赋值了。表达这个方法的另一种方式是去掉结
+			果类型和等号，把方法体放在大括号里
+			def add(b: Byte) { sum += b }
+			应该注意到令人困惑的地方是当你去掉方法体前面的等号时，它的结果类型将注定是Unit。
+			不论方法体里面包含什么都不例外，因为Scala编译器可以把任何类型转换为Unit
+	4.2分号推断
+		分号推断的规则
+		分割语句的精确规则非常有效却出人意料的简单。那就是，除非以下情况的一种成立，
+		否则行尾被认为是一个分号：
+		1．疑问行由一个不能合法作为语句结尾的字结束，如句点或中缀操作符。
+		2．下一行开始于不能作为语句开始的字。
+		3．行结束于括号(...)或方框[...]内部，因为这些符号不可能容纳多个语句。
+	4.3 Singleton对象
+		Scala有单例对象：singleton object。除了用object关键字替换了class关键字以外，单例对象的定义看上去就像是类定义
+		当单例对象与某个类共享同一个名称时，他被称作是这个类的伴生对象：companion object。
+		你必须在同一个源文件里定义类和它的伴生对象。类被称为是这个单例对象的伴生类：companion class。
+		类和它的伴生对象可以互相访问其私有成员。
+		如果你是Java程序员，考虑单例对象的一种方式是把它当作是或许你在Java中写过的任
+		何静态方法之家。可以在单例对象上用类似的语法调用方法：单例对象名，点，方法名。
+		单例对象扩展了超类并可以混入特质
+	4.4Scala程序
+		Scala隐式引用了包java.lang和scala的成员，和名为Predef的单例对象的成员，到每个Scala源文件中。
+		Predef，被放置在包scala中，包含了许多有用的方法。例如，当在Scala源文件中写pringln的时候，你实际调用了Predef的println。
+		（Predef.pringln运转并调用Console.println，做实际的工作。）当你写assert，你是在调用Predef.assert。
+		scalac ***.scala
+	4.5Application特质
+5.基本类型和操作
+	5.1一些基本类型
+		Byte Short Int Long Char String Float Double Boolean
+	5.2文本
+	5.3操作符和方法
+		val sum = 1 + 2 // Scala调用了(1).+(2)
+		-2.0  // Scala调用了(2.0).unary_-
+	5.4数学运算
+	5.5关系和逻辑运算符
+	5.6位操作符
+	5.7对象相等性
+		==使用了equal方法
+	5.8操作符的优先级和关联性
+		scala> 2 << 2 + 2
+		res41: Int = 32
+	5.9富包装器
+		Byte  scala.runtime.RichByte
+6.函数式对象
+	package com.renho.ch6
+
+	/**
+	  * Created by renho on 2016/1/12.
+	  */
+	class Rational(n: Int, d:Int) {
+	//	println("Created "+n+"/"+d)
+		//分母d不能为0
+		require(d != 0)
+		//简化分数
+		private val g = gcd(n.abs, d.abs)
+		val numer = n / g
+		val denom = d / g
+		//从构造器
+		def this(n: Int) = this(n, 1)
+		def +(that: Rational): Rational =
+			new Rational(
+				numer * that.denom + that.numer * denom,
+				denom * that.denom
+			)
+		def +(i: Int): Rational =
+			new Rational(numer + i * denom, denom)
+		def -(that: Rational): Rational =
+			new Rational(
+				numer * that.denom - that.numer * denom,
+				denom * that.denom
+			)
+		def -(i: Int): Rational =
+			new Rational(numer - i* denom, denom)
+		def *(that: Rational): Rational =
+			new Rational(numer * that.numer, denom * that.denom)
+		def *(i: Int): Rational =
+			new Rational(numer * i, denom)
+		def /(that: Rational): Rational =
+			new Rational(numer * that.denom, denom * that.numer)
+		def /(i: Int): Rational =
+			new Rational(numer, denom * i)
+		override def toString = numer+"/"+denom
+		private def gcd(a: Int, b: Int): Int =
+			if (b == 0) a else gcd(b, a % b)
+	}
+	
+	object Test {
+		def main(args: Array[String]) {
+			//隐式转换
+			implicit def intToRational(x: Int) = new Rational(x)
+			var r0 = new Rational(1, 2)
+			println(2 * r0)
+		}
+	}
+7.内建控制结构
+	7.1 if表达式
+		有返回值
+	7.2 while
+		unit
+	7.3 for
+		7.3.1发生器：generator的语法“file <- filesHere”
+			for(i <- 1 to 4)
+			for(i <- 1 until 4)
+			for (i <- 0 to filesHere.length - 1)
+		7.3.2有些时候你不想枚举一个集合类的全部元素。而是想过滤出一个子集。你可以通过把过滤器：filter：
+			一个if子句加到for的括号里做到
+				for (file <- filesHere if file.getName.endsWith(".scala"))
+				另
+				for (
+					file <- filesHere
+					if file.isFile;
+					if file.getName.endsWith(".scala")
+				) println(file)
+		7.3.3嵌套枚举,内外层循环
+			for {
+				file <- filesHere
+				if file.getName.endsWith(".scala")
+				line <- fileLines(file)
+				if line.trim.matches(pattern)
+			} println(file + ": " + line.trim)
+			grep(".*gcd.*")
+		7.3.4mid-stream（流间）变量绑定
+				def grep(pattern: String) =
+				for {//使用大括号代替小括号
+					file <- filesHere
+					if file.getName.endsWith(".scala")
+					line <- fileLines(file)
+					trimmed = line.trim
+					if trimmed.matches(pattern)
+				} println(file + ": " + trimmed)
+				grep(".*gcd.*")
+			名为trimmed的变量被从半当中引入for表达式，并被初始化为line.trim的结果值。
+			之后的for表达式就可以在两个地方使用这个新变量，一次在if中，一次在println中。
+			制造新集合
+		7.3.5制造新集合
+			到现在为止所有的例子都只是对枚举值进行操作然后就放过，除此之外，你还可以创建一个值去
+			记住每一次的迭代。只要在for表达式之前加上关键字yield。比如，下面的函数鉴别出.scala
+			文件并保存在数组里：
+			def scalaFiles =
+			for {
+				file <- filesHere
+				if file.getName.endsWith(".scala")
+			} yield file 
+			//} yield file 应该yield {file}
+	7.4使用try表达式处理异常
+		7.4.1
+			try {
+				val f = new FileReader("input.txt")
+				// Use and close file
+			} catch {
+				case ex: FileNotFoundException => // Handle missing file
+				case ex: IOException => // Handle other I/O error
+			}finally {
+				file.close() // 确保关闭文件
+			}
+		7.4.2生成值
+			import java.net.URL
+			import java.net.MalformedURLException
+			def urlFor(path: String) =
+				try {
+					new URL(path)
+				} catch {
+					case e: MalformedURLException =>
+					new URL("http://www.scalalang.org")
+				}
+			def f(): Int = try { return 1 } finally { return 2 }
+			调用f()产生结果值2。相反：
+			def g(): Int = try { 1 } finally { 2 } 
+			调用g()产生1
+			避免使用finally返回值
+	7.5	match表达式
+		val firstArg = if (!args.isEmpty) args(0) else ""
+		val friend =
+			firstArg match {
+			case "salt" => "pepper"//包含隐式的break
+			case "chips" => "salsa"
+			case "eggs" => "bacon"
+			case _ => "huh?"//相当于default?
+		}
+		println(friend)
+	7.6离开break和continue
+		递归?
+	7.7变量范围
+		val a = 1;
+		{
+			val a = 2 // 编译通过 
+			println(a)
+		}
+		println(a)
+	7.8重构指令式风格的代码
+8.函数和闭包
+	8.1方法
+	8.2本地函数
+		import scala.io.Source
+			object LongLines {
+				def processFile(filename: String, width: Int) {
+					def processLine(line: String) {
+						if (line.length > width)
+							print(filename +": "+ line)
+					}
+					val source = Source.fromFile(filename)
+					for (line <- source.getLines)
+						processLine(line)
+				}
+		}
+		processLine的范围局限于processFile之内，外部无法访问
+	8.3函数是第一类值
+		一等函数
+		scala> var increase = (x: Int) => x + 1
+		increase: (Int) => Int = <function>
+		scala> increase(10)
+		res0: Int = 11
+		scala> increase = (x: Int) => {
+				println("We")
+				println("are")
+				println("here!")
+				x + 1
+			}
+	8.4函数文本的短格式
+		一种让函数文本更简短的方式是去除参数类型
+			someNumbers.filter((x) => x > 0)
+		第二种去除无用字符的方式是省略类型是被推断的参数之外的括号
+			someNumbers.filter(x => x > 0)
+	8.5占位符语法
+		如果想让函数文本更简洁，可以把下划线当做一个或更多参数的占位符，只要每个参数在函数文
+		本内仅出现一次。比如，_ > 0对于检查值是否大于零的函数来说就是非常短的标注：
+		scala> someNumbers.filter(_ > 0)
+		res9: List[Int] = List(5, 10)
+		你可以把下划线看作表达式里需要被“填入”的“空白”。这个空白在每次函数被调用的时候用函
+		数的参数填入
+		val f = (_: Int) + (_: Int)
+	8.6偏应用函数
+		一个下划线替换整个参数列表
+		someNumbers.foreach(println _) === someNumbers.foreach(x => println(x))
+		显示省略的函数参数
+	8.7闭包
+	8.8重复参数
+		Scala允许你指明函数的最后一个参数可以是重复的。这可以允许客户向函数传入可变长度参数
+		列表。想要标注一个重复参数，在参数的类型之后放一个星号。
+		scala> def echo(args: String*) =
+			for (arg <- args) println(arg)
+		echo: (String*)Unit
+		scala> echo("hello", "world!")
+	8.9尾递归
+9.控制抽象
+	9.1减少代码重复
+		高阶函数：higher-order function——带其它函数做参数的函数
+	9.2简化客户代码
+	9.3Curry化
+		scala> def curriedSum(x: Int)(y: Int) = x + y
+		curriedSum: (Int)(Int)Int
+		scala> curriedSum(1)(2)
+		res5: Int = 3
+	9.4编写新的控制结构
+	9.5叫名参数：by-name parameter
+10.组合与继承
+	10.1二维布局库
+11.scala的层级
+12.特质
+	12.1特质的定义除了使用关键字trait之外，与类定义无异。
+		trait Philosophical {
+			def philosophize() {
+				println("I consume memory, therefore I am!")
+			}
+		}
+		一旦特质被定义了，就可以使用extends或with关键字，把它混入到类中
+		class Frog extends Philosophical {
+			override def toString = "green"
+		}
+		从特质继承的方法可以像从超类继承的方法那样使用。
+		如果想把特质混入到显式扩展超类的类里，可以用extends指明待扩展的超类，用with混入特质。
+13.包和引用
+	13.2引用
+		用选择子句：import selector clause做到。下面是一些例子：
+		import Fruits.{Apple, Orange}
+		这次只引用了对象Fruits的Apple和Orange成员。
+		import Fruits.{Apple => McIntosh, Orange}
+		这次从对象Fruits引用了Apple和Orange两个成员。不过，Apple对象重命名为McIntosh。因
+		此这个对象可以用Fruits.Apple或McIntosh访问。重命名子句的格式是“<原始名> => <新名>”。
+		import java.sql.{Date => SDate}
+		这次以SDate的名字引用了SQL的日期类，因此你可以在同时引用普通的Java日期类Date。
+		import java.{sql => S}
+		这个以名称S引用了java.sql包，这样你就可以写成S.Date。
+		import Fruits.{_}
+		这个引用了对象Fruits的所有成员。这与import Fruits._同义。
+		import Fruits.{Apple => McIntosh, _}
+		这个从Fruits对象引用所有成员，不过重命名Apple为McIntosh。
+		import Fruits.{Pear => _, _}
+		这个引用了除Pear之外的所有Fruits成员。
+	13.3隐式引用
+		Scala隐式地添加了一些引用到每个程序中
+		import java.lang._ // java.lang包的所有东西
+		import scala._ // scala包的所有东西
+		import Predef._ // Predef对象的所有东西
+
+
+scala中级
+1.泛型
+	1.1泛型类
+		class Triple[F, S, T](val first: F, val second: S, val third: T)
+		val triple = new Triple("Spark", 3, 3.1415)
+    	val bigData = new Triple[String, String, Char]("Spark", "Hadoop", 'R')
+		class Renho[R: ClassTag]
+    	ClassTag: 不确定ClassTag类型
+    	class Renho[R: ClassTag]
+		class ConcreteRenho[U: ClassTag, T: ClassTag] extends Renho[U]()
+    1.2泛型方法
+    	def getData[T](list : List[T]) = list(list.length / 2)
+    	val f = getData[Int] _
+    1.3Bounds
+    	1.3.1
+    		class Pair[T <: Comparable[T]](val first : T,val second : T)
+    			T<:Comparable[T] 限定T是Comparable[T]子类
+    	1.3.2
+    		def replaceFirst[R >: T](newFirst:R)= new Pair_Lower_Bound[R](newFirst,second)
+    			R >: T 限定R是T的父类
+    	1.3.3
+    		class Pair_NotPerfect[T <% Comparable[T]](val first : T,val second : T)
+    			T <% Comparable[T] 视图界定,限定如果T不是Comparable[T]的子类,T可以转换成Comparable[T](隐式转换)
+	1.4
+		class Pair_Ordering[T : Ordering] (val first : T, val second : T){
+		  def bigger(implicit ordered: Ordering[T]) = {
+		    if (ordered.compare(first, second) > 0) first else second
+		  }
+		}
+		Pair_Ordering[T : Ordering]: Ordering[T]是泛型
+		def bigger(implicit ordered: Ordering[T])
+			implicit隐式转换,隐式值,自动传
+	1.5
+		def arrayMake[T: Manifest](first: T, second: T)
+			T: Manifest有一个Manifest的隐式值
+		def mkArray[T: ClassTag](elems: T*) = Array[T](elems: _*)
+
+		def manif[T](x: List[T])(implicit m: Manifest[T])
+		<:<
+	1.6协变,逆变
+		class C[+T](val args: T)
+		class S[+T](arg : T) extends C[T](arg)
+			如果x是y的子类型,则C[x]是C[y]的子类型
+		trait Friend[-T]{
+			def makeFriend(somebody: T)
+		}
+		-T逆变
+	1.7
+		class P[+T](val first: T, val second: T){
+		def replaceFirst[R >: T](newFirst: R) = new P[R](newFirst, second)
+	1.8链式调用
+		class Animal { def breathe: this.type = this } 
+		class Cat extends Animal { def eat : this.type = this }
+		val cat = new Cat
+		cat.breathe.eat 
+			this.type:任何类和对象都有的属性,
+	1.9路径依赖
+		val i: Outer#Inner = new o1.Inner 
+	1.10结构类型
+		def init( res: {def open():Unit} ) { 
+		    res.open 
+		}
+		init(new { def open()=println("Opened") })
+	    type X = { def open():Unit }
+	    def init(res:X) = res.open
+	    init(new { def open()=println("Opened again") })
+	    
+	    object A { def open() {println("A single object Opened")} }
+	    init(A)
+	    
+	    val structural = new Structural
+	    init(structural)
+	    type关键字是把 = 后面的内容命名别名
+		init规定传进的参数只要有open方法就行
+	1.11
+		object Log { def >>:(data:String):Log.type = { println(data); Log } }
+		"Hadoop" >>: "Spark" >>: Log
+		>>:右结合 中值类型
+		class Infix_Type[A,B]
+		val infix: Int Infix_Type String = null
+	1.12自身类型
+		class Self { 
+		    self => 
+		    val tmp="Scala" 
+		    def foo = self.tmp + this.tmp
+		}
+		别名self相当于this
+		trait S1
+		class S2 { this:S1 => }
+			限定S2在实例化时必须混入S1
+		trait T { this:S1 => } 
+		object S4 extends T with S1
+	1.13抽象类型
+		trait Reader{
+		  type In <: java.io.Serializable
+		  type Contents
+		  def read(in: In): Contents
+		}
+		class FileReader extends Reader {
+		  type In = String
+		  type Contents = BufferedSource
+		  override def read(name: In)  = Source.fromFile(name)
+		}
+		尽量使用抽象类型
+2.隐式转换和隐式参数(外观模式?)
+	2.1隐式转换
+		class RichFile(val file:File){
+		   def read = Source.fromFile(file.getPath()).mkString
+		}
+		 
+		object Context{
+		    implicit def file2RichFile(file:File)= new RichFile(file) //File -> RichFile
+		}
+		object Hello_Implicit_Conversions {
+		
+		  def main(args: Array[String]) {
+		   	  import Context.file2RichFile
+			  println(new File(".classpath").read)  
+		  }
+		}
+		查找范围:当前作用域, 伴生对象
+	2.2隐式参数
+		object Context_Implicits{
+		    implicit val default:String = "Flink"
+		}
+		 
+		object Param{
+		   def print(content:String)(implicit language:String){
+		      println(language+":"+content)
+		   }
+		}
+		object Implicit_Parameters {
+		
+		  def main(args: Array[String]) {
+		    Param.print("Spark")("Scala")
+		    
+		    import Context_Implicits._
+		    Param.print("Hadoop")
+		  }
+		}
+	2.3 Implicit_Conversions_with_Implicit_Parameters
+		def bigger[T](a: T, b: T)(implicit ordered: T => Ordered[T])
+	      = if(ordered(a) > b) a else b
+	//    	= if (a > b) a else b
+	2.4上下文界定
+		class Pair_Implicits[T: Ordering](val first: T, val second: T){
+		存在隐式值Ordering[T]
+		def bigger =if (implicitly[Ordering[T]].compare(first, second) > 0) 
+			first else second
+		def bigger ={
+		  import Ordered._
+		  if (first > second) first else second
+		}
+	2.5隐式类
+		object Context_Helper{  
+		    implicit class FileEnhancer(file : File){    
+		        def read = Source.fromFile(file.getPath).mkString  
+		    }
+		    implicit class Op(x:Int){
+		         def addSAP(second: Int) = x + second
+		    }
+		}
+		object Implicits_Class {
+		
+		  def main(args: Array[String]){
+		    import Context_Helper._
+		    println(1.addSAP(2))
+		    println(new File(".classpath").read)
+		  }
+		}
+		重构,增强代码功能
+	2.6隐式对象
+		abstract class Template[T] {
+		  def add(x: T, y: T): T
+		}
+		abstract class SubTemplate[T] extends Template[T] {
+		  def unit: T
+		}
+		object Implicits_Object {
+		
+		  def main(args: Array[String]) {
+			  implicit object StringAdd extends SubTemplate[String] {
+		        override def add(x: String, y: String) = x concat y
+		        override def unit: String = ""
+		      }
+		      implicit object IntAdd extends SubTemplate[Int] {
+		        override def add(x: Int, y: Int) = x + y
+		        override def unit: Int = 0
+		      }
+		      def sum[T](xs: List[T])(implicit m: SubTemplate[T]): T =
+		        if (xs.isEmpty) m.unit
+		        else m.add(xs.head, sum(xs.tail))
+		
+		      println(sum(List(1, 2, 3, 4, 5)))
+		      println(sum(List("Scala", "Spark", "Kafka")))
+		  }
+		}
+	2.7隐式转换规则
+3.scala并发
+	3.1继承scala.actors.Actor
+		override act
+	3.2
+		val actor_Message = actor{
+	      while(true){
+	        receive { //apply isDefinedAt
+	          case msg => println("Message content from inbox: " + msg)
+	        }
+	      }
+	    }
+	    receive偏函数 apply isDefinedAt
+	    actor_Message ! "Spark"
+	3.3 case class, case object 模式匹配
+		receive {
+          case Person(name, age) => {
+            println("Name: " + name + " : " + "Age: " + age)
+            sender ! "Echo!!!"
+          }
+          case  _ => println("Something else...")
+        }
+        sender返回消息
+        1.case _ 消耗无用消息
+        2.不能依赖消息被传递过来的顺序
+        3.case 内部执行是线性的,不存在资源争用
+        4.尽量不要使用全局变量,尽量以消息的形式传递给其它消费者
+        ???????一个act对应一个或多个线程
+    3.4 react loop线程重用
+4.模式匹配
+	4.1 case class 参数默认val, 伴生对象提供的2个重要方法
+		4.1.1 apply 工厂,构造
+		4.1.2 onapply 解构
+		Extractor
+	4.2for循环表达式
+		for(index @"Flink" <- List("scala", "spark", "Flink")) println(index)
+		index 是 Flink别名
+	4.3
+		val (c,d) = (1000,2000)
+		//val (e,F) = (1000,2000)//要求小写
+		object Test { val 1 = 1 } 
+		//object Test { val 1 = 2 }//不成立,运行时报错, 匹配是lazy级别的
+	4.4模式匹配下的Extractor(提取器)
+		object :> {
+		    def unapply[A] (list: List[A]) = {
+		        Some( (list.init, list.last) )
+		    }
+		}
+		
+		object Extractor_Advanced {
+		
+		  def main(args: Array[String]) {
+		    (1 to 9).toList match{ case _ :> 9 => println("Hadoop") }
+		    (1 to 9).toList match{ case x :> 8 :> 9 => {println("Spark"); println(x)} }
+		    (1 to 9).toList match{ case :>(:>(_,8),9) => println("Flink") }
+		  }
+		}
+	4.5 type class
+		scala中object有具体类 object名 + $
+		typeOf
+		classOf 和 getClass
+	4.6每个class对象都是一个单例类型,它是单例类型的唯一实例,type
+5.List
+	5.1 ListBuffer	
+6.for
+	6.1for查询
+		
+scala - akka
+1.发送消息类型: 异步非阻塞
+	1.1 ! or tell fire and forget
+	1.2 ? or ask send and receive
+		import akka.pattern.{ ask, pipe }
+		implicit val timeout = Timeout(5, TimeUnit.SECONDS)
+		val future = master ? new BackResult
+		val result = Await.result(future, timeout.duration).asInstanceOf[String]
+		println(result)
+
+		val future0: Future[String] = ask(master, new BackResult).mapTo[String]
+		println(future0)

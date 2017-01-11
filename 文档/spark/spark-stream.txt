@@ -1,0 +1,3 @@
+run-example org.apache.spark.examples.streaming.NetworkWordCount master 9999
+run-example org.apache.spark.examples.streaming.NetworkWordCount localhost 9999
+spark-submit --master spark://master:7077 --class org.apache.spark.examples.streaming.NetworkWordCount --name Renho-Stream /home/hadoop/spark-1.5.2-bin-hadoop2.6/lib/spark-examples-1.5.2-hadoop2.6.0.jar master 9999

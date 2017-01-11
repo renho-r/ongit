@@ -1,0 +1,83 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>ShowDownLoad</title>
+</head>
+<body>
+<div id="div-lj">
+</div>
+<table id="fileTb">
+	<thead>
+		<tr>
+			<th>名称</th>
+			<th>操作</th>
+		</tr>
+	</thead>
+	<tbody>
+		
+	</tbody>
+</table>
+</body>
+<script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javascript">
+$(function() {
+	initPage();
+	function initPage() {
+		$.ajax({
+			url: "/testMybatis/downLoad",
+			data: {method: "showCanDownLoad"},
+			dataType: "json",
+			type: "POST",
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+			},
+			success: function(data, textStatus, jqXHR) {
+				showPage(data);
+			}
+		});
+	}
+	function showPage(data) {
+		$("#fileTb tbody").empty();
+		$("#div-lj").empty().append(data.showPath);
+		data.files.forEach(function(item) {
+			var op = "";
+			switch(item.type) {
+				case "0":
+					//op += "<a href='/testMybatis/downLoad?method=showCanDownLoad&showPath=" + item.path + "'> 打开 " + "</a>";
+					op += "<a class='open' href=javascript:void(0) value='" + item.path + "'>打开</a>";
+					break;
+				case "1":
+					op += "<a href='" + "/testMybatis/downLoad?method=downLoad&filePath=" + item.path + "'>下载</a>";
+					break;
+				defalt:
+					op += "error";
+			} 
+			$("#fileTb tbody").append(
+				"<tr>"
+					+ "<td style='border-bottom: 1px solid blue;'>"
+						+ item.path
+					+ "</td>"
+					+ "<td>"
+						+ op
+					+ "</td>"
+				+ "</tr>"
+			);
+		});
+	}
+	$("#fileTb tbody").on("click", ".open", function() {
+		var showPath = $(this).attr("value");
+		$.ajax({
+			url: "/testMybatis/downLoad",
+			data: {method: "showCanDownLoad", showPath: showPath},
+			dataType: "json",
+			type: "POST",
+			error: function(XMLHttpRequest, textStatus, errorThrown) {
+			},
+			success: function(data, textStatus, jqXHR) {
+				showPage(data);
+			}
+		});
+	});
+})
+</script>
+</html>

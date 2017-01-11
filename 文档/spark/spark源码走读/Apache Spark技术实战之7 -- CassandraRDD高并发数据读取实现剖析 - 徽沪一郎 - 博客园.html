@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://www.cnblogs.com/hseagle/p/4104386.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/bundle-LessIsMoreRight.css">
+<link type="text/css" rel="stylesheet" href="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/134061.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/hseagle/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/hseagle/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/hseagle/wlwmanifest.xml">
+<script async="" type="text/javascript" src="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/gpt.js"></script><script src="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'hseagle', cb_enable_mathjax=true;</script>
+<script src="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/blog-common.js" type="text/javascript"></script>
+<script src="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/pubads_impl_78.js" async=""></script><script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: ['AMS'], useLabelIds: true } },
+  'HTML-CSS': { linebreaks: { automatic: true } },
+  SVG: { linebreaks: { automatic: true } }});</script><script type="text/javascript" src="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/MathJax.js"></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style></head>
+<body><div id="MathJax_Message" style="display: none;"></div>
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<script type="text/javascript" src="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/pdfobject.js"></script>
+<script src="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/highlight.pack.js"></script>
+<script>
+hljs.configure({tabReplace: '  '});
+hljs.initHighlightingOnLoad();
+</script>
+<!--PageBeginHtml Block End-->
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/hseagle/">富贵有定数，学问则无定数。求一分，便得一分</a></div>
+<div class="subtitle">快乐源于简单</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/hseagle/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/hseagle/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/hseagle/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-76&nbsp;
+文章-0&nbsp;
+评论-47&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园.html">Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p><span style="color: #0000ff;"><strong>未经本人同意，严禁转载，徽沪一郎。</strong></span></p>
+<h1>概要</h1>
+<p>本文就 spark-cassandra-connector 的一些实现细节进行探讨,主要集中于如何快速将大量的数据从cassandra 中读取到本地内存或磁盘。<br><br></p>
+<style><!--
+p { margin-bottom: 0.25cm; direction: ltr; color: rgb(0, 0, 10); line-height: 120%; text-align: left; }p.western { font-family: "Liberation Serif",serif; font-size: 12pt; }p.cjk { font-family: "宋体"; font-size: 12pt; }p.ctl { font-family: "宋体"; font-size: 12pt; }a:link {  }
+--></style>
+<h1 class="cjk" style="margin-bottom: 0cm; line-height: 100%;">数据分区</h1>
+<p>存储在 Cassandra 中数据的一般都会比较多,记录数在千万级别或上亿级别是常见的事。如何将这些表中的内容快速加载到本地内存就是一个非常现实的问题。<br>解决这一挑战的思路从大的方面来说是比较简单的,那就是将整张表中的内容分成不同的区域,然后分区加载,不同的分区可以在不同的线程或进程中加载,利用并行化来减少整体加载时间。</p>
+<p>顺着这一思路出发,要问的问题就是 Cassandra 中的数据如何才能分成不同的区域。</p>
+<p>不同于 MySQL ,在 Cassandra 中是不存在 Sequence Id 这样的类型的,也就是说无法简单的使用seqId 来指定查询或加载的数据范围。</p>
+<p>既然没有 SequenceID,在 Cassandra 中是否就没有办法了呢?答案显然是否定的,如果只是仅仅支持串行读取,Cassandra 早就会被扔进垃圾堆里了。<br>数据分区的办法在 Cassandra 中至少有两种办法可以达到,一是通过 token range,另一个是 slice range。这里主要讲解利用 token range 来实现目的。</p>
+<h2 class="cjk">token range</h2>
+<style><!--
+p { margin-bottom: 0.25cm; direction: ltr; color: rgb(0, 0, 10); line-height: 120%; text-align: left; }p.western { font-family: "Liberation Serif",serif; font-size: 12pt; }p.cjk { font-family: "宋体"; font-size: 12pt; }p.ctl { font-family: "宋体"; font-size: 12pt; }a:link {  }
+--></style>
+<p class="cjk"><span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra</span></span>将要存储的记录存储在不同的区域中，判断某一记录具体存储在哪个区域的依据是主键的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Hash</span></span>值。</p>
+<p class="cjk">在<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra 1.2</span></span>之前，组成<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra</span></span>集群的所有节点<span style="font-family: Liberation Serif,serif;"><span lang="en-US">(Node)</span></span>，都需要手工的指定该节点的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Hash</span></span>值范围也就是<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Token Range</span></span>。</p>
+<p class="cjk">手工计算<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Token Range</span></span>显然是很繁琐，同时也不怎么容易维护，在<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra 1.2</span></span>之后，引进了虚拟节点<span style="font-family: Liberation Serif,serif;"><span lang="en-US">(vnode)</span></span>的概念，主要目的是减少不必要的人工指定，同时也将<span style="font-family: Liberation Serif,serif;"><span lang="en-US">token range</span></span>的划分变得更为细粒度。比如原先手工指定<span style="font-family: Liberation Serif,serif;"><span lang="en-US">token range</span></span>，只能达到<span style="font-family: Liberation Serif,serif;"><span lang="en-US">10000</span></span>这样一个精度，而有了<span style="font-family: Liberation Serif,serif;"><span lang="en-US">vnode</span></span>之后，默认安装是每一个物理节点上有<span style="font-family: Liberation Serif,serif;"><span lang="en-US">256</span></span>个虚拟节点，这样子的话每一个<span style="font-family: Liberation Serif,serif;"><span lang="en-US">range</span></span>的范围就是<span style="font-family: Liberation Serif,serif;"><span lang="en-US">10000/256</span></span>，这样变的更为精细。</p>
+<p class="cjk">有关<span style="font-family: Liberation Serif,serif;"><span lang="en-US">token range</span></span>的信息存储在<span style="font-family: Liberation Serif,serif;"><span lang="en-US">cassandra</span></span>的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">system</span></span>命名空间<span style="font-family: Liberation Serif,serif;"><span lang="en-US">(keyspace)</span></span>下的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">local</span></span>和<span style="font-family: Liberation Serif,serif;"><span lang="en-US">peers</span></span>两张表中。其中<span style="font-family: Liberation Serif,serif;"><span lang="en-US">local</span></span>表示本节点的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">token range</span></span>情况，而<span style="font-family: Liberation Serif,serif;"><span lang="en-US">peers</span></span>表示集群中其它节点的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">token range</span></span>情况。这两张表中的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">tokens</span></span>字段就存储有详细的信息。如果集群中只由一台机器组成，那么<span style="font-family: Liberation Serif,serif;"><span lang="en-US">peers</span></span>中的就会什么内容都没有。</p>
+<p>简单实验，列出本节点的token range&gt;</p>
+<pre><code class="sql hljs ">use system;
+desc table local;
+<span class="hljs-operator"><span class="hljs-keyword">select</span> tokens <span class="hljs-keyword">from</span> <span class="hljs-keyword">local</span>;</span>
+</code></pre>
+<h2>Thrift接口</h2>
+<style><!--
+p { margin-bottom: 0.25cm; direction: ltr; color: rgb(0, 0, 10); line-height: 120%; text-align: left; }p.western { font-family: "Liberation Serif",serif; font-size: 12pt; }p.cjk { font-family: "宋体"; font-size: 12pt; }p.ctl { font-family: "宋体"; font-size: 12pt; }a:link {  }
+--></style>
+<p class="cjk"><span style="font-family: Liberation Serif,serif;"><span lang="en-US">Token Range</span></span>告诉我们<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra</span></span>的记录是分片存储的，也就意味着可以分片读取。现在的问题转换成为如何知道每一个<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Token Range</span></span>的起止范围。</p>
+<p class="cjk"><span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra</span></span>支持的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Thrift</span></span>接口中<span style="font-family: Liberation Serif,serif;"><span lang="en-US">describe_ring</span></span>就是用来获取<span style="font-family: Liberation Serif,serif;"><span lang="en-US">token range</span></span>的具体起止范围的。我们常用的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">nodetool</span></span>工具使用的就是<span style="font-family: Liberation Serif,serif;"><span lang="en-US">thrift</span></span>接口，<span style="font-family: Liberation Serif,serif;"><span lang="en-US">nodetool </span></span>中有一个<span style="font-family: Liberation Serif,serif;"><span lang="en-US">describering</span></span>指令使用的就是<span style="font-family: Liberation Serif,serif;"><span lang="en-US">describe_ring</span></span>原语。</p>
+<p class="cjk">可以做一个简单的实验，利用<span style="font-family: Liberation Serif,serif;"><span lang="en-US">nodetool</span></span>来查看某个<span style="font-family: Liberation Serif,serif;"><span lang="en-US">keyspace</span></span>的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">token range</span></span>具体情况。</p>
+<pre><code class="bash hljs ">  nodetool -hcassandra_server_addr describering keyspacename
+</code></pre>
+<h1>Spark-Cassandra-Connector</h1>
+<p>在第一节中讲解了Cassandra中Token Range信息的存储位置，以及可以使用哪些API来获取token range信息。</p>
+<p>接下来就分析spark-cassandra-connector是如何以cassandra为数据源将数据加载进内存的。</p>
+<p>以简单的查询语句为例，假设用户要从demo这个keyspace的tableX表中加载所有数据，用CQL来表述就是</p>
+<pre><code class="sql hljs "><span class="hljs-operator"><span class="hljs-keyword">select</span> * <span class="hljs-keyword">from</span> demo.tableX</span></code></pre>
+<p>上述的查询使用spark-cassandra-connector来表述就是</p>
+<pre><code class="sql hljs ">sc.cassandraTable(“demo”,”tableX”)</code></pre>
+<p>尽管上述语句没有触发Spark Job的提交，也就是说并不会将数据直正的从Cassandra的tableX表中加载进来，但spark-cassandra-connector还是需要进行一些数据库的操作。要解决的主要问题就是schema相关。</p>
+<pre><code class="sql hljs ">cassandraTable(“demo”,”tableX”)</code></pre>
+<p>只是说要从tableX中加载数据，并没有告诉connector有哪些字段，每个字段的类型是什么。这些信息对后面使用诸如get[String](“fieldX”)来说却是非常关键的。</p>
+<p>为了获取字段类型信息的元数据，需要读取system.schema_columns表，利用如下语句可以得到schema_columns表结构的详细信息</p>
+<pre><code class="sql hljs ">desc table system.schema_columns</code></pre>
+<p>如果在conf/log4j.properties中将日志级别设置为DEBUG, 然后再执行sc.cassandraTable语句就可以看到具体的CQL查询语句是什么。</p>
+<h2>CassandraRDDPartitioner</h2>
+<p>Spark-cassandra-connector添加了一种新的RDD实现，即CassandraRDD。我们知道对于一个Spark RDD来说，非常关键的就是确定getPartitions和compute函数。</p>
+<p>getPartitions函数会调用CassandraRDDPartitioner来获取分区数目，</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">override</span> <span class="hljs-keyword">def</span> getPartitions: Array[Partition] = {
+    verify <span class="hljs-comment">// let's fail fast</span>
+    <span class="hljs-keyword">val</span> tf = TokenFactory.forCassandraPartitioner(cassandraPartitionerClassName)
+    <span class="hljs-keyword">val</span> partitions = <span class="hljs-keyword">new</span> CassandraRDDPartitioner(connector, tableDef, splitSize)(tf).partitions(where)
+    logDebug(s<span class="hljs-string">"Created total ${partitions.size} partitions for $keyspaceName.$tableName."</span>)
+    logTrace(<span class="hljs-string">"Partitions: \n"</span> + partitions.mkString(<span class="hljs-string">"\n"</span>))
+    partitions
+  }
+</code></pre>
+<style><!--
+p { margin-bottom: 0.25cm; direction: ltr; color: rgb(0, 0, 10); line-height: 120%; text-align: left; }p.western { font-family: "Liberation Serif",serif; font-size: 12pt; }p.cjk { font-family: "宋体"; font-size: 12pt; }p.ctl { font-family: "宋体"; font-size: 12pt; }a:link {  }
+--></style>
+<p class="cjk" style="margin-bottom: 0cm; line-height: 100%;"><span style="font-family: Liberation Serif,serif;"><span lang="en-US">CassandraRDDPartitioner</span></span>中的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">partitions</span></span>的处理逻辑大致如下：</p>
+<ol>
+<li>
+<p class="cjk">首先确定<span style="font-family: Liberation Serif,serif;"><span lang="en-US">token range</span></span>，使用<span style="font-family: Liberation Serif,serif;"><span lang="en-US">describe_ring</span></span></p>
+</li>
+<li>
+<p class="cjk">然后根据<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra</span></span>中使用的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Partitioner</span></span>来确定某一个<span style="font-family: Liberation Serif,serif;"><span lang="en-US">token range</span></span>中可能的记录条数，这么做的原因就是为进一步控制加载的数据，提高并发度。否则并发度就永远是<span style="font-family: Liberation Serif,serif;"><span lang="en-US">256</span></span>了，比如有一个物理节点，其中有<span style="font-family: Liberation Serif,serif;"><span lang="en-US">256</span></span>个<span style="font-family: Liberation Serif,serif;"><span lang="en-US">vnodes</span></span>，也就是<span style="font-family: Liberation Serif,serif;"><span lang="en-US">256</span></span>个<span style="font-family: Liberation Serif,serif;"><span lang="en-US">token</span></span>分区。如果每个分区中大致的记录数是<span style="font-family: Liberation Serif,serif;"><span lang="en-US">20,000,</span></span>而每次加载最大只允许<span style="font-family: Liberation Serif,serif;"><span lang="en-US">10,00</span></span>的话，整个数据就可以分成<span style="font-family: Liberation Serif,serif;"><span lang="en-US">256x2=512</span></span>个分区。</p>
+</li>
+<li>
+<p class="cjk">对<span style="font-family: Liberation Serif,serif;"><span lang="en-US">describeRing</span></span>返回的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">token range</span></span>进一步拆分的话，需要使用<span style="font-family: Liberation Serif,serif;"><span lang="en-US">splitter</span></span>，<span style="font-family: Liberation Serif,serif;"><span lang="en-US">splitter</span></span>的构建需要根据<span style="font-family: Liberation Serif,serif;"><span lang="en-US">keyspace</span></span>中使用了何种<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Partitioner</span></span>来决定，<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra</span></span>中默认的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Partitioner</span></span>是<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Murmur3Partitioner</span></span>，<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Murmur3Hash</span></span>算法可以让<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Hash</span></span>值更为均匀的分布到不同节点。</p>
+</li>
+<li>
+<p class="cjk"><span style="font-family: Liberation Serif,serif;"><span lang="en-US">splitter</span></span>中会利用到配置项<span style="font-family: Liberation Serif,serif;"><span lang="en-US">spark.cassandra.input.split.size</span></span>和<span style="font-family: Liberation Serif,serif;"><span lang="en-US">spark.cassandra.page.row.size</span></span>，分别表示一个线程最多读取多少记录，另一个表示每次读取多少行。</p>
+</li>
+</ol>
+<p class="cjk"><span style="font-family: Liberation Serif,serif;"><span lang="en-US"> partitions</span></span>的源码详见<span style="font-family: Liberation Serif,serif;"><span lang="en-US">CasssandraRDDParitioner.scala</span></span></p>
+<p class="cjk"><span style="font-family: Liberation Serif,serif;"><span lang="en-US"> compute</span></span>函数就利用确定的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">token</span></span>的起止范围来加载内容，这里在理解的时候需要引起注意的就是<span style="font-family: Liberation Serif,serif;"><span lang="en-US">flatMap</span></span>是惰性执行的，也就是说只有在真正需要值的时候才会被执行，延迟触发。</p>
+<p class="cjk">数据真正的加载是发生在<span style="font-family: Liberation Serif,serif;"><span lang="en-US">fetchTokenRange</span></span>函数，这时使用到的就是<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra Java Driver</span></span>了，平淡无奇。</p>
+<h2 class="cjk">fetchTokenRange</h2>
+<style><!--
+p { margin-bottom: 0.25cm; direction: ltr; color: rgb(0, 0, 10); line-height: 120%; text-align: left; }p.western { font-family: "Liberation Serif",serif; font-size: 12pt; }p.cjk { font-family: "宋体"; font-size: 12pt; }p.ctl { font-family: "宋体"; font-size: 12pt; }a:link {  }
+--></style>
+<p class="cjk"><span style="font-family: Liberation Serif,serif;"><span lang="en-US">fetcchTokenRange</span></span>函数使用<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra Java Driver</span></span>提供的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">API</span></span>接口来读取数据，利用<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Java API</span></span>读取数据一般遵循以下步骤</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">val</span> cluster = Cluster.Builder.addContactPoint(“xx.xx.xx.xx”).build
+<span class="hljs-keyword">val</span> session = cluster.connect
+<span class="hljs-keyword">val</span> stmt = <span class="hljs-keyword">new</span> SimpleStatement(queryCQL)
+session.execute(session)
+session.close
+cluster.close
+</code></pre>
+<p>addContactPoint的参数是cassandra server的ip地址，在后面真正执行cql语句的时候，如果集群有多个节点构成，那么不同的cql就会在不同的节点上执行，自动实现了负载均衡。可以在addContactPoint的参数中设定多个节点的地址，这样可以防止某一节点挂掉，无法获取集群信息的情况发生。</p>
+<p>session是线程安全的，在不同的线程使用同一个session是没有问题的，建议针对一个keySpace只使用一个session.</p>
+<h2>RDD中使用Session</h2>
+<style><!--
+p { margin-bottom: 0.25cm; direction: ltr; color: rgb(0, 0, 10); line-height: 120%; text-align: left; }p.western { font-family: "Liberation Serif",serif; font-size: 12pt; }p.cjk { font-family: "宋体"; font-size: 12pt; }p.ctl { font-family: "宋体"; font-size: 12pt; }a:link {  }
+--></style>
+<p class="cjk" style="margin-bottom: 0cm; line-height: 100%;">在<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Spark RDD</span></span>中是无法使用<span style="font-family: Liberation Serif,serif;"><span lang="en-US">SparkContext</span></span>的，否则会形成<span style="font-family: Liberation Serif,serif;"><span lang="en-US">RDD</span></span>嵌套的现象，因为利用<span style="font-family: Liberation Serif,serif;"><span lang="en-US">SparkContext</span></span>很容易构造出<span style="font-family: Liberation Serif,serif;"><span lang="en-US">RDD</span></span>，如果在<span style="font-family: Liberation Serif,serif;"><span lang="en-US">RDD</span></span>的函数中如<span style="font-family: Liberation Serif,serif;"><span lang="en-US">map</span></span>中调用<span style="font-family: Liberation Serif,serif;"><span lang="en-US">SparkContext</span></span>创建一个新的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">RDD</span></span>，则形成深度嵌套进而导致<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Spark Job</span></span>有嵌套。</p>
+<p class="cjk">但在实际的情况下，我们可以需要根据<span style="font-family: Liberation Serif,serif;"><span lang="en-US">RDD</span></span>中的值再去对数据库进行操作，那么有什么办法来打开数据库连接呢？</p>
+<p class="cjk">解决的办法就是直接使用<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra Java Driver</span></span>而不再使用<span style="font-family: Liberation Serif,serif;"><span lang="en-US">spark-cassandra-connector</span></span>的高级封装，因为不能像这样子来使用<span style="font-family: Liberation Serif,serif;"><span lang="en-US">cassandraRDD. </span></span></p>
+<pre><code class="scala hljs ">  sc.cassandraRDD(“ks”,”tableX”).map(x=&gt;sc.cassandraRDD(“ks”,”tableX”).where(filter))</code></pre>
+<p>如果是直接使用Cassandra Java Driver，为了避免每个RDD中的iterator都需要打开一个session，那么可以使用foreachPartition函数来进行操作，减少打开的session数。</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">val</span>  rdd1 = sc.cassandraTable(“keyspace”,”tableX”)
+  rdd1.foreachPartition( lst =&gt; {
+    <span class="hljs-keyword">val</span> cluster = ClusterBuilder.addContactPoint(“xx.xx.xx.xx”).build
+    <span class="hljs-keyword">val</span> session = cluster.connect
+    <span class="hljs-keyword">while</span> ( iter.hasNext ) {
+     	<span class="hljs-keyword">val</span>  elem = iter.next
+      <span class="hljs-comment">//do something by using session and elem</span>
+    }
+    session.close
+    cluster.close
+  })
+</code></pre>
+<p>其实最好的办法是在外面建立一个session，然后在不同的partition中使用同一个session，但这种方法不行的原因是在执行的时候会需要”Task not Serializable”的错误，于是只有在foreachPartition函数内部新建session.</p>
+<h1>数据备份</h1>
+<style><!--
+p { margin-bottom: 0.25cm; direction: ltr; color: rgb(0, 0, 10); line-height: 120%; text-align: left; }p.western { font-family: "Liberation Serif",serif; font-size: 12pt; }p.cjk { font-family: "宋体"; font-size: 12pt; }p.ctl { font-family: "宋体"; font-size: 12pt; }a:link {  }
+--></style>
+<p class="cjk" style="margin-bottom: 0cm; line-height: 100%;">尽管<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra</span></span>号称可以做到宕机时间为零，但为了谨慎起见，还是需要对数据进行备份。</p>
+<p class="cjk"><span style="font-family: Liberation Serif,serif;"><span lang="en-US"> Cassandra</span></span>提供了几种备份的方法，</p>
+<ol>
+<li>
+<p class="cjk">将数据导出成为<span style="font-family: Liberation Serif,serif;"><span lang="en-US">json</span></span>格式</p>
+</li>
+<li>
+<p class="cjk">利用<span style="font-family: Liberation Serif,serif;"><span lang="en-US">copy</span></span>将数据导出为<span style="font-family: Liberation Serif,serif;"><span lang="en-US">csv</span></span>格式</p>
+</li>
+<li>
+<p class="cjk">直接复制<span style="font-family: Liberation Serif,serif;"><span lang="en-US">sstable</span></span>文件</p>
+</li>
+</ol>
+<p class="cjk">导出成为<span style="font-family: Liberation Serif,serif;"><span lang="en-US">json</span></span>或<span style="font-family: Liberation Serif,serif;"><span lang="en-US">csv</span></span>格式，当表中的记录非常多的时候，这显然不是一个好的选择。于是就只剩下备份<span style="font-family: Liberation Serif,serif;"><span lang="en-US">sstable</span></span>文件了。</p>
+<p class="cjk">问题是将<span style="font-family: Liberation Serif,serif;"><span lang="en-US">sstable</span></span>存储到哪里呢？放到<span style="font-family: Liberation Serif,serif;"><span lang="en-US">HDFS</span></span>当然没有问题，哪有没有可能对放到<span style="font-family: Liberation Serif,serif;"><span lang="en-US">HDFS</span></span>上的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">sstable</span></span>直接进行读取呢，在没有经过任务修改的情况下，这是不行的。</p>
+<p class="cjk">试想一下，<span style="font-family: Liberation Serif,serif;"><span lang="en-US">sstable</span></span>的文件会被拆分为多个块而存储到<span style="font-family: Liberation Serif,serif;"><span lang="en-US">HDFS</span></span>中，这样会破坏记录的完整性，<span style="font-family: Liberation Serif,serif;"><span lang="en-US">HDFS</span></span>在存储的时候并不知道某一<span style="font-family: Liberation Serif,serif;"><span lang="en-US">block</span></span>中包含有完成的记录信息。</p>
+<p class="cjk">为了做到记录信息不会被拆分到多个<span style="font-family: Liberation Serif,serif;"><span lang="en-US">block</span></span>中，需要根据<span style="font-family: Liberation Serif,serif;"><span lang="en-US">sstable</span></span>的格式自行提取信息，并将其存储到<span style="font-family: Liberation Serif,serif;"><span lang="en-US">HDFS</span></span>上。这样存储之后的文件就可以被并行访问。</p>
+<p class="cjk"><span style="font-family: Liberation Serif,serif;"><span lang="en-US"> Cassandra</span></span>中提供了工具<span style="font-family: Liberation Serif,serif;"><span lang="en-US">sstablesplit</span></span>来将大的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">sstable</span></span>分割成为小的文件。</p>
+<p class="cjk"><span style="font-family: Liberation Serif,serif;"><span lang="en-US"> DataStax</span></span>的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">DSE</span></span>企业版中提供了和<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Hadoop</span></span>及<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Spark</span></span>的紧密结合，其一个很大的基础就是先将<span style="font-family: Liberation Serif,serif;"><span lang="en-US">sstable</span></span>的内容存储到<span style="font-family: Liberation Serif,serif;"><span lang="en-US">CFS</span></span>中，大体的思路与刚才提及的应该差不多。</p>
+<p class="cjk">对<span style="font-family: Liberation Serif,serif;"><span lang="en-US">sstable</span></span>存储结构的分析是一个研究的热门，可以参考如下的链接。</p>
+<ol>
+<li>
+<p class="cjk"><span style="font-family: Liberation Serif,serif;"><span lang="en-US"><span style="color: #000080;"><span lang="zxx"><span style="text-decoration: underline;"><a href="https://www.fullcontact.com/blog/cassandra-sstables-offline/">https://www.fullcontact.com/blog/cassandra-sstables-offline/</a></span></span></span></span></span></p>
+</li>
+</ol>
+<p class="cjk">只所以要研究备份策略是想将对数据的分析部分与业务部分相分离开，避免由于后台的数据分析导致<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra</span></span>集群响应变得缓慢而致前台业务不可用，即将<span style="font-family: Liberation Serif,serif;"><span lang="en-US">OLTP</span></span>和<span style="font-family: Liberation Serif,serif;"><span lang="en-US">OLAP</span></span>的数据源分离开。</p>
+<h1 class="cjk">复杂查询</h1>
+<p class="cjk">通过近乎实时的数据备份，后台<span style="font-family: Liberation Serif,serif;"><span lang="en-US">OLAP</span></span>就可以使用<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Spark</span></span>来对数据进行分析和处理。</p>
+<style><!--
+p { margin-bottom: 0.25cm; direction: ltr; color: rgb(0, 0, 10); line-height: 120%; text-align: left; }p.western { font-family: "Liberation Serif",serif; font-size: 12pt; }p.cjk { font-family: "宋体"; font-size: 12pt; }p.ctl { font-family: "宋体"; font-size: 12pt; }a:link {  }
+--></style>
+<p class="cjk" style="margin-bottom: 0cm; line-height: 100%;">与传统的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">RDBMS</span></span>相比，<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra</span></span>所能提供的查询功能实在是弱的可以，如果想到实现非常复杂的查询功能的，需要将<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra</span></span>和<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Solr</span></span>进行结合。</p>
+<p class="cjk"><span style="font-family: Liberation Serif,serif;"><span lang="en-US"> DSE</span></span>企业版提供了该功能，如果想手工搭建的话，可以参考下面的链接</p>
+<ol>
+<li>
+<p class="cjk"><span style="font-family: Liberation Serif,serif;"><span lang="en-US"><span style="color: #000080;"><span lang="zxx"><span style="text-decoration: underline;"><a href="http://www.slideshare.net/planetcassandra/an-introduction-to-distributed-search-with-cassandra-and-solr">http://www.slideshare.net/planetcassandra/an-introduction-to-distributed-search-with-cassandra-and-solr</a></span></span></span> </span></span></p>
+</li>
+<li>
+<p class="cjk"><span style="font-family: Liberation Serif,serif;"><span lang="en-US"><span style="color: #000080;"><span lang="zxx"><span style="text-decoration: underline;"><a href="https://github.com/Stratio/stratio-cassandra">https://github.com/Stratio/stratio-cassandra</a></span></span></span> </span></span>开源方面的尝试 <span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra</span></span>和<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Lucene</span></span>的结合</p>
+</li>
+</ol>
+<h1>共享SparkContext</h1>
+<style><!--
+p { margin-bottom: 0.25cm; direction: ltr; color: rgb(0, 0, 10); line-height: 120%; text-align: left; }p.western { font-family: "Liberation Serif",serif; font-size: 12pt; }p.cjk { font-family: "宋体"; font-size: 12pt; }p.ctl { font-family: "宋体"; font-size: 12pt; }a:link {  }
+--></style>
+<p class="cjk" style="margin-bottom: 0cm; line-height: 100%;"><span style="font-family: Liberation Serif,serif;"><span lang="en-US">SparkContext</span></span>可以被多个线程使用，这意味着同个<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Spark Application</span></span>中的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Job</span></span>可以同时提交到<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Spark Cluster</span></span>中，减少了整体的等待时间。</p>
+<p class="cjk">在同一个线程中， <span style="font-family: Liberation Serif,serif;"><span lang="en-US">Spark</span></span>只能逐个提交<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Job</span></span>，当<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Job</span></span>在执行的时候，<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Driver Application</span></span>中的提交线程是处于等待状态的。如果<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Job A</span></span>没有执行完，<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Job B</span></span>就无法提交到集群，就更不要提分配资源真正执行了。</p>
+<p class="cjk">那么如何来减少等待时间呢，比如在读取<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Cassandra</span></span>数据的过程中，需要从两个不同的表中读取数据，一种办法就是先读取完成表<span style="font-family: Liberation Serif,serif;"><span lang="en-US">A</span></span>与读取表<span style="font-family: Liberation Serif,serif;"><span lang="en-US">B</span></span>，总的耗时是两者之和。</p>
+<p class="cjk">如果利用共享<span style="font-family: Liberation Serif,serif;"><span lang="en-US">SparkContext</span></span>的技术，在不同的线程中去读取，则耗时只是两者之间的最大值。</p>
+<p class="cjk">在<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Scala</span></span>中有多种不同的方式来实现多线程，现仅以<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Future</span></span>为例来说明问题</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">val</span> ll  = (<span class="hljs-number">1</span> to <span class="hljs-number">3</span> toList).map(x=&gt;sc.makeRDD(<span class="hljs-number">1</span> to <span class="hljs-number">100000</span> toList, <span class="hljs-number">3</span>))
+<span class="hljs-keyword">val</span> futures = ll.map ( x =&gt; Future {
+    x.count()
+  })
+<span class="hljs-keyword">val</span> fl = Future.sequencce(futures)
+Await.result(fl,<span class="hljs-number">3600</span> seconds)
+</code></pre>
+<style><!--
+p { margin-bottom: 0.25cm; direction: ltr; color: rgb(0, 0, 10); line-height: 120%; text-align: left; }p.western { font-family: "Liberation Serif",serif; font-size: 12pt; }p.cjk { font-family: "宋体"; font-size: 12pt; }p.ctl { font-family: "宋体"; font-size: 12pt; }a:link {  }
+--></style>
+<p class="cjk">简要说明一下代码逻辑</p>
+<ol>
+<li>
+<p class="cjk">创建三个不同的<span style="font-family: Liberation Serif,serif;"><span lang="en-US">RDD</span></span></p>
+</li>
+<li>
+<p class="cjk">在不同的线程<span style="font-family: Liberation Serif,serif;"><span lang="en-US">(Future)</span></span>中通过<span style="font-family: Liberation Serif,serif;"><span lang="en-US">count</span></span>函数来提交<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Job</span></span></p>
+</li>
+<li>
+<p class="cjk">使用<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Await</span></span>来等待<span style="font-family: Liberation Serif,serif;"><span lang="en-US">Future</span></span>执行结束</p>
+</li>
+</ol></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/hseagle/tag/Apache%20Spark/">Apache Spark</a></div>
+<div id="blog_post_info"><div id="green_channel">
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(4104386,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://msg.cnblogs.com/send/%E5%BE%BD%E6%B2%AA%E4%B8%80%E9%83%8E" target="_blank">联系我</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/icon_weibo_24.png" alt=""></a>
+<a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/" target="_blank"><img src="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followees">关注 - 5</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followers">粉丝 - 193</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+    <a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div class="diggit" onclick="votePost(4104386,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+	<div class="buryit" onclick="votePost(4104386,&#39;Bury&#39;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/hseagle/p/4052572.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/hseagle/p/4052572.html" title="发布于2014-10-26 20:43">Apache Spark技术实战之6 -- spark-submit常见问题及其解决</a><br><a href="http://www.cnblogs.com/hseagle/p/4149603.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/hseagle/p/4149603.html" title="发布于2014-12-07 17:21">拥抱新技术的一点思考</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2014-11-17 21:11</span> <a href="http://www.cnblogs.com/hseagle/">徽沪一郎</a> 阅读(<span id="post_view_count">1351</span>) 评论(<span id="post_comment_count">0</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=4104386" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/hseagle/p/4104386.html#" onclick="AddToWz(4104386);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=134061,cb_entryId=4104386,cb_blogApp=currentBlogApp,cb_blogUserGuid='8f4525b4-4a31-e211-aa8f-842b2b196315',cb_entryCreatedDate='2014/11/17 21:11:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/hseagle/p/4104386.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/hseagle/p/4104386.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://www.jpush.cn/" target="_blank">【推荐】极光推送30多万开发者的选择，SDK接入量超过30亿了，你还没注册？</a><br><a href="http://click.aliyun.com/m/3037/" target="_blank">【阿里云SSD云盘】速度行业领先</a><br></div>
+<div id="opt_under_post"></div>
+<div id="ad_c1" class="c_ad_block"><a href="http://www.cnblogs.com/onepixel/p/5062456.html" target="_blank"><img width="300" height="250" src="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/explain-it-simply.jpg" alt="explain it simply" title="explain it simply"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/536914/" target="_blank">上海市质监局：小米空气净化器质量问题严重</a><br> ·  <a href="http://news.cnblogs.com/n/536913/" target="_blank">Qt不再使用LGPLv2.1授权</a><br> ·  <a href="http://news.cnblogs.com/n/536912/" target="_blank">微软开源Edge的JS引擎ChakraCore</a><br> ·  <a href="http://news.cnblogs.com/n/536911/" target="_blank">星巴克CEO看好中国经济，打算五年之内将中国门店数量翻番</a><br> ·  <a href="http://news.cnblogs.com/n/536910/" target="_blank">App Store 12月游戏收入近10亿美金，Clash of Clans高居榜首</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/536387/" target="_blank">Docker简介</a><br> ·  <a href="http://kb.cnblogs.com/page/536115/" target="_blank">Docker简明教程</a><br> ·  <a href="http://kb.cnblogs.com/page/535581/" target="_blank">Git协作流程</a><br> ·  <a href="http://kb.cnblogs.com/page/535355/" target="_blank">企业计算的终结</a><br> ·  <a href="http://kb.cnblogs.com/page/535278/" target="_blank">软件开发的核心</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+$(function () {
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);    
+});
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><p>邮箱: hs_xp@163.com<br>
+</p>
+<p>QQ: 58506256&nbsp; <br>
+</p>
+<p>QQ群: Spark零基础学习 367106111</p>
+<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=99253f4f95c7f17a8d77d6cf2acfacfa6556ae645d22f9c6a13d24142341761e"><img src="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/group.png" alt="Spark零基础学习" title="Spark零基础学习" border="0"></a>
+<br>
+<p>&nbsp;</p>
+<embed src="http://service.weibo.com/staticjs/weiboshow.swf?verifier=8feb07ed&amp;uid=2060926175&amp;width=200&amp;height=500&amp;fansRow=2&amp;isTitle=1&amp;isWeibo=1&amp;isFans=1&amp;noborder=0&amp;ptype=1&amp;colors=cfe1f3,fafcff,444444,5093d5" quality="high" scale="noborder" align="L" height="500" width="200"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>园龄：<a href="http://home.cnblogs.com/u/hseagle/" title="入园时间：2012-11-18">3年1个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/hseagle/followers/">193</a><br>关注：<a href="http://home.cnblogs.com/u/hseagle/followees/">5</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger(&#39;8f4525b4-4a31-e211-aa8f-842b2b196315&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2015/12/01&#39;);return false;">&lt;</a></td><td align="center">2016年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2016/02/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td class="CalWeekendDay" align="center">2</td></tr><tr><td class="CalWeekendDay" align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center"><a href="http://www.cnblogs.com/hseagle/archive/2016/01/07.html"><u>7</u></a></td><td align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr><tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td class="CalTodayDay" align="center">14</td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr><tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr><tr><td class="CalWeekendDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td class="CalWeekendDay" align="center">30</td></tr><tr><td class="CalWeekendDay" align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+
+</div>
+</div>
+
+</div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(70)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark(34)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/hseagle/category/519033.html">Apache Storm(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/hseagle/category/514458.html">archlinux(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/hseagle/category/664228.html">BigData(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/hseagle/category/565169.html">Database(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/hseagle/category/759340.html">Elasticsearch(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/hseagle/category/470583.html">GDB(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/hseagle/category/554058.html">Hadoop(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/hseagle/category/519017.html">memory management(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/hseagle/category/646056.html">Scala(2)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(76)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/hseagle/archive/2016/01.html">2016年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/hseagle/archive/2015/11.html">2015年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/hseagle/archive/2015/04.html">2015年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/hseagle/archive/2015/03.html">2015年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/hseagle/archive/2015/02.html">2015年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/hseagle/archive/2015/01.html">2015年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/hseagle/archive/2014/12.html">2014年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/hseagle/archive/2014/11.html">2014年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/hseagle/archive/2014/10.html">2014年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/hseagle/archive/2014/09.html">2014年9月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/hseagle/archive/2014/08.html">2014年8月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/hseagle/archive/2014/07.html">2014年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/hseagle/archive/2014/06.html">2014年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/hseagle/archive/2014/05.html">2014年5月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/hseagle/archive/2014/04.html">2014年4月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/hseagle/archive/2014/03.html">2014年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/hseagle/archive/2014/02.html">2014年2月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/hseagle/archive/2014/01.html">2014年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/hseagle/archive/2013/12.html">2013年12月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/hseagle/archive/2013/11.html">2013年11月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/hseagle/archive/2013/10.html">2013年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/hseagle/archive/2013/09.html">2013年9月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/hseagle/archive/2013/08.html">2013年8月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/hseagle/archive/2013/06.html">2013年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/hseagle/archive/2013/05.html">2013年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/hseagle/archive/2013/04.html">2013年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/hseagle/archive/2013/03.html">2013年3月 (4)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	104754
+	</li>
+	<li class="liRank">
+		排名 -	1810
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">1. Apache Spark源码走读之1 -- Spark论文阅读笔记(14198)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673123.html">2. Apache Spark源码走读之2 -- Job的提交与运行(9805)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673132.html">3. Apache Spark源码走读之3 -- Task运行期之函数调用关系分析(7388)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(5476)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3756862.html">5. Apache Storm源码阅读笔记(4802)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3543782.html">1. Apache Storm 衍生项目之1 -- storm-yarn(5)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3732492.html">2. Apache Spark源码走读之9 -- Spark源码编译(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">3. Apache Spark源码走读之1 -- Spark论文阅读笔记(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3908276.html">5. Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现(3)</a></li></ul></div>
+</div>
+</div></div></div><script type="text/javascript">loadBlogSideColumn();</script><iframe src="./Apache Spark技术实战之7 -- CassandraRDD高并发数据读取实现剖析 - 徽沪一郎 - 博客园_files/container.html" style="visibility: hidden; display: none;"></iframe>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2016 徽沪一郎
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

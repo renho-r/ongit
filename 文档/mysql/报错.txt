@@ -1,0 +1,3 @@
+±®¥ÌCaused by: java.sql.SQLException: Prepared statement needs to be re-prepared
+SET GLOBAL table_open_cache=16384;
+SET GLOBAL table_definition_cache=16384;

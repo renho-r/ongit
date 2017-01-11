@@ -1,0 +1,8 @@
+1.
+	/home/renho/qpid
+2.
+	vi .bash_profile 
+	添加 export QPID_WORK=/home/renho/qpid/qpidwork
+3.
+	启动:./qpid-server
+	停止:./qpid.stop

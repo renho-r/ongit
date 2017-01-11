@@ -46,6 +46,6 @@ public class TestTarget {
 	@Retention(RetentionPolicy.RUNTIME)
 	@Target(ElementType.PARAMETER)
 	public @interface PARAMETER_RENHO {
-
+		public String value() default "";
 	}
 }

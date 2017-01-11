@@ -6,6 +6,7 @@ import com.renho.target.TestTarget.CONSTRUCTOR_RENHO;
 import com.renho.target.TestTarget.FIELD_RENHO;
 import com.renho.target.TestTarget.LOCAL_VARIABLE_RENHO;
 import com.renho.target.TestTarget.METHOD_RENHO;
+import com.renho.target.TestTarget.PARAMETER_RENHO;
 import com.renho.target.TestTarget.TYPE_RENHO;
 
 @TYPE_RENHO(tableName="renho_tableName")
@@ -50,5 +51,11 @@ public class User {
 		@LOCAL_VARIABLE_RENHO
 		String backStr = id + ":" + name + ":" + ":" + updateTime;
 		return backStr + appendStr;
+	}
+	
+	public String showParam(@PARAMETER_RENHO String p1, @PARAMETER_RENHO("p2") String p2) {
+		@LOCAL_VARIABLE_RENHO
+		String backStr = id + ":" + name + ":" + ":" + updateTime;
+		return backStr + p1 + ":" + p2;
 	}
 }

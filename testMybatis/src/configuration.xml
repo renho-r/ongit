@@ -5,7 +5,8 @@
 <configuration>  
 	<typeAliases>  
 		<!--给实体类起一个别名 City -->  
-		<typeAlias type="com.renho.pojo.City" alias="City" />  
+		<typeAlias type="com.renho.pojo.City" alias="City" />
+		<typeAlias type="com.renho.pojo.OnlyVarchar" alias="OnlyVarchar" />
 	</typeAliases>  
 	<!--数据源配置  这块用 mysql数据库 -->  
 	<environments default="development">  
@@ -21,6 +22,7 @@
 	</environments>  
 	<mappers>  
 		<!--cityMapper.xml装载进来  同等于把“dao”的实现装载进来 -->  
-		<mapper resource="myBatis/cityMapper.xml" />  
+		<mapper resource="myBatis/cityMapper.xml" />
+		<mapper resource="myBatis/onlyVarcharMapper.xml" />
 	</mappers>  
 </configuration>

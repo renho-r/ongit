@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://www.cnblogs.com/hseagle/p/3791779.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/bundle-LessIsMoreRight.css">
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/134061.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/hseagle/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/hseagle/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/hseagle/wlwmanifest.xml">
+<script async="" type="text/javascript" src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/gpt.js"></script><script src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'hseagle', cb_enable_mathjax=true;</script>
+<script src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/blog-common.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: ['AMS'], useLabelIds: true } },
+  'HTML-CSS': { linebreaks: { automatic: true } },
+  SVG: { linebreaks: { automatic: true } }});</script><script type="text/javascript" src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/MathJax.js"></script><script src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/pubads_impl_78.js" async=""></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style></head>
+<body><div id="MathJax_Message" style="display: none;"></div>
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<script type="text/javascript" src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/pdfobject.js"></script>
+<script src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/highlight.pack.js"></script>
+<script>
+hljs.configure({tabReplace: '  '});
+hljs.initHighlightingOnLoad();
+</script>
+<!--PageBeginHtml Block End-->
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/hseagle/">富贵有定数，学问则无定数。求一分，便得一分</a></div>
+<div class="subtitle">快乐源于简单</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/hseagle/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/hseagle/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/hseagle/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-76&nbsp;
+文章-0&nbsp;
+评论-47&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园.html">Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p><span style="color: #3366ff;"><strong><em>欢迎转载，转载请注明出处，徽沪一郎。</em></strong></span></p>
+<h1>概要</h1>
+<p>本文就standalone部署方式下的容错性问题做比较细致的分析，主要回答standalone部署方式下的包含哪些主要节点，当某一类节点出现问题时，系统是如何处理的。</p>
+<h1>Standalone部署的节点组成</h1>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/171527130042146.png" alt=""></p>
+<p>介绍Spark的资料中对于RDD这个概念涉及的比较多，但对于RDD如何运行起来，如何对应到进程和线程的，着墨的不是很多。</p>
+<p>在实际的生产环境中，Spark总是会以集群的方式进行运行的，其中standalone的部署方式是所有集群方式中最为精简的一种，另外是Mesos和YARN，要理解其内部运行机理，显然要花更多的时间才能了解清楚。</p>
+<h2>standalone cluster的组成</h2>
+<p>standalone集群由三个不同级别的节点组成，分别是</p>
+<ul>
+<li><strong>Master</strong> 主控节点，可以类比为董事长或总舵主<span style="color: #000000;">，在整个集群之中，最多只有一个Master处在Active状态</span></li>
+<li><strong>Worker</strong> 工作节点 ，这个是manager,是分舵主， 在整个集群中，可以有多个worker，如果worker为零，什么事也做不了</li>
+<li><strong>Executor</strong> 干苦力活的，直接受worker掌控，一个worker可以启动多个executor,启动的个数受限于机器中的cpu核数</li>
+</ul>
+<p><strong><span style="color: #ff0000;">这三种不同类型的节点各自运行于自己的JVM进程之中</span></strong>。</p>
+<h2>Driver Application</h2>
+<p>提交到standalone集群的应用程序称之为Driver Applicaton。</p>
+<h1>Standalone集群启动及任务提交过程详解</h1>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/171527366763478.png" alt=""></p>
+<p>&nbsp;</p>
+<p>上图总结了正常情况下Standalone集群的启动以及应用提交时，各节点之间有哪些消息交互。下面分集群启动和应用提交两个过程来作详细说明。</p>
+<h2>集群启动过程</h2>
+<p>正常启动过程如下所述</p>
+<h3>step 1: 启动master</h3>
+<pre><code class="bash hljs "><span class="hljs-variable">$SPARK_HOME</span>/sbin/start-master.sh
+</code></pre>
+<h3>step 2: 启动worker</h3>
+<pre><code class="bash hljs ">./bin/spark-class org.apache.spark.deploy.worker.Worker spark://localhost:<span class="hljs-number">7077</span>
+</code></pre>
+<p>worker启动之后，会做两件事情</p>
+<ol>
+<li>将自己注册到Master, RegisterWorker</li>
+<li>定期发送心跳消息给Master</li>
+</ol>
+<h2>任务提交过程</h2>
+<h3>step 1: 提交application</h3>
+<p>利用如下指令来启动spark-shell</p>
+<pre><code class="bash hljs ">MASTER=spark://<span class="hljs-number">127.0</span>.<span class="hljs-number">0.1</span>:<span class="hljs-number">7077</span> <span class="hljs-variable">$SPARK_HOME</span>/bin/spark-shell
+</code></pre>
+<p>运行spark-shell时，会向Master发送RegisterApplication请求</p>
+<p><strong>日志位置： </strong>master运行产生的日志在<span style="color: #ff0000;"><em><strong>$SPARK_HOME/logs</strong></em></span>目录下</p>
+<h3>step 2: Master处理RegisterApplication的请求之后</h3>
+<p>收到RegisterApplication请求之后，Mastet会做如下处理</p>
+<ol>
+<li>如果有worker已经注册上来，发送LaunchExecutor指令给相应worker</li>
+<li>如果没有，则什么事也不做</li>
+</ol>
+<h3>step 3: 启动Executor</h3>
+<p>Worker在收到LaunchExecutor指令之后，会启动Executor进程</p>
+<h3>step 4: 注册Executor</h3>
+<p>启动的Executor进程会根据启动时的入参，将自己注册到Driver中的SchedulerBackend</p>
+<p><strong>日志位置</strong>： executor的运行日志在<span style="color: #ff0000;"><em><strong>$SPARK_HOME/work</strong></em></span>目录下</p>
+<h3>step 5: 运行Task</h3>
+<p>SchedulerBackend收到Executor的注册消息之后，会将提交到的Spark Job分解为多个具体的Task，然后通过LaunchTask指令将这些Task分散到各个Executor上真正的运行</p>
+<p><strong>如果在调用runJob的时候，没有任何的Executor注册到SchedulerBackend，相应的处理逻辑是什么呢？</strong></p>
+<ol>
+<li>SchedulerBackend会将Task存储在TaskManager中</li>
+<li>一旦有Executor注册上来，就将TaskManager管理的尚未运行的task提交到executor中</li>
+<li>如果有多个job处于pending状态，默认调度策略是FIFO，即先提交的先运行</li>
+</ol>
+<h4>测试步骤</h4>
+<ol>
+<li>启动Master</li>
+<li>启动spark-shell</li>
+<li>执行 sc.textFile("README.md").count</li>
+<li>启动worker</li>
+<li>注意worker启动之后，spark-shell中打印出来的日志消息</li>
+</ol>
+<h3>Job执行结束</h3>
+<p>任务运行结束时，会将相应的Executor停掉。</p>
+<p>可以做如下的试验</p>
+<ol>
+<li>停止spark-shell</li>
+<li>利用ps -ef|grep -i java查看java进程，可以发现<strong>CoarseGrainedExecutorBackend</strong>进程已经退出</li>
+</ol>
+<h2>小结</h2>
+<p>通过上面的控制消息原语之间的先后顺序可以看出</p>
+<ol>
+<li>Master和worker进程必须显式启动</li>
+<li>executor是被worker隐式的带起</li>
+<li>集群的启动顺序<ol>
+<li>Master必须先于其它节点启动</li>
+<li>worker和driver哪个先启动，无所谓</li>
+<li>但driver提交的job只有在有相应的worker注册到Master之后才可以被真正的执行</li>
+</ol></li>
+</ol>
+<h1>异常场景分析</h1>
+<p>&nbsp;上面说明的是正常情况下，各节点的消息分发细节。那么如果在运行中，集群中的某些节点出现了问题，整个集群是否还能够正常处理Application中的任务呢？</p>
+<h2>异常分析1： worker异常退出</h2>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/172040251924664.png" alt=""></p>
+<p>在Spark运行过程中，经常碰到的问题就是worker异常退出，当worker退出时，整个集群会有哪些故事发生呢? 请看下面的具体描述</p>
+<ol>
+<li>worker异常退出，比如说有意识的通过kill指令将worker杀死</li>
+<li>worker在退出之前，会将自己所管控的所有小弟executor全干掉</li>
+<li>worker需要定期向master改善心跳消息的，现在worker进程都已经玩完了，哪有心跳消息，所以Master会在超时处理中意识到有一个“分舵”离开了</li>
+<li>Master非常伤心，伤心的Master将情况汇报给了相应的Driver</li>
+<li>Driver通过两方面确认分配给自己的Executor不幸离开了，一是Master发送过来的通知，二是Driver没有在规定时间内收到Executor的StatusUpdate，于是Driver会将注册的Executor移除</li>
+</ol>
+<h3>后果分析</h3>
+<p>worker异常退出会带来哪些影响</p>
+<ol>
+<li>executor退出导致提交的task无法正常结束，会被再一次提交运行</li>
+<li>如果所有的worker都异常退出，则整个集群不可用</li>
+<li>需要有相应的程序来重启worker进程，比如使用<strong>supervisord</strong>或<strong>runit</strong></li>
+</ol>
+<h3>测试步骤</h3>
+<ul>
+<li>启动Master</li>
+<li>启动worker</li>
+<li>启动spark-shell</li>
+<li>手工kill掉worker进程</li>
+<li>用jps或ps -ef|grep -i java来查看启动着的java进程</li>
+</ul>
+<h3>异常退出的代码处理</h3>
+<p>定义于ExecutorRunner.scala的start函数</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">def</span> start() {
+    workerThread = <span class="hljs-keyword">new</span> Thread(<span class="hljs-string">"ExecutorRunner for "</span> + fullId) {
+      <span class="hljs-keyword">override</span> <span class="hljs-keyword">def</span> run() { fetchAndRunExecutor() }
+    }
+    workerThread.start()
+    <span class="hljs-comment">// Shutdown hook that kills actors on shutdown.</span>
+    shutdownHook = <span class="hljs-keyword">new</span> Thread() {
+      <span class="hljs-keyword">override</span> <span class="hljs-keyword">def</span> run() {
+        killProcess(Some(<span class="hljs-string">"Worker shutting down"</span>))
+      }
+    }
+    Runtime.getRuntime.addShutdownHook(shutdownHook)
+  }
+</code></pre>
+<p>killProcess的过程就是停止相应CoarseGrainedExecutorBackend的过程。</p>
+<p>worker停止的时候，一定要先将自己启动的Executor停止掉。这是不是很像水浒中宋江的手段，李逵就是这样不明不白的把命给丢了。</p>
+<h4>小结</h4>
+<p><span style="color: #ff0000;"><strong>需要特别指出的是，当worker在启动Executor的时候，是通过ExecutorRunner来完成的，ExecutorRunner是一个独立的线程，和Executor是一对一的关系，这很重要。Executor作为一个独立的进程在运行，但会受到ExecutorRunner的严密监控。</strong></span></p>
+<h2>异常分析2： executor异常退出</h2>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/172057162398744.png" alt=""></p>
+<p>Executor作为Standalone集群部署方式下的最底层员工，一旦异常退出，其后果会是什么呢？</p>
+<ol>
+<li>executor异常退出，ExecutorRunner注意到异常，将情况通过ExecutorStateChanged汇报给Master</li>
+<li>Master收到通知之后，非常不高兴，尽然有小弟要跑路，那还了得，要求Executor所属的worker再次启动</li>
+<li>Worker收到LaunchExecutor指令，再次启动executor</li>
+</ol>
+<p><strong>作为一名底层员工，想轻易摞挑子不干是不成的。"人在江湖，身不由己“啊。</strong></p>
+<h3>测试步骤</h3>
+<ul>
+<li>启动Master</li>
+<li>启动Worker</li>
+<li>启动spark-shell</li>
+<li>手工kill掉CoarseGrainedExecutorBackend</li>
+</ul>
+<h4>fetchAndRunExecutor</h4>
+<p><strong>fetchAndRunExecutor</strong>负责启动具体的Executor，并监控其运行状态，具体代码逻辑如下所示</p>
+<pre><code class="scala hljs "><span class="hljs-keyword">def</span> fetchAndRunExecutor() {
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-comment">// Create the executor's working directory</span>
+      <span class="hljs-keyword">val</span> executorDir = <span class="hljs-keyword">new</span> File(workDir, appId + <span class="hljs-string">"/"</span> + execId)
+      <span class="hljs-keyword">if</span> (!executorDir.mkdirs()) {
+        <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> IOException(<span class="hljs-string">"Failed to create directory "</span> + executorDir)
+      }
+
+      <span class="hljs-comment">// Launch the process</span>
+      <span class="hljs-keyword">val</span> command = getCommandSeq
+      logInfo(<span class="hljs-string">"Launch command: "</span> + command.mkString(<span class="hljs-string">"\""</span>, <span class="hljs-string">"\" \""</span>, <span class="hljs-string">"\""</span>))
+      <span class="hljs-keyword">val</span> builder = <span class="hljs-keyword">new</span> ProcessBuilder(command: _*).directory(executorDir)
+      <span class="hljs-keyword">val</span> env = builder.environment()
+      <span class="hljs-keyword">for</span> ((key, value)  {
+        logInfo(<span class="hljs-string">"Runner thread for executor "</span> + fullId + <span class="hljs-string">" interrupted"</span>)
+        state = ExecutorState.KILLED
+        killProcess(None)
+      }
+      <span class="hljs-keyword">case</span> e: Exception =&gt; {
+        logError(<span class="hljs-string">"Error running executor"</span>, e)
+        state = ExecutorState.FAILED
+        killProcess(Some(e.toString))
+      }
+    }
+  }
+</code></pre>
+<h3>异常分析3： master 异常退出</h3>
+<p>&nbsp;<img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/171610519118335.png" alt=""></p>
+<p>worker和executor异常退出的场景都讲到了，我们剩下最后一种情况了，master挂掉了怎么办？</p>
+<p>带头大哥如果不在了，会是什么后果呢？</p>
+<ul>
+<li>worker没有汇报的对象了，也就是如果executor再次跑飞，worker是不会将executor启动起来的，大哥没给指令</li>
+<li>无法向集群提交新的任务</li>
+<li>老的任务即便结束了，占用的资源也无法清除，因为资源清除的指令是Master发出的</li>
+</ul>
+<p>怎么样，知道后果很严重了吧？别看老大平时不干活，要真的不在，仅凭小弟们是不行的。</p>
+<h2>Master单点失效问题的解决</h2>
+<p>那么怎么解决Master单点失效的问题呢？</p>
+<p>你说再加一个Master就是了，两个老大。两个老大如果同时具有指挥权，结果也将是灾难性的。设立一个副职人员，当目前的正职挂掉之后，副职接管。也就是同一时刻，有且只有一个active master。</p>
+<p>注意不错，如何实现呢？使用zookeeper的ElectLeader功能，效果图如下</p>
+<p><img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/172117573955925.png" alt=""></p>
+<h2>配置细节</h2>
+<p>如何搭建zookeeper集群，这里不再废话，哪天有空的话再整一整，或者可以参考写的storm系列中谈到的zookeeper的集群安装步骤。</p>
+<p>假设zookeeper集群已经设置成功，那么如何启动standalone集群中的节点呢？有哪些特别的地方？</p>
+<h2>conf/spark-env.sh</h2>
+<p>&nbsp;在conf/spark-env.sh中，为SPARK_DAEMON_JAVA_OPTS添加如下选项</p>
+<table>
+<tbody>
+<tr>
+<td>System property</td>
+<td>Meaning</td>
+</tr>
+<tr>
+<td>spark.deploy.recoveryMode</td>
+<td>Set to ZOOKEEPER to enable standby Master recovery mode (default: NONE).</td>
+</tr>
+<tr>
+<td>spark.deploy.zookeeper.url</td>
+<td>The ZooKeeper cluster url (e.g., 192.168.1.100:2181,192.168.1.101:2181).</td>
+</tr>
+<tr>
+<td>spark.deploy.zookeeper.dir</td>
+<td>The directory in ZooKeeper to store recovery state (default: /spark).</td>
+</tr>
+</tbody>
+</table>
+<p>设置SPARK_DAEMON_JAVA_OPTS的实际例子</p>
+<pre><code class="bash hljs ">SPARK_DAEMON_JAVA_OPTS=<span class="hljs-string">"<span class="hljs-variable">$SPARK_DAEMON_JAVA_OPTS</span> -Dspark.deploy.recoveryMode=ZOOKEEPER"</span>
+</code></pre>
+<h2>&nbsp;应用程序启动</h2>
+<p>应用程序运行的时候，指定多个master地址，用逗号分开，如下所示</p>
+<pre><code class="scala hljs ">MASTER=spark:<span class="hljs-comment">//192.168.100.101:7077,spark://192.168.100.102:7077 bin/spark-shell</span>
+</code></pre>
+<h1>小结</h1>
+<p>Standalone集群部署方式下的容错性分析让我们对于Spark的任务分发过程又有了进一处的认识。前面的篇章从整体上匆匆过了一遍Spark所涉及的知识点，分析的不够深，不够细。</p>
+<p>此篇尝试着就某一具体问题做深入的分析。套用书画中的说法，在框架分析的时候，我们可以<strong>”<span style="color: #ff0000;">大开大合，疏可走马，计白当黑</span>“</strong>，在细节分析的时候，又要做到“<span style="color: #ff0000;"><strong>密不透风，条分缕析，层层递进</strong></span>”。</p>
+<p>&nbsp;</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/hseagle/tag/Apache%20Spark/">Apache Spark</a></div>
+<div id="blog_post_info"><div id="green_channel">
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(3791779,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://msg.cnblogs.com/send/%E5%BE%BD%E6%B2%AA%E4%B8%80%E9%83%8E" target="_blank">联系我</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/icon_weibo_24.png" alt=""></a>
+<a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/" target="_blank"><img src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followees">关注 - 5</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followers">粉丝 - 193</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+    <a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div class="diggit" onclick="votePost(3791779,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">4</span>
+    </div>
+	<div class="buryit" onclick="votePost(3791779,&#39;Bury&#39;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/hseagle/p/3777494.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/hseagle/p/3777494.html" title="发布于2014-06-11 11:01">Apache Spark源码走读之14 -- Graphx实现剖析</a><br><a href="http://www.cnblogs.com/hseagle/p/3810486.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/hseagle/p/3810486.html" title="发布于2014-06-28 09:21">Apache Spark源码走读之16 -- spark repl实现详解</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2014-06-17 21:51</span> <a href="http://www.cnblogs.com/hseagle/">徽沪一郎</a> 阅读(<span id="post_view_count">2366</span>) 评论(<span id="post_comment_count">1</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=3791779" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/hseagle/p/3791779.html#" onclick="AddToWz(3791779);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=134061,cb_entryId=3791779,cb_blogApp=currentBlogApp,cb_blogUserGuid='8f4525b4-4a31-e211-aa8f-842b2b196315',cb_entryCreatedDate='2014/6/17 21:51:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<!--done-->
+<div class="feedback_area_title">评论列表</div>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+				<div class="feedbackManage">
+					&nbsp;&nbsp;<span class="comment_actions"></span>
+				</div>
+				<a href="http://www.cnblogs.com/hseagle/p/3791779.html#3256849" class="layer">#1楼</a><a name="3256849" id="comment_anchor_3256849"></a><span id="comment-maxId" style="display:none;">3256849</span><span id="comment-maxDate" style="display:none;">2015/8/30 7:07:42</span>  <span class="comment_date">2015-08-30 07:07</span> <a id="a_comment_author_3256849" href="http://home.cnblogs.com/u/804783/" target="_blank">chengmaoning</a> <a href="http://msg.cnblogs.com/send/chengmaoning" title="发送站内短消息" class="sendMsg2This">&nbsp;</a>
+			</div>
+			<div class="feedbackCon">
+				<div id="comment_body_3256849" class="blog_comment_body">好好好!!高水平博文<br>博主对spark的试验很是到位,相信花了不少时间,解了我不少疑惑!<br>能看出博主对spark源码也是挺熟.<br>看了这篇文章让我对spark的流程有了进一步理解!<br>非常感谢!!!微博已关注</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3256849,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3256849,&#39;Bury&#39;,this)">反对(0)</a></div>
+			</div>
+		</div>
+	<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/hseagle/p/3791779.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/hseagle/p/3791779.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://www.jpush.cn/" target="_blank">【推荐】极光推送30多万开发者的选择，SDK接入量超过30亿了，你还没注册？</a><br><a href="http://click.aliyun.com/m/3037/" target="_blank">【阿里云SSD云盘】速度行业领先</a><br></div>
+<div id="opt_under_post"></div>
+<div id="ad_c1" class="c_ad_block"><a href="http://job.cnblogs.com/offer/51018/" target="_blank"><img width="300" height="250" src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/programming-is-an-art-form.jpg" alt="招聘ASP.NET 5开发工程师" title="招聘ASP.NET 5开发工程师"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/536911/" target="_blank">星巴克CEO看好中国经济，打算五年之内将中国门店数量翻番</a><br> ·  <a href="http://news.cnblogs.com/n/536910/" target="_blank">App Store 12月游戏收入近10亿美金，Clash of Clans高居榜首</a><br> ·  <a href="http://news.cnblogs.com/n/536909/" target="_blank">别拿高频低频瞎忽悠，让O2O们死个明白</a><br> ·  <a href="http://news.cnblogs.com/n/536908/" target="_blank">阿里健康新年第一步 建公益寻药平台</a><br> ·  <a href="http://news.cnblogs.com/n/536907/" target="_blank">微软宣布Build 2016门票开售时间 及Microsoft Envision</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/536387/" target="_blank">Docker简介</a><br> ·  <a href="http://kb.cnblogs.com/page/536115/" target="_blank">Docker简明教程</a><br> ·  <a href="http://kb.cnblogs.com/page/535581/" target="_blank">Git协作流程</a><br> ·  <a href="http://kb.cnblogs.com/page/535355/" target="_blank">企业计算的终结</a><br> ·  <a href="http://kb.cnblogs.com/page/535278/" target="_blank">软件开发的核心</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+$(function () {
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);    
+});
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><p>邮箱: hs_xp@163.com<br>
+</p>
+<p>QQ: 58506256&nbsp; <br>
+</p>
+<p>QQ群: Spark零基础学习 367106111</p>
+<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=99253f4f95c7f17a8d77d6cf2acfacfa6556ae645d22f9c6a13d24142341761e"><img src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/group.png" alt="Spark零基础学习" title="Spark零基础学习" border="0"></a>
+<br>
+<p>&nbsp;</p>
+<embed src="http://service.weibo.com/staticjs/weiboshow.swf?verifier=8feb07ed&amp;uid=2060926175&amp;width=200&amp;height=500&amp;fansRow=2&amp;isTitle=1&amp;isWeibo=1&amp;isFans=1&amp;noborder=0&amp;ptype=1&amp;colors=cfe1f3,fafcff,444444,5093d5" quality="high" scale="noborder" align="L" height="500" width="200"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>园龄：<a href="http://home.cnblogs.com/u/hseagle/" title="入园时间：2012-11-18">3年1个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/hseagle/followers/">193</a><br>关注：<a href="http://home.cnblogs.com/u/hseagle/followees/">5</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger(&#39;8f4525b4-4a31-e211-aa8f-842b2b196315&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2015/12/01&#39;);return false;">&lt;</a></td><td align="center">2016年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2016/02/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td class="CalWeekendDay" align="center">2</td></tr><tr><td class="CalWeekendDay" align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center"><a href="http://www.cnblogs.com/hseagle/archive/2016/01/07.html"><u>7</u></a></td><td align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr><tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td class="CalTodayDay" align="center">14</td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr><tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr><tr><td class="CalWeekendDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td class="CalWeekendDay" align="center">30</td></tr><tr><td class="CalWeekendDay" align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+
+</div>
+</div>
+
+</div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(70)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark(34)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/hseagle/category/519033.html">Apache Storm(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/hseagle/category/514458.html">archlinux(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/hseagle/category/664228.html">BigData(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/hseagle/category/565169.html">Database(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/hseagle/category/759340.html">Elasticsearch(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/hseagle/category/470583.html">GDB(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/hseagle/category/554058.html">Hadoop(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/hseagle/category/519017.html">memory management(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/hseagle/category/646056.html">Scala(2)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(76)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/hseagle/archive/2016/01.html">2016年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/hseagle/archive/2015/11.html">2015年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/hseagle/archive/2015/04.html">2015年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/hseagle/archive/2015/03.html">2015年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/hseagle/archive/2015/02.html">2015年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/hseagle/archive/2015/01.html">2015年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/hseagle/archive/2014/12.html">2014年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/hseagle/archive/2014/11.html">2014年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/hseagle/archive/2014/10.html">2014年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/hseagle/archive/2014/09.html">2014年9月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/hseagle/archive/2014/08.html">2014年8月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/hseagle/archive/2014/07.html">2014年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/hseagle/archive/2014/06.html">2014年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/hseagle/archive/2014/05.html">2014年5月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/hseagle/archive/2014/04.html">2014年4月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/hseagle/archive/2014/03.html">2014年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/hseagle/archive/2014/02.html">2014年2月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/hseagle/archive/2014/01.html">2014年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/hseagle/archive/2013/12.html">2013年12月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/hseagle/archive/2013/11.html">2013年11月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/hseagle/archive/2013/10.html">2013年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/hseagle/archive/2013/09.html">2013年9月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/hseagle/archive/2013/08.html">2013年8月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/hseagle/archive/2013/06.html">2013年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/hseagle/archive/2013/05.html">2013年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/hseagle/archive/2013/04.html">2013年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/hseagle/archive/2013/03.html">2013年3月 (4)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	104754
+	</li>
+	<li class="liRank">
+		排名 -	1810
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">1. Apache Spark源码走读之1 -- Spark论文阅读笔记(14197)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673123.html">2. Apache Spark源码走读之2 -- Job的提交与运行(9805)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673132.html">3. Apache Spark源码走读之3 -- Task运行期之函数调用关系分析(7388)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(5476)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3756862.html">5. Apache Storm源码阅读笔记(4802)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3543782.html">1. Apache Storm 衍生项目之1 -- storm-yarn(5)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3732492.html">2. Apache Spark源码走读之9 -- Spark源码编译(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">3. Apache Spark源码走读之1 -- Spark论文阅读笔记(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3908276.html">5. Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现(3)</a></li></ul></div>
+</div>
+</div></div></div><script type="text/javascript">loadBlogSideColumn();</script><iframe src="./Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析 - 徽沪一郎 - 博客园_files/container.html" style="visibility: hidden; display: none;"></iframe>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2016 徽沪一郎
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

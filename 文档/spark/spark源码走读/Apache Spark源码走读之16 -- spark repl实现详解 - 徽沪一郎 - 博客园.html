@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)http://www.cnblogs.com/hseagle/p/3810486.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<title>Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/bundle-LessIsMoreRight.css">
+<link type="text/css" rel="stylesheet" href="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/134061.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/hseagle/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/hseagle/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/hseagle/wlwmanifest.xml">
+<script async="" type="text/javascript" src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/gpt.js"></script><script src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'hseagle', cb_enable_mathjax=true;</script>
+<script src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/blog-common.js" type="text/javascript"></script>
+<script type="text/x-mathjax-config;executed=true">MathJax.Hub.Config({
+  tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] },
+  TeX: { equationNumbers: { autoNumber: ['AMS'], useLabelIds: true } },
+  'HTML-CSS': { linebreaks: { automatic: true } },
+  SVG: { linebreaks: { automatic: true } }});</script><script type="text/javascript" src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/MathJax.js"></script><script src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/pubads_impl_78.js" async=""></script><style type="text/css">.MathJax_Hover_Frame {border-radius: .25em; -webkit-border-radius: .25em; -moz-border-radius: .25em; -khtml-border-radius: .25em; box-shadow: 0px 0px 15px #83A; -webkit-box-shadow: 0px 0px 15px #83A; -moz-box-shadow: 0px 0px 15px #83A; -khtml-box-shadow: 0px 0px 15px #83A; border: 1px solid #A6D ! important; display: inline-block; position: absolute}
+.MathJax_Hover_Arrow {position: absolute; width: 15px; height: 11px; cursor: pointer}
+</style><style type="text/css">#MathJax_About {position: fixed; left: 50%; width: auto; text-align: center; border: 3px outset; padding: 1em 2em; background-color: #DDDDDD; color: black; cursor: default; font-family: message-box; font-size: 120%; font-style: normal; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; border-radius: 15px; -webkit-border-radius: 15px; -moz-border-radius: 15px; -khtml-border-radius: 15px; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_Menu {position: absolute; background-color: white; color: black; width: auto; padding: 2px; border: 1px solid #CCCCCC; margin: 0; cursor: default; font: menu; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; z-index: 201; box-shadow: 0px 10px 20px #808080; -webkit-box-shadow: 0px 10px 20px #808080; -moz-box-shadow: 0px 10px 20px #808080; -khtml-box-shadow: 0px 10px 20px #808080; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+.MathJax_MenuItem {padding: 2px 2em; background: transparent}
+.MathJax_MenuArrow {position: absolute; right: .5em; color: #666666}
+.MathJax_MenuActive .MathJax_MenuArrow {color: white}
+.MathJax_MenuArrow.RTL {left: .5em; right: auto}
+.MathJax_MenuCheck {position: absolute; left: .7em}
+.MathJax_MenuCheck.RTL {right: .7em; left: auto}
+.MathJax_MenuRadioCheck {position: absolute; left: 1em}
+.MathJax_MenuRadioCheck.RTL {right: 1em; left: auto}
+.MathJax_MenuLabel {padding: 2px 2em 4px 1.33em; font-style: italic}
+.MathJax_MenuRule {border-top: 1px solid #CCCCCC; margin: 4px 1px 0px}
+.MathJax_MenuDisabled {color: GrayText}
+.MathJax_MenuActive {background-color: Highlight; color: HighlightText}
+.MathJax_Menu_Close {position: absolute; width: 31px; height: 31px; top: -15px; left: -15px}
+</style><style type="text/css">#MathJax_Zoom {position: absolute; background-color: #F0F0F0; overflow: auto; display: block; z-index: 301; padding: .5em; border: 1px solid black; margin: 0; font-weight: normal; font-style: normal; text-align: left; text-indent: 0; text-transform: none; line-height: normal; letter-spacing: normal; word-spacing: normal; word-wrap: normal; white-space: nowrap; float: none; box-shadow: 5px 5px 15px #AAAAAA; -webkit-box-shadow: 5px 5px 15px #AAAAAA; -moz-box-shadow: 5px 5px 15px #AAAAAA; -khtml-box-shadow: 5px 5px 15px #AAAAAA; filter: progid:DXImageTransform.Microsoft.dropshadow(OffX=2, OffY=2, Color='gray', Positive='true')}
+#MathJax_ZoomOverlay {position: absolute; left: 0; top: 0; z-index: 300; display: inline-block; width: 100%; height: 100%; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+#MathJax_ZoomFrame {position: relative; display: inline-block; height: 0; width: 0}
+#MathJax_ZoomEventTrap {position: absolute; left: 0; top: 0; z-index: 302; display: inline-block; border: 0; padding: 0; margin: 0; background-color: white; opacity: 0; filter: alpha(opacity=0)}
+</style><style type="text/css">.MathJax_Preview {color: #888}
+#MathJax_Message {position: fixed; left: 1em; bottom: 1.5em; background-color: #E6E6E6; border: 1px solid #959595; margin: 0px; padding: 2px 8px; z-index: 102; color: black; font-size: 80%; width: auto; white-space: nowrap}
+#MathJax_MSIE_Frame {position: absolute; top: 0; left: 0; width: 0px; z-index: 101; border: 0px; margin: 0px; padding: 0px}
+.MathJax_Error {color: #CC0000; font-style: italic}
+</style></head>
+<body><div id="MathJax_Message" style="display: none;"></div>
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<script type="text/javascript" src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/pdfobject.js"></script>
+<script src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/highlight.pack.js"></script>
+<script>
+hljs.configure({tabReplace: '  '});
+hljs.initHighlightingOnLoad();
+</script>
+<!--PageBeginHtml Block End-->
+
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+		
+<!--done-->
+<div class="title"><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/hseagle/">富贵有定数，学问则无定数。求一分，便得一分</a></div>
+<div class="subtitle">快乐源于简单</div>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li id="nav_sitehome"><a id="MyLinks1_HomeLink" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li id="nav_myhome"><a id="MyLinks1_MyHomeLink" class="menu" href="http://www.cnblogs.com/hseagle/">首页</a></li>
+<li id="nav_q"><a class="menu" href="http://q.cnblogs.com/">博问</a></li>
+<li id="nav_ing"><a class="menu" href="http://home.cnblogs.com/ing/">闪存</a></li>
+<li id="nav_newpost"><a id="MyLinks1_NewPostLink" class="menu" rel="nofollow" href="http://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li id="nav_contact"></li>
+<li id="nav_rss"><a id="MyLinks1_Syndication" class="menu" href="http://www.cnblogs.com/hseagle/rss">订阅</a>
+<!--<a id="MyLinks1_XMLLink" class="aHeaderXML" href="http://www.cnblogs.com/hseagle/rss"><img src="http://www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li id="nav_admin"><a id="MyLinks1_Admin" class="menu" rel="nofollow" href="http://i.cnblogs.com/">管理</a></li>
+</ul>
+
+		<div class="blogStats">
+			
+			
+<!--done-->
+随笔-76&nbsp;
+文章-0&nbsp;
+评论-47&nbsp;
+
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园.html">Apache Spark源码走读之16 -- spark repl实现详解</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p><strong><span style="color: #3366ff;"><em>欢迎转载，转载请注明出处,徽沪一郎。</em></span></strong></p>
+<h1>概要</h1>
+<p>之所以对spark shell的内部实现产生兴趣全部缘于好奇代码的编译加载过程，scala是需要编译才能执行的语言，但提供的scala repl可以实现代码的实时交互式执行，这是为什么呢？</p>
+<p>既然scala已经提供了repl，为什么spark还要自己单独搞一套spark repl，这其中的缘由到底何在？</p>
+<p>显然，这些都是问题，要解开这些谜团，只有再次开启一段源码分析之旅了。</p>
+<h1>全局视图</h1>
+<p>&nbsp;<img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/271741359145878.gif" alt=""></p>
+<p>上图显示了java源文件从编译到加载执行的全局视图，整个过程中最主要的步骤是</p>
+<ol>
+<li>编译成过程，由编译器对java源文件进行编译整理，生成java bytecodes</li>
+<li>类的加载和初始化，主要由classloader参与</li>
+<li>执行引擎 将字节码翻译成机器码，然后调度执行</li>
+</ol>
+<p>这一部分的内容，解释的非常详细的某过于《深入理解jvm》和撒迦的JVM分享，这里就不班门弄斧了。</p>
+<p>那么讲上述这些内容的目的又何在呢，我们知道scala也是需要编译执行的，那么编译的结果是什么样呢，要符合什么标准？在哪里执行。</p>
+<p>答案比较明显，scala源文件也需要编译成java bytecodes，和java的编译结果必须符合同一份标准，生成的bytecode都是由jvm的执行引擎转换成为机器码之后调度执行。</p>
+<p>也就是说尽管scala和java源文件的编译器不同，但它们生成的结果必须符合同一标准，否则jvm无法正确理解，执行也就无从谈起。至于scala的编译器是如何实现的，文中后续章节会涉及。</p>
+<h2>ELF可执行文件的加载和运行</h2>
+<p><span style="color: #ff0000;"><strong><em>”CPU是很傻的，加电后，它就会一直不断的读取指令，执行指令，不能停的哦。“ <span style="color: #000000;">如果有了这个意识，看源码的时候你就会有无穷的疑惑，无数想不通的地方，这也能让你不断的进步。</span></em></strong></span></p>
+<p>再继续讲scala源文件的编译细节之前，我们还是来温习一下基础的内容，即一个EFL可执行文件是如何加载到内存真正运行起来的。(本篇博客的内容相对比较底层，很费脑子的，:)</p>
+<p>Linux平台上基本采用ELF作为可执行文件的格式，java可执行文件本身也是ELF格式的，使用file指令来作检验。</p>
+<pre><code class="bash hljs ">file /opt/java/bin/java
+</code></pre>
+<p>下面是输出的结果，从结果中可以证实java也是ELF格式。</p>
+<pre><code class="text hljs bash">/opt/java/bin/java: ELF <span class="hljs-number">64</span>-bit LSB executable, x86-<span class="hljs-number">64</span>, version <span class="hljs-number">1</span> (SYSV), dynamically linked (uses shared libs), <span class="hljs-keyword">for</span> GNU/Linux <span class="hljs-number">2.6</span>.<span class="hljs-number">9</span>, BuildID[sha1]=bd74b7294ebbdd93e9ef3b729e5aab228a3f681b, stripped
+</code></pre>
+<p>ELF文件的执行过程大致如下</p>
+<ol>
+<li>fork创建一个进程</li>
+<li>调用execve来执行ELF</li>
+<li>ELF的加载过程中会有动态加载和链接发生</li>
+<li>全局变量的初始化，这一部分和glibc相关</li>
+<li>执行main函数</li>
+</ol>
+<div>我讲述的过程非常笼统，要想更清楚的了解细节，请参阅《深入理解Linux内核》中的<strong>程序的执行</strong>一章，或是《深入Linux内核架构》中的<strong>启动新程序</strong>一节。</div>
+<div>现在打开内核中相应的源码，看看execve函数是如何找到elf格式的处理句柄的。</div>
+<h2>第一步：每一种二进制格式，必须先注册自己的处理句柄。</h2>
+<p>在文件$KERNEL_HOME/fs/binfmt_elf.c中，init_elf_binfmt函数就实现了注册任务</p>
+<pre><code class="c hljs "><span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> __init init_elf_binfmt(<span class="hljs-keyword">void</span>)
+{
+  register_binfmt(&amp;elf_format);
+  <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre>
+<p>来看一看elf_format的定义是什么</p>
+<pre><code class="c hljs "><span class="hljs-keyword">static</span> <span class="hljs-keyword">struct</span> linux_binfmt elf_format = {
+  .module		= THIS_MODULE,
+  .load_binary	= load_elf_binary,
+  .load_shlib	= load_elf_library,
+  .core_dump	= elf_core_dump,
+  .min_coredump	= ELF_EXEC_PAGESIZE,
+};
+</code></pre>
+<h2>第二步：搜索处理句柄，fs/exec.c</h2>
+<p>execve是一个系统调用，内核中对应的函数是do_execve，具体代码不再列出。</p>
+<p>do_execve-&gt;do_execve_common-&gt;search_binary_hander</p>
+<p>注意search_binary_handler会找到上一步中注册的binary_handler即elf_format，找到了对应的handler之后，关键的一步就是load_binary了。动态链接过程调用的是load_shlib，这一部分的内容细细展开的话，够写几本书了。</p>
+<p>search_binary_handler的部分代码</p>
+<pre><code class="c hljs ">retry:
+  read_lock(&amp;binfmt_lock);
+  list_for_each_entry(fmt, &amp;formats, lh) {
+    <span class="hljs-keyword">if</span> (!try_module_get(fmt-&gt;module))
+      <span class="hljs-keyword">continue</span>;
+    read_unlock(&amp;binfmt_lock);
+    bprm-&gt;recursion_depth++;
+    retval = fmt-&gt;load_binary(bprm);
+    bprm-&gt;recursion_depth--;
+    <span class="hljs-keyword">if</span> (retval &gt;= <span class="hljs-number">0</span> || retval != -ENOEXEC ||
+        bprm-&gt;mm == NULL || bprm-&gt;file == NULL) {
+      put_binfmt(fmt);
+      <span class="hljs-keyword">return</span> retval;
+    }
+    read_lock(&amp;binfmt_lock);
+    put_binfmt(fmt);
+  }
+  read_unlock(&amp;binfmt_lock);
+</code></pre>
+<p>&nbsp;要想对这一部分内容有个比较清楚的了解，建议看一下台湾黄敬群先生的<strong>《深入浅出Helloworld》</strong>和国内出版的<strong>《程序员的自我修养》</strong>。</p>
+<div>另外一个值得推荐的是黑客级的网站<strong>phrack.org</strong>，可惜现在不更新了。</div>
+<div>
+<div>&nbsp;</div>
+之所以讲ELF的加载和运行，是因为要打通java源文件的编译执行过程的话，必然会步步深入到此，其实到这还不够，再往下走就是CPU指令，只有到达CPU指令才算真正到底。这个时候就需要去读intel ia-64 software programmer guide了。</div>
+<p>&nbsp;源码走读其实只是个形式，重要的是能理清楚其执行流程，以到达指令级的理解为最佳。</p>
+<h1>Java类的加载和执行</h1>
+<p><img style="float: left;" src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/271756097118827.gif" alt=""> <img style="display: block; margin-left: auto; margin-right: auto;" src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/271756510234916.gif" alt=""></p>
+<p>在各位java达人面前，我就不显示自己java水平有多烂了。只是将两幅最基本的图搬出来，展示一下java类的加载过程，以及classloader的层次关系。记住这些东东会为我们在后头讨论scala repl奠定良好基础。</p>
+<h1>序列化和反序列化</h1>
+<p>Java体系中，另一个重要的基石就是类的序列化和反序列化。这里要注意的就是当有继承体系时，类的序列化和反序列化顺序，以及类中有静态成员变量的时候，如何处理序列化。诸如此类的文章，一搜一大把，我再多加解释实在是画蛇添足，列出来只是说明其重要性罢了。</p>
+<h1>spark-shell的执行路径</h1>
+<p>前面进行了这么多的铺垫之后，我想可以进入正题了。即spark-shell的执行调用路径到底怎样。</p>
+<p>首次使用Spark一般都是从执行spark-shell开始的,当在键盘上敲入spark-shell并回车时,后面究竟发生了哪些事情呢?</p>
+<pre><code class="bash hljs "><span class="hljs-keyword">export</span> SPARK_SUBMIT_OPTS
+<span class="hljs-variable">$FWDIR</span> /bin/spark - submit spark -shell <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span> --class org.apache.spark.repl.Main
+</code></pre>
+<p>可以看出spark-shell其实是对spark-submit的一层封装,但事情到这还没有结束,毕竟还没有找到调用java的地方,继续往下搜索看看spark-submit脚本的内容。</p>
+<pre><code class="bash hljs "><span class="hljs-keyword">exec</span> <span class="hljs-variable">$SPARK_HOME</span> /bin/spark -class org. apache .spark.
+deploy . SparkSubmit <span class="hljs-string">"<span class="hljs-variable">${ ORIG_ARGS [@]}</span>"</span>
+</code></pre>
+<p>离目标越来越近了,spark-class中会调用到java程序,与java相关部分的代码摘录如下</p>
+<pre><code class="bash hljs "><span class="hljs-comment"># Find the java binary</span>
+<span class="hljs-keyword">if</span> [ -n <span class="hljs-string">"<span class="hljs-variable">${ JAVA_HOME }</span>"</span> ]; <span class="hljs-keyword">then</span>
+RUNNER =<span class="hljs-string">"<span class="hljs-variable">${ JAVA_HOME }</span>/ bin/java"</span>
+<span class="hljs-keyword">else</span>
+<span class="hljs-keyword">if</span> [ `command -v java ` ]; <span class="hljs-keyword">then</span>
+RUNNER =<span class="hljs-string">"java"</span>
+<span class="hljs-keyword">else</span>
+<span class="hljs-built_in">echo</span> <span class="hljs-string">" JAVA_HOME is not set"</span> &gt;&amp;<span class="hljs-number">2</span>
+<span class="hljs-keyword">exit</span> <span class="hljs-number">1</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">fi</span>
+<span class="hljs-keyword">exec</span> <span class="hljs-string">" <span class="hljs-variable">$RUNNER</span> "</span> -cp <span class="hljs-string">" <span class="hljs-variable">$CLASSPATH</span> "</span> <span class="hljs-variable">$JAVA_OPTS</span> <span class="hljs-string">"<span class="hljs-variable">$@</span>"</span>
+</code></pre>
+<p>SparkSubmit当中定义了Main函数,在它的处理中会将spark repl运行起来,spark repl能够接收用户的输入,通过编译与运行,返回结果给用户。这就是为什么spark具有交互处理能力的原因所在。调用顺序如下</p>
+<ol>
+<li>SparkSubmit</li>
+<li>repl.Main</li>
+<li>SparkILoop</li>
+</ol>
+<h1>利用jvisualvm验证</h1>
+<p>修改spark-class,使得JAVA_OPTS看起来如下图所示</p>
+<pre><code class="bash hljs ">JMX_OPTS=<span class="hljs-string">"-Dcom.sun.management.jmxremote.port=8300 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.rmi.server.hostname=127.0.0.1"</span>
+<span class="hljs-comment"># Set JAVA_OPTS to be able to load native libraries and to set heap size</span>
+JAVA_OPTS=<span class="hljs-string">"-XX:MaxPermSize=128m <span class="hljs-variable">$OUR_JAVA_OPTS</span> <span class="hljs-variable">$JMX_OPTS</span>"</span> 
+JAVA_OPTS=<span class="hljs-string">"<span class="hljs-variable">$JAVA_OPTS</span> -Xms<span class="hljs-variable">$OUR_JAVA_MEM</span> -Xmx<span class="hljs-variable">$OUR_JAVA_MEM</span>"</span>
+</code></pre>
+<p>修改完上述脚本之后先启动spark-shell,然后再启动jvisualvm</p>
+<pre><code class="bash hljs ">bin/spark-shell
+jvisualvm
+</code></pre>
+<p>&nbsp;在Java VisualVM中选择进程org.apache.spark.deploy.SparkSubmit，如果已经为jvisualvm安装了插件Threads Inspector，其界面将会与下图很类似</p>
+<p><strong><span style="color: #3366ff;"><em><img src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/262145282906231.png" alt="" width="826" height="498"></em></span></strong></p>
+<p>&nbsp;在右侧选择“线程”这一tab页，选择线程main,然后可以看到该线程的thread dump信息</p>
+<p><img src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/262146194237755.png" alt="" width="840" height="646"></p>
+<h1>spark repl vs. scala repl</h1>
+<p>既然scala已经提供了repl, spark还是要自己去实现一个repl，你不觉着事有可疑么？我谷歌了好长时间，终于找到了大神的讨论帖子，不容易啊,原文摘录如下。</p>
+<blockquote>
+<p><em><span style="font-size: 12px;">Thanks for looping me in! Just FYI, I would also be okay if instead of making the wrapper code pluggable, the REPL just changed to one based on classes, as in Prashant's example, rather than singleton objects.</span></em></p>
+<div><em><span style="font-size: 12px;">&nbsp;</span></em></div>
+<div><em><span style="font-size: 12px;">To give you background on this, the problem with the "object" wrappers is that initialization code goes into a static initializer that will have to run on all worker nodes, making the REPL unusable with distributed applications. As an example, consider this:</span></em></div>
+<div><em><span style="font-size: 12px;">&nbsp;</span></em></div>
+<div><em><span style="font-size: 12px;">// file.txt is a local file on just the master</span></em></div>
+<div><em><span style="font-size: 12px;">val data = scala.io.Source.fromFile("file.txt").mkString</span></em></div>
+<div><em><span style="font-size: 12px;">&nbsp;</span></em></div>
+<div><em><span style="font-size: 12px;">// now we use the derived string, "data", in a closure that runs on the cluster</span></em></div>
+<div><em><span style="font-size: 12px;">spark.textFile.map(line =&gt; doStuff(line, data))</span></em></div>
+<div><em><span style="font-size: 12px;">&nbsp;</span></em></div>
+<div><em><span style="font-size: 12px;">The current Scala REPL creates an object Line1 whose static initializer sets data with the code above, then does import Line1.data in the closure, which will cause the static initializer to run *again* on the remote node and fail.&nbsp;This issue definitely affects Spark, but it could also affect other interesting projects that could be built on Scala's REPL, so it may be an interesting thing to consider supporting in the standard interpreter.</span></em></div>
+<div>
+<div><em><span style="font-size: 12px;">&nbsp;</span></em></div>
+<div><em><span style="font-size: 12px;">Matei</span></em></div>
+</div>
+</blockquote>
+<p>上述内容估计第一次看了之后，除了一头雾水还是一头雾水。翻译成为白话就是利用scala原生的repl，是使用object来封装输入的代码的，这有什么不妥，“序列化和反序列化”的问题啊。反序列化的过程中，对象的构造函数会被再次调用，而这并不是我们所期望的。我们希望生成class而不是object，如果你不知道object和class的区别，没关系，看一下scala的简明手册，马上就明白了。</p>
+<p>最重要的一点：<span style="color: #ff0000;"><strong>Scala Repl默认输入的代码都是在本地执行，故使用objectbasedwraper是没有问题的。但在spark环境下，输入的内容有可能需要在远程执行，这样objectbasedwrapper的源码生成方式经序列化反序列化会有相应的副作用，导致出错不可用。</strong></span></p>
+<p>讨论详情，请参考该Link&nbsp;<a href="http://www.cnblogs.com/%20https:/groups.google.com/forum/#!msg/scala-internals/h27CFLoJXjE/JoobM6NiUMQJ"> https://groups.google.com/forum/#!msg/scala-internals/h27CFLoJXjE/JoobM6NiUMQJ</a></p>
+<h2>scala repl执行过程</h2>
+<p>再啰嗦一次,scala是需要编译执行的，而repl给我们的错觉是scala是解释执行的。那我们在repl中输入的语句是如何被真正执行的呢？</p>
+<p>简要的步骤是这样的</p>
+<ol>
+<li>在repl中输入的<strong>每一行语句</strong>，都会被封装为一个object， 这一工作主要由interpreter完成</li>
+<li>对该object进行编译</li>
+<li>由classloader加载编译后的java bytecode</li>
+<li>执行引擎负责真正执行加载入内存的bytecode</li>
+</ol>
+<h3>interpreter in scala repl</h3>
+<p>那么怎么证明我说的是对的呢？很简单，做个实验，利用下述语句了启动scala repl</p>
+<pre><code class="bash hljs ">scala -Dscala.repl.debug=<span class="hljs-literal">true</span>
+</code></pre>
+<p>&nbsp;如果我们输入这样一条语句 val c = 10，由interpreter生成的scala源码会如下所列</p>
+<pre><code class="scala hljs "><span class="hljs-class"><span class="hljs-keyword">object</span> $<span class="hljs-title">read</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">scala</span>.<span class="hljs-title">AnyRef</span> {</span>
+  <span class="hljs-keyword">def</span> () = {
+    <span class="hljs-keyword">super</span>.;
+    ()
+  };
+  <span class="hljs-class"><span class="hljs-keyword">object</span> $<span class="hljs-title">iw</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">scala</span>.<span class="hljs-title">AnyRef</span> {</span>
+    <span class="hljs-keyword">def</span> () = {
+      <span class="hljs-keyword">super</span>.;
+      ()
+    };
+    <span class="hljs-class"><span class="hljs-keyword">object</span> $<span class="hljs-title">iw</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">scala</span>.<span class="hljs-title">AnyRef</span> {</span>
+      <span class="hljs-keyword">def</span> () = {
+        <span class="hljs-keyword">super</span>.;
+        ()
+      };
+      <span class="hljs-keyword">val</span> c = <span class="hljs-number">10</span>
+    }
+  }
+}
+</code></pre>
+<p><strong><span style="color: #ff0000;">注意啰，是object哦，不是class</span></strong>。</p>
+<h3>interpreter in spark repl</h3>
+<p>那我们再看看spark repl生成的scala源码是什么样子的？</p>
+<p>启动spark-shell之前，修改一下spark-class，在JAVA_OPTS中加入如下内容</p>
+<pre><code class="bash hljs ">-Dscala.repl.debug=<span class="hljs-literal">true</span>
+</code></pre>
+<p>启动spark-shell,输入val b = 10,生成的scala源码如下所示</p>
+<pre><code class="scala hljs "><span class="hljs-class"><span class="hljs-keyword">class</span> $<span class="hljs-title">read</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AnyRef</span> <span class="hljs-keyword">with</span> <span class="hljs-title">Serializable</span> {</span>
+    <span class="hljs-keyword">def</span> (): $line10.$read = {
+      $read.<span class="hljs-keyword">super</span>.();
+      ()
+    };
+    <span class="hljs-class"><span class="hljs-keyword">class</span> $<span class="hljs-title">iwC</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AnyRef</span> <span class="hljs-keyword">with</span> <span class="hljs-title">Serializable</span> {</span>
+      <span class="hljs-keyword">def</span> (): $read.<span class="hljs-keyword">this</span>.$iwC = {
+        $iwC.<span class="hljs-keyword">super</span>.();
+        ()
+      };
+      <span class="hljs-class"><span class="hljs-keyword">class</span> $<span class="hljs-title">iwC</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AnyRef</span> <span class="hljs-keyword">with</span> <span class="hljs-title">Serializable</span> {</span>
+        <span class="hljs-keyword">def</span> (): $iwC = {
+          $iwC.<span class="hljs-keyword">super</span>.();
+          ()
+        };
+        <span class="hljs-keyword">import</span> org.apache.spark.SparkContext._;
+        <span class="hljs-class"><span class="hljs-keyword">class</span> $<span class="hljs-title">iwC</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AnyRef</span> <span class="hljs-keyword">with</span> <span class="hljs-title">Serializable</span> {</span>
+          <span class="hljs-keyword">def</span> (): $iwC = {
+            $iwC.<span class="hljs-keyword">super</span>.();
+            ()
+          };
+          <span class="hljs-class"><span class="hljs-keyword">class</span> $<span class="hljs-title">iwC</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">AnyRef</span> <span class="hljs-keyword">with</span> <span class="hljs-title">Serializable</span> {</span>
+            <span class="hljs-keyword">def</span> (): $iwC = {
+              $iwC.<span class="hljs-keyword">super</span>.();
+              ()
+            };
+            <span class="hljs-keyword">private</span>[<span class="hljs-keyword">this</span>] <span class="hljs-keyword">val</span> b: Int = <span class="hljs-number">100</span>;
+              <span class="hljs-keyword">def</span> b: Int = $iwC.<span class="hljs-keyword">this</span>.b
+          };
+          <span class="hljs-keyword">private</span>[<span class="hljs-keyword">this</span>] <span class="hljs-keyword">val</span> $iw: $iwC = <span class="hljs-keyword">new</span> $iwC.<span class="hljs-keyword">this</span>.$iwC();
+            <span class="hljs-keyword">def</span> $iw: $iwC = $iwC.<span class="hljs-keyword">this</span>.$iw
+        };
+        <span class="hljs-keyword">private</span>[<span class="hljs-keyword">this</span>] <span class="hljs-keyword">val</span> $iw: $iwC = <span class="hljs-keyword">new</span> $iwC.<span class="hljs-keyword">this</span>.$iwC();
+          <span class="hljs-keyword">def</span> $iw: $iwC = $iwC.<span class="hljs-keyword">this</span>.$iw
+      };
+      <span class="hljs-keyword">private</span>[<span class="hljs-keyword">this</span>] <span class="hljs-keyword">val</span> $iw: $iwC = <span class="hljs-keyword">new</span> $iwC.<span class="hljs-keyword">this</span>.$iwC();
+        <span class="hljs-keyword">def</span> $iw: $iwC = $iwC.<span class="hljs-keyword">this</span>.$iw
+    };
+    <span class="hljs-keyword">private</span>[<span class="hljs-keyword">this</span>] <span class="hljs-keyword">val</span> $iw: $read.<span class="hljs-keyword">this</span>.$iwC = <span class="hljs-keyword">new</span> $read.<span class="hljs-keyword">this</span>.$iwC();
+      <span class="hljs-keyword">def</span> $iw: $read.<span class="hljs-keyword">this</span>.$iwC = $read.<span class="hljs-keyword">this</span>.$iw
+  };
+  <span class="hljs-class"><span class="hljs-keyword">object</span> $<span class="hljs-title">read</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">scala</span>.<span class="hljs-title">AnyRef</span> <span class="hljs-keyword">with</span> <span class="hljs-title">Serializable</span> {</span>
+    <span class="hljs-keyword">def</span> (): $line10.$read.<span class="hljs-keyword">type</span> = {
+      $read.<span class="hljs-keyword">super</span>.();
+      ()
+    };
+    <span class="hljs-keyword">private</span>[<span class="hljs-keyword">this</span>] <span class="hljs-keyword">val</span> INSTANCE: $line10.$read = <span class="hljs-keyword">new</span> $read();
+      <span class="hljs-keyword">def</span> INSTANCE: $line10.$read = $read.<span class="hljs-keyword">this</span>.INSTANCE;
+     <span class="hljs-keyword">private</span> <span class="hljs-keyword">def</span> readResolve(): Object = $line10.<span class="hljs-keyword">this</span>.$read
+  }
+}
+</code></pre>
+<p>注意到与scala repl中的差异了么，<strong><span style="color: #ff0000;">此处是class而非object</span></strong></p>
+<h3><span style="color: #000000;">IMain.scala vs. SparkIMain.scala</span></h3>
+<p><span style="color: #000000;">是什么导致有上述的差异的呢？我们可以下载scala的源码，对是scala本身的源码在github上可以找到。interpreter中代码生成部分的处理逻辑主要是在IMain.scala，在spark中是SparkIMain.scala。</span></p>
+<p><span style="color: #000000;">比较两个文件的异同。</span></p>
+<pre><code class="bash hljs ">gvimdiff IMain.scala SparkIMain.scala
+</code></pre>
+<p>gvimdiff是个好工具，两个文件的差异一目了然，emacs和vim总要有一样玩的转才行啊。来个屏幕截图吧，比较炫吧。</p>
+<p><img src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/280911383836981.png" alt="" width="932" height="691"></p>
+<p><strong>注：spark开发团队似乎给scala的开发小组提了一个case，在最新的scala中似乎已经支持classbasedwrapper，可以通过现应的选项来设置来选择classbasedwraper和objectbasedwrapper.</strong></p>
+<p>下述代码见最新版scala，scala-2.12.x中的IMain.scala</p>
+<pre><code class="scala hljs ">  <span class="hljs-keyword">private</span> <span class="hljs-keyword">lazy</span> <span class="hljs-keyword">val</span> ObjectSourceCode: Wrapper =
+      <span class="hljs-keyword">if</span> (settings.Yreplclassbased) <span class="hljs-keyword">new</span> ClassBasedWrapper <span class="hljs-keyword">else</span> <span class="hljs-keyword">new</span> ObjectBasedWrapper
+</code></pre>
+<h3>compiler</h3>
+<p>scala实现了自己的编译器，处理逻辑的代码实现见scala源码中的src/compiler目录下的源文件。有关其处理步骤不再赘述，请参考ref3,ref4中的描述。</p>
+<p>有一点想要作个小小提醒的时，当你看到SparkIMain.scala中有new Run的语句却不知道这个Run在哪的时候，兄弟跟你讲在scala中的Global.scala里可以找到, :)</p>
+<h1>小结</h1>
+<p>编译和加载是一个非常有意思的话题，即可以说是很基础也可以说很冷门，有无动力就这部分进行深究，就看个人的兴趣了。</p>
+<h1>参考资料</h1>
+<ol>
+<li><a title="phrack.org" href="http://phrack.org/issues/58/5.html">http://phrack.org/issues/58/5.html</a></li>
+<li><a title="深入浅出Hello World" href="http://blog.linux.org.tw/~jserv/archives/002125.html">http://blog.linux.org.tw/~jserv/archives/002125.html</a></li>
+<li><a title="Emitting Scala class ﬁles via ASM" href="http://lampwww.epfl.ch/~magarcia/ScalaCompilerCornerReloaded/2012Q2/GenASM.pdf">http://lampwww.epfl.ch/~magarcia/ScalaCompilerCornerReloaded/2012Q2/GenASM.pdf</a></li>
+<li><a title="Overview of Compiler Phase" href="https://wiki.scala-lang.org/display/SIW/Overview+of+Compiler+Phases">https://wiki.scala-lang.org/display/SIW/Overview+of+Compiler+Phases</a></li>
+<li>《深入理解Linux内核》</li>
+<li>《深入Linux内核架构》</li>
+<li>《深入理解Java虚拟机》</li>
+</ol></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/hseagle/tag/scala/">scala</a>, <a href="http://www.cnblogs.com/hseagle/tag/Apache%20Spark/">Apache Spark</a></div>
+<div id="blog_post_info"><div id="green_channel">
+<a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(3810486,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+<a id="green_channel_follow" onclick="c_follow();" href="javascript:void(0);">关注我</a>
+<a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a><a id="green_channel_contact" href="http://msg.cnblogs.com/send/%E5%BE%BD%E6%B2%AA%E4%B8%80%E9%83%8E" target="_blank">联系我</a>
+<a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/icon_weibo_24.png" alt=""></a>
+<a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+<div id="author_profile_info" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/" target="_blank"><img src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+<div id="author_profile_detail" class="author_profile_info">
+<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followees">关注 - 5</a><br>
+<a href="http://home.cnblogs.com/u/hseagle/followers">粉丝 - 193</a>
+</div>
+</div>
+<div class="clear"></div>
+<div id="author_profile_honor"></div>
+<div id="author_profile_follow">
+    <a href="javascript:void(0);" onclick="c_follow();return false;">+加关注</a>
+</div>
+</div>
+<div id="div_digg">										
+    <div class="diggit" onclick="votePost(3810486,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+	<div class="buryit" onclick="votePost(3810486,&#39;Bury&#39;)"> 
+		<span class="burynum" id="bury_count">0</span>
+	</div>
+	<div class="clear"></div>	
+	<div class="diggword" id="digg_tips">
+    (请您对文章做出评价)
+    </div>	
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/hseagle/p/3791779.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/hseagle/p/3791779.html" title="发布于2014-06-17 21:51">Apache Spark源码走读之15 -- Standalone部署模式下的容错性分析</a><br><a href="http://www.cnblogs.com/hseagle/p/3826351.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/hseagle/p/3826351.html" title="发布于2014-07-05 20:15">Apache Spark源码走读之17 -- 如何进行代码跟读</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2014-06-28 09:21</span> <a href="http://www.cnblogs.com/hseagle/">徽沪一郎</a> 阅读(<span id="post_view_count">2289</span>) 评论(<span id="post_comment_count">0</span>)  <a href="http://i.cnblogs.com/EditPosts.aspx?postid=3810486" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/hseagle/p/3810486.html#" onclick="AddToWz(3810486);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,isLogined=false,cb_blogId=134061,cb_entryId=3810486,cb_blogApp=currentBlogApp,cb_blogUserGuid='8f4525b4-4a31-e211-aa8f-842b2b196315',cb_entryCreatedDate='2014/6/28 9:21:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/hseagle/p/3810486.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/hseagle/p/3810486.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://www.jpush.cn/" target="_blank">【推荐】极光推送30多万开发者的选择，SDK接入量超过30亿了，你还没注册？</a><br><a href="http://click.aliyun.com/m/3037/" target="_blank">【阿里云SSD云盘】速度行业领先</a><br></div>
+<div id="opt_under_post"></div>
+<div id="ad_c1" class="c_ad_block"><a href="http://job.cnblogs.com/offer/51018/" target="_blank"><img width="300" height="250" src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/programming-is-an-art-form.jpg" alt="招聘ASP.NET 5开发工程师" title="招聘ASP.NET 5开发工程师"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/536911/" target="_blank">星巴克CEO看好中国经济，打算五年之内将中国门店数量翻番</a><br> ·  <a href="http://news.cnblogs.com/n/536910/" target="_blank">App Store 12月游戏收入近10亿美金，Clash of Clans高居榜首</a><br> ·  <a href="http://news.cnblogs.com/n/536909/" target="_blank">别拿高频低频瞎忽悠，让O2O们死个明白</a><br> ·  <a href="http://news.cnblogs.com/n/536908/" target="_blank">阿里健康新年第一步 建公益寻药平台</a><br> ·  <a href="http://news.cnblogs.com/n/536907/" target="_blank">微软宣布Build 2016门票开售时间 及Microsoft Envision</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/536387/" target="_blank">Docker简介</a><br> ·  <a href="http://kb.cnblogs.com/page/536115/" target="_blank">Docker简明教程</a><br> ·  <a href="http://kb.cnblogs.com/page/535581/" target="_blank">Git协作流程</a><br> ·  <a href="http://kb.cnblogs.com/page/535355/" target="_blank">企业计算的终结</a><br> ·  <a href="http://kb.cnblogs.com/page/535278/" target="_blank">软件开发的核心</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+$(function () {
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);    
+});
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><p>邮箱: hs_xp@163.com<br>
+</p>
+<p>QQ: 58506256&nbsp; <br>
+</p>
+<p>QQ群: Spark零基础学习 367106111</p>
+<a target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=99253f4f95c7f17a8d77d6cf2acfacfa6556ae645d22f9c6a13d24142341761e"><img src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/group.png" alt="Spark零基础学习" title="Spark零基础学习" border="0"></a>
+<br>
+<p>&nbsp;</p>
+<embed src="http://service.weibo.com/staticjs/weiboshow.swf?verifier=8feb07ed&amp;uid=2060926175&amp;width=200&amp;height=500&amp;fansRow=2&amp;isTitle=1&amp;isWeibo=1&amp;isFans=1&amp;noborder=0&amp;ptype=1&amp;colors=cfe1f3,fafcff,444444,5093d5" quality="high" scale="noborder" align="L" height="500" width="200"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/hseagle/">徽沪一郎</a><br>园龄：<a href="http://home.cnblogs.com/u/hseagle/" title="入园时间：2012-11-18">3年1个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/hseagle/followers/">193</a><br>关注：<a href="http://home.cnblogs.com/u/hseagle/followees/">5</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="cnblogs.UserManager.FollowBlogger(&#39;8f4525b4-4a31-e211-aa8f-842b2b196315&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2015/12/01&#39;);return false;">&lt;</a></td><td align="center">2016年1月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2016/02/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td class="CalWeekendDay" align="center">2</td></tr><tr><td class="CalWeekendDay" align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center"><a href="http://www.cnblogs.com/hseagle/archive/2016/01/07.html"><u>7</u></a></td><td align="center">8</td><td class="CalWeekendDay" align="center">9</td></tr><tr><td class="CalWeekendDay" align="center">10</td><td align="center">11</td><td align="center">12</td><td align="center">13</td><td class="CalTodayDay" align="center">14</td><td align="center">15</td><td class="CalWeekendDay" align="center">16</td></tr><tr><td class="CalWeekendDay" align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td class="CalWeekendDay" align="center">23</td></tr><tr><td class="CalWeekendDay" align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td class="CalWeekendDay" align="center">30</td></tr><tr><td class="CalWeekendDay" align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+
+</div>
+</div>
+
+</div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(70)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/hseagle/category/569175.html">Apache Spark(34)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/hseagle/category/519033.html">Apache Storm(16)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/hseagle/category/514458.html">archlinux(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/hseagle/category/664228.html">BigData(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/hseagle/category/565169.html">Database(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/hseagle/category/759340.html">Elasticsearch(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/hseagle/category/470583.html">GDB(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/hseagle/category/554058.html">Hadoop(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/hseagle/category/519017.html">memory management(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/hseagle/category/646056.html">Scala(2)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(76)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/hseagle/archive/2016/01.html">2016年1月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/hseagle/archive/2015/11.html">2015年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/hseagle/archive/2015/04.html">2015年4月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/hseagle/archive/2015/03.html">2015年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/hseagle/archive/2015/02.html">2015年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/hseagle/archive/2015/01.html">2015年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/hseagle/archive/2014/12.html">2014年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/hseagle/archive/2014/11.html">2014年11月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/hseagle/archive/2014/10.html">2014年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/hseagle/archive/2014/09.html">2014年9月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/hseagle/archive/2014/08.html">2014年8月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/hseagle/archive/2014/07.html">2014年7月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/hseagle/archive/2014/06.html">2014年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/hseagle/archive/2014/05.html">2014年5月 (9)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/hseagle/archive/2014/04.html">2014年4月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/hseagle/archive/2014/03.html">2014年3月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/hseagle/archive/2014/02.html">2014年2月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/hseagle/archive/2014/01.html">2014年1月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/hseagle/archive/2013/12.html">2013年12月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/hseagle/archive/2013/11.html">2013年11月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/hseagle/archive/2013/10.html">2013年10月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_21" href="http://www.cnblogs.com/hseagle/archive/2013/09.html">2013年9月 (7)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_22" href="http://www.cnblogs.com/hseagle/archive/2013/08.html">2013年8月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_23" href="http://www.cnblogs.com/hseagle/archive/2013/06.html">2013年6月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_24" href="http://www.cnblogs.com/hseagle/archive/2013/05.html">2013年5月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_25" href="http://www.cnblogs.com/hseagle/archive/2013/04.html">2013年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_26" href="http://www.cnblogs.com/hseagle/archive/2013/03.html">2013年3月 (4)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_scorerank" class="sidebar-block">
+<div class="catListBlogRank">
+<h3 class="catListTitle">积分与排名</h3>
+<ul>
+	<li class="liScore">
+		积分 -	104754
+	</li>
+	<li class="liRank">
+		排名 -	1810
+	</li>
+</ul>
+</div>
+
+
+</div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">1. Apache Spark源码走读之1 -- Spark论文阅读笔记(14198)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673123.html">2. Apache Spark源码走读之2 -- Job的提交与运行(9805)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3673132.html">3. Apache Spark源码走读之3 -- Task运行期之函数调用关系分析(7388)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(5476)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3756862.html">5. Apache Storm源码阅读笔记(4802)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/hseagle/p/3543782.html">1. Apache Storm 衍生项目之1 -- storm-yarn(5)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3732492.html">2. Apache Spark源码走读之9 -- Spark源码编译(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3664933.html">3. Apache Spark源码走读之1 -- Spark论文阅读笔记(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3850841.html">4. Apache Spark源码走读之18 -- 使用Intellij idea调试Spark源码(4)</a></li><li><a href="http://www.cnblogs.com/hseagle/p/3908276.html">5. Apache Spark源码走读之22 -- 浅谈mllib中线性回归的算法实现(3)</a></li></ul></div>
+</div>
+</div></div></div><script type="text/javascript">loadBlogSideColumn();</script><iframe src="./Apache Spark源码走读之16 -- spark repl实现详解 - 徽沪一郎 - 博客园_files/container.html" style="visibility: hidden; display: none;"></iframe>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2016 徽沪一郎
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

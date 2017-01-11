@@ -1,0 +1,3 @@
+mysqld --initialize-insecure --user=mysql
+新建空/data文件夹
+加入环境变量
