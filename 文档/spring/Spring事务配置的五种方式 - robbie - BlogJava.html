@@ -1,0 +1,1889 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- saved from url=(0061)http://www.blogjava.net/robbie/archive/2009/04/05/264003.html -->
+<html><head id="Head"><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><title>
+	Spring事务配置的五种方式 - robbie - BlogJava
+</title><meta id="metaKeywords" name="keywords" content="Spring事务配置的五种方式"><link type="text/css" rel="stylesheet" href="./Spring事务配置的五种方式 - robbie - BlogJava_files/common.css"><link id="MainCss" type="text/css" rel="stylesheet" href="./Spring事务配置的五种方式 - robbie - BlogJava_files/style.css"><link id="RSSLink" title="RSS" type="application/rss+xml" rel="alternate" href="http://www.blogjava.net/robbie/rss.aspx"><script type="text/javascript" async="" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/ga.js"></script><script src="http://pubads.g.doubleclick.net/gampad/ads?gdfp_req=1&correlator=1248475088945152&output=json_html&callback=googletag.impl.pubads.callbackProxy1&impl=fifs&json_a=1&eid=108809103&sc=0&sfv=1-0-6&iu_parts=1090369%2Cblogjava_blogpost_bottom&enc_prev_ius=%2F0%2F1&prev_iu_szs=300x250&eri=32&cookie=ID%3D79467b82df6a2059%3AT%3D1443072250%3AS%3DALNI_MaThOPBhpSgq0rFfuTYRxI-g7ghzA&lmt=1487732046&dt=1487732046545&cc=6&frm=20&biw=1263&bih=909&oid=3&adxs=0&adys=0&adks=2814799275&gut=v2&ifi=1&u_tz=480&u_his=1&u_java=true&u_h=1024&u_w=1280&u_ah=994&u_aw=1280&u_cd=24&u_nplug=5&u_nmime=7&u_sd=1&flash=18.0.0&url=http%3A%2F%2Fwww.blogjava.net%2Frobbie%2Farchive%2F2009%2F04%2F05%2F264003.html&ref=https%3A%2F%2Fwww.baidu.com%2Flink%3Furl%3DmHuLKwyNz0zhd2SWpF3fgxD2GAA06y1YosV9fRR3386PjOCDQuU22C1qB3T6j6T1AOanpq-UFVJXuo2CCyosw6R41BSYrq6p51M_k7sU3ja%26wd%3D%26eqid%3D832d68c100000f330000000358acfca0&dssz=13&icsg=703&std=0&vrg=110&vrp=110&ga_vid=491552831.1443072151&ga_sid=1487732047&ga_hid=1752756252&ga_fc=true"></script><script src="http://pubads.g.doubleclick.net/gpt/pubads_impl_110.js" async=""></script><link rel="prefetch" href="http://tpc.googlesyndication.com/safeframe/1-0-6/html/container.html"></head>
+<body>
+    <form name="Form1" method="post" action="./Spring事务配置的五种方式 - robbie - BlogJava_files/Spring事务配置的五种方式 - robbie - BlogJava.html" id="Form1">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="">
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="">
+<input type="hidden" name="__VIEWSTATE" id="
+__VIEWSTATE" value="">
+</div>
+
+<script async="" type="text/javascript" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/gpt.js"></script><script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="./Spring事务配置的五种方式 - robbie - BlogJava_files/WebResource.axd" type="text/javascript"></script>
+
+<script language="JavaScript">
+									function ctlent(evt,id)
+											{
+												if(evt.ctrlKey && evt.keyCode == 13)
+												{	
+													try
+													{
+														TempSave(id);
+													}
+													catch(ex)
+													{
+													}
+													finally
+													{
+													    __doPostBack('AjaxHolder$PostComment$btnSubmit','')
+													}
+												}
+		
+												}</script>
+												<script language="JavaScript">function SetReplyAuhor(author){document.getElementById('AjaxHolder_PostComment_tbComment').value+="@"+author+"\n";document.getElementById('AjaxHolder_PostComment_tbComment').focus();return false}</script>
+<script src="./Spring事务配置的五种方式 - robbie - BlogJava_files/ScriptResource.axd" type="text/javascript"></script>
+<script src="./Spring事务配置的五种方式 - robbie - BlogJava_files/ScriptResource(1).axd" type="text/javascript"></script>
+        
+<!--done-->
+<div id="header">
+	
+<!--done-->
+<div class="header">
+	<div class="headerText">
+		<a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.blogjava.net/robbie/">robbie</a><br>
+		
+	</div>
+</div>
+
+</div>
+
+<div id="mytopmenu">
+	
+		<div id="mylinks">
+<!--done-->
+<a id="MyLinks1_HomeLink" class="menu" href="http://www.blogjava.net/">BlogJava</a>&nbsp;&nbsp;
+<a id="MyLinks1_MyHomeLink" class="menu" href="http://www.blogjava.net/robbie/">首页</a>&nbsp;&nbsp;
+<a id="MyLinks1_NewPostLink" class="menu" href="http://www.blogjava.net/robbie/admin/EditPosts.aspx?opt=1">新随笔</a>
+<a id="MyLinks1_ContactLink" class="menu" href="http://www.blogjava.net/robbie/contact.aspx?id=1">联系</a>&nbsp;&nbsp;
+<a id="MyLinks1_Syndication" class="menu" href="http://www.blogjava.net/robbie/rss">聚合</a><a id="MyLinks1_XMLLink" href="http://www.blogjava.net/robbie/rss"><img src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml.gif" style="border-width:0px;"></a>&nbsp;&nbsp;
+<a id="MyLinks1_Admin" class="menu" href="http://www.blogjava.net/robbie/admin/EditPosts.aspx">管理</a>
+</div>
+		<div id="mystats">
+<!--done-->
+随笔-75&nbsp;
+评论-193&nbsp;
+文章-5&nbsp;
+trackbacks-0
+</div>
+	
+</div>
+<div id="centercontent">
+	
+					
+<!--done-->
+<div class="post">
+	<div class="postTitle">
+		<a id="viewpost1_TitleUrl" class="postTitle2" href="./Spring事务配置的五种方式 - robbie - BlogJava_files/Spring事务配置的五种方式 - robbie - BlogJava.html">Spring事务配置的五种方式</a>
+	</div>
+	<p>&nbsp;&nbsp;&nbsp; 前段时间对Spring的事务配置做了比较深入的研究，在此之间对Spring的事务配置虽说也配置过，但是一直没有一个清楚的认识。通过这次的学习发觉Spring的事务配置只要把思路理清，还是比较好掌握的。</p>
+<p>&nbsp;&nbsp;&nbsp; 总结如下：</p>
+<p>&nbsp;&nbsp;&nbsp; Spring配置文件中关于事务配置总是由三个组成部分，分别是DataSource、TransactionManager和代理机制这三部分，无论哪种配置方式，一般变化的只是代理机制这部分。</p>
+<p>&nbsp;&nbsp;&nbsp; DataSource、TransactionManager这两部分只是会根据数据访问方式有所变化，比如使用Hibernate进行数据访问时，DataSource实际为SessionFactory，TransactionManager的实现为HibernateTransactionManager。</p>
+<p>&nbsp;&nbsp;&nbsp; 具体如下图：</p>
+<p><a href="http://www.blogjava.net/images/blogjava_net/robbie/WindowsLiveWriter/Spring_9C9C/Spring%E4%BA%8B%E5%8A%A1%E9%85%8D%E7%BD%AE%20(2).jpg"><img style="border: 0px none ;" alt="Spring事务配置 (2)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/Spring事务配置 (2)_thumb.jpg" border="0" width="654" height="378"></a> </p>
+<p>&nbsp;&nbsp;&nbsp; 根据代理机制的不同，总结了五种Spring事务的配置方式，配置文件如下：</p>
+<p>&nbsp;&nbsp;&nbsp; 第一种方式：每个Bean都有一个代理</p>
+<div style="border: 1px solid rgb(204, 204, 204); padding: 4px 5px 4px 4px; background-color: rgb(238, 238, 238); width: 98%; font-size: 13px;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: rgb(0, 0, 255);">&lt;?</span><span style="color: rgb(255, 0, 255);">xml version="1.0" encoding="UTF-8"</span><span style="color: rgb(0, 0, 255);">?&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+</span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">beans </span><span style="color: rgb(255, 0, 0);">xmlns</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:xsi</span><span style="color: rgb(0, 0, 255);">="http://www.w3.org/2001/XMLSchema-instance"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:context</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/context"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:aop</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/aop"</span><span style="color: rgb(255, 0, 0);"><br>
+</span><span style="color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp; xsi:schemaLocation</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/beans/spring-beans-2.5.xsd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context/spring-context-2.5.xsd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+<br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.LocalSessionFactoryBean"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configLocation"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="classpath:hibernate.cfg.xml"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configurationClass"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="org.hibernate.cfg.AnnotationConfiguration"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+<br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 定义事务管理器（声明式的事务） </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.HibernateTransactionManager"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置DAO </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="userDaoTarget"</span><span style="color: rgb(255, 0, 0);"> class</span><span style="color: rgb(0, 0, 255);">="com.bluesky.spring.dao.UserDaoImpl"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="userDao"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置事务管理器 </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="target"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="userDaoTarget"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="proxyInterfaces"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="com.bluesky.spring.dao.GeneratorDao"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置事务属性 </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="transactionAttributes"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">props</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">prop </span><span style="color: rgb(255, 0, 0);">key</span><span style="color: rgb(0, 0, 255);">="*"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">PROPAGATION_REQUIRED</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">prop</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">props</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">property</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; </span><span style="color: rgb(0, 0, 0);"><br>
+</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">beans</span><span style="color: rgb(0, 0, 255);">&gt;</span></div>
+<p>&nbsp;&nbsp;&nbsp; 第二种方式：所有Bean共享一个代理基类</p>
+<div style="border: 1px solid rgb(204, 204, 204); padding: 4px 5px 4px 4px; background-color: rgb(238, 238, 238); width: 98%; font-size: 13px;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: rgb(0, 0, 255);">&lt;?</span><span style="color: rgb(255, 0, 255);">xml version="1.0" encoding="UTF-8"</span><span style="color: rgb(0, 0, 255);">?&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+</span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">beans </span><span style="color: rgb(255, 0, 0);">xmlns</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:xsi</span><span style="color: rgb(0, 0, 255);">="http://www.w3.org/2001/XMLSchema-instance"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:context</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/context"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:aop</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/aop"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xsi:schemaLocation</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/beans/spring-beans-2.5.xsd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context/spring-context-2.5.xsd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+<br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.LocalSessionFactoryBean"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configLocation"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="classpath:hibernate.cfg.xml"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configurationClass"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="org.hibernate.cfg.AnnotationConfiguration"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+<br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 定义事务管理器（声明式的事务） </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.HibernateTransactionManager"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="transactionBase"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.transaction.interceptor.TransactionProxyFactoryBean"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lazy-init</span><span style="color: rgb(0, 0, 255);">="true"</span><span style="color: rgb(255, 0, 0);"> abstract</span><span style="color: rgb(0, 0, 255);">="true"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置事务管理器 </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置事务属性 </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="transactionAttributes"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">props</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">prop </span><span style="color: rgb(255, 0, 0);">key</span><span style="color: rgb(0, 0, 255);">="*"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">PROPAGATION_REQUIRED</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">prop</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">props</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">property</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置DAO </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="userDaoTarget"</span><span style="color: rgb(255, 0, 0);"> class</span><span style="color: rgb(0, 0, 255);">="com.bluesky.spring.dao.UserDaoImpl"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="userDao"</span><span style="color: rgb(255, 0, 0);"> parent</span><span style="color: rgb(0, 0, 255);">="transactionBase"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="target"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="userDaoTarget"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">beans</span><span style="color: rgb(0, 0, 255);">&gt;</span></div>
+<p>第三种方式：使用拦截器</p>
+<div style="border: 1px solid rgb(204, 204, 204); padding: 4px 5px 4px 4px; background-color: rgb(238, 238, 238); width: 98%; font-size: 13px;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: rgb(0, 0, 255);">&lt;?</span><span style="color: rgb(255, 0, 255);">xml version="1.0" encoding="UTF-8"</span><span style="color: rgb(0, 0, 255);">?&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+</span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">beans </span><span style="color: rgb(255, 0, 0);">xmlns</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:xsi</span><span style="color: rgb(0, 0, 255);">="http://www.w3.org/2001/XMLSchema-instance"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:context</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/context"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:aop</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/aop"</span><span style="color: rgb(255, 0, 0);"><br>
+</span><span style="color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp; xsi:schemaLocation</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/beans/spring-beans-2.5.xsd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context/spring-context-2.5.xsd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+<br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.LocalSessionFactoryBean"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configLocation"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="classpath:hibernate.cfg.xml"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configurationClass"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="org.hibernate.cfg.AnnotationConfiguration"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+<br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 定义事务管理器（声明式的事务） </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.HibernateTransactionManager"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp;<br>
+&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="transactionInterceptor"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.transaction.interceptor.TransactionInterceptor"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置事务属性 </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="transactionAttributes"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">props</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">prop </span><span style="color: rgb(255, 0, 0);">key</span><span style="color: rgb(0, 0, 255);">="*"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">PROPAGATION_REQUIRED</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">prop</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">props</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">property</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">class</span><span style="color: rgb(0, 0, 255);">="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="beanNames"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">list</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">value</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">*Dao</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">value</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+</span><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">list</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">property</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="interceptorNames"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">list</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">value</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">transactionInterceptor</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">value</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">list</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">property</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 配置DAO </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="userDao"</span><span style="color: rgb(255, 0, 0);"> class</span><span style="color: rgb(0, 0, 255);">="com.bluesky.spring.dao.UserDaoImpl"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">beans</span><span style="color: rgb(0, 0, 255);">&gt;</span></div>
+<p>第四种方式：使用tx标签配置的拦截器</p>
+<div style="border: 1px solid rgb(204, 204, 204); padding: 4px 5px 4px 4px; background-color: rgb(238, 238, 238); width: 98%; font-size: 13px;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: rgb(0, 0, 255);">&lt;?</span><span style="color: rgb(255, 0, 255);">xml version="1.0" encoding="UTF-8"</span><span style="color: rgb(0, 0, 255);">?&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+</span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">beans </span><span style="color: rgb(255, 0, 0);">xmlns</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:xsi</span><span style="color: rgb(0, 0, 255);">="http://www.w3.org/2001/XMLSchema-instance"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:context</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/context"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:aop</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/aop"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:tx</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/tx"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xsi:schemaLocation</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/beans/spring-beans-2.5.xsd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context/spring-context-2.5.xsd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+<br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">context:annotation-config </span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">context:component-scan </span><span style="color: rgb(255, 0, 0);">base-package</span><span style="color: rgb(0, 0, 255);">="com.bluesky"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+<br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.LocalSessionFactoryBean"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configLocation"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="classpath:hibernate.cfg.xml"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configurationClass"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="org.hibernate.cfg.AnnotationConfiguration"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+<br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 定义事务管理器（声明式的事务） </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.HibernateTransactionManager"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+<br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">tx:advice </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="txAdvice"</span><span style="color: rgb(255, 0, 0);"> transaction-manager</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">tx:attributes</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">tx:method </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="*"</span><span style="color: rgb(255, 0, 0);"> propagation</span><span style="color: rgb(0, 0, 255);">="REQUIRED"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">tx:attributes</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">tx:advice</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">aop:config</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">aop:pointcut </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="interceptorPointCuts"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; expression</span><span style="color: rgb(0, 0, 255);">="execution(* com.bluesky.spring.dao.*.*(..))"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">aop:advisor </span><span style="color: rgb(255, 0, 0);">advice-ref</span><span style="color: rgb(0, 0, 255);">="txAdvice"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pointcut-ref</span><span style="color: rgb(0, 0, 255);">="interceptorPointCuts"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">aop:config</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">beans</span><span style="color: rgb(0, 0, 255);">&gt;</span></div>
+<p>第五种方式：全注解<br>
+<!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--></p>
+<div style="border: 1px solid rgb(204, 204, 204); padding: 4px 5px 4px 4px; background-color: rgb(238, 238, 238); width: 98%; font-size: 13px;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: rgb(0, 0, 255);">&lt;?</span><span style="color: rgb(255, 0, 255);">xml version="1.0" encoding="UTF-8"</span><span style="color: rgb(0, 0, 255);">?&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+</span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">beans </span><span style="color: rgb(255, 0, 0);">xmlns</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:xsi</span><span style="color: rgb(0, 0, 255);">="http://www.w3.org/2001/XMLSchema-instance"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:context</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/context"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:aop</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/aop"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xmlns:tx</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/tx"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; xsi:schemaLocation</span><span style="color: rgb(0, 0, 255);">="http://www.springframework.org/schema/beans <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/beans/spring-beans-2.5.xsd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/context/spring-context-2.5.xsd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+<br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">context:annotation-config </span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">context:component-scan </span><span style="color: rgb(255, 0, 0);">base-package</span><span style="color: rgb(0, 0, 255);">="com.bluesky"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+<br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">tx:annotation-driven </span><span style="color: rgb(255, 0, 0);">transaction-manager</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+<br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.LocalSessionFactoryBean"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configLocation"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="classpath:hibernate.cfg.xml"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="configurationClass"</span><span style="color: rgb(255, 0, 0);"> value</span><span style="color: rgb(0, 0, 255);">="org.hibernate.cfg.AnnotationConfiguration"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+<br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 128, 0);">&lt;!--</span><span style="color: rgb(0, 128, 0);"> 定义事务管理器（声明式的事务） </span><span style="color: rgb(0, 128, 0);">--&gt;</span><span style="color: rgb(0, 0, 0);">&nbsp; <br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">bean </span><span style="color: rgb(255, 0, 0);">id</span><span style="color: rgb(0, 0, 255);">="transactionManager"</span><span style="color: rgb(255, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; class</span><span style="color: rgb(0, 0, 255);">="org.springframework.orm.hibernate3.HibernateTransactionManager"</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;</span><span style="color: rgb(128, 0, 0);">property </span><span style="color: rgb(255, 0, 0);">name</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);"> ref</span><span style="color: rgb(0, 0, 255);">="sessionFactory"</span><span style="color: rgb(255, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">/&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">bean</span><span style="color: rgb(0, 0, 255);">&gt;</span><span style="color: rgb(0, 0, 0);"><br>
+&nbsp;&nbsp;&nbsp; <br>
+</span><span style="color: rgb(0, 0, 255);">&lt;/</span><span style="color: rgb(128, 0, 0);">beans</span><span style="color: rgb(0, 0, 255);">&gt;</span></div>
+<p>此时在DAO上需加上@Transactional注解，如下：</p>
+<div style="border: 1px solid rgb(204, 204, 204); padding: 4px 5px 4px 4px; background-color: rgb(238, 238, 238); width: 98%; font-size: 13px;"><!--<br />
+<br />
+Code highlighting produced by Actipro CodeHighlighter (freeware)<br />
+http://www.CodeHighlighter.com/<br />
+<br />
+--><span style="color: rgb(0, 0, 255);">package</span><span style="color: rgb(0, 0, 0);"> com.bluesky.spring.dao;<br>
+<br>
+</span><span style="color: rgb(0, 0, 255);">import</span><span style="color: rgb(0, 0, 0);"> java.util.List;<br>
+<br>
+</span><span style="color: rgb(0, 0, 255);">import</span><span style="color: rgb(0, 0, 0);"> org.hibernate.SessionFactory;<br>
+</span><span style="color: rgb(0, 0, 255);">import</span><span style="color: rgb(0, 0, 0);"> org.springframework.beans.factory.annotation.Autowired;<br>
+</span><span style="color: rgb(0, 0, 255);">import</span><span style="color: rgb(0, 0, 0);"> org.springframework.orm.hibernate3.support.HibernateDaoSupport;<br>
+</span><span style="color: rgb(0, 0, 255);">import</span><span style="color: rgb(0, 0, 0);"> org.springframework.stereotype.Component;<br>
+<br>
+</span><span style="color: rgb(0, 0, 255);">import</span><span style="color: rgb(0, 0, 0);"> com.bluesky.spring.domain.User;<br>
+<br>
+@Transactional<br>
+@Component(</span><span style="color: rgb(0, 0, 0);">"</span><span style="color: rgb(0, 0, 0);">userDao</span><span style="color: rgb(0, 0, 0);">"</span><span style="color: rgb(0, 0, 0);">)<br>
+</span><span style="color: rgb(0, 0, 255);">public</span><span style="color: rgb(0, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">class</span><span style="color: rgb(0, 0, 0);"> UserDaoImpl </span><span style="color: rgb(0, 0, 255);">extends</span><span style="color: rgb(0, 0, 0);"> HibernateDaoSupport </span><span style="color: rgb(0, 0, 255);">implements</span><span style="color: rgb(0, 0, 0);"> UserDao {<br>
+<br>
+&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">public</span><span style="color: rgb(0, 0, 0);"> List</span><span style="color: rgb(0, 0, 0);">&lt;</span><span style="color: rgb(0, 0, 0);">User</span><span style="color: rgb(0, 0, 0);">&gt;</span><span style="color: rgb(0, 0, 0);"> listUsers() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><span style="color: rgb(0, 0, 255);">return</span><span style="color: rgb(0, 0, 0);">&nbsp;</span><span style="color: rgb(0, 0, 255);">this</span><span style="color: rgb(0, 0, 0);">.getSession().createQuery(</span><span style="color: rgb(0, 0, 0);">"</span><span style="color: rgb(0, 0, 0);">from User</span><span style="color: rgb(0, 0, 0);">"</span><span style="color: rgb(0, 0, 0);">).list();<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; <img alt="" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/dot.gif"><br>
+}</span></div>
+<p><br>
+</p>
+<p><span style="color: rgb(0, 0, 255);"><br>
+</span></p>
+
+	<div class="postDesc">posted on 2009-04-05 16:38 <a href="http://www.blogjava.net/robbie/">The Matrix</a> 阅读(269381) <a href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#Post">评论(85)</a> &nbsp;<a href="http://www.blogjava.net/robbie/admin/EditPosts.aspx?postid=264003">编辑</a> &nbsp;<a href="http://www.blogjava.net/robbie/AddToFavorite.aspx?id=264003">收藏</a>  所属分类: <a href="http://www.blogjava.net/robbie/category/17709.html">Spring</a> </div>
+</div>
+<img src="./Spring事务配置的五种方式 - robbie - BlogJava_files/264003.html" width="1" height="1">
+
+<!--
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+xmlns:dc="http://purl.org/dc/elements/1.1/"
+xmlns:trackback="http://madskills.com/public/xml/rss/module/trackback/">
+<rdf:Description
+rdf:about="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html"
+dc:identifier="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html"
+dc:title="Spring事务配置的五种方式"
+trackback:ping="http://www.blogjava.net/robbie/services/trackbacks/264003.aspx" />
+</rdf:RDF>
+-->
+
+<script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('AjaxHolder$scriptmanager1', document.getElementById('Form1'));
+Sys.WebForms.PageRequestManager.getInstance()._updateControls(['tAjaxHolder$UpdatePanel1'], [], [], 90);
+//]]>
+</script>
+
+<div id="AjaxHolder_UpdatePanel1">
+	    
+    <a name="pagedcomment"></a>
+<!--done-->
+<br>
+<b>评论:</b>
+<div class="feedbackNoItems"></div>
+	
+
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#264014">#</a>&nbsp;<a name="264014"></a>re: Spring事务配置的五种方式
+				2009-04-05 19:41 | <a id="AjaxHolder_Comments_CommentList_ctl00_NameLink" href="http://www.blogjava.net/heyang/" target="_blank">heyang</a><br>
+				<div align="left">请问第一个图是拿什么软件画的？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;heyang&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=heyang" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl00_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl00$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl00_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#264015">#</a>&nbsp;<a name="264015"></a>re: Spring事务配置的五种方式
+				2009-04-05 19:47 | <a id="AjaxHolder_Comments_CommentList_ctl01_NameLink" href="http://www.blogjava.net/robbie/" target="_blank">The Matrix</a><br>
+				<div align="left">@heyang<br>Mindjet7.0，呵呵&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;The Matrix&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=The+Matrix" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl01_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl01$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl01_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#264059">#</a>&nbsp;<a name="264059"></a>re: Spring事务配置的五种方式
+				2009-04-06 10:13 | <a id="AjaxHolder_Comments_CommentList_ctl02_NameLink" href="http://www.blogjava.net/crabboy/" target="_blank">虎啸龙吟</a><br>
+				<div align="left">用什么画的图啊？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;虎啸龙吟&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e8%99%8e%e5%95%b8%e9%be%99%e5%90%9f" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl02_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl02$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl02_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#264124">#</a>&nbsp;<a name="264124"></a>re: Spring事务配置的五种方式
+				2009-04-06 16:00 | <a id="AjaxHolder_Comments_CommentList_ctl03_NameLink" href="http://www.blogjava.net/RhythmOfRain/" target="_blank">雨奏</a><br>
+				<div align="left">@The Matrix<br>请问能否再简要说说这几种方式各自的好处与不足，或适用的场景？谢谢&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;雨奏&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e9%9b%a8%e5%a5%8f" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl03_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl03$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl03_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#264162">#</a>&nbsp;<a name="264162"></a>re: Spring事务配置的五种方式
+				2009-04-06 23:00 | <a id="AjaxHolder_Comments_CommentList_ctl04_NameLink" href="http://www.blogjava.net/robbie/" target="_blank">The Matrix</a><br>
+				<div align="left">@雨奏<br>第一种方式与第二种方式是类似的，在所有方式中，第一种方式所需写的配置文件最多。<br>在Spring2.0时，一般都采用方式三，主要带来的好处就是配置文件的量变小。<br>在Spring2.5时，可以采用方式五，这样基本可以做到0配置了:)&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;The Matrix&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=The+Matrix" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl04_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl04$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl04_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#264411">#</a>&nbsp;<a name="264411"></a>re: Spring事务配置的五种方式
+				2009-04-08 10:53 | <a id="AjaxHolder_Comments_CommentList_ctl05_NameLink" href="http://www.blogjava.net/RhythmOfRain/" target="_blank">雨奏</a><br>
+				<div align="left">@The Matrix<br>谢谢你的耐心解答。目前我倒是常用第4种方式&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;雨奏&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e9%9b%a8%e5%a5%8f" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl05_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl05$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl05_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#266124">#</a>&nbsp;<a name="266124"></a>re: Spring事务配置的五种方式
+				2009-04-17 12:50 | <a id="AjaxHolder_Comments_CommentList_ctl06_NameLink" target="_blank">Woden</a><br>
+				<div align="left">我想请教一个疑问：
+<br>假如我采用了第四种配置方式，然后我在某一个类*.dao.Test中调用了两个对象，诸如*.dao.UserDao和*.dao.RoleDao，那么此时的事物拦截机制是怎样？
+<br>
+<br>如：
+<br>Test中有方法：
+<br>execute(){
+<br> userDao.insert();
+<br> roleDao.insert();
+<br>}
+<br>
+<br>那么这个execute是否算一个事务？
+<br>
+<br>望解答。多谢。&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;Woden&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=Woden" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl06_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl06$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl06_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#266216">#</a>&nbsp;<a name="266216"></a>re: Spring事务配置的五种方式
+				2009-04-17 19:54 | <a id="AjaxHolder_Comments_CommentList_ctl07_NameLink" href="http://www.blogjava.net/robbie/" target="_blank">The Matrix</a><br>
+				<div align="left">@Woden<br>如果事务拦截机制对Test类中的execute方法生效，那么两个dao的insert方法是在一个事务，否则两个dao的insert方法就不在一个事务中。&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;The Matrix&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=The+Matrix" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl07_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl07$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl07_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#268465">#</a>&nbsp;<a name="268465"></a>re: Spring事务配置的五种方式
+				2009-05-01 10:36 | <a id="AjaxHolder_Comments_CommentList_ctl08_NameLink" href="http://www.blogjava.net/rongxh7/" target="_blank">心梦帆影</a><br>
+				<div align="left">不错的文章，收藏了。有一个问题想请教你：
+<br>第五种方式中，如果UserDaoImpl类中有很多方法，但不是全部方法都加上事务，那应怎么处理？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;心梦帆影&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e5%bf%83%e6%a2%a6%e5%b8%86%e5%bd%b1" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl08_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl08$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl08_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#268544">#</a>&nbsp;<a name="268544"></a>re: Spring事务配置的五种方式
+				2009-05-01 21:28 | <a id="AjaxHolder_Comments_CommentList_ctl09_NameLink" href="http://www.blogjava.net/robbie/" target="_blank">The Matrix</a><br>
+				<div align="left">@心梦帆影<br>没有测试，但我想是否可以只在方法上加@Transactional注解<br><br>最近太忙了，要同时面临好几件事情，兄弟有测试结果，可以告知我一下，呵呵&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;The Matrix&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=The+Matrix" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl09_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl09$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl09_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式[未登录]" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#293562">#</a>&nbsp;<a name="293562"></a>re: Spring事务配置的五种方式[未登录]
+				2009-09-02 11:25 | <a id="AjaxHolder_Comments_CommentList_ctl10_NameLink" target="_blank">bruce</a><br>
+				<div align="left">收藏了,不错,慢慢研究&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;bruce&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=bruce" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl10_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl10$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl10_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#293661">#</a>&nbsp;<a name="293661"></a>re: Spring事务配置的五种方式
+				2009-09-02 21:42 | <a id="AjaxHolder_Comments_CommentList_ctl11_NameLink" href="http://www.blogjava.net/xxwinnie/" target="_blank">xxwinnie</a><br>
+				<div align="left">收藏~ 慢慢消化~&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;xxwinnie&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=xxwinnie" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl11_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl11$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl11_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#293813">#</a>&nbsp;<a name="293813"></a>re: Spring事务配置的五种方式
+				2009-09-04 09:43 | <a id="AjaxHolder_Comments_CommentList_ctl12_NameLink" target="_blank">wuspace</a><br>
+				<div align="left">如果使用了多个数据源的话,@Transactional到底哪个数据源的事务?&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;wuspace&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=wuspace" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl12_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl12$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl12_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#296069">#</a>&nbsp;<a name="296069"></a>re: Spring事务配置的五种方式
+				2009-09-22 17:53 | <a id="AjaxHolder_Comments_CommentList_ctl13_NameLink" target="_blank">soonj</a><br>
+				<div align="left">辛苦楼主。很有奉献精神，学习！！&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;soonj&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=soonj" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl13_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl13$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl13_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#306725">#</a>&nbsp;<a name="306725"></a>re: Spring事务配置的五种方式
+				2009-12-20 14:20 | <a id="AjaxHolder_Comments_CommentList_ctl14_NameLink" target="_blank">oyp</a><br>
+				<div align="left">非常感谢,来得及时,&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;oyp&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=oyp" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl14_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl14$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl14_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#307752">#</a>&nbsp;<a name="307752"></a>re: Spring事务配置的五种方式
+				2009-12-30 13:59 | <a id="AjaxHolder_Comments_CommentList_ctl15_NameLink" target="_blank">zhangleipd</a><br>
+				<div align="left">文章很好，感谢楼主奉献精神&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;zhangleipd&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=zhangleipd" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl15_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl15$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl15_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式[未登录]" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#310267">#</a>&nbsp;<a name="310267"></a>re: Spring事务配置的五种方式[未登录]
+				2010-01-20 20:05 | <a id="AjaxHolder_Comments_CommentList_ctl16_NameLink" target="_blank">nassir</a><br>
+				<div align="left">确实写得很不错&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;nassir&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=nassir" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl16_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl16$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl16_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#310547">#</a>&nbsp;<a name="310547"></a>re: Spring事务配置的五种方式
+				2010-01-22 17:25 | <a id="AjaxHolder_Comments_CommentList_ctl17_NameLink" target="_blank">pecal</a><br>
+				<div align="left">bz的文章写的不错，请问可以转载吗? 会写转载地址的&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;pecal&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=pecal" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl17_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl17$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl17_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式[未登录]" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#315794">#</a>&nbsp;<a name="315794"></a>re: Spring事务配置的五种方式[未登录]
+				2010-03-18 15:49 | <a id="AjaxHolder_Comments_CommentList_ctl18_NameLink" href="http://www.wasw100.com/" target="_blank">wasw100</a><br>
+				<div align="left">很详细，以前只知其然，不知其所以然，现在明白点了，以后再细看&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;wasw100&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=wasw100" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl18_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl18$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl18_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#316307">#</a>&nbsp;<a name="316307"></a>re: Spring事务配置的五种方式
+				2010-03-23 14:39 | <a id="AjaxHolder_Comments_CommentList_ctl19_NameLink" target="_blank">Matt</a><br>
+				<div align="left">谢谢楼主的分享。&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;Matt&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=Matt" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl19_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl19$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl19_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#317712">#</a>&nbsp;<a name="317712"></a>re: Spring事务配置的五种方式
+				2010-04-08 13:43 | <a id="AjaxHolder_Comments_CommentList_ctl20_NameLink" target="_blank">phe441</a><br>
+				<div align="left">觉得第三、四种比较方便，好用&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;phe441&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=phe441" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl20_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl20$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl20_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#318406">#</a>&nbsp;<a name="318406"></a>re: Spring事务配置的五种方式
+				2010-04-15 13:37 | <a id="AjaxHolder_Comments_CommentList_ctl21_NameLink" href="http://www.blogjava.net/Unmi/" target="_blank">隔叶黄莺</a><br>
+				<div align="left">我一般用第五种，借问一下楼主，我在使用第五种的时候报错了，错误是：
+<br>Exception in thread "main" org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'personDao' defined in file [E:\workspace\TestSpring\bin\com\unmi\dao\impl\PersonDaoImpl.class]: Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: 'sessionFactory' or 'hibernateTemplate' is required
+<br>	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1403)
+<br>	。..  more
+<br>
+<br>不知道是什么原因，要如何解决呢？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;隔叶黄莺&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e9%9a%94%e5%8f%b6%e9%bb%84%e8%8e%ba" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl21_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl21$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl21_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式[未登录]" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#326705">#</a>&nbsp;<a name="326705"></a>re: Spring事务配置的五种方式[未登录]
+				2010-07-21 10:28 | <a id="AjaxHolder_Comments_CommentList_ctl22_NameLink" target="_blank">Teddy</a><br>
+				<div align="left">很好的总结，感谢楼主！&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;Teddy&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=Teddy" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl22_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl22$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl22_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#329350">#</a>&nbsp;<a name="329350"></a>re: Spring事务配置的五种方式
+				2010-08-19 11:09 | <a id="AjaxHolder_Comments_CommentList_ctl23_NameLink" target="_blank">limj</a><br>
+				<div align="left">我们现在用的是第五种方式吗？
+<br>第五种的第一部分   &lt;!-- 定义事务管理器（声明式的事务） --&gt;  是需要自己写的吗？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;limj&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=limj" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl23_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl23$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl23_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#330361">#</a>&nbsp;<a name="330361"></a>re: Spring事务配置的五种方式
+				2010-08-31 09:21 | <a id="AjaxHolder_Comments_CommentList_ctl24_NameLink" target="_blank">周龙</a><br>
+				<div align="left">使用第五种方式在spring3.X hibernate3.X下@Transactional不能工作，是jar包冲突还是？(springsource 文档貌似有说过不能保证@Transactional都有效)&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;周龙&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e5%91%a8%e9%be%99" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl24_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl24$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl24_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#332041">#</a>&nbsp;<a name="332041"></a>re: Spring事务配置的五种方式
+				2010-09-15 10:00 | <a id="AjaxHolder_Comments_CommentList_ctl25_NameLink" href="http://sdf/" target="_blank">sdf</a><br>
+				<div align="left">@heyang
+<br>用铅笔画的&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;sdf&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=sdf" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl25_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl25$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl25_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#332420">#</a>&nbsp;<a name="332420"></a>re: Spring事务配置的五种方式
+				2010-09-19 11:30 | <a id="AjaxHolder_Comments_CommentList_ctl26_NameLink" target="_blank">java程序员</a><br>
+				<div align="left">好文章，学习了，&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;java程序员&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=java%e7%a8%8b%e5%ba%8f%e5%91%98" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl26_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl26$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl26_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#341991">#</a>&nbsp;<a name="341991"></a>re: Spring事务配置的五种方式
+				2010-12-30 15:10 | <a id="AjaxHolder_Comments_CommentList_ctl27_NameLink" target="_blank">aguai0</a><br>
+				<div align="left">说的好，不如做的好！&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;aguai0&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=aguai0" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl27_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl27$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl27_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#345425">#</a>&nbsp;<a name="345425"></a>re: Spring事务配置的五种方式
+				2011-03-01 17:10 | <a id="AjaxHolder_Comments_CommentList_ctl28_NameLink" target="_blank">hc</a><br>
+				<div align="left">bluesky?莫非是hx的&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;hc&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=hc" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl28_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl28$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl28_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#346387">#</a>&nbsp;<a name="346387"></a>re: Spring事务配置的五种方式
+				2011-03-16 14:52 | <a id="AjaxHolder_Comments_CommentList_ctl29_NameLink" target="_blank">谢彧</a><br>
+				<div align="left">学习啦&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;谢彧&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e8%b0%a2%e5%bd%a7" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl29_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl29$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl29_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#346404">#</a>&nbsp;<a name="346404"></a>re: Spring事务配置的五种方式
+				2011-03-16 16:03 | <a id="AjaxHolder_Comments_CommentList_ctl30_NameLink" href="http://www.easy518.com/" target="_blank">easy518网址导航</a><br>
+				<div align="left">我听着陈瑞的歌曲，看完上面文章，很高效率的看完了。
+<br>人要有点坚持啊，不能三心二意啊。
+<br>
+<br>咎由自取——–日本大地震的真正原因！！！
+<br><a href="http://www.easy518.com/bbs/?p=90" target="_new" rel="nofollow">http://www.easy518.com/bbs/?p=90</a>&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;easy518网址导航&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=easy518%e7%bd%91%e5%9d%80%e5%af%bc%e8%88%aa" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl30_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl30$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl30_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#346483">#</a>&nbsp;<a name="346483"></a>re: Spring事务配置的五种方式
+				2011-03-17 17:56 | <a id="AjaxHolder_Comments_CommentList_ctl31_NameLink" href="http://xn--oorr92bup9a44b/" target="_blank">阿斯顿发</a><br>
+				<div align="left">最好的配置当然是第4种tx配置。&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;阿斯顿发&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e9%98%bf%e6%96%af%e9%a1%bf%e5%8f%91" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl31_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl31$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl31_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#349177">#</a>&nbsp;<a name="349177"></a>re: Spring事务配置的五种方式
+				2011-04-28 11:59 | <a id="AjaxHolder_Comments_CommentList_ctl32_NameLink" href="http://easy518.com/" target="_blank">easy518</a><br>
+				<div align="left">android学习群:118615483,flex群:47964236
+<br>&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;easy518&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=easy518" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl32_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl32$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl32_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#349182">#</a>&nbsp;<a name="349182"></a>re: Spring事务配置的五种方式
+				2011-04-28 12:36 | <a id="AjaxHolder_Comments_CommentList_ctl33_NameLink" href="http://www.easy518.com/" target="_blank">easy518网址导航</a><br>
+				<div align="left"><a href="http://www.easy518.com/" target="_new" rel="nofollow">http://www.easy518.com</a>&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;easy518网址导航&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=easy518%e7%bd%91%e5%9d%80%e5%af%bc%e8%88%aa" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl33_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl33$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl33_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#351110">#</a>&nbsp;<a name="351110"></a>re: Spring事务配置的五种方式
+				2011-05-26 17:03 | <a id="AjaxHolder_Comments_CommentList_ctl34_NameLink" target="_blank">joynet007</a><br>
+				<div align="left">请问第五种方式你确定你的可以么？我的怎么不行呢！我也是按照你的方法配置的啊！？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;joynet007&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=joynet007" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl34_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl34$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl34_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#351162">#</a>&nbsp;<a name="351162"></a>re: Spring事务配置的五种方式
+				2011-05-27 11:48 | <a id="AjaxHolder_Comments_CommentList_ctl35_NameLink" target="_blank">sunyi</a><br>
+				<div align="left">@joynet007
+<br> 还要加上这句话。
+<br>&lt;tx:annotation-driven transaction-manager="transactionManager" /&gt;&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;sunyi&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=sunyi" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl35_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl35$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl35_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式[未登录]" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#356701">#</a>&nbsp;<a name="356701"></a>re: Spring事务配置的五种方式[未登录]
+				2011-08-17 11:43 | <a id="AjaxHolder_Comments_CommentList_ctl36_NameLink" href="http://a/" target="_blank">a</a><br>
+				<div align="left">你怎么把@Transactional
+<br>写在类上了？不是写在方法上吗？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;a&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=a" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl36_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl36$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl36_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式[未登录]" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#357032">#</a>&nbsp;<a name="357032"></a>re: Spring事务配置的五种方式[未登录]
+				2011-08-22 13:26 | <a id="AjaxHolder_Comments_CommentList_ctl37_NameLink" target="_blank">rick</a><br>
+				<div align="left">正在学习，很好总结 tks LZ
+<br>&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;rick&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=rick" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl37_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl37$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl37_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#361711">#</a>&nbsp;<a name="361711"></a>re: Spring事务配置的五种方式
+				2011-10-21 12:45 | <a id="AjaxHolder_Comments_CommentList_ctl38_NameLink" target="_blank">Jeelon</a><br>
+				<div align="left">LZ  我用的你写的第二种  可以麻烦你看看我的这个错误么?
+<br>这是地址问题都在里面了：
+<br><a href="http://topic.csdn.net/u/20111020/22/58f0865c-44b0-4aff-8c9a-59edaab3c7f2.html" target="_new" rel="nofollow">http://topic.csdn.net/u/20111020/22/58f0865c-44b0-4aff-8c9a-59edaab3c7f2.html</a>
+<br>
+<br>感激不尽哦！&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;Jeelon&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=Jeelon" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl38_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl38$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl38_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#362606">#</a>&nbsp;<a name="362606"></a>re: Spring事务配置的五种方式
+				2011-11-03 14:28 | <a id="AjaxHolder_Comments_CommentList_ctl39_NameLink" target="_blank">xiaohaiben007</a><br>
+				<div align="left">真不错。。。。感谢。。。&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;xiaohaiben007&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=xiaohaiben007" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl39_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl39$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl39_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#362625">#</a>&nbsp;<a name="362625"></a>re: Spring事务配置的五种方式
+				2011-11-03 18:37 | <a id="AjaxHolder_Comments_CommentList_ctl40_NameLink" target="_blank">tian012</a><br>
+				<div align="left">@xiaohaiben007
+<br>牛人，非常感谢&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;tian012&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=tian012" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl40_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl40$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl40_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#362626">#</a>&nbsp;<a name="362626"></a>re: Spring事务配置的五种方式
+				2011-11-03 18:39 | <a id="AjaxHolder_Comments_CommentList_ctl41_NameLink" target="_blank">tian012</a><br>
+				<div align="left">牛人，非常感谢 &nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;tian012&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=tian012" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl41_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl41$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl41_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式[未登录]" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#362852">#</a>&nbsp;<a name="362852"></a>re: Spring事务配置的五种方式[未登录]
+				2011-11-05 15:10 | <a id="AjaxHolder_Comments_CommentList_ctl42_NameLink" target="_blank">xx</a><br>
+				<div align="left">强&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;xx&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=xx" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl42_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl42$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl42_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式[未登录]" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#363055">#</a>&nbsp;<a name="363055"></a>re: Spring事务配置的五种方式[未登录]
+				2011-11-07 15:17 | <a id="AjaxHolder_Comments_CommentList_ctl43_NameLink" href="http://xn--gzra/" target="_blank">啊啊</a><br>
+				<div align="left">犀利，困惑我2天的东西，被你点通了&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;啊啊&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e5%95%8a%e5%95%8a" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl43_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl43$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl43_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#370048">#</a>&nbsp;<a name="370048"></a>re: Spring事务配置的五种方式
+				2012-02-15 21:05 | <a id="AjaxHolder_Comments_CommentList_ctl44_NameLink" href="http://www.blogjava.net/laifu901/" target="_blank">laifu901</a><br>
+				<div align="left">哥&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;laifu901&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=laifu901" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl44_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl44$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl44_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的第五种方式 " href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#370593">#</a>&nbsp;<a name="370593"></a>re: Spring事务配置的第五种方式 
+				2012-02-23 15:33 | <a id="AjaxHolder_Comments_CommentList_ctl45_NameLink" target="_blank">qch</a><br>
+				<div align="left">第五种方式  我试了试 在3.0下面，不德行&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;qch&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=qch" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl45_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl45$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl45_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#378665">#</a>&nbsp;<a name="378665"></a>re: Spring事务配置的五种方式
+				2012-05-21 11:13 | <a id="AjaxHolder_Comments_CommentList_ctl46_NameLink" target="_blank">free8rt</a><br>
+				<div align="left">@Transactional加在方法上就可以给某个方法加上事物了，比如增删改，加在service类上就是给所有方法都加上事物了&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;free8rt&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=free8rt" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl46_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl46$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl46_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#385173">#</a>&nbsp;<a name="385173"></a>re: Spring事务配置的五种方式
+				2012-08-09 18:47 | <a id="AjaxHolder_Comments_CommentList_ctl47_NameLink" target="_blank">yushan</a><br>
+				<div align="left">很不错，顶一个&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;yushan&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=yushan" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl47_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl47$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl47_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#386857">#</a>&nbsp;<a name="386857"></a>re: Spring事务配置的五种方式
+				2012-09-03 11:47 | <a id="AjaxHolder_Comments_CommentList_ctl48_NameLink" target="_blank">北京青年</a><br>
+				<div align="left">强大&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;北京青年&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e5%8c%97%e4%ba%ac%e9%9d%92%e5%b9%b4" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl48_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl48$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl48_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#389654">#</a>&nbsp;<a name="389654"></a>re: Spring事务配置的五种方式
+				2012-10-16 14:23 | <a id="AjaxHolder_Comments_CommentList_ctl49_NameLink" target="_blank">webtomos</a><br>
+				<div align="left">@heyang思维导图&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;webtomos&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=webtomos" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl49_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl49$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl49_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#392170">#</a>&nbsp;<a name="392170"></a>re: Spring事务配置的五种方式
+				2012-11-29 09:51 | <a id="AjaxHolder_Comments_CommentList_ctl50_NameLink" target="_blank">zeda</a><br>
+				<div align="left">肯定是用第五种啦 呵呵 不过只是基于java5才能用&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;zeda&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=zeda" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl50_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl50$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl50_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#392395">#</a>&nbsp;<a name="392395"></a>re: Spring事务配置的五种方式
+				2012-12-04 10:21 | <a id="AjaxHolder_Comments_CommentList_ctl51_NameLink" target="_blank">jianxia612</a><br>
+				<div align="left">你这个有jdbctemplate的示例程序？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;jianxia612&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=jianxia612" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl51_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl51$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl51_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#392402">#</a>&nbsp;<a name="392402"></a>re: Spring事务配置的五种方式
+				2012-12-04 11:22 | <a id="AjaxHolder_Comments_CommentList_ctl52_NameLink" target="_blank">jianxia612</a><br>
+				<div align="left">楼主 你的第二种配置方式 &lt;!-- 配置DAO --&gt;<br>     &lt;bean id="userDaoTarget" class="com.bluesky.spring.dao.UserDaoImpl"&gt;<br>         &lt;property name="sessionFactory" ref="sessionFactory" /&gt;<br>     &lt;/bean&gt;<br>     <br>     &lt;bean id="userDao" parent="transactionBase" &gt;  <br>         &lt;property name="target" ref="userDaoTarget" /&gt;   <br>     &lt;/bean&gt; 能否提供一下spring jdbctemplate方式配置呢&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;jianxia612&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=jianxia612" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl52_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl52$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl52_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#392403">#</a>&nbsp;<a name="392403"></a>re: Spring事务配置的五种方式
+				2012-12-04 11:30 | <a id="AjaxHolder_Comments_CommentList_ctl53_NameLink" target="_blank">jianxia612</a><br>
+				<div align="left">还一个问题比较疑虑 userDao之中的name是自己可以随意命名的吧 你看我的jdbc配置如下 &lt;bean id="taskServer" parent="transactionBase"  class="com.abc.DataGatherTaskServer"&gt;<br>		&lt;property name="taskDao" &gt;<br>			&lt;ref bean="TaskDao" /&gt;<br>		&lt;/property&gt;		<br>	&lt;/bean&gt; 其中transactionBase 在启动tomcat会出错！nested exception is org.springframework.beans.NotWritablePropertyException: Invalid property 'transactionManager' of bean class [com.abc.TaskServer]: Bean property 'transactionManager' is not writable or has an invalid setter method. Does the parameter type of the setter match the return type of the getter? 此处错误是我在dao之中为get,set 'transactionManager' ?&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;jianxia612&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=jianxia612" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl53_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl53$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl53_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#392421">#</a>&nbsp;<a name="392421"></a>re: Spring事务配置的五种方式
+				2012-12-04 15:25 | <a id="AjaxHolder_Comments_CommentList_ctl54_NameLink" target="_blank">jianxia612</a><br>
+				<div align="left">@jianxia612<br>针对第二种已经找到设置方法：&lt;bean id="taskServer" parent="transactionBase" &gt;<br>		&lt;property name="target"&gt;<br>		&lt;bean class="com.abc.server.TaskServer"&gt;<br>			&lt;property name="taskDao" ref="taskDao"/&gt;<br>		&lt;/bean&gt;	<br>		&lt;/property&gt;		<br>	&lt;/bean&gt;&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;jianxia612&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=jianxia612" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl54_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl54$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl54_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#395072">#</a>&nbsp;<a name="395072"></a>re: Spring事务配置的五种方式
+				2013-02-03 11:48 | <a id="AjaxHolder_Comments_CommentList_ctl55_NameLink" target="_blank">vicky</a><br>
+				<div align="left">挺细致的&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;vicky&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=vicky" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl55_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl55$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl55_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#395954">#</a>&nbsp;<a name="395954"></a>re: Spring事务配置的五种方式
+				2013-03-01 22:44 | <a id="AjaxHolder_Comments_CommentList_ctl56_NameLink" target="_blank">ZL</a><br>
+				<div align="left">很有用，非常感谢！&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;ZL&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=ZL" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl56_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl56$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl56_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#398710">#</a>&nbsp;<a name="398710"></a>re: Spring事务配置的五种方式
+				2013-05-03 10:13 | <a id="AjaxHolder_Comments_CommentList_ctl57_NameLink" target="_blank">高寒</a><br>
+				<div align="left">博主讲的意思是对的，但是事务一般是不能加到dao层的，应该加到service层，还有就是，博主没有写出来，rollbackfor与noRollbackfor等等&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;高寒&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e9%ab%98%e5%af%92" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl57_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl57$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl57_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#398813">#</a>&nbsp;<a name="398813"></a>re: Spring事务配置的五种方式
+				2013-05-05 17:17 | <a id="AjaxHolder_Comments_CommentList_ctl58_NameLink" target="_blank">赵靖</a><br>
+				<div align="left">楼主，请问楼主，个人感觉第四种方式只要是把规则配置好了，其他需要使用事务的类，方法，就不用做多余的配置了，第五种方法是全注解，每个需要做事务处理的方法都需要手动配置注解，是不是第四种方法比第五种方法更好？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;赵靖&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e8%b5%b5%e9%9d%96" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl58_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl58$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl58_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#400000">#</a>&nbsp;<a name="400000"></a>re: Spring事务配置的五种方式
+				2013-05-31 00:17 | <a id="AjaxHolder_Comments_CommentList_ctl59_NameLink" target="_blank">jzp</a><br>
+				<div align="left">讲解的很好，非常感谢！！&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;jzp&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=jzp" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl59_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl59$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl59_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#400859">#</a>&nbsp;<a name="400859"></a>re: Spring事务配置的五种方式
+				2013-06-22 22:35 | <a id="AjaxHolder_Comments_CommentList_ctl60_NameLink" target="_blank">chen jq</a><br>
+				<div align="left">非常感谢分享&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;chen jq&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=chen+jq" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl60_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl60$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl60_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式[未登录]" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#401293">#</a>&nbsp;<a name="401293"></a>re: Spring事务配置的五种方式[未登录]
+				2013-07-07 21:52 | <a id="AjaxHolder_Comments_CommentList_ctl61_NameLink" target="_blank">Terry</a><br>
+				<div align="left">想在业务层service中做个事务，一个service调用多个dao时，如果有一个dao出错，其他全部回滚。采用第三种方法可以实现吗，要怎么配置?&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;Terry&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=Terry" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl61_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl61$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl61_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式[未登录]" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#401755">#</a>&nbsp;<a name="401755"></a>re: Spring事务配置的五种方式[未登录]
+				2013-07-19 15:14 | <a id="AjaxHolder_Comments_CommentList_ctl62_NameLink" href="http://a/" target="_blank">a</a><br>
+				<div align="left">a&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;a&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=a" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl62_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl62$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl62_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式[未登录]" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#401756">#</a>&nbsp;<a name="401756"></a>re: Spring事务配置的五种方式[未登录]
+				2013-07-19 15:14 | <a id="AjaxHolder_Comments_CommentList_ctl63_NameLink" href="http://a/" target="_blank">a</a><br>
+				<div align="left">aa&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;a&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=a" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl63_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl63$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl63_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式[未登录]" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#403563">#</a>&nbsp;<a name="403563"></a>re: Spring事务配置的五种方式[未登录]
+				2013-09-02 15:20 | <a id="AjaxHolder_Comments_CommentList_ctl64_NameLink" href="http://xn--wbsu4qhvfuns14ee9bc5lyt2b3yi/" target="_blank">guoguo</a><br>
+				<div align="left">我使用的是第四种方式，没有用hibernate，其他配置的都一样，事务还是没控制住，请问这可能是什么原因呢？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;guoguo&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=guoguo" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl64_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl64$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl64_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#403690">#</a>&nbsp;<a name="403690"></a>re: Spring事务配置的五种方式
+				2013-09-05 09:24 | <a id="AjaxHolder_Comments_CommentList_ctl65_NameLink" target="_blank">liangtu33</a><br>
+				<div align="left">@guoguo<br>很有可能是其他xml文件干扰了。&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;liangtu33&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=liangtu33" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl65_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl65$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl65_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#403692">#</a>&nbsp;<a name="403692"></a>re: Spring事务配置的五种方式
+				2013-09-05 09:46 | <a id="AjaxHolder_Comments_CommentList_ctl66_NameLink" target="_blank">liangtu33</a><br>
+				<div align="left">第一种方式中&lt;property name="proxyInterfaces" value="com.bluesky.spring.dao.GeneratorDao" /&gt;<br><br>GeneratorDao是接口吗？<br><br>你是不是没有service层，直接在dao层加的事务？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;liangtu33&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=liangtu33" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl66_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl66$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl66_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式[未登录]" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#407257">#</a>&nbsp;<a name="407257"></a>re: Spring事务配置的五种方式[未登录]
+				2013-12-05 17:15 | <a id="AjaxHolder_Comments_CommentList_ctl67_NameLink" target="_blank">Ray</a><br>
+				<div align="left">确实是可以在方法上加这个注解的@The Matrix<br>&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;Ray&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=Ray" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl67_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl67$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl67_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#407295">#</a>&nbsp;<a name="407295"></a>re: Spring事务配置的五种方式
+				2013-12-06 18:09 | <a id="AjaxHolder_Comments_CommentList_ctl68_NameLink" target="_blank">落叶飞星</a><br>
+				<div align="left">@周龙<br>我也是用地五种配置，事物也不起作用，请赐教&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;落叶飞星&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e8%90%bd%e5%8f%b6%e9%a3%9e%e6%98%9f" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl68_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl68$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl68_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#407296">#</a>&nbsp;<a name="407296"></a>re: Spring事务配置的五种方式
+				2013-12-06 18:10 | <a id="AjaxHolder_Comments_CommentList_ctl69_NameLink" target="_blank">落叶飞星</a><br>
+				<div align="left">@sunyi<br>我都是按照上面的配置做的配置，但事物不起作用&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;落叶飞星&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e8%90%bd%e5%8f%b6%e9%a3%9e%e6%98%9f" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl69_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl69$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl69_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#408632">#</a>&nbsp;<a name="408632"></a>re: Spring事务配置的五种方式
+				2014-01-07 14:47 | <a id="AjaxHolder_Comments_CommentList_ctl70_NameLink" target="_blank">aluomaidi</a><br>
+				<div align="left">@落叶飞星还需要加事务注解支持&lt;tx:annotation-driven transaction-manager="transactionManager" /&gt;<br>&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;aluomaidi&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=aluomaidi" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl70_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl70$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl70_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#409279">#</a>&nbsp;<a name="409279"></a>re: Spring事务配置的五种方式
+				2014-01-23 15:25 | <a id="AjaxHolder_Comments_CommentList_ctl71_NameLink" href="http://s/" target="_blank">ss</a><br>
+				<div align="left">ssss&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;ss&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=ss" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl71_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl71$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl71_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#413220">#</a>&nbsp;<a name="413220"></a>re: Spring事务配置的五种方式
+				2014-05-04 14:56 | <a id="AjaxHolder_Comments_CommentList_ctl72_NameLink" target="_blank">winson</a><br>
+				<div align="left">得分析下这几种方式的工作原理和优缺点啊。&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;winson&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=winson" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl72_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl72$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl72_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#413267">#</a>&nbsp;<a name="413267"></a>re: Spring事务配置的五种方式
+				2014-05-05 16:53 | <a id="AjaxHolder_Comments_CommentList_ctl73_NameLink" target="_blank">姚娜</a><br>
+				<div align="left">@The Matrix
+<br>可以的&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;姚娜&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e5%a7%9a%e5%a8%9c" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl73_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl73$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl73_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#413477">#</a>&nbsp;<a name="413477"></a>re: Spring事务配置的五种方式
+				2014-05-09 23:04 | <a id="AjaxHolder_Comments_CommentList_ctl74_NameLink" href="http://www.zuidaima.com/" target="_blank">zuidaima</a><br>
+				<div align="left">spring代码下载：<a href="http://www.zuidaima.com/share/search.htm?key=spring" target="_new" rel="nofollow">http://www.zuidaima.com/share/search.htm?key=spring</a>&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;zuidaima&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=zuidaima" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl74_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl74$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl74_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#413547">#</a>&nbsp;<a name="413547"></a>re: Spring事务配置的五种方式
+				2014-05-12 10:35 | <a id="AjaxHolder_Comments_CommentList_ctl75_NameLink" target="_blank">jialy</a><br>
+				<div align="left">不错的文章！&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;jialy&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=jialy" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl75_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl75$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl75_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#413920">#</a>&nbsp;<a name="413920"></a>re: Spring事务配置的五种方式
+				2014-05-21 10:58 | <a id="AjaxHolder_Comments_CommentList_ctl76_NameLink" href="http://a/" target="_blank">sdfa</a><br>
+				<div align="left">怎么收藏啊&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;sdfa&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=sdfa" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl76_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl76$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl76_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#414465">#</a>&nbsp;<a name="414465"></a>re: Spring事务配置的五种方式
+				2014-06-06 14:26 | <a id="AjaxHolder_Comments_CommentList_ctl77_NameLink" target="_blank">风起云追</a><br>
+				<div align="left">@Terry<br>遇到同样的问题，有没有解决？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;风起云追&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=%e9%a3%8e%e8%b5%b7%e4%ba%91%e8%bf%bd" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl77_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl77$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl77_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#422503">#</a>&nbsp;<a name="422503"></a>re: Spring事务配置的五种方式
+				2015-01-28 11:48 | <a id="AjaxHolder_Comments_CommentList_ctl78_NameLink" target="_blank">qu</a><br>
+				<div align="left">楼上说的按照上面的配置做的配置，但事物不起作用，原因如下：<br>&lt;bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close"&gt;<br>		&lt;property name="driverClassName" value="com.mysql.jdbc.Driver"/&gt;<br>	    &lt;property name="url" value="jdbc:mysql://localhost:3306/db?characterEncoding=utf8"/&gt;<br>	    &lt;property name="defaultAutoCommit" value="false"/&gt;<br>	&lt;/bean&gt;<br><br>要设置dataSource 的自动提交为false，让spring 去管理提交，自动提交默认是true&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;qu&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=qu" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl78_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl78$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl78_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#424220">#</a>&nbsp;<a name="424220"></a>re: Spring事务配置的五种方式
+				2015-04-08 16:03 | <a id="AjaxHolder_Comments_CommentList_ctl79_NameLink" target="_blank">Queena</a><br>
+				<div align="left">楼主你好，能不能分享一个aop事务管理的小项目，包括写不成功回滚异常的，谢谢了。&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;Queena&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=Queena" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl79_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl79$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl79_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#426963">#</a>&nbsp;<a name="426963"></a>re: Spring事务配置的五种方式
+				2015-08-24 13:55 | <a id="AjaxHolder_Comments_CommentList_ctl80_NameLink" href="http://dsa/" target="_blank">asd</a><br>
+				<div align="left">deqw&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;asd&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=asd" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl80_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl80$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl80_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#428704">#</a>&nbsp;<a name="428704"></a>re: Spring事务配置的五种方式
+				2015-12-17 16:31 | <a id="AjaxHolder_Comments_CommentList_ctl81_NameLink" href="http://xn--3kqzsk5e9ml5e9xfczfd8us1cit4bjwig62f/" target="_blank">thank</a><br>
+				<div align="left">多个更新语句执行时，有一个没有更新成功，但是不报错，我如何手动控制让其他的回滚呢。&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;thank&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=thank" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl81_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl81$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl81_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#430091">#</a>&nbsp;<a name="430091"></a>re: Spring事务配置的五种方式
+				2016-04-14 11:10 | <a id="AjaxHolder_Comments_CommentList_ctl82_NameLink" target="_blank">sl</a><br>
+				<div align="left">connection is closed 该怎么改？&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;sl&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=sl" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl82_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl82$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl82_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+		<div class="feedbackItem">
+			<div class="feedbackListSubtitle">
+			<a title="permalink: re: Spring事务配置的五种方式[未登录]" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#431127">#</a>&nbsp;<a name="431127"></a>re: Spring事务配置的五种方式[未登录]<a name="Post"></a>
+				2016-07-08 09:51 | <a id="AjaxHolder_Comments_CommentList_ctl83_NameLink" target="_blank">c</a><br>
+				<div align="left">第四种方法，应该在service上加事务吧，不应该加在dao层吧&nbsp;&nbsp;<a onclick="return SetReplyAuhor(&quot;c&quot;)" href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html#post">回复</a>&nbsp;&nbsp;<a title="查看该作者发表过的评论" href="http://www.blogjava.net/comment?author=c" target="_blank">更多评论</a><br><a id="AjaxHolder_Comments_CommentList_ctl83_DeleteLink" href="javascript:__doPostBack('AjaxHolder$Comments$CommentList$ctl83$DeleteLink','')"></a>&nbsp;&nbsp;<a id="AjaxHolder_Comments_CommentList_ctl83_EditLink"></a></div>
+			</div>
+			
+			
+		</div>
+	
+
+
+
+
+<style>
+td { font-size: 12px }
+.commentTextBox 
+{ 
+    font-family : Verdana; 
+    font-size: 13px;
+ }
+</style>
+<!--Beging Temp Save-->
+<style>.userData { BEHAVIOR: url(#default#userdata) }
+	</style>
+<div class="userData" id="CommentsPersistDiv"></div>
+
+<script type="text/javascript">
+function pageLoad()
+{
+    Sys.WebForms.PageRequestManager.getInstance().add_initializeRequest(handleInitializeRequest);
+    //Sys.WebForms.PageRequestManager.getInstance().add_endRequest(handleEndRequest);
+}
+
+function handleInitializeRequest(sender, args)
+{
+    var prm = Sys.WebForms.PageRequestManager.getInstance();
+    var eid = args.get_postBackElement().id;
+    if (eid.indexOf("DeleteLink")>0) 
+    {
+       args.get_postBackElement().innerHTML = "<font color='red'>正在删除...</font>";         
+    }    
+    else if (eid.indexOf("btnSubmit")>0) 
+    {
+       document.getElementById("AjaxHolder_PostComment_ltSubmitMsg").innerHTML="正在提交...";
+       document.getElementById("AjaxHolder_PostComment_btnSubmit").disabled = true;       
+    }   
+    else if(eid.indexOf("refreshList")>0)
+    {
+        document.getElementById("AjaxHolder_PostComment_refreshList").innerHTML="<font color='red'>正在刷新...</font>";
+    }
+   
+}	
+
+function TempSave(ElementID)
+{
+	try
+	{
+	CommentsPersistDiv.setAttribute("CommentContent",document.getElementById(ElementID).value);
+	CommentsPersistDiv.save("CommentXMLStore");
+	}
+	catch(ex)
+	{
+	}
+	
+}
+function Restore(ElementID)
+{
+	CommentsPersistDiv.load("CommentXMLStore");
+	document.getElementById(ElementID).value=CommentsPersistDiv.getAttribute("CommentContent");
+}	
+			
+			
+</script>
+<!--Ene TempSave-->
+<div id="divRefreshComments" style="text-align:right;margin-right:10px;margin-bottom:5px;font-size:12px"><a href="http://www.blogjava.net/RequireRegister.aspx">新用户注册</a>&nbsp;&nbsp;<a id="AjaxHolder_PostComment_refreshList" href="javascript:__doPostBack('AjaxHolder$PostComment$refreshList','')">刷新评论列表</a>&nbsp;&nbsp;</div>
+<div class="commentform">
+<span id="AjaxHolder_PostComment_ltSubmitMsg" style="color:Red;"></span>
+<br>
+<a name="Feedback"></a>
+	<table cellspacing="1" cellpadding="1" border="0">
+		<tbody><tr>
+		<td id="AjaxHolder_PostComment_tdOnCommentForm" colspan="3" style="line-height:1.5">		
+		</td>
+	
+		</tr>
+		
+		<tr><td colspan="3">只有注册用户<a href="http://www.blogjava.net/login.aspx?ReturnUrl=/robbie/archive/2009/04/05/264003.html">登录</a>后才能发表评论。</td></tr>
+		<tr>
+			<td colspan="3"><!--该文被作者在 2009-04-05 17:12 编辑过--></td>
+		</tr>
+		<!--
+		<TR>
+			<TD colSpan="3" height="5"></TD>
+		</TR>	
+		-->	
+		<tr>
+		<td colspan="3">
+		<br>
+		
+<script type="text/javascript">
+var googletag = googletag || {};
+googletag.cmd = googletag.cmd || [];
+(function() {
+var gads = document.createElement('script');
+gads.async = true;
+gads.type = 'text/javascript';
+var useSSL = 'https:' == document.location.protocol;
+gads.src = (useSSL ? 'https:' : 'http:') + 
+'//www.googletagservices.com/tag/js/gpt.js';
+var node = document.getElementsByTagName('script')[0];
+node.parentNode.insertBefore(gads, node);
+})();
+</script>
+
+<script type="text/javascript">
+googletag.cmd.push(function() {
+googletag.defineSlot('/1090369/blogjava_blogpost_bottom', [300, 250], 'div-gpt-ad-1364133350381-0').addService(googletag.pubads());
+googletag.pubads().enableSingleRequest();
+googletag.enableServices();
+});
+</script>
+<!-- blogjava_blogpost_bottom -->
+<div id="div-gpt-ad-1364133350381-0" style="width:300px; height:250px;">
+<script type="text/javascript">
+googletag.cmd.push(function() { googletag.display('div-gpt-ad-1364133350381-0'); });
+</script>
+<div id="google_ads_iframe_/1090369/blogjava_blogpost_bottom_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/blogjava_blogpost_bottom_0" title="3rd party ad content" name="google_ads_iframe_/1090369/blogjava_blogpost_bottom_0" width="300" height="250" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" srcdoc="" style="border: 0px; vertical-align: bottom;"></iframe></div></div>
+<br>
+
+		</td>
+		</tr>
+		<tr>			
+		<td colspan="3">
+		
+		</td>
+		</tr>
+		<tr>
+		<td colspan="3"></td>
+		</tr>
+		<tr>
+			<td colspan="3" height="1">网站导航:<div id="blogsite">
+			<a href="http://www.cnblogs.com/" title="开发者的网上家园">博客园</a>&nbsp;&nbsp;
+			<a href="https://news.cnblogs.com/">IT新闻</a>&nbsp;&nbsp;
+			<a href="http://kb.cnblogs.com/">知识库</a>&nbsp;&nbsp;
+			<a href="http://www.cppblog.com/">C++博客</a>&nbsp;&nbsp;
+			<a href="https://q.cnblogs.com/">博问</a>&nbsp;&nbsp;
+			<a href="http://www.blogjava.net/robbie/archive/2009/04/05/264003.html?opt=admin">管理</a>
+			</div>
+		</td>
+		</tr>
+		<tr>
+			<td colspan="3" height="5">
+<div id="divRelativePosts">
+相关文章:
+	
+			<ul style="margin-top:0px;padding-left:0px;">
+		
+			<li style="list-style:none;display:none">
+				<a id="AjaxHolder_PostComment_ctl07_RelativePostsList_ctl01_Hyperlink1" href="./Spring事务配置的五种方式 - robbie - BlogJava_files/Spring事务配置的五种方式 - robbie - BlogJava.html">Spring事务配置的五种方式</a>
+			</li>
+		
+			<li style="list-style:none;">
+				<a id="AjaxHolder_PostComment_ctl07_RelativePostsList_ctl02_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/03/16/260119.html">今天犯了一个愚蠢的错误</a>
+			</li>
+		
+			</ul>
+		
+</div>
+</td>
+		</tr>	
+		<tr>
+			<td colspan="3">&nbsp;</td>
+		</tr>
+		<tr>
+			<td colspan="3" height="5"></td>
+		</tr>
+		<tr>
+			<td colspan="3">
+				</td>
+		</tr>		
+	</tbody></table>	
+</div>
+<div id="AjaxHolder_PostComment_ValidationSummary1" style="color:Red;display:none;">
+
+	</div>
+
+</div>
+
+				
+</div>
+<div id="leftcontent" style="display: inline;">
+	
+		<div id="leftcontentcontainer">
+			
+			<table id="Calendar1_entryCal" class="Cal" cellspacing="0" cellpadding="0" title="日历" border="0" style="border-width:1px;border-style:solid;border-collapse:collapse;">
+	<tbody><tr><td colspan="7" style="background-color:Silver;"><table class="CalTitle" cellspacing="0" border="0" style="width:100%;border-collapse:collapse;">
+		<tbody><tr><td class="CalNextPrev" style="width:15%;"><a href="javascript:__doPostBack('Calendar1$entryCal','V3347')" style="color:Black" title="转到上一个月">&lt;</a></td><td align="center" style="width:70%;">2009年4月</td><td class="CalNextPrev" align="right" style="width:15%;"><a href="javascript:__doPostBack('Calendar1$entryCal','V3408')" style="color:Black" title="转到下一个月">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center" style="width:14%;">29</td><td class="CalOtherMonthDay" align="center" style="width:14%;">30</td><td class="CalOtherMonthDay" align="center" style="width:14%;">31</td><td align="center" style="width:14%;">1</td><td align="center" style="width:14%;">2</td><td align="center" style="width:14%;">3</td><td class="CalWeekendDay" align="center" style="width:14%;">4</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;"><a href="http://www.blogjava.net/robbie/archive/2009/04/05.html"><u>5</u></a></td><td align="center" style="width:14%;">6</td><td align="center" style="width:14%;"><a href="http://www.blogjava.net/robbie/archive/2009/04/07.html"><u>7</u></a></td><td align="center" style="width:14%;">8</td><td align="center" style="width:14%;">9</td><td align="center" style="width:14%;">10</td><td class="CalWeekendDay" align="center" style="width:14%;">11</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;"><a href="http://www.blogjava.net/robbie/archive/2009/04/12.html"><u>12</u></a></td><td align="center" style="width:14%;">13</td><td align="center" style="width:14%;">14</td><td align="center" style="width:14%;">15</td><td align="center" style="width:14%;">16</td><td align="center" style="width:14%;">17</td><td class="CalWeekendDay" align="center" style="width:14%;">18</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;"><a href="http://www.blogjava.net/robbie/archive/2009/04/19.html"><u>19</u></a></td><td align="center" style="width:14%;">20</td><td align="center" style="width:14%;">21</td><td align="center" style="width:14%;">22</td><td align="center" style="width:14%;">23</td><td align="center" style="width:14%;">24</td><td class="CalWeekendDay" align="center" style="width:14%;">25</td></tr><tr><td class="CalWeekendDay" align="center" style="width:14%;">26</td><td align="center" style="width:14%;">27</td><td align="center" style="width:14%;">28</td><td align="center" style="width:14%;">29</td><td align="center" style="width:14%;">30</td><td class="CalOtherMonthDay" align="center" style="width:14%;">1</td><td class="CalOtherMonthDay" align="center" style="width:14%;">2</td></tr><tr><td class="CalOtherMonthDay" align="center" style="width:14%;">3</td><td class="CalOtherMonthDay" align="center" style="width:14%;">4</td><td class="CalOtherMonthDay" align="center" style="width:14%;">5</td><td class="CalOtherMonthDay" align="center" style="width:14%;">6</td><td class="CalOtherMonthDay" align="center" style="width:14%;">7</td><td class="CalOtherMonthDay" align="center" style="width:14%;">8</td><td class="CalOtherMonthDay" align="center" style="width:14%;">9</td></tr>
+</tbody></table>
+<br>
+			
+<!--done-->
+
+		<h1 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(72)</span></h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_Link" class="listitem" href="http://www.blogjava.net/robbie/category/49797.html">Android</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl01_RssLink" title="Subscribe to Android" class="listitem" href="http://www.blogjava.net/robbie/category/49797.html/rss"><img title="Subscribe to Android" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_Link" class="listitem" href="http://www.blogjava.net/robbie/category/22240.html">EJB3(3)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl02_RssLink" title="Subscribe to EJB3(3)" class="listitem" href="http://www.blogjava.net/robbie/category/22240.html/rss"><img title="Subscribe to EJB3(3)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_Link" class="listitem" href="http://www.blogjava.net/robbie/category/16723.html">Flex(12)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl03_RssLink" title="Subscribe to Flex(12)" class="listitem" href="http://www.blogjava.net/robbie/category/16723.html/rss"><img title="Subscribe to Flex(12)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36350.html">Hibernate(8)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl04_RssLink" title="Subscribe to Hibernate(8)" class="listitem" href="http://www.blogjava.net/robbie/category/36350.html/rss"><img title="Subscribe to Hibernate(8)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_Link" class="listitem" href="http://www.blogjava.net/robbie/category/49796.html">iOS</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl05_RssLink" title="Subscribe to iOS" class="listitem" href="http://www.blogjava.net/robbie/category/49796.html/rss"><img title="Subscribe to iOS" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_Link" class="listitem" href="http://www.blogjava.net/robbie/category/16725.html">Java(2)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl06_RssLink" title="Subscribe to Java(2)" class="listitem" href="http://www.blogjava.net/robbie/category/16725.html/rss"><img title="Subscribe to Java(2)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl07_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36431.html">JBoss Seam/JSF(7)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl07_RssLink" title="Subscribe to JBoss Seam/JSF(7)" class="listitem" href="http://www.blogjava.net/robbie/category/36431.html/rss"><img title="Subscribe to JBoss Seam/JSF(7)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl08_Link" class="listitem" href="http://www.blogjava.net/robbie/category/53283.html">JQuery(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl08_RssLink" title="Subscribe to JQuery(1)" class="listitem" href="http://www.blogjava.net/robbie/category/53283.html/rss"><img title="Subscribe to JQuery(1)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl09_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36465.html">Kettle(4)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl09_RssLink" title="Subscribe to Kettle(4)" class="listitem" href="http://www.blogjava.net/robbie/category/36465.html/rss"><img title="Subscribe to Kettle(4)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl10_Link" class="listitem" href="http://www.blogjava.net/robbie/category/31677.html">Linux(3)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl10_RssLink" title="Subscribe to Linux(3)" class="listitem" href="http://www.blogjava.net/robbie/category/31677.html/rss"><img title="Subscribe to Linux(3)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl11_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36355.html">MySQL(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl11_RssLink" title="Subscribe to MySQL(1)" class="listitem" href="http://www.blogjava.net/robbie/category/36355.html/rss"><img title="Subscribe to MySQL(1)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl12_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36356.html">Oracle(2)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl12_RssLink" title="Subscribe to Oracle(2)" class="listitem" href="http://www.blogjava.net/robbie/category/36356.html/rss"><img title="Subscribe to Oracle(2)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl13_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36351.html">OSGi</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl13_RssLink" title="Subscribe to OSGi" class="listitem" href="http://www.blogjava.net/robbie/category/36351.html/rss"><img title="Subscribe to OSGi" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl14_Link" class="listitem" href="http://www.blogjava.net/robbie/category/50217.html">PHP(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl14_RssLink" title="Subscribe to PHP(1)" class="listitem" href="http://www.blogjava.net/robbie/category/50217.html/rss"><img title="Subscribe to PHP(1)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl15_Link" class="listitem" href="http://www.blogjava.net/robbie/category/40910.html">Ruby(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl15_RssLink" title="Subscribe to Ruby(1)" class="listitem" href="http://www.blogjava.net/robbie/category/40910.html/rss"><img title="Subscribe to Ruby(1)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl16_Link" class="listitem" href="http://www.blogjava.net/robbie/category/17709.html">Spring(2)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl16_RssLink" title="Subscribe to Spring(2)" class="listitem" href="http://www.blogjava.net/robbie/category/17709.html/rss"><img title="Subscribe to Spring(2)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl17_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36667.html">SQL Server(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl17_RssLink" title="Subscribe to SQL Server(1)" class="listitem" href="http://www.blogjava.net/robbie/category/36667.html/rss"><img title="Subscribe to SQL Server(1)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl18_Link" class="listitem" href="http://www.blogjava.net/robbie/category/37909.html">Struts2(2)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl18_RssLink" title="Subscribe to Struts2(2)" class="listitem" href="http://www.blogjava.net/robbie/category/37909.html/rss"><img title="Subscribe to Struts2(2)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl19_Link" class="listitem" href="http://www.blogjava.net/robbie/category/48160.html">Unity3D(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl19_RssLink" title="Subscribe to Unity3D(1)" class="listitem" href="http://www.blogjava.net/robbie/category/48160.html/rss"><img title="Subscribe to Unity3D(1)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl20_Link" class="listitem" href="http://www.blogjava.net/robbie/category/50979.html">VmWare(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl20_RssLink" title="Subscribe to VmWare(1)" class="listitem" href="http://www.blogjava.net/robbie/category/50979.html/rss"><img title="Subscribe to VmWare(1)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl21_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36352.html">设计模式(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl21_RssLink" title="Subscribe to 设计模式(1)" class="listitem" href="http://www.blogjava.net/robbie/category/36352.html/rss"><img title="Subscribe to 设计模式(1)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl22_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36354.html">软件工程(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl22_RssLink" title="Subscribe to 软件工程(1)" class="listitem" href="http://www.blogjava.net/robbie/category/36354.html/rss"><img title="Subscribe to 软件工程(1)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl23_Link" class="listitem" href="http://www.blogjava.net/robbie/category/31872.html">软件设计(4)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl23_RssLink" title="Subscribe to 软件设计(4)" class="listitem" href="http://www.blogjava.net/robbie/category/31872.html/rss"><img title="Subscribe to 软件设计(4)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl24_Link" class="listitem" href="http://www.blogjava.net/robbie/category/16727.html">随笔(13)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl24_RssLink" title="Subscribe to 随笔(13)" class="listitem" href="http://www.blogjava.net/robbie/category/16727.html/rss"><img title="Subscribe to 随笔(13)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl25_Link" class="listitem" href="http://www.blogjava.net/robbie/category/36442.html">项目总结(1)</a><a id="SingleColumn1_Categories_CatList_ctl00_LinkList_ctl25_RssLink" title="Subscribe to 项目总结(1)" class="listitem" href="http://www.blogjava.net/robbie/category/36442.html/rss"><img title="Subscribe to 项目总结(1)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				</ul>
+			
+	
+		<h1 class="catListTitle">随笔档案<span style="font-size:11px;font-weight:normal">(67)</span></h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl01_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2013/01.html">2013年1月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl02_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2012/05.html">2012年5月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl03_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2012/04.html">2012年4月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl04_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2012/03.html">2012年3月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl05_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2011/11.html">2011年11月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl06_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2011/05.html">2011年5月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl07_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2011/03.html">2011年3月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl08_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2010/11.html">2010年11月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl09_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2010/04.html">2010年4月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl10_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2010/02.html">2010年2月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl11_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2010/01.html">2010年1月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl12_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2009/11.html">2009年11月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl13_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2009/10.html">2009年10月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl14_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2009/07.html">2009年7月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl15_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2009/04.html">2009年4月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl16_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2009/03.html">2009年3月 (3)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl17_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2009/02.html">2009年2月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl18_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2008/12.html">2008年12月 (18)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl19_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2008/11.html">2008年11月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl20_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2008/08.html">2008年8月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl21_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2008/07.html">2008年7月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl22_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2008/06.html">2008年6月 (2)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl23_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2008/05.html">2008年5月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl24_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2007/10.html">2007年10月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl25_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2007/06.html">2007年6月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl26_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2007/05.html">2007年5月 (3)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl27_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2007/01.html">2007年1月 (4)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl28_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2006/11.html">2006年11月 (1)</a></li>
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl01_LinkList_ctl29_Link" class="listitem" href="http://www.blogjava.net/robbie/archive/2006/10.html">2006年10月 (1)</a></li>
+			
+				</ul>
+			
+	
+		<h1 class="catListTitle">文章分类<span style="font-size:11px;font-weight:normal">(5)</span></h1>
+		
+				<ul class="catList">
+			
+				<li class="catListItem"> <a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl01_Link" class="listitem" href="http://www.blogjava.net/robbie/category/16728.html">Flex2(5)</a><a id="SingleColumn1_Categories_CatList_ctl02_LinkList_ctl01_RssLink" title="Subscribe to Flex2(5)" class="listitem" href="http://www.blogjava.net/robbie/category/16728.html/rss"><img title="Subscribe to Flex2(5)" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml(1).gif" style="border-width:0px;"></a></li>
+			
+				</ul>
+			
+	
+
+
+<script language="JavaScript">
+function SearchGoogle(key,evt,site)
+		{
+			if(evt.keyCode==13 || evt.keyCode==0 || evt.type =='click')
+			{
+				key.focus();
+				var keystr = encodeURIComponent(key.value);
+				url = "http://www.google.com/search?q=";
+				url = url+keystr;
+				url += "&ie=UTF-8&oe=GB2312&hl=zh-CN&domains="+site+"&sitesearch="+site;
+				window.location=url;
+				return false;
+			}
+		}
+</script>
+<h3>搜索</h3>
+<ul>
+	<li>
+		</li><li><input style="WIDTH: 130px" type="text" name="q" id="q" onkeydown="return SearchGoogle(document.getElementById(&#39;q&#39;),event,&#39;www.blogjava.net/robbie&#39;)">&nbsp;<input onclick="SearchGoogle(document.getElementById(&#39;q&#39;),event,&#39;www.blogjava.net/robbie&#39;)" type="button" value="搜索" name="sa">
+	</li>
+</ul>
+
+<h3>最新评论
+	<a id="SingleColumn1__2729bce_RSSHyperlink1" href="http://www.blogjava.net/robbie/CommentsRSS.aspx"><img src="./Spring事务配置的五种方式 - robbie - BlogJava_files/xml.gif" style="border-width:0px;"></a></h3>
+<div class="RecentComment">
+	
+			<ul>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__2729bce_CommentList_ctl01_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2016/07/08/264003.html#431127">1.&nbsp;re: Spring事务配置的五种方式[未登录]</a>
+			</li>
+			<li style="word-break:break-all">
+				第四种方法，应该在service上加事务吧，不应该加在dao层吧
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--c</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__2729bce_CommentList_ctl02_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2016/04/14/264003.html#430091">2.&nbsp;re: Spring事务配置的五种方式</a>
+			</li>
+			<li style="word-break:break-all">
+				connection is closed 该怎么改？
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--sl</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__2729bce_CommentList_ctl03_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2016/02/17/318370.html#429348">3.&nbsp;re: 《谁在谋杀中国经济》与程序员</a>
+			</li>
+			<li style="word-break:break-all">
+				纯粹TMD扯淡，就算学的在好，TMD有几家公司坑花钱，TMD公司都是很抠的.都TMD要廉价劳动力.
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--都TMD要廉价劳动力</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__2729bce_CommentList_ctl04_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2015/12/17/264003.html#428704">4.&nbsp;re: Spring事务配置的五种方式</a>
+			</li>
+			<li style="word-break:break-all">
+				多个更新语句执行时，有一个没有更新成功，但是不报错，我如何手动控制让其他的回滚呢。
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--thank</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__2729bce_CommentList_ctl05_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2015/08/24/264003.html#426963">5.&nbsp;re: Spring事务配置的五种方式</a>
+			</li>
+			<li style="word-break:break-all">
+				deqw
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--asd</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__2729bce_CommentList_ctl06_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2015/04/08/264003.html#424220">6.&nbsp;re: Spring事务配置的五种方式</a>
+			</li>
+			<li style="word-break:break-all">
+				楼主你好，能不能分享一个aop事务管理的小项目，包括写不成功回滚异常的，谢谢了。
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--Queena</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__2729bce_CommentList_ctl07_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2015/01/28/264003.html#422503">7.&nbsp;re: Spring事务配置的五种方式</a>
+			</li>
+			<li style="word-break:break-all">
+				评论内容较长,点击标题查看
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--qu</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__2729bce_CommentList_ctl08_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2015/01/05/318370.html#422064">8.&nbsp;re: 《谁在谋杀中国经济》与程序员</a>
+			</li>
+			<li style="word-break:break-all">
+				的确,我也是.<br>看来要慢慢改变茫然的自己.
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--Gosha</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__2729bce_CommentList_ctl09_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2014/10/16/394828.html#418784">9.&nbsp;打发打发</a>
+			</li>
+			<li style="word-break:break-all">
+				打发打发的
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--打发打发</li>
+		
+			<li style="word-break:break-all">
+				<a id="SingleColumn1__2729bce_CommentList_ctl10_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2014/07/25/245162.html#416216">10.&nbsp;re: Oracle移动数据文件[未登录]</a>
+			</li>
+			<li style="word-break:break-all">
+				文件要手动move，move c:\ora92\oradata\trans\trans.dbf d:\ora92\oradata\trans\trans.dbf
+			</li>
+			<li style="text-align:right;margin-right:4px">
+				--匿名</li>
+		
+			</ul>
+		
+</div>
+
+<h3>阅读排行榜</h3>
+<div class="RecentComment">
+	
+			<ul style="word-break:break-all">
+		
+			<li>
+				<a id="SingleColumn1__67c843_TopList_ctl01_Hyperlink1" href="./Spring事务配置的五种方式 - robbie - BlogJava_files/Spring事务配置的五种方式 - robbie - BlogJava.html">1.&nbsp;Spring事务配置的五种方式(269381)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__67c843_TopList_ctl02_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2008/12/14/246271.html">2.&nbsp;Kettle的第二个实践--数据获取并转换(26278)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__67c843_TopList_ctl03_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/04/07/264359.html">3.&nbsp;Hibernate缓存配置(9456)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__67c843_TopList_ctl04_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2008/12/04/244464.html">4.&nbsp;Kettle初探(8112)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__67c843_TopList_ctl05_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2008/12/12/245962.html">5.&nbsp;Kettle的第一个实践--从FTP上取文件，再放至另一个FTP上(7902)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__67c843_TopList_ctl06_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2006/11/24/83383.html">6.&nbsp;格式化Hibernate的SQL输出语句(7312)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__67c843_TopList_ctl07_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2012/03/02/371116.html">7.&nbsp;VmWare虚拟机时间与主机不同步的设置(6256)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__67c843_TopList_ctl08_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/03/01/257201.html">8.&nbsp;Struts2 + ExtJS 做的小程序源代码(5862)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__67c843_TopList_ctl09_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2010/04/14/318370.html">9.&nbsp;《谁在谋杀中国经济》与程序员(5428)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__67c843_TopList_ctl10_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2013/01/28/394828.html">10.&nbsp;jquery mobile content 高度设置(4589)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+
+<h3>评论排行榜</h3>
+<div class="RecentComment">
+	
+			<ul style="word-break:break-all">
+		
+			<li>
+				<a id="SingleColumn1__135f4cc_TopList_ctl01_Hyperlink1" href="./Spring事务配置的五种方式 - robbie - BlogJava_files/Spring事务配置的五种方式 - robbie - BlogJava.html">1.&nbsp;Spring事务配置的五种方式(85)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__135f4cc_TopList_ctl02_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/03/01/257201.html">2.&nbsp;Struts2 + ExtJS 做的小程序源代码(28)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__135f4cc_TopList_ctl03_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/02/26/256723.html">3.&nbsp;Struts2 + ExtJS做的小程序(15)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__135f4cc_TopList_ctl04_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2008/12/04/244464.html">4.&nbsp;Kettle初探(13)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__135f4cc_TopList_ctl05_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2010/01/05/308350.html">5.&nbsp;寸土必争(11)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__135f4cc_TopList_ctl06_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2010/04/14/318370.html">6.&nbsp;《谁在谋杀中国经济》与程序员(10)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__135f4cc_TopList_ctl07_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2010/02/03/311854.html">7.&nbsp;2010年读书计划(6)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__135f4cc_TopList_ctl08_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2008/12/25/248354.html">8.&nbsp;JBossSeam学习系列之五--完结篇(6)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__135f4cc_TopList_ctl09_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2008/12/14/246271.html">9.&nbsp;Kettle的第二个实践--数据获取并转换(5)</a>
+			</li>
+		
+			<li>
+				<a id="SingleColumn1__135f4cc_TopList_ctl10_Hyperlink1" href="http://www.blogjava.net/robbie/archive/2009/04/07/264359.html">10.&nbsp;Hibernate缓存配置(3)</a>
+			</li>
+		
+			</ul>
+		
+</div>
+</div>
+	
+</div>
+
+<!--done-->
+<div class="footer">
+	Powered by: <a href="http://www.cnblogs.com/">博客园</a>	模板提供：<a href="http://blog.hjenglish.com/">沪江博客</a>
+	Copyright ©2017 The Matrix
+</div>
+
+
+
+    
+<script type="text/javascript">
+//<![CDATA[
+var Page_ValidationSummaries =  new Array(document.getElementById("AjaxHolder_PostComment_ValidationSummary1"));
+//]]>
+</script>
+
+<script type="text/javascript">
+//<![CDATA[
+var AjaxHolder_PostComment_ValidationSummary1 = document.all ? document.all["AjaxHolder_PostComment_ValidationSummary1"] : document.getElementById("AjaxHolder_PostComment_ValidationSummary1");
+AjaxHolder_PostComment_ValidationSummary1.showmessagebox = "True";
+AjaxHolder_PostComment_ValidationSummary1.showsummary = "False";
+//]]>
+</script>
+
+
+<script type="text/javascript">
+//<![CDATA[
+
+document.getElementById('AjaxHolder_PostComment_ValidationSummary1').dispose = function() {
+    Array.remove(Page_ValidationSummaries, document.getElementById('AjaxHolder_PostComment_ValidationSummary1'));
+}
+Sys.Application.initialize();
+//]]>
+</script>
+</form>
+    <script type="text/javascript" src="./Spring事务配置的五种方式 - robbie - BlogJava_files/ShowHidden.js"></script>
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-476124-3']);
+	  _gaq.push(['_trackPageview']);
+
+	  (function() {
+		var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+		ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+
+
+</body></html>
