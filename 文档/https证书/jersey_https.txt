@@ -1,0 +1,11 @@
+1.生成服务端证书
+	keytool -genkey -alias tomcat -keypass 123456 -keyalg RSA -keysize 1024 -validity 365 -keystore /Users/renho/software/apache-tomcat-9.0.0.M17/tomcat.keystore -storepass 123456
+2.生成客户端证书
+	keytool -genkey -alias client -keypass 123456 -keyalg RSA -keysize 1024 -validity 365 -storetype PKCS12 -keystore /Users/renho/software/apache-tomcat-9.0.0.M17/client.keystore -storepass 123456
+3.服务器端导入信任证书
+	keytool -export -alias client -keystore /Users/renho/software/apache-tomcat-9.0.0.M17/client.keystore -storetype PKCS12 -keypass 123456 -file /Users/renho/software/apache-tomcat-9.0.0.M17/client.cer
+	keytool -import -v -file /Users/renho/software/apache-tomcat-9.0.0.M17/client.cer -keystore /Users/renho/software/apache-tomcat-9.0.0.M17/tomcat.keystore -storepass 123456
+4.客户端信任证书
+	keytool -keystore /Users/renho/software/apache-tomcat-9.0.0.M17/tomcat.keystore -export -alias tomcat -file /Users/renho/software/apache-tomcat-9.0.0.M17/server.cer
+	keytool -import -v -file /Users/renho/software/apache-tomcat-9.0.0.M17/server.cer -keystore /Users/renho/software/apache-tomcat-9.0.0.M17/client.keystore -storepass 123456
+	双击server.cer
