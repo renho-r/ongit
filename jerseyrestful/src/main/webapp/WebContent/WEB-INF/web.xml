@@ -9,13 +9,17 @@
 	<servlet>
 		<servlet-name>MyApplication</servlet-name>
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
-		<init-param>
+		<!-- <init-param>
 			<param-name>jersey.config.server.provider.packages</param-name>
 			<param-value>com.renho.jersey,com.renho.jersey.filter,com.renho.jersey.namebinding,com.renho.jersey.dynamicbinding</param-value>
 		</init-param>
 		<init-param>
 			<param-name>jersey.config.server.provider.scanning.recursive</param-name>
 			<param-value>false</param-value>
+		</init-param> -->
+		<init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>com.renho.jersey.appconfig.MyApplication</param-value>
 		</init-param>
 	</servlet>
 	<servlet-mapping>
