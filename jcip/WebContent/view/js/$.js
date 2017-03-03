@@ -9,7 +9,7 @@
 			try {
 				xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
 			} catch (e) {
-				alert("ÄúµÄä¯ÀÀÆ÷²»Ö§³ÖAJAX£¡");
+				alert("æ‚¨çš„æµè§ˆå™¨ä¸æ”¯æŒAJAXï¼");
 				return false;
 			}
 		}
