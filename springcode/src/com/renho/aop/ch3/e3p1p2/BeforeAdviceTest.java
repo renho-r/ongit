@@ -32,6 +32,9 @@ public class BeforeAdviceTest {
 		myXXXService.add();
 		CountingBeforeAdvice countingBeforeAdvice = (CountingBeforeAdvice) dlbf.getBean("countingBeforeAdvice");
 		System.out.println(countingBeforeAdvice.getCount());
+		
+		myXXXService.query(100);
+		System.out.println(countingBeforeAdvice.getCount());
 	}
 
 }

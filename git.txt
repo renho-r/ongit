@@ -165,3 +165,5 @@
 			$git tag -d v0.9
 		16.6.2删除远程
 			$git push ongitnew :refs/tags/v0.9
+
+git init --bare renho.git

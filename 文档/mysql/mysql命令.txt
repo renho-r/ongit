@@ -42,6 +42,8 @@
     登录MySQL,将默认的制表符换成逗号.(适应csv格式文件).
     指定的路径,mysql要有写的权限.最好用tmp目录,文件用完之后,再删除!
     SELECT user,host,password FROM mysql.user INTO OUTFILE '/tmp/mysql_user.csv' FIELDS TERMINATED BY ',';
+  11.8
+    mysqldump -u -p -h -P3306 --skip-quote-names --compact --no-create-info --skip-extended-insert --skip-add-locks -c --tables db tables > C:/Users/renho/Desktop/init.sql
 12.导入
   12.1恢复全库数据到MySQL,因为包含mysql库的权限表,导入完成需要执行FLUSH PRIVILEGES;命令
     第一种方法:
