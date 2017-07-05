@@ -1,0 +1,42 @@
+1.事务隔离级别
+    1.1Serializable ：最严格的级别，事务串行执行，资源消耗最大；
+    1.2REPEATABLE READ ：保证了一个事务不会修改已经由另一个事务读取但未提交（回滚）的数据。避免了“脏读取”和“不可重复读取”的情况，但是带来了更多的性能损失。
+    1.3READ COMMITTED :大多数主流数据库的默认事务等级，保证了一个事务不会读到另一个并行事务已修改但未提交的数据，避免了“脏读取”。该级别适用于大多数系统。
+    1.4Read Uncommitted ：保证了读取过程中不会读取到非法数据。
+2.spring事务传播行为:是指添加事物时的策略  
+    2.1 PROPAGATION_REQUIRED
+    　　默认的，加入当前正要执行的事务不在另外一个事务里，那么就起一个新的事务。
+    2.2PROPAGATION_SUPPORTS
+    　　如果当前在事务中，即以事务的形式运行，如果当前不再一个事务中，那么就以非事务的形式运行。
+    2.3PROPAGATION_MANDATORY
+    　　必须在一个事务中运行，如果没有就抛出异常。也就是说，他只能被一个父事务调用。否则，他就要抛出异常。
+    2.4PROPAGATION_REQUIRES_NEW
+    　　比如我们设计
+        ServiceA.methodA的事务级别为PROPAGATION_REQUIRED，
+        ServiceB.methodB的事务级别为PROPAGATION_REQUIRES_NEW，
+        那么当执行到ServiceB.methodB的时候，ServiceA.methodA所在的事务就会挂起，
+        ServiceB.methodB会起一个新的事务，等待ServiceB.methodB的事务完成以后，
+        他才继续执行。他与PROPAGATION_REQUIRED 的事务区别在于事务的回滚程度了。
+        因为ServiceB.methodB是新起一个事务，那么就是存在两个不同的事务。
+        如果ServiceB.methodB已经提交，那么ServiceA.methodA失败回滚，ServiceB.methodB是不会回滚的。
+        如果ServiceB.methodB失败回滚，如果他抛出的异常被ServiceA.methodA捕获，ServiceA.methodA事务仍然可能提交。
+    2.5PROPAGATION_NOT_SUPPORTED
+    　　当前不支持事务，以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。
+    2.6PROPAGATION_NEVER
+    　　不能在事务中运行，如果当前存在事务，则抛出异常。
+    2.7PROPAGATION_NESTED
+    　　理解Nested的关键是savepoint。
+        他与PROPAGATION_REQUIRES_NEW的区别是，
+        PROPAGATION_REQUIRES_NEW另起一个事务，将会与他的父事务相互独立，
+        而Nested的事务和他的父事务是相依的，他的提交是要等和他的父事务一块提交的。
+        也就是说，如果父事务最后回滚，他也要回滚的。
+        而Nested事务的好处是他有一个savepoint。
+        也就是说ServiceB.methodB失败回滚，那么ServiceA.methodA也会回滚到savepoint点上，
+        ServiceA.methodA可以选择另外一个分支，比如ServiceC.methodC，继续执行，来尝试完成自己的事务。 
+        但是这个事务并没有在EJB标准中定义。
+3.Spring中的事务管理方式:
+    编程式和声明式（常用）
+4.ajax跨域问题
+    使用jsonp
+5.保持http状态
+    cookie session 重写url带sessionid
