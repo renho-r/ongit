@@ -167,3 +167,6 @@
 			$git push ongitnew :refs/tags/v0.9
 
 git init --bare renho.git
+
+git config --global user.name "Your Name"
+git config --global user.email you@example.com
