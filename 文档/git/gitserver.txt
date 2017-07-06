@@ -37,3 +37,11 @@
 	注，现在可以通过git clone命令克隆远程仓库了，在各自的电脑上运行：
 	
 	git clone git@10.1.37.19:/home/git/repositories/gitosis-admin.git
+
+
+
+
+
+
+groupadd git
+useradd -g git -d /var/git git
