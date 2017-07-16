@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="testweblogic:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="testweblogic.war">
+      <element id="artifact" artifact-name="testweblogic" />
+      <element id="javaee-facet-resources" facet="testweblogic/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="javaee-facet-classes" facet="testweblogic/web/Web" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
