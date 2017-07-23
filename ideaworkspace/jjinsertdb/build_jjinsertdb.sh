@@ -1,4 +1,4 @@
-#!/bin/sh 
+#!/bin/bash 
 workspace=/Users/renho/software/github/ongit/ideaworkspace/jjinsertdb
 deploypath=/Users/renho/Desktop/jjinsertdb
 cd ${workspace}

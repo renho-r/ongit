@@ -1,0 +1,14 @@
+dd if=/dev/zero of=/data/swap bs=1024 count=1048576
+mkswap /data/swap
+
+cat /proc/sys/vm/swappiness   
+	sysctl -a | grep swappiness    
+	sysctl -w vm.swappiness=60
+
+/etc/sysctl.conf
+swapon /data/swap
+echo "/data/swap swap swap defaults    0  0" >> /etc/fstab
+
+
+swapoff /data/swap   
+swapoff -a >/dev/null
