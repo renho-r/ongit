@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)http://www.cnblogs.com/yucongblog/p/6857318.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>nexus3添加第三方jar - 喻聪 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./nexus3添加第三方jar - 喻聪 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./nexus3添加第三方jar - 喻聪 - 博客园_files/bundle-BlackLowKey.css">
+<link id="mobile-style" media="only screen and (max-width: 768px)" type="text/css" rel="stylesheet" href="./nexus3添加第三方jar - 喻聪 - 博客园_files/bundle-BlackLowKey-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/yucongblog/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/yucongblog/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/yucongblog/wlwmanifest.xml">
+<script async="" src="./nexus3添加第三方jar - 喻聪 - 博客园_files/analytics.js.下载"></script><script type="text/javascript" src="./nexus3添加第三方jar - 喻聪 - 博客园_files/encoder.js.下载"></script><script src="./nexus3添加第三方jar - 喻聪 - 博客园_files/jquery.js.下载" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'yucongblog', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./nexus3添加第三方jar - 喻聪 - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/yucongblog/"><img id="blogLogo" src="./nexus3添加第三方jar - 喻聪 - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/yucongblog/">喻聪</a></h1>
+<h2>临渊羡鱼，不如退而结网</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/yucongblog/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li></li>
+<li>
+<!----></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 79&nbsp; </span>
+<span id="stats_article_count">文章 - 127&nbsp; </span>
+<span id="stats-comment_count">评论 - 0</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/yucongblog/p/6857318.html">nexus3添加第三方jar</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>最近在看maven的打包及管理，然後就看到nexus，自己在安裝的時候就下載了最新版的nexus-3.2.0-01-win64，按照文档部署后启动，浏览。之前一致使用的是2.0的，所以还是需要导出点点，熟悉一下功能。</p>
+<p>　　熟悉2.0的都知道，那是可以上传自己的jar到库中，方便引用，但是3.0中，没有操作界面来上传jar，查阅3.0的文档，之找到一个上传Raw文件的方式，如下：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./nexus3添加第三方jar - 喻聪 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="./nexus3添加第三方jar - 喻聪 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><strong>16.5 Uploading Files to Hosted Raw Repositories</strong><br><br></pre>
+<p>Many other tools, besides using Maven, can be used to upload files to a hosted raw repository. A simple&nbsp;HTTP PUT can upload files. The following example uses the curl command and the default credentials&nbsp;of the admin user to upload a test.png file to a hosted raw repository with the name documentation.</p>
+<p><strong>An Example Upload Command Using curl:</strong></p>
+<div class="cnblogs_code">
+<pre>curl -v --user ’admin:admin123’ --upload-file ./test.png http://localhost:8081/repository/documentation/test.png</pre>
+</div>
+<p>After a completed upload the repository manager provides the file at the URL http://localhost:8081/repository/documentation/test.png. Using this approach in a script entire static&nbsp;<em id="__mceDel"><em id="__mceDel">websites or any other binary resources can be uploaded.</em></em></p>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a title="复制代码"><img src="./nexus3添加第三方jar - 喻聪 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./nexus3添加第三方jar - 喻聪 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>　　这段描述的是上传一个文件，如图片、html、js、css等等，上传到指定路径后，就可以通过url访问改资源。例如上传一个jQuery库文件，引用时只需添加url指向这个资源，而不需要在本地工程添加库文件，也可多个项目共享等等。</p>
+<p>但是，这个明显不是我想要的，继续寻找，最后在stackoverflow上面找到了答案：</p>
+<p>当nexus3为HTTP时，使用如下方式：</p>
+<p>如你需要上传utils-1.0.jar包，首先需准备新建一个pom.xml文件，内容如下：</p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./nexus3添加第三方jar - 喻聪 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>&lt;project&gt;
+  &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+  &lt;groupId&gt;org.foo&lt;/groupId&gt;
+  &lt;artifactId&gt;utils&lt;/artifactId&gt;
+  &lt;version&gt;1&lt;/version&gt;
+&lt;/project&gt;</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./nexus3添加第三方jar - 喻聪 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>pom.xml和utils-1.0.jar两个文件放到一块就行，接下来使用命令上传到nexus上面：</p>
+<div class="cnblogs_code">
+<pre>curl -v -u admin:admin123 --upload-file pom.xml http://localhost:8081/nexus/repository/maven-releases/org/foo/utils/1.0/utils-1.0.pom</pre>
+</div>
+<p>上传pom.xml文件到nexus上，并改名为<em id="__mceDel">utils-1.0.pom，</em>注意你的release路径和包放的路径</p>
+<div class="cnblogs_code">
+<pre>curl -v -u admin:admin123 --upload-file utils-1.0.jar http://localhost:8081/nexus/repository/maven-releases/org/foo/utils/1.0/utils-1.0.jar</pre>
+</div>
+<p>上传jar到相同路径下面。</p>
+<p>　　此时，utils-1.0.jar可以在maven工程的pom中使用了，我使用log4j-1.2.12.jar测试，这种方式可以。</p>
+<p>对于nexus设置为HTTPS的上传方法，我没测试，使用https的花需要配置的密匙文件，请看原文：<a href="http://stackoverflow.com/questions/38593513/how-to-upload-jar-to-nexus-oss-3" target="_blank">http://stackoverflow.com/questions/38593513/how-to-upload-jar-to-nexus-oss-3</a></p>
+<p><strong>&nbsp;注：</strong>我是在window10下面，使用的时Window Subsystem for Linux，在里面使用的curl上传的，也可自己下载curl.exe，如原文所说</p></div><div id="MySignature" style="display: block;">业务需求变更永无休止，技术前进就永无止境!</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/yucongblog/category/708213.html" target="_blank">maven</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/yucongblog/tag/maven/">maven</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6857318,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;dcf93ac1-e502-e511-b908-9dcfd8948a71&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./nexus3添加第三方jar - 喻聪 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./nexus3添加第三方jar - 喻聪 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/yucongblog/" target="_blank"><img src="./nexus3添加第三方jar - 喻聪 - 博客园_files/20160320113041.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/yucongblog/">喻聪</a><br>
+            <a href="http://home.cnblogs.com/u/yucongblog/followees">关注 - 7</a><br>
+            <a href="http://home.cnblogs.com/u/yucongblog/followers">粉丝 - 10</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;dcf93ac1-e502-e511-b908-9dcfd8948a71&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6857318,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(6857318,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/yucongblog/p/6846382.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/yucongblog/p/6846382.html" title="发布于2017-05-12 17:09">linux小结（3）：查看linux版本</a><br><a href="http://www.cnblogs.com/yucongblog/p/6869389.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/yucongblog/p/6869389.html" title="发布于2017-05-17 20:20">java中的几种对象(PO,VO,DAO,BO,POJO)</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-05-15 17:19</span> <a href="http://www.cnblogs.com/yucongblog/">喻聪</a> 阅读(<span id="post_view_count">671</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=6857318" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/yucongblog/p/6857318.html#" onclick="AddToWz(6857318);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=229298,cb_entryId=6857318,cb_blogApp=currentBlogApp,cb_blogUserGuid='dcf93ac1-e502-e511-b908-9dcfd8948a71',cb_entryCreatedDate='2017/5/15 17:19:00';loadViewCount(cb_entryId);</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/yucongblog/p/6857318.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/yucongblog/p/6857318.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://console.upyun.com/register/?invite=H124C2iMZ?utm_source=cnblogs&amp;utm_medium=referral" target="_blank">【推荐】现在注册又拍云，首月可享 200G CDN流量，还可免费申请 SSL 证书</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="http://cn.udacity.com/course/deep-learning-nanodegree-foundation--nd101/?utm_source=cnblog&amp;utm_medium=referral&amp;utm_campaign=DAND04" target="_blank"><img width="300" height="250" src="./nexus3添加第三方jar - 喻聪 - 博客园_files/24442-20170720103913224-1587456811.jpg" alt="AI工程师"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/574419/" target="_blank">现金消失背后，是蚂蚁金服开启全新智能商业时代的野心</a><br> ·  <a href="http://news.cnblogs.com/n/574418/" target="_blank">CVPR获奖论文公布，苹果斩获最佳论文！| CVPR 2017</a><br> ·  <a href="http://news.cnblogs.com/n/574417/" target="_blank">腾讯AI Lab入选CVPR的六篇论文逐一看|CVPR 2017</a><br> ·  <a href="http://news.cnblogs.com/n/574416/" target="_blank">通过微信群、qq群，这个披着慈善外衣的网络诈骗让550万人血本无归</a><br> ·  <a href="http://news.cnblogs.com/n/574415/" target="_blank">马云：乡村教育不能成为中国的短板 校长是乡村教育家</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a href="https://www.jiguang.cn/devservice?source=bky&amp;hmsr=%E5%8D%9A%E5%AE%A2%E5%9B%AD&amp;hmpl=&amp;hmcu=&amp;hmkw=&amp;hmci=" target="_blank"><img width="468" height="60" src="./nexus3添加第三方jar - 喻聪 - 博客园_files/24442-20170629165247758-2056260207.png" alt="极光推广_0701"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/570194/" target="_blank">小printf的故事：什么是真正的程序员？</a><br> ·  <a href="http://kb.cnblogs.com/page/569992/" target="_blank">程序员的工作、学习与绩效</a><br> ·  <a href="http://kb.cnblogs.com/page/569056/" target="_blank">软件开发为什么很难</a><br> ·  <a href="http://kb.cnblogs.com/page/565901/" target="_blank">唱吧DevOps的落地，微服务CI/CD的范本技术解读</a><br> ·  <a href="http://kb.cnblogs.com/page/566523/" target="_blank">程序员，如何从平庸走向理想？</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/yucongblog/">喻聪</a><br>园龄：<a href="http://home.cnblogs.com/u/yucongblog/" title="入园时间：2015-05-25">2年1个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/yucongblog/followers/">10</a><br>关注：<a href="http://home.cnblogs.com/u/yucongblog/followees/">7</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;dcf93ac1-e502-e511-b908-9dcfd8948a71&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/yucongblog/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/yucongblog/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/yucongblog/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/yucongblog/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/yucongblog/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类<span style="font-size:11px;font-weight:normal">(50)</span></h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/yucongblog/category/976378.html">dubbo(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/yucongblog/category/957343.html">git(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/yucongblog/category/976207.html">hadooop(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/yucongblog/category/977985.html">hive</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/yucongblog/category/979170.html">linux(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/yucongblog/category/708213.html">maven(14)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/yucongblog/category/977915.html">mongodb</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/yucongblog/category/939386.html">mybatis(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/yucongblog/category/1001137.html">mysql(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/yucongblog/category/938462.html">nginx(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/yucongblog/category/934126.html">redis(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="http://www.cnblogs.com/yucongblog/category/957342.html">solr(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="http://www.cnblogs.com/yucongblog/category/976377.html">spark</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="http://www.cnblogs.com/yucongblog/category/977983.html">springmvc(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="http://www.cnblogs.com/yucongblog/category/977943.html">zookeeper</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="http://www.cnblogs.com/yucongblog/category/933099.html">工具类(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_16" href="http://www.cnblogs.com/yucongblog/category/708211.html">设计模式(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_17" href="http://www.cnblogs.com/yucongblog/category/965050.html">文档(4)</a> </li>
+
+</ul>
+
+</div>
+
+</div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2017 喻聪
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

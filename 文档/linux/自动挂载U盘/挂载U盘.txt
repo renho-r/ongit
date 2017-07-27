@@ -1,0 +1,6 @@
+fdisk -l
+mkdir /mnt/usb
+mount /dev/sda1 /mnt/usb
+umount /mnt/usb
+
+mount -t vfat -o user,exec,dev,suid,rw,umask=0,iocharset=gb2312,codepage=936 /dev/sda1 /mnt/usb
