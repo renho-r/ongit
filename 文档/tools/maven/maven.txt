@@ -73,6 +73,7 @@ mvn install:install-file -DgroupId=io.netty -DartifactId=netty-all -Dversion=5.0
 11.手动安装到本地Maven资源库
 	11.1cmd->
 			mvn install:install-file -DgroupId=commons -DartifactId=commons-beanutils -Dversion=1.9.2 -Dpackaging=jar -Dfile=E:\文档\java\commons-beanutils-1.9.2-bin\commons-beanutils-1.9.2\commons-beanutils-1.9.2.jar
+			mvn install:install-file -DgroupId=oracle -DartifactId=ojdbc6 -Dversion=11.2.0.1.0 -Dpackaging=jar -Dfile=ojdbc6-11.2.0.1.0.jar
 12.打包发布
 	goals参数
 		clean install
