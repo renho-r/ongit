@@ -1,0 +1,32 @@
+1.查找文件 
+	find / -name filename.txt 根据名称查找/目录下的filename.txt文件。 
+	find . -name “*.xml” 递归查找所有的xml文件 
+2.创建文件：touch test.txt 
+3.压缩文件 
+	tar -czf test.tar.gz /test1 /test2
+4.列出压缩文件列表 
+	tar -tzf test.tar.gz 
+5.解压文件 
+	tar -xvzf test.tar.gz 
+6.查看文件头10行 
+	head -n 10 example.txt 
+7.查看文件尾10行 
+	tail -n 10 example.txt 
+8.查看端口占用情况 
+	netstat -tln | grep 8080 查看端口8080的使用情况 
+9.查看端口属于哪个程序 
+	lsof -i :8080 
+10.du -sh 查看指定目录的大小 
+	du -sh /mnt/online/ 
+11.启动tomcat服务 
+	nohup ./startup.sh & tail -f ../logs/catalina.out 
+	分析：nohup 让程序在后台运行，经常结合 & 一起使用。 
+12.分割文件:
+	split -l 1000 xml_data renho
+13.合并文件:
+	cat renho* >> collect.txt
+14.awk
+	ps -ef|grep JavaJJ.jar |grep -v grep|wc -l|awk '{print $1}'
+	ps -ef|grep JavaJJ.jar |grep -v grep|awk '{print $2}' 2>>/dev/null
+
+15.sed

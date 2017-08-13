@@ -73,6 +73,10 @@ GRANT CONNECT ,RESOURCE,UNLIMITED TABLESPACE TO  c##scott Container= ALL;
 ALTER USER c##scott IDENTIFIED BY TIGER;
 ALTER USER scott ACCOUNT UNLOCK;
 
+
+create user test identified by test default tablespace users temporary tablespace temp;
+
+
 sysctl kernel.hostname=myoracle
 hostnamectl set-hostname myoracle
 
@@ -99,3 +103,18 @@ SID_LIST_LISTENER=
 			)
 		)
 	)
+
+
+oracle 12c
+alter session set container=ORCLPDB;
+
+create user renho identified by renho default tablespace users temporary tablespace temp;
+GRANT CONNECT, RESOURCE, UNLIMITED TABLESPACE TO renho Container= ALL;
+
+CREATE USER c##renho IDENTIFIED BY renho;
+GRANT CONNECT ,RESOURCE,UNLIMITED TABLESPACE TO  c##renho Container= ALL;
+
+alter user c##renho account unlock;
+
+conn c##renho/renho@172.16.255.200:1521:orcl
+conn renho/renho@172.16.255.200:1521/orclpdb

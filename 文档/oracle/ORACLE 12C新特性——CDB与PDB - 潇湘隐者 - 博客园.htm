@@ -1,0 +1,1221 @@
+<!DOCTYPE html>
+<!-- saved from url=(0047)http://www.cnblogs.com/kerrycode/p/3386917.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/bundle-Minyx2_Lite.css">
+<link type="text/css" rel="stylesheet" href="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/57955.css">
+<link id="mobile-style" media="only screen and (max-width: 768px)" type="text/css" rel="stylesheet" href="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/bundle-Minyx2_Lite-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/kerrycode/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/kerrycode/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/kerrycode/wlwmanifest.xml">
+<script async="" src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/analytics.js"></script><script type="text/javascript" src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/encoder.js"></script><script src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'kerrycode', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/blog-common.js" type="text/javascript"></script>
+<script src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/bundle-Minyx2_Lite.js" language="javascript" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<!--<script type="text/javascript"
+src ="http://files.cnblogs.com/kerrycode/blogcss.js">
+</script>-->
+<!--PageBeginHtml Block End-->
+
+
+<div id="container">
+    <a class="minyx" href="http://www.cnblogs.com/">代码改变世界</a>
+    <ul id="topMnu">
+        <!-- 统计数据 -->
+        <li>
+            
+                <div id="blog_stats">
+Posts - 746, 
+Articles - 0, 
+Comments - 1463
+<!----></div>
+            
+        </li>
+        <!-- 这边可以增加一些链接 -->
+        <!-- 博客园 -->
+        <li><a href="http://www.cnblogs.com/">Cnblogs</a></li>
+        <!-- 管理 -->
+        <li id="topMnu-dashboard">
+            <a id="lnkDashboard" href="http://www.cnblogs.com/kerrycode/admin/EditPosts.aspx">Dashboard</a></li>
+        <li>
+            <a id="lnkLogin" href="http://passport.cnblogs.com/login.aspx?ReturnUrl=http://www.cnblogs.com/kerrycode/p/3386917.html">Login</a></li>
+    </ul>
+
+    <script type="text/javascript">
+        var m = window.__blog.topMenuRendered;
+        if (m) { m(__$("topMnu")); }
+    </script>
+
+    <div id="header">
+        <ul id="menu">
+            <!-- 首页，当前section加上current类 -->
+            <li id="menu-home" class="current">
+                <a id="lnkHome" href="http://www.cnblogs.com/kerrycode/">Home</a></li>
+            <!-- 联系 -->
+            <li id="menu-contact">
+                <a id="lnkContact" href="http://space.cnblogs.com/msg/send/%e6%bd%87%e6%b9%98%e9%9a%90%e8%80%85">Contact</a></li>
+            <!-- 相册 -->
+            <li id="menu-gallary">
+                <a id="lnkGallery" href="http://www.cnblogs.com/kerrycode/gallery.html">Gallery</a></li>
+            <!-- Rss订阅 -->
+            <li id="rss">
+                <a id="lnkRss" href="http://www.cnblogs.com/kerrycode/rss">RSS</a></li>
+        </ul>
+        <div id="newmsg"></div>
+        <h1>
+            <!-- 主标题 -->
+            <a id="lnkBlogTitle" href="http://www.cnblogs.com/kerrycode/">潇湘隐者</a>
+            <!-- 子标题 -->
+            <small>
+                </small>
+        </h1>
+    </div>
+
+    <script type="text/javascript">
+        var m = window.__blog.headerRendered;
+        if (m) { m(__$("header")); }
+    </script>
+
+    <div id="wrapper">
+        <div id="content">
+            <script type="text/javascript">
+                var m = window.__blog.preRenderPosts;
+                if (m) { m(); }
+            </script>
+            
+<div id="post_detail">
+<div class="post" id="post">
+    <a name="top"></a>
+    <h2><a id="cb_post_title_url" href="http://www.cnblogs.com/kerrycode/p/3386917.html">ORACLE 12C新特性——CDB与PDB</a></h2>
+    <small>2013-10-24 22:17 by 潇湘隐者, <span id="post_view_count">43463</span> 阅读, <span id="post_comment_count">22</span> 评论, <a href="http://www.cnblogs.com/kerrycode/p/3386917.html#" onclick="AddToWz(3386917);return false;">收藏</a>,  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=3386917" rel="nofollow">编辑</a></small>
+    <div class="entry">
+        <div id="cnblogs_post_body"><p><span style="color: #000000; font-family: Arial;">　　Oracle 12C引入了CDB与PDB的新特性，在ORACLE 12C数据库引入的多租用户环境（Multitenant Environment）中，允许一个数据库容器（CDB）承载多个可插拔数据库（PDB）。CDB全称为Container Database，中文翻译为数据库容器，PDB全称为Pluggable Database，即可插拔数据库。在ORACLE 12C之前，实例与数据库是一对一或多对一关系（RAC）：即一个实例只能与一个数据库相关联，数据库可以被多个实例所加载。而实例与数据库不可能是一对多的关系。当进入ORACLE 12C后，实例与数据库可以是一对多的关系。下面是官方文档关于CDB与PDB的关系图。</span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000; font-family: Arial;"><a href="http://images.cnitblog.com/blog/73542/201310/24221659-693602e2df62491e8cad466d5b865147.gif"><img style="background-image: none; padding-left: 0px; padding-right: 0px; display: inline; padding-top: 0px; border: 0px;" title="clip_image002" src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/24221700-123d26344d594ee59738ad49fde3f49f.gif" alt="clip_image002" width="608" height="314" border="0"></a></span></p>
+<p><span style="color: #000000; font-family: Arial;">其实大家如果对SQL SERVER比较熟悉的话，这种CDB与PDB是不是感觉和SQL SERVER的单实例多数据库架构是一回事呢。像PDB$SEED可以看成是master、msdb等系统数据库，PDBS可以看成用户创建的数据库。而可插拔的概念与SQL SERVER中的用户数据库的分离、附加其实就是那么一回事。看来ORACLE也“抄袭”了一把SQL SERVER的概念，只是改头换面的包装了一番。</span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-size: 18px;"><strong><span style="color: #000000; font-family: Arial;">CDB组件（Components of a CDB）</span></strong></span></p>
+<p>&nbsp;</p>
+<p><span style="color: #000000; font-family: Arial;">一个CDB数据库容器包含了下面一些组件：</span></p>
+<p><strong><span style="color: #000000; font-family: Arial;">ROOT组件</span></strong></p>
+<p><span style="color: #000000; font-family: Arial;">ROOT又叫CDB$ROOT, 存储着ORACLE提供的元数据和Common User,元数据的一个例子是ORACLE提供的PL/SQL包的源代码，Common User 是指在每个容器中都存在的用户。</span></p>
+<p><strong><span style="color: #000000; font-family: Arial;">SEED组件</span></strong></p>
+<p><span style="color: #000000; font-family: Arial;">&nbsp; Seed又叫PDB$SEED,这个是你创建PDBS数据库的模板，你不能在Seed中添加或修改一个对象。一个CDB中有且只能有一个Seed. 这个感念，个人感觉非常类似SQL SERVER中的model数据库。</span></p>
+<p><strong><span style="color: #000000; font-family: Arial;">PDBS</span></strong></p>
+<p><span style="color: #000000; font-family: Arial;">&nbsp;&nbsp;&nbsp; CDB中可以有一个或多个PDBS，PDBS向后兼容，可以像以前在数据库中那样操作PDBS，这里指大多数常规操作。</span></p>
+<p><span style="color: #000000; font-family: Arial;">这些组件中的每一个都可以被称为一个容器。因此，ROOT(根)是一个容器，Seed(种子)是一个容器，每个PDB是一个容器。每个容器在CDB中都有一个独一无二的的ID和名称。</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: Arial;"><span style="color: #000000;"><strong>1</strong><strong>）连接到CDB数据库</strong></span></span></p>
+<p><span style="color: #000000; font-family: Arial;">连接到CDB数据库容器非常简单，跟以前连接数据库是一样的</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre><span style="color: #ff0000;">[</span><span style="color: #ff0000;">oracle@get-orasvr02 ~</span><span style="color: #ff0000;">]</span>$ sqlplus <span style="color: #808080;">/</span> <span style="color: #0000ff;">as</span><span style="color: #000000;"> sysdba
+
+SQL</span><span style="color: #808080;">*</span>Plus: Release <span style="color: #800000; font-weight: bold;">12.1</span>.<span style="color: #800000; font-weight: bold;">0.1</span>.<span style="color: #800000; font-weight: bold;">0</span> Production <span style="color: #0000ff;">on</span> Sun Oct <span style="color: #800000; font-weight: bold;">20</span> <span style="color: #800000; font-weight: bold;">23</span>:<span style="color: #800000; font-weight: bold;">41</span>:<span style="color: #800000; font-weight: bold;">36</span> <span style="color: #800000; font-weight: bold;">2013</span><span style="color: #000000;">
+
+Copyright (c) </span><span style="color: #800000; font-weight: bold;">1982</span>, <span style="color: #800000; font-weight: bold;">2013</span>, Oracle.  <span style="color: #808080;">All</span><span style="color: #000000;"> rights reserved.
+
+Connected </span><span style="color: #0000ff;">to</span><span style="color: #000000;"> an idle instance.
+
+SQL</span><span style="color: #808080;">&gt;</span>
+
+<span style="color: #ff0000;">[</span><span style="color: #ff0000;">oracle@get-orasvr02 ~</span><span style="color: #ff0000;">]</span>$ sqlplus sys<span style="color: #808080;">/</span>password   <span style="color: #0000ff;">as</span><span style="color: #000000;"> sysdba
+
+SQL</span><span style="color: #808080;">*</span>Plus: Release <span style="color: #800000; font-weight: bold;">12.1</span>.<span style="color: #800000; font-weight: bold;">0.1</span>.<span style="color: #800000; font-weight: bold;">0</span> Production <span style="color: #0000ff;">on</span> Sun Oct <span style="color: #800000; font-weight: bold;">20</span> <span style="color: #800000; font-weight: bold;">23</span>:<span style="color: #800000; font-weight: bold;">43</span>:<span style="color: #800000; font-weight: bold;">17</span> <span style="color: #800000; font-weight: bold;">2013</span><span style="color: #000000;">
+
+Copyright (c) </span><span style="color: #800000; font-weight: bold;">1982</span>, <span style="color: #800000; font-weight: bold;">2013</span>, Oracle.  <span style="color: #808080;">All</span><span style="color: #000000;"> rights reserved.
+
+Connected </span><span style="color: #0000ff;">to</span><span style="color: #000000;"> an idle instance.
+
+SQL</span><span style="color: #808080;">&gt;</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<p><span style="font-family: Arial;"><span style="color: #000000;"><strong>2</strong><strong>）查看数据库是否为CDB</strong></span></span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>SQL<span style="color: #808080;">&gt;</span> <span style="color: #0000ff;">select</span> name, decode(cdb, <span style="color: #ff0000;">'</span><span style="color: #ff0000;">YES</span><span style="color: #ff0000;">'</span>, <span style="color: #ff0000;">'</span><span style="color: #ff0000;">Multitenant Option enabled</span><span style="color: #ff0000;">'</span>, <span style="color: #ff0000;">'</span><span style="color: #ff0000;">Regular 12c Database: </span><span style="color: #ff0000;">'</span>) "Multitenant <span style="color: #0000ff;">Option</span>" , open_mode, con_id <span style="color: #0000ff;">from</span> v$<span style="color: #0000ff;">database</span><span style="color: #000000;">;
+
+NAME      Multitenant </span><span style="color: #0000ff;">Option</span><span style="color: #000000;">                   OPEN_MODE                CON_ID
+
+</span><span style="color: #008080;">--</span><span style="color: #008080;">------- -----------------------------   --------------------         ----------</span>
+<span style="color: #000000;">
+EPPS      Multitenant </span><span style="color: #0000ff;">Option</span> enabled            <span style="color: #0000ff;">READ</span> WRITE                  <span style="color: #800000; font-weight: bold;">0</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<p><span style="color: #000000; font-family: Arial;">YES表示该数据库是CDB,如果是NO表示是NO-CDB(普通数据库)</span></p>
+<p>&nbsp;</p>
+<p><span style="font-family: Arial;"><span style="color: #000000;"><strong>3</strong><strong>）查看当前容器（Container）</strong></span></span></p>
+<p><span style="color: #000000; font-family: Arial;">3.1</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>SQL<span style="color: #808080;">&gt;</span><span style="color: #000000;"> show con_name
+
+CON_NAME
+
+</span><span style="color: #008080;">--</span><span style="color: #008080;">----------------------------</span>
+<span style="color: #000000;">
+CDB$ROOT
+
+SQL</span><span style="color: #808080;">&gt;</span>
+
+<span style="color: #800000; font-weight: bold;">3.2</span><span style="color: #000000;">
+
+SQL</span><span style="color: #808080;">&gt;</span> <span style="color: #0000ff;">select</span> sys_context(<span style="color: #ff0000;">'</span><span style="color: #ff0000;">userenv</span><span style="color: #ff0000;">'</span>, <span style="color: #ff0000;">'</span><span style="color: #ff0000;">con_name</span><span style="color: #ff0000;">'</span>) "Container DB" <span style="color: #0000ff;">from</span><span style="color: #000000;"> dual;
+
+Container DB
+
+</span><span style="color: #008080;">--</span><span style="color: #008080;">--------------------------------------------------</span>
+<span style="color: #000000;">
+CDB$ROOT
+
+SQL</span><span style="color: #808080;">&gt;</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<p><span style="font-family: Arial;"><span style="color: #000000;"><strong>4</strong><strong>）查看CDB容器中的PDBS信息</strong></span></span></p>
+<p><span style="color: #000000; font-family: Arial;">查看CDB中有多少个pluggable database</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>SQL<span style="color: #808080;">&gt;</span>  <span style="color: #0000ff;">select</span> con_id, dbid, guid, name , open_mode <span style="color: #0000ff;">from</span><span style="color: #000000;"> v$pdbs;
+
+    CON_ID       DBID GUID                             NAME                           OPEN_MODE
+
+</span><span style="color: #008080;">--</span><span style="color: #008080;">-------- ---------- -------------------------------- ------------------------------ ----------</span>
+
+         <span style="color: #800000; font-weight: bold;">2</span> <span style="color: #800000; font-weight: bold;">4071321146</span> E89E8DA2866E3157E043DE07A8C09238 PDB$SEED                       <span style="color: #0000ff;">READ</span> <span style="color: #0000ff;">ONLY</span>
+
+         <span style="color: #800000; font-weight: bold;">3</span> <span style="color: #800000; font-weight: bold;">1930201447</span><span style="color: #000000;"> E89E9418B882350CE043DE07A8C092B6 PDBEPPS                        MOUNTED
+
+SQL</span><span style="color: #808080;">&gt;</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<p><span style="font-family: Arial;"><span style="color: #000000;"><strong>5</strong><strong>）启动</strong><strong>PDB</strong><strong>数据库</strong></span></span></p>
+<p><strong><span style="color: #000000; font-family: Arial;">方式1：</span></strong></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>SQL<span style="color: #808080;">&gt;</span> <span style="color: #0000ff;">alter</span> pluggable <span style="color: #0000ff;">database</span> PDBEPPS <span style="color: #0000ff;">open</span><span style="color: #000000;">;
+
+Pluggable </span><span style="color: #0000ff;">database</span><span style="color: #000000;"> altered.
+
+SQL</span><span style="color: #808080;">&gt;</span> <span style="color: #0000ff;">select</span> con_id, dbid, guid, name , open_mode <span style="color: #0000ff;">from</span><span style="color: #000000;"> v$pdbs;
+
+    CON_ID       DBID GUID                             NAME                           OPEN_MODE
+
+</span><span style="color: #008080;">--</span><span style="color: #008080;">-------- ---------- -------------------------------- ------------------------------ ----------</span>
+
+         <span style="color: #800000; font-weight: bold;">2</span> <span style="color: #800000; font-weight: bold;">4071321146</span> E89E8DA2866E3157E043DE07A8C09238 PDB$SEED                       <span style="color: #0000ff;">READ</span> <span style="color: #0000ff;">ONLY</span>
+
+         <span style="color: #800000; font-weight: bold;">3</span> <span style="color: #800000; font-weight: bold;">1930201447</span> E89E9418B882350CE043DE07A8C092B6 PDBEPPS                         <span style="color: #0000ff;">READ</span> WRITE</pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<p><span style="color: #000000; font-family: Arial;">方式2：</span></p>
+<div class="cnblogs_code"><div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div>
+<pre>SQL<span style="color: #808080;">&gt;</span> <span style="color: #0000ff;">alter</span> session <span style="color: #0000ff;">set</span> container<span style="color: #808080;">=</span><span style="color: #000000;">PDBEPPS;
+
+Session altered.
+
+SQL</span><span style="color: #808080;">&gt;</span><span style="color: #000000;"> startup
+
+Pluggable </span><span style="color: #0000ff;">Database</span><span style="color: #000000;"> opened.
+
+SQL</span><span style="color: #808080;">&gt;</span></pre>
+<div class="cnblogs_code_toolbar"><span class="cnblogs_code_copy"><a href="javascript:void(0);" onclick="copyCnblogsCode(this)" title="复制代码"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/copycode.gif" alt="复制代码"></a></span></div></div>
+<p>&nbsp;</p>
+<p><span style="font-family: Arial;"><span style="color: #000000;"><strong>6</strong><strong>）关闭</strong><strong>PDB</strong><strong>数据库</strong></span></span></p>
+<p><span style="color: #000000; font-family: Arial;">SQL&gt; alter pluggable database PDBEPPS close;</span></p>
+<p><span style="color: #000000; font-family: Arial;">Pluggable database altered.</span></p>
+<p><span style="color: #000000; font-family: Arial;">SQL&gt; select con_id, dbid, guid, name , open_mode from v$pdbs;</span></p>
+<p><span style="color: #000000; font-family: Arial;">&nbsp;&nbsp;&nbsp; CON_ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DBID GUID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OPEN_MODE</span></p>
+<p><span style="color: #000000; font-family: Arial;">---------- ---------- -------------------------------- ------------------------------ ----------</span></p>
+<p><span style="color: #000000; font-family: Arial;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2 4071321146 E89E8DA2866E3157E043DE07A8C09238 PDB$SEED&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; READ ONLY</span></p>
+<p><span style="color: #000000; font-family: Arial;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3 1930201447 E89E9418B882350CE043DE07A8C092B6 PDBEPPS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MOUNTED</span></p>
+<p><span style="color: #000000; font-family: Arial;">SQL&gt;</span></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p><span style="font-family: Arial;"><span style="color: #000000;"><strong>7</strong><strong>）在容器间切换</strong></span></span></p>
+<p><span style="color: #000000; font-family: Arial;">SQL&gt; alter session set container=PDBEPPS;</span></p>
+<p><span style="color: #000000; font-family: Arial;">Session altered.</span></p>
+<p><span style="color: #000000; font-family: Arial;">SQL&gt; show con_name;</span></p>
+<p><span style="color: #000000; font-family: Arial;">CON_NAME</span></p>
+<p><span style="color: #000000; font-family: Arial;">------------------------------</span></p>
+<p><span style="color: #000000; font-family: Arial;">PDBEPPS</span></p>
+<p><span style="color: #000000; font-family: Arial;">SQL&gt; </span></p>
+<p><span style="color: #000000; font-family: Arial;">SQL&gt; alter session set container=CDB$ROOT;</span></p>
+<p><span style="color: #000000; font-family: Arial;">Session altered.</span></p>
+<p><span style="color: #000000; font-family: Arial;">SQL&gt; show con_name;</span></p>
+<p><span style="color: #000000; font-family: Arial;">CON_NAME</span></p>
+<p><span style="color: #000000; font-family: Arial;">------------------------------</span></p>
+<p><span style="color: #000000; font-family: Arial;">CDB$ROOT</span></p>
+<p><span style="color: #000000; font-family: Arial;">SQL&gt; </span></p>
+<p><span style="font-family: Arial;"><span style="color: #000000;"><strong>&nbsp;</strong></span></span></p>
+<p><span style="font-family: Arial;"><span style="color: #000000;"><strong>&nbsp;</strong></span></span></p>
+<p><strong><span style="color: #000000; font-family: Arial;">参考资料：</span></strong></p>
+<p><a href="http://docs.oracle.com/cd/E16655_01/server.121/e17636/cdb_intro.htm"><span style="color: #000000; font-family: Arial;">http://docs.oracle.com/cd/E16655_01/server.121/e17636/cdb_intro.htm</span></a></p>
+<p><a href="http://www.orasos.com/4445.html"><span style="color: #000000; font-family: Arial;">http://www.orasos.com/4445.html</span></a></p>
+<p><a href="http://www.oracle-base.com/articles/12c/multitenant-connecting-to-cdb-and-pdb-12cr1.php"><span style="color: #000000; font-family: Arial;">http://www.oracle-base.com/articles/12c/multitenant-connecting-to-cdb-and-pdb-12cr1.php</span></a></p>
+<p><a href="http://www.orasos.com/4445.html"><span style="color: #000000; font-family: Arial;">http://www.orasos.com/4445.html</span></a></p>
+<p>&nbsp;</p></div><div id="MySignature" style="display: block;"><div id="KerryCodeSignature">
+<div>作者：<a href="http://www.cnblogs.com/kerrycode/" target="_blank">潇湘隐者</a>
+</div>
+<div>出处：<a href="http://www.cnblogs.com/kerrycode/" target="_blank">http://www.cnblogs.com/kerrycode/</a>
+</div>
+<div><br> 如果你真心觉得文章写得不错，而且对你有所帮助，那就不妨小小打赏一下吧，如果囊中羞涩，不妨帮忙“推荐"一下，您的“推荐”和”打赏“将是我最大的写作动力！</div>
+<div><br>本文版权归作者所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出原文连接.
+</div>
+</div></div>
+        <div class="clear"></div>
+        <div id="blog_post_info_block">
+        <div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(3386917,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;a473fa6a-cc62-de11-9510-001cf0cd104b&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/kerrycode/" target="_blank"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/u73542.jpg" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/kerrycode/">潇湘隐者</a><br>
+            <a href="http://home.cnblogs.com/u/kerrycode/followees">关注 - 146</a><br>
+            <a href="http://home.cnblogs.com/u/kerrycode/followers">粉丝 - 1841</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor">荣誉：<a href="http://www.cnblogs.com/expert/" target="_blank">推荐博客</a></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;a473fa6a-cc62-de11-9510-001cf0cd104b&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(3386917,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">8</span>
+    </div>
+    <div class="buryit" onclick="votePost(3386917,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+</div>
+        <div class="clear"></div>
+        <div id="post_next_prev"><a href="http://www.cnblogs.com/kerrycode/p/3378798.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/kerrycode/p/3378798.html" title="发布于2013-10-20 10:05">[翻译]当分发数据库增长到25G时如何解决</a><br><a href="http://www.cnblogs.com/kerrycode/p/3415242.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/kerrycode/p/3415242.html" title="发布于2013-11-09 08:32">Linux磁盘空间监控告警</a><br></div>
+    </div>
+</div>
+    <ul class="postmetadata">
+        <li class="icon_cat" id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/kerrycode/category/262447.html" target="_blank">数据库技术(Oracle)</a></li>
+        <li class="icon_bullet" id="EntryTag">标签: <a href="http://www.cnblogs.com/kerrycode/tag/CDB/">CDB</a>, <a href="http://www.cnblogs.com/kerrycode/tag/PDB/">PDB</a>, <a href="http://www.cnblogs.com/kerrycode/tag/oracle%2012c/">oracle 12c</a></li>
+    </ul>
+</div>
+<script type="text/javascript">var allowComments=true,cb_blogId=57955,cb_entryId=3386917,cb_blogApp=currentBlogApp,cb_blogUserGuid='a473fa6a-cc62-de11-9510-001cf0cd104b',cb_entryCreatedDate='2013/10/24 22:17:00';loadViewCount(cb_entryId);</script>
+<script type="text/javascript">
+    var m = window.__blog.postRendered;
+    if (m) { m(__$("post")); }
+</script>
+<script type="text/javascript">
+    var m = window.__blog.postRenderPosts;
+    if (m) { m(); }
+</script>
+</div><a name="!comments"></a><div id="blog-comments-placeholder"><div id="comments_pager_top"></div>
+<a class="addcomment" href="http://www.cnblogs.com/kerrycode/p/3386917.html#comment_tip">Add your comment</a>
+<h3 id="comments"></h3>
+<div class="feedbackNoItems"></div>
+
+
+<ol class="commentlist" id="commentList">	
+
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2801615" class="layer">#1楼</a><a name="2801615" id="comment_anchor_2801615"></a></cite> <a id="a_comment_author_2801615" href="http://www.cnblogs.com/esestt/" target="_blank">Cheney Shue</a> <a href="http://msg.cnblogs.com/send/Cheney%20Shue" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-24 22:36</span></small>
+			</h5>
+			<div id="comment_body_2801615" class="blog_comment_body">SQL Server的"数据库"只不过是schema的概念，说抄袭的话，SQL Server甚至连rac和asm都没有。multitenant是多对多，应该是在数据库层面实现类似数据中心的硬件资源虚拟化概念</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2801615,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2801615,&#39;Bury&#39;,this)">反对(2)</a></div><span id="comment_2801615_avatar" style="display:none;">http://pic.cnblogs.com/face/u20714.jpg</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2801625" class="layer">#2楼</a><a name="2801625" id="comment_anchor_2801625"></a>[<span class="louzhu">楼主</span>]</cite> <a id="a_comment_author_2801625" href="http://www.cnblogs.com/kerrycode/" target="_blank">潇湘隐者</a> <a href="http://msg.cnblogs.com/send/%E6%BD%87%E6%B9%98%E9%9A%90%E8%80%85" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-24 22:57</span></small>
+			</h5>
+			<div id="comment_body_2801625" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2801615" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2801615);">@</a>
+Cheney Shue<br>呵呵，只是开个玩笑，那个“抄袭”有个双引号。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2801625,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2801625,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2801625_avatar" style="display:none;">http://pic.cnblogs.com/face/u73542.jpg</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2801652" class="layer">#3楼</a><a name="2801652" id="comment_anchor_2801652"></a></cite> <a id="a_comment_author_2801652" href="http://www.cnblogs.com/chunwan001/" target="_blank">春 晚</a> <a href="http://msg.cnblogs.com/send/%E6%98%A5%20%E6%99%9A" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-25 00:12</span></small>
+			</h5>
+			<div id="comment_body_2801652" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2801615" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2801615);">@</a>
+Cheney Shue<br><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2801615" title="查看引用原文">引用</a></legend>SQL Server的"数据库"只不过是schema的概念，说抄袭的话，SQL Server甚至连rac和asm都没有。multitenant是多对多，应该是在数据库层面实现类似数据中心的硬件资源虚拟化概念</fieldset><br>SQL对rac根本就不感兴趣，RAC其实就是鸡肋。为啥？很简单啊，低并发量的规模没有必要用RAC，但是真正高并发量的互联网级别的，RAC又不行，这就是为什么很多互联网企业用MYSQL的原因了，用淘宝人的话就是分布式架构战胜了集中式架构。如果真要搞，以微软的技术实力，你以为RAC还搞不出来？</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2801652,&#39;Digg&#39;,this)">支持(1)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2801652,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2801807" class="layer">#4楼</a><a name="2801807" id="comment_anchor_2801807"></a></cite> <a id="a_comment_author_2801807" href="http://home.cnblogs.com/u/84123/" target="_blank">toEverybody</a> <a href="http://msg.cnblogs.com/send/toEverybody" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-25 09:42</span></small>
+			</h5>
+			<div id="comment_body_2801807" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2801652" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2801652);">@</a>
+春 晚<br>微软有技术实力吗??我可不有发现,也不是说微软想搞什么就搞出来的喔</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2801807,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2801807,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2801887" class="layer">#5楼</a><a name="2801887" id="comment_anchor_2801887"></a></cite> <a id="a_comment_author_2801887" href="http://www.cnblogs.com/esestt/" target="_blank">Cheney Shue</a> <a href="http://msg.cnblogs.com/send/Cheney%20Shue" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-25 10:34</span></small>
+			</h5>
+			<div id="comment_body_2801887" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2801652" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2801652);">@</a>
+春 晚<br>rac不行的话，为啥有那么多企业上。传统的RDMS不适合互联网，是为了实现高并发acid牺牲了性能，对于大流量的页面展示，完全可以不用数据库事务。所以facebook会用hbase这类nosql、big data解决方案。<br>淘宝你可以去问问他们后端核心的交易、支付处理是不是用rac。<br>如果微软有技术，先不说rac，叫它先把sql server烂的掉渣管理功能做好。至少把oracle的awr、self-tune、performance advisor这些最实用的功能都实现吧。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2801887,&#39;Digg&#39;,this)">支持(1)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2801887,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2801887_avatar" style="display:none;">http://pic.cnblogs.com/face/u20714.jpg</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802028" class="layer">#6楼</a><a name="2802028" id="comment_anchor_2802028"></a></cite> <a id="a_comment_author_2802028" href="http://www.cnblogs.com/chunwan001/" target="_blank">春 晚</a> <a href="http://msg.cnblogs.com/send/%E6%98%A5%20%E6%99%9A" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-25 11:56</span></small>
+			</h5>
+			<div id="comment_body_2802028" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2801887" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2801887);">@</a>
+Cheney Shue<br><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2801887" title="查看引用原文">引用</a></legend>@春 晚<br>rac不行的话，为啥有那么多企业上。传统的RDMS不适合互联网，是为了实现高并发acid牺牲了性能，对于大流量的页面展示，完全可以不用数据库事务。所以facebook会用hbase这类nosql、big data解决方案。<br>淘宝你可以去问问他们后端核心的交易、支付处理是不是用rac。<br>如果微软有技术，先不说rac，叫它先把sql server烂的掉渣管理功能做好。至少把oracle的awr、self-tune、performance advisor这些最实用的功能都实现吧。</fieldset><br>我只能说你的信息已经落后了，“整个阿里巴巴集团，可能除支付宝少数业务的数据库继续采用Oracle数据库之外，其他的一切都将转换成MySQL数据库”<br>http://www.douban.com/note/213264330/<br>，关于SQL，你似乎不太了解，多说无益。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2802028,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2802028,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802097" class="layer">#7楼</a><a name="2802097" id="comment_anchor_2802097"></a>[<span class="louzhu">楼主</span>]</cite> <a id="a_comment_author_2802097" href="http://www.cnblogs.com/kerrycode/" target="_blank">潇湘隐者</a> <a href="http://msg.cnblogs.com/send/%E6%BD%87%E6%B9%98%E9%9A%90%E8%80%85" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-25 13:07</span></small>
+			</h5>
+			<div id="comment_body_2802097" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2801887" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2801887);">@</a>
+Cheney Shue<br>@春 晚<br>淘宝去IOE是基于成本、技术积累、战略考虑等多方面因素，大家不要争论了，个人觉得SQL SERVER与ORCLE的定位不一样，就像语言之争一样，没有太大的意义。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2802097,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2802097,&#39;Bury&#39;,this)">反对(1)</a></div><span id="comment_2802097_avatar" style="display:none;">http://pic.cnblogs.com/face/u73542.jpg</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802100" class="layer">#8楼</a><a name="2802100" id="comment_anchor_2802100"></a></cite> <a id="a_comment_author_2802100" href="http://www.cnblogs.com/esestt/" target="_blank">Cheney Shue</a> <a href="http://msg.cnblogs.com/send/Cheney%20Shue" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-25 13:12</span></small>
+			</h5>
+			<div id="comment_body_2802100" class="blog_comment_body"><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802028" title="查看引用原文">引用</a></legend>@春 晚<br>关于SQL，你似乎不太了解，多说无益</fieldset><br><br>关于SQL，我只问个最基础、最实际的问题：<br>十一假期后上班第一天，你发现公司ERP的sql server数据库在假期的某一天当了。你如何在5分钟内诊断出什么问题。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2802100,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2802100,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2802100_avatar" style="display:none;">http://pic.cnblogs.com/face/u20714.jpg</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802179" class="layer">#9楼</a><a name="2802179" id="comment_anchor_2802179"></a></cite> <a id="a_comment_author_2802179" href="http://www.cnblogs.com/chunwan001/" target="_blank">春 晚</a> <a href="http://msg.cnblogs.com/send/%E6%98%A5%20%E6%99%9A" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-25 14:47</span></small>
+			</h5>
+			<div id="comment_body_2802179" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802097" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2802097);">@</a>
+潇湘隐者<br><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802097" title="查看引用原文">引用</a></legend>@Cheney Shue<br>@春 晚<br>淘宝去IOE是基于成本、技术积累、战略考虑等多方面因素，大家不要争论了，个人觉得SQL SERVER与ORCLE的定位不一样，就像语言之争一样，没有太大的意义。</fieldset><br>个人觉得SQL SERVER与ORACLE的定位差不多，都是企业级数据平台，无论什么规模的系统，如果ORACLE可以，那SQL肯定也可以。<br><br>至于淘宝去IOE的原因，用淘宝自己的几个牛逼的DBA的话来讲吧，我们说的都不算：<br><br>关于技术：<br>@hellodba回复：“淘宝为什么要去oracle，因为它很难适应互联网大规模应用对扩展性的要求，与其说是去I/O/E，更不如说是分布式架构战胜了集中式架构，开源系统战胜了商业系统。”<br><br>关于成本：<br>“3.1.5 Oracle本身的License费用在成本中并不多，而且整个阿里巴巴集团主要是 淘宝和支付宝占用的License费用占比大；<br>”<br><br>http://www.mysqlops.com/2012/03/29/oracle-dba-taobao-alibaba.html</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2802179,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2802179,&#39;Bury&#39;,this)">反对(1)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802183" class="layer">#10楼</a><a name="2802183" id="comment_anchor_2802183"></a></cite> <a id="a_comment_author_2802183" href="http://www.cnblogs.com/chunwan001/" target="_blank">春 晚</a> <a href="http://msg.cnblogs.com/send/%E6%98%A5%20%E6%99%9A" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-25 14:49</span></small>
+			</h5>
+			<div id="comment_body_2802183" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802100" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2802100);">@</a>
+Cheney Shue<br><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802100" title="查看引用原文">引用</a></legend>引用@春 晚<br>关于SQL，你似乎不太了解，多说无益<br><br>关于SQL，我只问个最基础、最实际的问题：<br>十一假期后上班第一天，你发现公司ERP的sql server数据库在假期的某一天当了。你如何在5分钟内诊断出什么问题。</fieldset><br>我建议你去问一下一个稍微有点经验的SQL DBA，这个问题不会很难。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2802183,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2802183,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802210" class="layer">#11楼</a><a name="2802210" id="comment_anchor_2802210"></a></cite> <a id="a_comment_author_2802210" href="http://www.cnblogs.com/esestt/" target="_blank">Cheney Shue</a> <a href="http://msg.cnblogs.com/send/Cheney%20Shue" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-25 15:12</span></small>
+			</h5>
+			<div id="comment_body_2802210" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802183" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2802183);">@</a>
+春 晚<br><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802183" title="查看引用原文">引用</a></legend><br>我建议你去问一下一个稍微有点经验的SQL DBA，这个问题不会很难。</fieldset><br><br>我就问你。至少到目前没有一个SQL DBA给我答案。<br><br>Oracle的话，我只要打开EM查看AWR，所有情况都一目了然。而且Oracle的advisor很有可能在事故发生前就告诉我数据库潜在的隐患。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2802210,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2802210,&#39;Bury&#39;,this)">反对(1)</a></div><span id="comment_2802210_avatar" style="display:none;">http://pic.cnblogs.com/face/u20714.jpg</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802232" class="layer">#12楼</a><a name="2802232" id="comment_anchor_2802232"></a></cite> <a id="a_comment_author_2802232" href="http://www.cnblogs.com/chunwan001/" target="_blank">春 晚</a> <a href="http://msg.cnblogs.com/send/%E6%98%A5%20%E6%99%9A" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-25 15:25</span></small>
+			</h5>
+			<div id="comment_body_2802232" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802210" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2802210);">@</a>
+Cheney Shue<br><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802210" title="查看引用原文">引用</a></legend>@春 晚<br><br>引用<br>我建议你去问一下一个稍微有点经验的SQL DBA，这个问题不会很难。<br><br>我就问你。至少到目前没有一个SQL DBA给我答案。<br><br>Oracle的话，我只要打开EM查看AWR，所有情况都一目了然。而且Oracle的advisor很有可能在事故发生前就告诉我数据库潜在的隐患。</fieldset><br>你说的SQL 都有，只是一个是默认就开启的，一个要手功去做些配置或者设置什么的，另外这些基础的问题，我还是建议你首先去SQL论坛发帖问，不要只盯着我问，因为我没有义务或者有足够的时间来回答这些问题。 比如说CSDN的那个，或者微软的那个论坛。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2802232,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2802232,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802247" class="layer">#13楼</a><a name="2802247" id="comment_anchor_2802247"></a></cite> <a id="a_comment_author_2802247" href="http://www.cnblogs.com/esestt/" target="_blank">Cheney Shue</a> <a href="http://msg.cnblogs.com/send/Cheney%20Shue" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-25 15:34</span></small>
+			</h5>
+			<div id="comment_body_2802247" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802232" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2802232);">@</a>
+春 晚<br>没有这个功能就承认吧，技术烂就承认吧</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2802247,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2802247,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2802247_avatar" style="display:none;">http://pic.cnblogs.com/face/u20714.jpg</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802301" class="layer">#14楼</a><a name="2802301" id="comment_anchor_2802301"></a></cite> <a id="a_comment_author_2802301" href="http://www.cnblogs.com/chunwan001/" target="_blank">春 晚</a> <a href="http://msg.cnblogs.com/send/%E6%98%A5%20%E6%99%9A" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-25 16:14</span></small>
+			</h5>
+			<div id="comment_body_2802301" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802247" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2802247);">@</a>
+Cheney Shue<br><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802247" title="查看引用原文">引用</a></legend>@春 晚<br>没有这个功能就承认吧，技术烂就承认吧</fieldset><br>确实技术很烂，不得不承认，最后被扫地出门，<br>所以“整个阿里巴巴集团，可能除支付宝少数业务的数据库继续采用Oracle数据库之外，其他的一切都将转换成MySQL数据库”。<br>所以“淘宝为什么要去oracle，因为它很难适应互联网大规模应用对扩展性的要求，与其说是去I/O/E，更不如说是分布式架构战胜了集中式架构，开源系统战胜了商业系统。”<br><br>不要生气哦，因为这不是我说的，这是淘宝的一些资深DBA自己说的。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2802301,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2802301,&#39;Bury&#39;,this)">反对(1)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802360" class="layer">#15楼</a><a name="2802360" id="comment_anchor_2802360"></a></cite> <a id="a_comment_author_2802360" href="http://www.cnblogs.com/esestt/" target="_blank">Cheney Shue</a> <a href="http://msg.cnblogs.com/send/Cheney%20Shue" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-25 17:02</span></small>
+			</h5>
+			<div id="comment_body_2802360" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802301" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2802301);">@</a>
+春 晚<br><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802301" title="查看引用原文">引用</a></legend>@Cheney Shue<br><fieldset class="comment_quote"><legend>引用</legend>引用@春 晚<br>没有这个功能就承认吧，技术烂就承认吧</fieldset><br>确实技术很烂，不得不承认，最后被扫地出门，<br>所以“整个阿里巴巴集团，可能除支付宝少数业务的数据库继续采用Oracle数据库之外，其他的一切都将转换成MySQL数据库”。<br>所以“淘宝为什么要去oracle，因为它很难适应互联网大规模应用对扩展性的要求，与其说是去I/O/E，更不如说是分布式架构战胜了集中式架构，开源系统战胜了商业系统。”<br><br>不要生气哦，因为这不是我说的，这是淘宝的一些资深DBA自己说的。</fieldset><br><br>支持，开源是好东西，开源才有创新。分布式好，hadoop好，mapreduce好，hbase好。可怜的sql server，连mysql都不如。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2802360,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2802360,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2802360_avatar" style="display:none;">http://pic.cnblogs.com/face/u20714.jpg</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802363" class="layer">#16楼</a><a name="2802363" id="comment_anchor_2802363"></a></cite> <a id="a_comment_author_2802363" href="http://www.cnblogs.com/chunwan001/" target="_blank">春 晚</a> <a href="http://msg.cnblogs.com/send/%E6%98%A5%20%E6%99%9A" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-25 17:06</span></small>
+			</h5>
+			<div id="comment_body_2802363" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802360" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2802360);">@</a>
+Cheney Shue<br><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802360" title="查看引用原文">引用</a></legend>@春 晚<br><br>引用@Cheney Shue<br><br>引用引用@春 晚<br>没有这个功能就承认吧，技术烂就承认吧<br>确实技术很烂，不得不承认，最后被扫地出门，<br>所以“整个阿里巴巴集团，可能除支付宝少数业务的数据库继续采用Oracle数据库之外，其他的一切都将转换成MySQL数据库”。<br>所以“淘宝为什么要去oracle，因为它很难适应互联网大规模应用对扩展性的要求，与其说是去I/O/E，更不如说是分布式架构战胜了集中式架构，开源系统战胜了商业系统。”<br><br>不要生气哦，因为这不是我说的，这是淘宝的一些资深DBA自己说的。<br><br>支持，开源是好东西，开源才有创新。分布式好，hadoop好，mapreduce好，hba...</fieldset><br>五十步笑百步，可怜的oracle不一样被mysql扫地出门了嘛。你还说他们后端核心的交易用RAC,不知道是什么年代的事情了，笑。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2802363,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2802363,&#39;Bury&#39;,this)">反对(1)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802400" class="layer">#17楼</a><a name="2802400" id="comment_anchor_2802400"></a>[<span class="louzhu">楼主</span>]</cite> <a id="a_comment_author_2802400" href="http://www.cnblogs.com/kerrycode/" target="_blank">潇湘隐者</a> <a href="http://msg.cnblogs.com/send/%E6%BD%87%E6%B9%98%E9%9A%90%E8%80%85" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2013-10-25 17:35</span></small>
+			</h5>
+			<div id="comment_body_2802400" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802301" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2802301);">@</a>
+春 晚<br>Oracle 的License真的很贵的。你觉得“开源系统战胜了商业系统”的本质是什么？其实就是成本。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(2802400,&#39;Digg&#39;,this)">支持(1)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(2802400,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_2802400_avatar" style="display:none;">http://pic.cnblogs.com/face/u73542.jpg</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#3140888" class="layer">#18楼</a><a name="3140888" id="comment_anchor_3140888"></a></cite> <a id="a_comment_author_3140888" href="http://www.cnblogs.com/penpal/" target="_blank">Penpal</a> <a href="http://msg.cnblogs.com/send/Penpal" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2015-03-14 17:34</span></small>
+			</h5>
+			<div id="comment_body_3140888" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802210" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2802210);">@</a>
+Cheney Shue<br>我一般都是查日志呢，EM ORACLE 做的也是不尽人意，并且性能有影响。层出现过EM  将磁盘搞死的情况。 Oracle 的优化，自学习的部分做的还是比较强的。SQL 也有，但是暴漏给大家的太少。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3140888,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3140888,&#39;Bury&#39;,this)">反对(0)</a></div><span id="comment_3140888_avatar" style="display:none;">http://pic.cnblogs.com/face/203400/20140830170707.png</span>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#3246340" class="layer">#19楼</a><a name="3246340" id="comment_anchor_3246340"></a></cite> <a id="a_comment_author_3246340" href="http://www.cnblogs.com/fufudage/" target="_blank">烟溪秋叶</a> <a href="http://msg.cnblogs.com/send/%E7%83%9F%E6%BA%AA%E7%A7%8B%E5%8F%B6" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2015-08-12 14:39</span></small>
+			</h5>
+			<div id="comment_body_3246340" class="blog_comment_body">无聊的争论</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3246340,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3246340,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#3569335" class="layer">#20楼</a><a name="3569335" id="comment_anchor_3569335"></a></cite> <a id="a_comment_author_3569335" href="http://home.cnblogs.com/u/727412/" target="_blank">chzjxgd</a> <a href="http://msg.cnblogs.com/send/chzjxgd" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2016-11-30 23:19</span></small>
+			</h5>
+			<div id="comment_body_3569335" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802210" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2802210);">@</a>
+Cheney Shue<br>具体问题得具体分析，这个是打马虎眼。 没给实际场景这先看能确定呢，我觉得第一眼得先去看下sql server服务器有没有断电先。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3569335,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3569335,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#3594183" class="layer">#21楼</a><a name="3594183" id="comment_anchor_3594183"></a></cite> <a id="a_comment_author_3594183" href="http://home.cnblogs.com/u/1089567/" target="_blank">彼岸天堂</a> <a href="http://msg.cnblogs.com/send/%E5%BD%BC%E5%B2%B8%E5%A4%A9%E5%A0%82" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2017-01-01 20:50</span></small>
+			</h5>
+			<div id="comment_body_3594183" class="blog_comment_body"><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802179" title="查看所回复的评论" onclick="commentManager.renderComments(0,50,2802179);">@</a>
+春 晚<br><fieldset class="comment_quote"><legend><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#2802179" title="查看引用原文">引用</a></legend>@<br>潇湘隐者<br><fieldset class="comment_quote"><legend>引用</legend>引用<a href="http://home.cnblogs.com/u/14656/" target="_blank">@Cheney</a> Shue<br><a href="http://home.cnblogs.com/u/93787/" target="_blank">@春</a> 晚<br>淘宝去IOE是基于成本、技术积累、战略考虑等多方面因素，大家不要争论了，个人觉得SQL SERVER与ORCLE的定位不一样，就像语言之争一样，没有太大的意义。</fieldset><br>个人觉得SQL SERVER与ORACLE的定位差不多，都是企业级数据平台，无论什么规模的系统，如果ORACLE可以，那SQL肯定也可以。<br><br>至于淘宝去IOE的原因，用淘宝自己的几个牛逼的DBA的话来讲吧，我们说的都不算：<br><br>关于技术：<br>@hellodba回复：“淘宝为什么要去oracle，因为它很难适应互联网大规模应用对扩展性的要求，与其说是去I/O...</fieldset><br>翻翻几年前老帖子，竟然还有人认为SQLServer定位和Oracle差不多，搞笑呢？2016年以前你在linux装一个sqlserver我看看？还定位差不多，怎么个自信来的。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3594183,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3594183,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+		<li class="alt">
+			<h5>
+				<cite><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#3686399" class="layer">#22楼</a><a name="3686399" id="comment_anchor_3686399"></a><span id="comment-maxId" style="display:none;">3686399</span><span id="comment-maxDate" style="display:none;">2017/5/8 10:28:51</span></cite> <a id="a_comment_author_3686399" href="http://www.cnblogs.com/13-ideal/" target="_blank">白色相簿</a> <a href="http://msg.cnblogs.com/send/%E7%99%BD%E8%89%B2%E7%9B%B8%E7%B0%BF" title="发送站内短消息" class="sendMsg2This">&nbsp;</a><small> <span class="comment_date">2017-05-08 10:28</span></small>
+			</h5>
+			<div id="comment_body_3686399" class="blog_comment_body">我纳闷这个人，和楼主争论半天说，被人随便一问5分钟怎么解决问题，绕来绕去最后说个自己没时间没义务。天啊。神了，我隔着屏幕感觉到了尴尬。</div><div class="comment_vote"><a href="javascript:void(0);" class="comment_digg" onclick="return voteComment(3686399,&#39;Digg&#39;,this)">支持(0)</a><a href="javascript:void(0);" class="comment_bury" onclick="return voteComment(3686399,&#39;Bury&#39;,this)">反对(0)</a></div>
+			<div class="opt_comment"><span class="comment_actions"></span></div>
+		</li>
+	
+</ol>
+
+<div id="comments_pager_bottom"></div></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/kerrycode/p/3386917.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="http://click.aliyun.com/m/26126/" target="_blank"><img width="300" height="250" src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/24442-20170718132533661-166801094.jpg" alt="阿里云0718"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/575130/" target="_blank">地平线创始人余凯：Facebook关闭AI系统是危言耸听</a><br> ·  <a href="http://news.cnblogs.com/n/575128/" target="_blank">为了打造智慧生活，微信都放了哪些大招？</a><br> ·  <a href="http://news.cnblogs.com/n/575127/" target="_blank">朱江洪：在格力24年的奋斗与遗憾</a><br> ·  <a href="http://news.cnblogs.com/n/575126/" target="_blank">任天堂称复刻迷你SNES主机月底开放预定 供货充足</a><br> ·  <a href="http://news.cnblogs.com/n/575125/" target="_blank">Windows 10将内建眼球追踪支持</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a href="https://www.jiguang.cn/devservice?source=bky&amp;hmsr=%E5%8D%9A%E5%AE%A2%E5%9B%AD&amp;hmpl=&amp;hmcu=&amp;hmkw=&amp;hmci=" target="_blank"><img width="468" height="60" src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/24442-20170629165247758-2056260207.png" alt="极光推广_0701"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/571915/" target="_blank">为什么你该开始学习编程了？</a><br> ·  <a href="http://kb.cnblogs.com/page/570194/" target="_blank">小printf的故事：什么是真正的程序员？</a><br> ·  <a href="http://kb.cnblogs.com/page/569992/" target="_blank">程序员的工作、学习与绩效</a><br> ·  <a href="http://kb.cnblogs.com/page/569056/" target="_blank">软件开发为什么很难</a><br> ·  <a href="http://kb.cnblogs.com/page/565901/" target="_blank">唱吧DevOps的落地，微服务CI/CD的范本技术解读</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+        </div>
+
+        <script type="text/javascript">
+            var m = window.__blog.contentRendered;
+            if (m) { m(__$("content")); }
+        </script>
+
+        <div id="sidebar">
+            
+<div id="about">
+<div>
+<h2 id="about_title">About</h2>
+<div id="about_body">
+<div id="blog-news"><p>
+
+<b>个人简介：</b>网名潇湘隐者/潇湘剑客、英文名Kerry，兴趣广泛，广泛涉猎，个性随意，不善言辞。执意做一名会写代码的DBA，混迹于IT行业</p>
+ <img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/o_mylove.jpg" width="446px" height="114px">
+<b>博客简介：</b><p>&nbsp; &nbsp; 这里是潇湘隐者的一亩三分地，偶尔意兴阑珊的时候，整理打理下本“菜园”，本“菜园”主要关注各类数据库技术（ORACLE、MS SQL， MySQL，Hbase...）以及NOSQL、NET、JAVA等各类技术。在这里，记录着我成长、学习、工作过程的点点滴滴（笔记、总结、研究、问题解决...），本人对数据库管理、数据库开发、性能优化、数据挖掘、BI等有着浓厚的兴趣，欢迎大家一起探讨、研究各种技术话题！非诚勿扰。
+</p>
+<p><b>联系方式：</b>  邮箱地址：kerry2008code@qq.com </p>
+
+<p><b>DBA—技术交流分享群</b>:  335155934(已满)</p>
+<p><b>DBA—技术交流分享群2</b>: 294770674</p>
+<p>加群请回答下面问题中任何一个：
+   </p><li>ORACLE    ： SGA由哪几部分组成？  </li>
+   <li>SQL SERVER:  SQL锁类型有那些？    </li>
+<p></p> 
+
+<b>座右铭 &nbsp; ：</b>命在于自造，运在于自改，福在于自求，境在于自选，友在于自择，习在于自改，悟在于自通，凡事在于自己。人生就是一场修行！走自己的道，修自己的行。
+
+脚踏实地、切忌浮躁，眼界决定高度，思路决定出路
+<p> 年轻时的付出，都会是一种沉淀，它们会默默铺路，只为让你成为更好的人。心简单，世界就简单，幸福才会生长；心自由，生活就自由，到哪都有快乐.回忆中，总有些瞬间，能温暖整个曾经...
+
+</p>
+<div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/kerrycode/">潇湘隐者</a><br>园龄：<a href="http://home.cnblogs.com/u/kerrycode/" title="入园时间：2009-06-27">8年1个月</a><br>荣誉：<a href="http://www.cnblogs.com/expert/">推荐博客</a><br>粉丝：<a href="http://home.cnblogs.com/u/kerrycode/followers/">1841</a><br>关注：<a href="http://home.cnblogs.com/u/kerrycode/followees/">146</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;a473fa6a-cc62-de11-9510-001cf0cd104b&#39;)">+加关注</a></div></div></div>
+<script type="text/javascript">loadBlogNews();</script>
+</div>
+</div>
+</div>
+
+            <script type="text/javascript">
+                var m = window.__blog.aboutRendered;
+                if (m) { m(__$("about")); }
+            </script>
+            
+<div id="mySearchWrapper">
+    <div id="mySearch">
+        <input type="image" src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/btnsearch.gif" id="btnZzk" class="submit" onclick="zzk_go();return false;">
+        <label class="lb_search"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="keyword"></label>
+    </div>
+</div>
+
+            <script type="text/javascript">
+                var m = window.__blog.searchFormRendered;
+                if (m) { m(__$("searchform")); }
+            </script>
+            <div id="sideMain">
+            <div id="side-recent-posts">
+        <h2>最新随笔</h2>
+        <ul class="bullet">
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7271966.html">The process could not read file xxx due to OS error 53</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7268866.html">SQL Server中如何定位Row Lock锁定哪一行数据</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7245891.html">SQL Server事务遭遇网络异常时的处理机制浅析</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7233056.html">MS SQL批量生成作业脚本方法介绍总结</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7205590.html">MySQL 5.6.20-enterprise-commercial的参数文件位置问题</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7203210.html">十年聚首——愿你出走半生 归来仍是少年</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7151642.html">RHEL 5.7 使用rpm安装XtraBackup问题总结</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7149520.html">ORACLE中修改表的Schema的总结</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7131485.html">The Microsoft Distributed Transaction Coordinator (MS DTC) has cancelled the distributed transaction.</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7130403.html">MySQL查询日志总结</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7120200.html">You (root) are not allowed to access to (crontab) because of pam configuration</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7070185.html">用户 'XXX\SERVERNAME$' 登录失败。 原因: 找不到与提供的名称匹配的登录名。 [客户端: ]</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7068246.html">Troubleshooting SQL Server RESOURCE_SEMAPHORE Waittype Memory Issues</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7060967.html">SQL Server Alert发送告警邮件少了的原因</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7053118.html">Linux下Wheel用户组介绍</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/7002044.html">SQL Server使用sys.master_files计算tempdb大小不正确</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/6999550.html">MySQL 如何查看表的存储引擎</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/6991502.html">MySQL中lock tables和unlock tables浅析</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/6963880.html">mysqldump 参数--lock-tables浅析</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/6960933.html">ORA-01440: column to be modified must be empty to decrease precision or scale</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/6959570.html">SQL Server中sys.syslogin中updatedate字段的浅析</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/6957574.html">ORACLE 中NUMBER类型默认的精度和Scale问题</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/6945915.html">SQL Server中sp_spaceused统计数据使用的空间总量不正确的原因</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/6933024.html">Percona XtraBackup 安装介绍篇</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/6928263.html">ORACLE中死锁的知识点总结</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/6924153.html">Linux如何查看YUM的安装目录</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/6922635.html">find: missing argument to `-exec'</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/6918292.html">Linux平台下RMAN异机恢复总结</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/6874479.html">WARNING: Re-reading the partition table failed with error 22: Invalid argument</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/p/6872255.html">Windows Server 2012更新补丁后导致Micosoft ODBC for Oracle出现问题</a></li>
+        </ul>
+    </div><div id="side-recent-comments">
+        <h2>最新评论</h2>
+        <ul class="voice">
+                <li>
+                    <a href="http://www.cnblogs.com/kerrycode/p/4762921.html#3748627">Re:Linux如何查看JDK的安装路径</a>
+                    <br>
+                    <a class="child" href="http://www.cnblogs.com/kerrycode/p/4762921.html#3748627">
+                        赞
+                        -- ^_^小麦苗^_^
+                    </a>
+                </li>
+                <li>
+                    <a href="http://www.cnblogs.com/kerrycode/p/7245891.html#3746059">Re:SQL Server事务遭遇网络异常时的处理机制浅析</a>
+                    <br>
+                    <a class="child" href="http://www.cnblogs.com/kerrycode/p/7245891.html#3746059">
+                        学习了，谢谢分享
+                        -- 人生如梦
+                    </a>
+                </li>
+                <li>
+                    <a href="http://www.cnblogs.com/kerrycode/p/7245891.html#3745178">Re:SQL Server事务遭遇网络异常时的处理机制浅析</a>
+                    <br>
+                    <a class="child" href="http://www.cnblogs.com/kerrycode/p/7245891.html#3745178">
+                        学习了
+                        -- fadeinw
+                    </a>
+                </li>
+                <li>
+                    <a href="http://www.cnblogs.com/kerrycode/p/7245891.html#3745175">Re:SQL Server事务遭遇网络异常时的处理机制浅析</a>
+                    <br>
+                    <a class="child" href="http://www.cnblogs.com/kerrycode/p/7245891.html#3745175">
+                        受教了
+                        -- 小小码农码代码
+                    </a>
+                </li>
+                <li>
+                    <a href="http://www.cnblogs.com/kerrycode/p/7245891.html#3744957">Re:SQL Server事务遭遇网络异常时的处理机制浅析</a>
+                    <br>
+                    <a class="child" href="http://www.cnblogs.com/kerrycode/p/7245891.html#3744957">
+                        学习了，以前看到过这个keep alive，没留意是干啥用的。
+                        -- MSSQL123
+                    </a>
+                </li>
+        </ul>
+    </div></div>
+            <div id="sideRight">
+            <div id="side-archives">
+        <h2>随笔档案</h2>
+        <ul class="date">
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2017/08.html">2017年8月(2)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2017/07.html">2017年7月(9)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2017/06.html">2017年6月(14)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2017/05.html">2017年5月(11)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2017/04.html">2017年4月(6)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2017/03.html">2017年3月(12)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2017/02.html">2017年2月(8)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2017/01.html">2017年1月(5)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2016/12.html">2016年12月(9)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2016/11.html">2016年11月(13)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2016/10.html">2016年10月(10)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2016/09.html">2016年9月(7)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2016/08.html">2016年8月(24)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2016/07.html">2016年7月(23)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2016/06.html">2016年6月(17)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2016/05.html">2016年5月(11)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2016/04.html">2016年4月(13)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2016/03.html">2016年3月(19)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2016/02.html">2016年2月(5)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2016/01.html">2016年1月(13)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2015/12.html">2015年12月(15)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2015/11.html">2015年11月(13)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2015/10.html">2015年10月(12)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2015/09.html">2015年9月(13)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2015/08.html">2015年8月(21)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2015/07.html">2015年7月(17)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2015/06.html">2015年6月(11)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2015/05.html">2015年5月(9)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2015/04.html">2015年4月(11)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2015/03.html">2015年3月(20)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2015/02.html">2015年2月(10)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2015/01.html">2015年1月(24)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2014/12.html">2014年12月(6)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2014/11.html">2014年11月(8)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2014/10.html">2014年10月(14)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2014/09.html">2014年9月(8)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2014/08.html">2014年8月(8)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2014/07.html">2014年7月(22)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2014/06.html">2014年6月(9)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2014/05.html">2014年5月(12)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2014/04.html">2014年4月(13)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2014/03.html">2014年3月(21)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2014/02.html">2014年2月(4)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2014/01.html">2014年1月(5)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2013/12.html">2013年12月(7)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2013/11.html">2013年11月(7)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2013/10.html">2013年10月(10)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2013/09.html">2013年9月(12)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2013/08.html">2013年8月(24)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2013/07.html">2013年7月(11)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2013/06.html">2013年6月(9)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2013/05.html">2013年5月(9)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2013/04.html">2013年4月(8)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2013/03.html">2013年3月(9)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2013/01.html">2013年1月(2)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2012/12.html">2012年12月(6)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2012/08.html">2012年8月(1)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2012/07.html">2012年7月(2)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2012/06.html">2012年6月(3)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2012/05.html">2012年5月(8)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2012/04.html">2012年4月(5)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2011/07.html">2011年7月(4)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2011/06.html">2011年6月(4)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2011/05.html">2011年5月(10)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2011/04.html">2011年4月(6)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2011/03.html">2011年3月(4)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2010/12.html">2010年12月(6)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2010/11.html">2010年11月(1)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2010/10.html">2010年10月(3)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2010/09.html">2010年9月(6)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2010/08.html">2010年8月(6)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2010/07.html">2010年7月(5)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2010/05.html">2010年5月(2)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2010/04.html">2010年4月(3)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2010/03.html">2010年3月(3)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2010/02.html">2010年2月(3)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2010/01.html">2010年1月(2)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2009/11.html">2009年11月(3)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2009/10.html">2009年10月(3)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2009/09.html">2009年9月(1)</a></li>
+                <li><a href="http://www.cnblogs.com/kerrycode/archive/2009/08.html">2009年8月(2)</a></li>
+        </ul>
+    </div><div id="side-link-460792">
+            <h2>行者无疆(sql server)</h2>
+            <ul class="chain">
+                        <li>
+ <a class="mini_rss" href="http://blogs.msdn.com/b/sqlcat/rss">Rss</a>                             <a href="http://blogs.msdn.com/b/sqlcat/" target="_blank"> SQL Server Customer Advisory Team</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.cnblogs.com/CareySon/rss">Rss</a>                             <a href="http://www.cnblogs.com/CareySon/" target="_blank">CareySon博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.cnblogs.com/lyhabc/rss">Rss</a>                             <a href="http://www.cnblogs.com/lyhabc/" target="_blank">桦仔博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.cnblogs.com/gaizai/rss">Rss</a>                             <a href="http://www.cnblogs.com/gaizai/" target="_blank">听风吹雨博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="https://blogs.msdn.microsoft.com/apgcdsd/rss">Rss</a>                             <a href="https://blogs.msdn.microsoft.com/apgcdsd/" target="_blank">微软亚太区数据库技术支持组 官方博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.cnblogs.com/downmoon/rss/">Rss</a>                             <a href="http://www.cnblogs.com/downmoon/" target="_blank">邀月工作室</a>
+                        </li>
+            </ul>
+        </div><div id="side-link-494646">
+            <h2>行者无疆（开源网站）</h2>
+            <ul class="chain">
+                        <li>
+ <a class="mini_rss" href="http://www.oschina.net/rss">Rss</a>                             <a href="http://www.oschina.net/" target="_blank">开源中国</a>
+                        </li>
+            </ul>
+        </div><div id="side-link-662719">
+            <h2>行者无疆(数据挖掘)</h2>
+            <ul class="chain">
+                        <li>
+ <a class="mini_rss" href="http://www.cnblogs.com/skyme/rss/">Rss</a>                             <a href="http://www.cnblogs.com/skyme/" target="_blank">skyme博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://blog.niubua.com/rss/">Rss</a>                             <a href="http://blog.niubua.com/" target="_blank">牛吧大数据</a>
+                        </li>
+            </ul>
+        </div><div id="side-link-584231">
+            <h2>行者无疆(综合类)</h2>
+            <ul class="chain">
+                        <li>
+ <a class="mini_rss" href="http://www.cnblogs.com/vamei/rss">Rss</a>                             <a href="http://www.cnblogs.com/vamei/" target="_blank">vamei</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://blog.yufeng.info/rss/">Rss</a>                             <a href="http://blog.yufeng.info/" target="_blank">yufeng 博客</a>
+                        </li>
+                        <li>
+                            <a href="http://blog.codingnow.com/" target="_blank">风云博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://coolshell.cn/rss">Rss</a>                             <a href="http://coolshell.cn/" target="_blank">酷壳博客</a>
+                        </li>
+            </ul>
+        </div></div>
+            <div id="sideLeft">
+            <div id="side-calendar">
+        <h2>日历</h2>
+        <div id="blog-calendar"><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2017/07/01&#39;);return false;">&lt;</a></td><td align="center">2017年8月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2017/09/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center"><a href="http://www.cnblogs.com/kerrycode/archive/2017/08/01.html"><u>1</u></a></td><td class="CalTodayDay" align="center"><a href="http://www.cnblogs.com/kerrycode/archive/2017/08/02.html"><u>2</u></a></td><td align="center">3</td><td align="center">4</td><td class="CalWeekendDay" align="center">5</td></tr><tr><td class="CalWeekendDay" align="center">6</td><td align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td align="center">11</td><td class="CalWeekendDay" align="center">12</td></tr><tr><td class="CalWeekendDay" align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td class="CalWeekendDay" align="center">19</td></tr><tr><td class="CalWeekendDay" align="center">20</td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td class="CalWeekendDay" align="center">26</td></tr><tr><td class="CalWeekendDay" align="center">27</td><td align="center">28</td><td align="center">29</td><td align="center">30</td><td align="center">31</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td></tr><tr><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td></tr>
+</tbody></table></div>
+    </div><div id="side-categories">
+        <h2>随笔分类</h2>
+        <ul class="folder">
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/257200.html">.NET技术(24)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/231754.html">C/C++(2)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/287600.html">log4net(1)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/962126.html">NoSQL(Neo4j)(1)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/366370.html">Unix&amp;Linux技术(167)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/369201.html">Window 技术汇集(15)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/207291.html">编程技巧(3)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/593646.html">存储网络(2)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/212900.html">个人小软件(1)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/490688.html">工欲善其事必先利其器(18)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/595115.html">管理之道(1)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/258284.html">其它技巧(1)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/242472.html">软件重构(4)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/214872.html">设计模式(1)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/207300.html">数据库技术(MS SQL)(228)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/262446.html">数据库技术(My SQL)(40)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/262447.html">数据库技术(Oracle)(249)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/297697.html">数据库建模(1)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/287987.html">数据库重构(2)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/299005.html">数据挖掘及BI(1)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/730422.html">虚拟化技术(2)</a>
+                </li>
+                <li>
+                    
+                    <a href="http://www.cnblogs.com/kerrycode/category/460088.html">杂想闲思录(13)</a>
+                </li>
+        </ul>
+    </div><div id="side-top-posts-custom">
+    <h2>推荐排行榜</h2>
+    <div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/kerrycode/p/4377013.html">1. 你人生中的那口井挖了没有？(115)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/3153321.html">2. MS SQL 日常维护管理常用脚本(二)(52)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/3946268.html">3. SQL Server 中WITH (NOLOCK)浅析(49)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/3595724.html">4. 深入理解Linux修改hostname(32)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/4806236.html">5. SQL SERVER中什么情况会导致索引查找变成索引扫描(29)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/4754820.html">6. 记一次Linux服务器上查杀木马经历(27)</a></li><li><a href="http://www.cnblogs.com/kerrycode/archive/2010/07/28/1786547.html">7. 重温SQL——行转列，列转行(27)</a></li><li><a href="http://www.cnblogs.com/kerrycode/archive/2012/12/19/2824963.html">8. ORACLE同义词总结(22)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/3265120.html">9. ORACLE基本数据类型总结(21)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/3837849.html">10. 浅析SQL SERVER执行计划中的各类怪相(21)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/5593204.html">11. MySQL慢查询日志总结(21)</a></li><li><a href="http://www.cnblogs.com/kerrycode/archive/2012/05/24/2517210.html">12. ORACLE数据库查看执行计划(19)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/3285936.html">13. ORACLE临时表总结(18)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/4391859.html">14. Linux如何查找大文件或目录总结(18)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/5386626.html">15. SQL性能优化：如何定位网络性能问题(16)</a></li></ul></div>
+</div><div id="side-top-posts">
+    <h2>阅读排行榜</h2>
+    <div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/kerrycode/p/3861719.html">1. Linux mysql 5.6： ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)(118876)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/3595724.html">2. 深入理解Linux修改hostname(116860)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/3238346.html">3. Crontab定时任务配置(108790)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/3265120.html">4. ORACLE基本数据类型总结(102694)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/4391859.html">5. Linux如何查找大文件或目录总结(71512)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/4368312.html">6. MySQL ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)的真正原因(69969)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/4364465.html">7. Linux平台卸载MySQL总结(68780)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/3285936.html">8. ORACLE临时表总结(61141)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/5687791.html">9. Linux 平台MySQL启动关闭方式总结(60949)</a></li><li><a href="http://www.cnblogs.com/kerrycode/archive/2010/07/28/1786547.html">10. 重温SQL——行转列，列转行(58367)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/4762921.html">11. Linux如何查看JDK的安装路径(58077)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/4216356.html">12. Linux命令学习总结：shutdown(56732)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/4006840.html">13. ORACLE临时表空间总结(55232)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/5609010.html">14. Linux 查看服务器开放的端口号(55207)</a></li><li><a href="http://www.cnblogs.com/kerrycode/p/4315900.html">15. 查看Linux版本信息(52380)</a></li></ul></div>
+</div>    
+    
+    
+    
+    
+
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+<div id="side-link-520446">
+            <h2>国外技术网站(ms sql)</h2>
+            <ul class="chain">
+                        <li>
+ <a class="mini_rss" href="http://www.brentozar.com/rss">Rss</a>                             <a href="http://www.brentozar.com/" target="_blank">BRENT  OZAR</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.qdpma.com/rss">Rss</a>                             <a href="http://www.qdpma.com/" target="_blank">http://www.qdpma.com/</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.mssqltips.com/rss">Rss</a>                             <a href="http://www.mssqltips.com/" target="_blank">mssqltips</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.sqlskills.com/blogs/paul/rss">Rss</a>                             <a href="http://www.sqlskills.com/blogs/paul/" target="_blank">paul blogs</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="https://blogs.msdn.microsoft.com/sqlcat/rss">Rss</a>                             <a href="https://blogs.msdn.microsoft.com/sqlcat/" target="_blank">SQL Server Customer Advisory Team</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://sqlblog.com/rss">Rss</a>                             <a href="http://sqlblog.com/" target="_blank">sqlblog</a>
+                        </li>
+            </ul>
+        </div><div id="side-link-448724">
+            <h2>国外技术网站(oracle)</h2>
+            <ul class="chain">
+                        <li>
+                            <a href="http://asktom.oracle.com/" target="_blank">asktom </a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.orafaq.com/wiki/Scripts/rss">Rss</a>                             <a href="http://www.orafaq.com/wiki/Scripts" target="_blank">Oracle  FAQ</a>
+                        </li>
+                        <li>
+                            <a href="http://docs.oracle.com/en/database/" target="_blank">oracle document </a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="https://support.oracle.com/epmos/faces/MosIndex.jspx?_afrLoop=591635096750697&amp;_afrWindowMode=0&amp;_adf.ctrl-state=x8yrlz5ve_4/rss">Rss</a>                             <a href="https://support.oracle.com/epmos/faces/MosIndex.jspx?_afrLoop=591635096750697&amp;_afrWindowMode=0&amp;_adf.ctrl-state=x8yrlz5ve_4" target="_blank">Oracle metalink</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://oraqa.com/rss">Rss</a>                             <a href="http://oraqa.com/" target="_blank">Oracle 问答网</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.oracle-base.com/rss">Rss</a>                             <a href="http://www.oracle-base.com/" target="_blank">Oracle-Base</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.oracle-scripts.net/rss">Rss</a>                             <a href="http://www.oracle-scripts.net/" target="_blank">Oracle-Script</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://docs.oracle.com/rss">Rss</a>                             <a href="http://docs.oracle.com/" target="_blank">ORACLE官方文档</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.oradba.ch/rss">Rss</a>                             <a href="http://www.oradba.ch/" target="_blank">OraDba</a>
+                        </li>
+            </ul>
+        </div><div id="side-link-464390">
+            <h2>行者无疆（Linux&amp;Unix）</h2>
+            <ul class="chain">
+                        <li>
+ <a class="mini_rss" href="http://timyang.net/rss">Rss</a>                             <a href="http://timyang.net/" target="_blank"> Tim Yang</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.dutor.net/rss">Rss</a>                             <a href="http://www.dutor.net/" target="_blank">Dutor博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.ibm.com/developerworks/cn/linux/rss">Rss</a>                             <a href="http://www.ibm.com/developerworks/cn/linux/" target="_blank">ibm developerworks</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.cnblogs.com/itech/rss">Rss</a>                             <a href="http://www.cnblogs.com/itech/" target="_blank">iTech博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="https://linuxtoy.org/rss">Rss</a>                             <a href="https://linuxtoy.org/" target="_blank">LinuxTOY</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="https://www.kernel.org/rss">Rss</a>                             <a href="https://www.kernel.org/" target="_blank">Linux官方网站</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.myfreelinux.com/rss">Rss</a>                             <a href="http://www.myfreelinux.com/" target="_blank">myfreelinux</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.91ri.org/rss">Rss</a>                             <a href="http://www.91ri.org/" target="_blank">安全攻防指南</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.ha97.com/rss">Rss</a>                             <a href="http://www.ha97.com/" target="_blank">博客教主</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://vbird.dic.ksu.edu.tw/rss">Rss</a>                             <a href="http://vbird.dic.ksu.edu.tw/" target="_blank">鸟哥的Linux私房菜</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://blog.csdn.net/xuejinliang/rss">Rss</a>                             <a href="http://blog.csdn.net/xuejinliang" target="_blank">夕照的博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="https://www.52os.net/rss">Rss</a>                             <a href="https://www.52os.net/" target="_blank">阅心笔记</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.yunweipai.com/rss/">Rss</a>                             <a href="http://www.yunweipai.com/" target="_blank">运维派</a>
+                        </li>
+            </ul>
+        </div><div id="side-link-460793">
+            <h2>行者无疆(my sql)</h2>
+            <ul class="chain">
+                        <li>
+ <a class="mini_rss" href="http://www.hellodb.net/rss">Rss</a>                             <a href="http://www.hellodb.net/" target="_blank">Hello Database</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.mysqlperformanceblog.com/rss">Rss</a>                             <a href="http://www.mysqlperformanceblog.com/" target="_blank">MySQL Performance Blog</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.mysqlab.net/rss">Rss</a>                             <a href="http://www.mysqlab.net/" target="_blank">MySql实验室</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://ourmysql.com/rss/">Rss</a>                             <a href="http://ourmysql.com/" target="_blank">OurMySQL网站</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://hedengcheng.com/rss">Rss</a>                             <a href="http://hedengcheng.com/" target="_blank">何登成博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://tencentdba.com/rss">Rss</a>                             <a href="http://tencentdba.com/" target="_blank">腾讯游戏DBA</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://imysql.com/rss">Rss</a>                             <a href="http://imysql.com/" target="_blank">叶金荣博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.orczhou.com/rss">Rss</a>                             <a href="http://www.orczhou.com/" target="_blank">周振兴博客</a>
+                        </li>
+            </ul>
+        </div><div id="side-link-403678">
+            <h2>行者无疆(oracle)</h2>
+            <ul class="chain">
+                        <li>
+ <a class="mini_rss" href="http://www.anbob.com/rss">Rss</a>                             <a href="http://www.anbob.com/" target="_blank">Anbob博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.anysql.net/rss">Rss</a>                             <a href="http://www.anysql.net/" target="_blank">AnySQL.NET</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://blog.csdn.net/tianlesoftware/rss">Rss</a>                             <a href="http://blog.csdn.net/tianlesoftware" target="_blank">David Dai 博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.eygle.com/rss">Rss</a>                             <a href="http://www.eygle.com/" target="_blank">Eygle博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://blog.csdn.net/guoyJoe/rss">Rss</a>                             <a href="http://blog.csdn.net/guoyJoe" target="_blank">GuoyJoe博客</a>
+                        </li>
+                        <li>
+                            <a href="http://www.hellodba.com/index.php?lang=cn" target="_blank">hellodba</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.dbform.com/rss">Rss</a>                             <a href="http://www.dbform.com/" target="_blank">Kamus Blogs</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.cnblogs.com/killkill/rss">Rss</a>                             <a href="http://www.cnblogs.com/killkill/" target="_blank">KillKill博客</a>
+                        </li>
+                        <li>
+                            <a href="https://blogs.oracle.com/Database4CN/" target="_blank">Oracle官方博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://blog.csdn.net/justdb/rss">Rss</a>                             <a href="http://blog.csdn.net/justdb" target="_blank">robin博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.killdb.com/Rss">Rss</a>                             <a href="http://www.killdb.com/" target="_blank">Roger博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.mythdata.com/rss">Rss</a>                             <a href="http://www.mythdata.com/" target="_blank">Vage博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://dbanotes.net/rss">Rss</a>                             <a href="http://dbanotes.net/" target="_blank">冯大辉博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.laoxiong.net/rss">Rss</a>                             <a href="http://www.laoxiong.net/" target="_blank">老熊的三分地</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://blog.itpub.net/23135684/rss">Rss</a>                             <a href="http://blog.itpub.net/23135684/" target="_blank">尛样儿博客</a>
+                        </li>
+                        <li>
+                            <a href="http://5ienet.com/index.shtml" target="_blank">三思博客</a>
+                        </li>
+                        <li>
+                            <a href="http://www.cnblogs.com/cqubityj/" target="_blank">生命的力量在于不顺从</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.dbdream.com.cn/rss">Rss</a>                             <a href="http://www.dbdream.com.cn/" target="_blank">宋春风博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.oracleblog.org/rss">Rss</a>                             <a href="http://www.oracleblog.org/" target="_blank">天堂向左 DBA向右博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.dbathink.com/rss/">Rss</a>                             <a href="http://www.dbathink.com/" target="_blank">童家旺博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.xifenfei.com/rss">Rss</a>                             <a href="http://www.xifenfei.com/" target="_blank">惜分飞博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://blog.itpub.net/26736162/RSS">Rss</a>                             <a href="http://blog.itpub.net/26736162" target="_blank">小麦苗博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://cnlox.is-programmer.com/rss">Rss</a>                             <a href="http://cnlox.is-programmer.com/" target="_blank">行者无疆博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://yangtingkun.itpub.net/rss">Rss</a>                             <a href="http://yangtingkun.itpub.net/" target="_blank">杨廷琨博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.dbform.com/rss">Rss</a>                             <a href="http://www.dbform.com/" target="_blank">张乐奕博客</a>
+                        </li>
+                        <li>
+ <a class="mini_rss" href="http://www.anbob.com/rss">Rss</a>                             <a href="http://www.anbob.com/" target="_blank">张维照</a>
+                        </li>
+            </ul>
+        </div></div>
+            
+                <div id="sideContainer"></div>
+                <script type="text/javascript">
+                    $.ajax({
+                        url: '/' + currentBlogApp + '/mvc/blog/Minyx2_Lite_SideColumn.aspx',
+                        data: '{}',
+                        type: 'post',
+                        dataType: 'text',
+                        contentType: 'application/json; charset=utf-8',
+                        success: function (data) {
+                            if (data) {
+                                $("#sideContainer").html(data);
+                                loadBlogDefaultCalendar();
+                                loadBlogSideBlocks();
+                                var m = window.__blog.sideContainerRendered;
+                                if (m) { m(__$("sideContainer")); }
+                                window.__blog.sidebar.__layout();
+                            }
+                        }
+                    });
+
+                </script>
+            
+        </div>
+
+        <script type="text/javascript">
+            var m = window.__blog.sidebarRendered;
+            if (m) { m(__$("sidebar")); }
+        </script>
+
+        <div id="footer">
+            
+<p id="logoFoot">
+    <a href="http://www.spiga.com.mx/" title="Agencia Interactiva Spiga">www.spiga.com.mx</a>
+</p>
+<div class="footText">
+<p>
+Copyright ©2017 潇湘隐者
+</p>
+<p>
+<a href="http://www.cnblogs.com/">博客园</a>
+</p>
+</div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var m = window.__blog.wrapperRendered;
+        if (m) { m(__$("wrapper")); }
+    </script>
+
+</div>
+<script type="text/javascript">
+    var m = window.__blog.containerRendered;
+    if (m) { m(__$("container")); }
+</script>
+
+
+<link type="text/css" rel="stylesheet" href="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/myRewards.css"><div id="myRewards" class="myRewards" style="width: 0px;"><a class="btn-myRewards" href="javascript:;"><img class="png" src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/tab_5.png"></a><div class="myRewards-main"><h1 class="myR-h">喜欢请打赏</h1><div class="myRewardsbox"><div class="myRewards-list"><ul class="not-full"><li class="myR-on"><a href="javascript:;">支付宝<img class="png" src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/alipay.png" alt="支付宝"></a></li><li class=""><a href="javascript:;">微信<img class="png" src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/weixin.png" alt="微信"></a></li></ul></div><div class="myRewards-detail"><div class="myRewards-ubox"><p class="myRewards-code-tit">扫描二维码打赏</p><div class="myRewards-code"><img src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/zhifbao.bmp"></div><p class="myRewards-account">支付宝打赏</p></div></div></div><p class="myR-bot"><a href="https://github.com/greedying/tctip" target="_blank">了解更多</a></p></div></div><script src="./ORACLE 12C新特性——CDB与PDB - 潇湘隐者 - 博客园_files/index"></script></body></html>
