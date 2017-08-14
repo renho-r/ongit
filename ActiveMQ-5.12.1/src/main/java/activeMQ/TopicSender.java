@@ -1,4 +1,4 @@
-package com.renho.activeMQ;
+package activeMQ;
 
 import javax.jms.DeliveryMode;
 import javax.jms.MapMessage;
@@ -13,27 +13,27 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 public class TopicSender {
 
-	// 发送次数
+	// 锟斤拷锟酵达拷锟斤拷
 	public static final int SEND_NUM = 5;
-	// tcp 地址
+	// tcp 锟斤拷址
 	public static final String BROKER_URL = "tcp://localhost:61616";
-	// 目标，在ActiveMQ管理员控制台创建 http://localhost:8161/admin/queues.jsp
+	// 目锟疥，锟斤拷ActiveMQ锟斤拷锟斤拷员锟斤拷锟斤拷台锟斤拷锟斤拷 http://localhost:8161/admin/queues.jsp
 	public static final String DESTINATION = "hoo.mq.topic";
 
 	/**
-	 * <b>function:</b> 发送消息
+	 * <b>function:</b> 锟斤拷锟斤拷锟斤拷息
 	 * 
 	 * @author hoojo
-	 * @createDate 2013-6-19 下午12:05:42
+	 * @createDate 2013-6-19 锟斤拷锟斤拷12:05:42
 	 * @param session
-	 *            会话
+	 *            锟结话
 	 * @param publisher
-	 *            发布者
+	 *            锟斤拷锟斤拷锟斤拷
 	 * @throws Exception
 	 */
 	public static void sendMessage(TopicSession session, TopicPublisher publisher) throws Exception {
 		for (int i = 0; i < SEND_NUM; i++) {
-			String message = "发送消息第" + (i + 1) + "条";
+			String message = "锟斤拷锟斤拷锟斤拷息锟斤拷" + (i + 1) + "锟斤拷";
 
 			MapMessage map = session.createMapMessage();
 			map.setString("text", message);
@@ -49,29 +49,29 @@ public class TopicSender {
 		TopicConnection connection = null;
 		TopicSession session = null;
 		try {
-			// 创建链接工厂
+			// 锟斤拷锟斤拷锟斤拷锟接癸拷锟斤拷
 			TopicConnectionFactory factory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_USER,
 					ActiveMQConnection.DEFAULT_PASSWORD, BROKER_URL);
-			// 通过工厂创建一个连接
+			// 通锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷一锟斤拷锟斤拷锟斤拷
 			connection = factory.createTopicConnection();
-			// 启动连接
+			// 锟斤拷锟斤拷锟斤拷锟斤拷
 			connection.start();
-			// 创建一个session会话
+			// 锟斤拷锟斤拷一锟斤拷session锟结话
 			session = connection.createTopicSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);
-			// 创建一个消息队列
+			// 锟斤拷锟斤拷一锟斤拷锟斤拷息锟斤拷锟斤拷
 			Topic topic = session.createTopic(DESTINATION);
-			// 创建消息发送者
+			// 锟斤拷锟斤拷锟斤拷息锟斤拷锟斤拷锟斤拷
 			TopicPublisher publisher = session.createPublisher(topic);
-			// 设置持久化模式
+			// 锟斤拷锟矫持久伙拷模式
 			publisher.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 			sendMessage(session, publisher);
-			// 提交会话
+			// 锟结交锟结话
 			session.commit();
 
 		} catch (Exception e) {
 			throw e;
 		} finally {
-			// 关闭释放资源
+			// 锟截憋拷锟酵凤拷锟斤拷源
 			if (session != null) {
 				session.close();
 			}

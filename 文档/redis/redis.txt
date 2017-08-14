@@ -38,3 +38,6 @@
 			zadd myorderset 0 renho3
 			zrangebyscore myorderset 0 10
 			zrange myorderset 0 10 withscores	
+
+6.ÃüÁî
+	keys *

@@ -1,4 +1,4 @@
-package com.renho.activeMQ;
+package activeMQ;
 
 import javax.jms.Connection;
 import javax.jms.DeliveryMode;

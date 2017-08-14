@@ -1,0 +1,9 @@
+cp /home/weblogic/wls1211/user_projects/domains/base_domain/security/DefaultAuthenticatorInit.ldift /home/weblogic/wls1211/user_projects/domains/base_domain/security/DefaultAuthenticatorInit.ldift_bak
+cd wls1211/user_projects/domains/base_domain/security/
+java -classpath /home/weblogic/wls1211/wlserver_12.1/server/lib/weblogic.jar weblogic.security.utils.AdminAccount weblogic weblogic12 .
+
+mv /home/weblogic/wls1211/user_projects/domains/base_domain/servers/AdminServer/data /home/weblogic/wls1211/user_projects/domains/base_domain/servers/AdminServer/data_bak
+
+vi /home/weblogic/wls1211/user_projects/domains/base_domain/servers/AdminServer/security/boot.properties
+username=weblogic 
+password=weblogic12

@@ -1,4 +1,4 @@
-package com.renho.activeMQ;
+package activeMQ;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -14,34 +14,34 @@ public class QueueSender {
 	private static final int SEND_NUMBER = 5;
 
 	public static void main(String[] args) {
-		// ConnectionFactory £ºÁ¬½Ó¹¤³§£¬JMS ÓÃËü´´½¨Á¬½Ó
+		// ConnectionFactory ï¿½ï¿½ï¿½ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½ï¿½ï¿½JMS ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		ConnectionFactory connectionFactory;
-		// Connection £ºJMS ¿Í»§¶Ëµ½JMS Provider µÄÁ¬½Ó
+		// Connection ï¿½ï¿½JMS ï¿½Í»ï¿½ï¿½Ëµï¿½JMS Provider ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		Connection connection = null;
-		// Session£º Ò»¸ö·¢ËÍ»ò½ÓÊÕÏûÏ¢µÄÏß³Ì
+		// Sessionï¿½ï¿½ Ò»ï¿½ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ß³ï¿½
 		Session session;
-		// Destination £ºÏûÏ¢µÄÄ¿µÄµØ;ÏûÏ¢·¢ËÍ¸øË­.
+		// Destination ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Ä¿ï¿½Äµï¿½;ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Í¸ï¿½Ë­.
 		Destination destination;
-		// MessageProducer£ºÏûÏ¢·¢ËÍÕß
+		// MessageProducerï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		MessageProducer producer;
 		// TextMessage message;
-		// ¹¹ÔìConnectionFactoryÊµÀý¶ÔÏó£¬´Ë´¦²ÉÓÃActiveMqµÄÊµÏÖjar
+		// ï¿½ï¿½ï¿½ï¿½ConnectionFactoryÊµï¿½ï¿½ï¿½ï¿½ï¿½ó£¬´Ë´ï¿½ï¿½ï¿½ï¿½ï¿½ActiveMqï¿½ï¿½Êµï¿½ï¿½jar
 		connectionFactory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_USER,
 				ActiveMQConnection.DEFAULT_PASSWORD, "tcp://localhost:61616");
 		try {
-			// ¹¹Ôì´Ó¹¤³§µÃµ½Á¬½Ó¶ÔÏó
+			// ï¿½ï¿½ï¿½ï¿½Ó¹ï¿½ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ó¶ï¿½ï¿½ï¿½
 			connection = connectionFactory.createConnection();
-			// Æô¶¯
+			// ï¿½ï¿½ï¿½ï¿½
 			connection.start();
-			// »ñÈ¡²Ù×÷Á¬½Ó
+			// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			session = connection.createSession(Boolean.TRUE, Session.AUTO_ACKNOWLEDGE);
-			// »ñÈ¡session×¢Òâ²ÎÊýÖµxingbo.xu-queueÊÇÒ»¸ö·þÎñÆ÷µÄqueue£¬ÐëÔÚÔÚActiveMqµÄconsoleÅäÖÃ
+			// ï¿½ï¿½È¡session×¢ï¿½ï¿½ï¿½ï¿½ï¿½Öµxingbo.xu-queueï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½queueï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ActiveMqï¿½ï¿½consoleï¿½ï¿½ï¿½ï¿½
 			destination = session.createQueue("renho");
-			// µÃµ½ÏûÏ¢Éú³ÉÕß¡¾·¢ËÍÕß¡¿
+			// ï¿½Ãµï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½ï¿½ß¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß¡ï¿½
 			producer = session.createProducer(destination);
-			// ÉèÖÃ²»³Ö¾Ã»¯£¬´Ë´¦Ñ§Ï°£¬Êµ¼Ê¸ù¾ÝÏîÄ¿¾ö¶¨
+			// ï¿½ï¿½ï¿½Ã²ï¿½ï¿½Ö¾Ã»ï¿½ï¿½ï¿½ï¿½Ë´ï¿½Ñ§Ï°ï¿½ï¿½Êµï¿½Ê¸ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½ï¿½
 			producer.setDeliveryMode(DeliveryMode.PERSISTENT);
-			// ¹¹ÔìÏûÏ¢£¬´Ë´¦Ð´ËÀ£¬ÏîÄ¿¾ÍÊÇ²ÎÊý£¬»òÕß·½·¨»ñÈ¡
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½Ë´ï¿½Ð´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½ï¿½Ç²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß·ï¿½ï¿½ï¿½ï¿½ï¿½È¡
 			sendMessage(session, producer);
 			session.commit();
 		} catch (Exception e) {
@@ -61,8 +61,8 @@ public class QueueSender {
 		              +  "<id>msg1</id>"
 		              +  "<content>QueueSender</content>"
 		              + "</msg>");
-			// ·¢ËÍÏûÏ¢µ½Ä¿µÄµØ·½
-			System.out.println("·¢ËÍÏûÏ¢£º" + "ActiveMq ·¢ËÍµÄÏûÏ¢" + i);
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½Ä¿ï¿½ÄµØ·ï¿½
+			System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½" + "ActiveMq ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½Ï¢" + i);
 			producer.send(message);
 		}
 	}
