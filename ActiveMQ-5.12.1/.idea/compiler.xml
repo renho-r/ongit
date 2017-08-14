@@ -9,8 +9,8 @@
         <module name="ActiveMQ-5.12.1" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="ActiveMQ-5.12.1" target="1.5" />
+    <bytecodeTargetLevel target="1.8">
+      <module name="ActiveMQ-5.12.1" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

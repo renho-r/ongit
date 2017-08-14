@@ -51,11 +51,11 @@ public class DemoController {
     }
 
     @RequestMapping(value = "/onsend", method = RequestMethod.POST)
-    public ModelAndView producer(@RequestParam("message") String message) {
-        ModelAndView mv = new ModelAndView();
+    public String producer(@RequestParam("message") String message) {
+//        ModelAndView mv = new ModelAndView();
         producer.sendMessage(demoQueueDestination, message);
-        mv.setViewName("welcome");
-        return mv;
+//        mv.setViewName("redirect:/jms_producer");
+        return "redirect:/producer";
     }
 
     @RequestMapping(value = "/receive", method = RequestMethod.GET)
