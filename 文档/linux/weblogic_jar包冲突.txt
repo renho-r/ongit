@@ -1,0 +1,10 @@
+PRE_CLASSPATH=`find /home/weblogic/dp/hsbp-demo-web/WEB-INF/lib -name *.jar|tr '\n' ':'`
+if [ "${EXT_PRE_CLASSPATH}" != "" ] ; then
+        if [ "${PRE_CLASSPATH}" != "" ] ; then
+                PRE_CLASSPATH="${EXT_PRE_CLASSPATH}${CLASSPATHSEP}${PRE_CLASSPATH}"
+                export PRE_CLASSPATH
+        else
+                PRE_CLASSPATH="${EXT_PRE_CLASSPATH}"
+                export PRE_CLASSPATH
+        fi
+fi
