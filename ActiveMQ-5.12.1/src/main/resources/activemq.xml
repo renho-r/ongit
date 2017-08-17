@@ -28,8 +28,7 @@
             password="admin"/>
 
     <!-- 配置JMS连接工长 -->
-    <bean id="connectionFactory"
-          class="org.springframework.jms.connection.CachingConnectionFactory">
+    <bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
         <constructor-arg ref="amqConnectionFactory" />
         <property name="sessionCacheSize" value="100" />
     </bean>

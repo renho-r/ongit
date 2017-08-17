@@ -1,4 +1,4 @@
-package com.renho.target;
+package com.renho.v1;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
@@ -10,10 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.renho.target.TestTarget;
-import com.renho.target.TestTarget.PARAMETER_RENHO;
-import com.renho.target.TestTarget.TYPE_RENHO;
-import com.renho.target.pojo.User;
+import com.renho.v1.TestTarget.PARAMETER_RENHO;
+import com.renho.v1.TestTarget.TYPE_RENHO;
+import com.renho.v1.pojo.User;
 
 public class Main {
 

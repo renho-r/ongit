@@ -1,4 +1,4 @@
-package com.renho.target;
+package com.renho.v1;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

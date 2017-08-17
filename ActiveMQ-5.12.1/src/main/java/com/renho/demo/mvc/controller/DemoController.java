@@ -14,6 +14,7 @@ import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,6 +55,7 @@ public class DemoController {
     public String producer(@RequestParam("message") String message) {
 //        ModelAndView mv = new ModelAndView();
         producer.sendMessage(demoQueueDestination, message);
+        producer.sendMessage(message);
 //        mv.setViewName("redirect:/jms_producer");
         return "redirect:/producer";
     }
@@ -83,5 +85,11 @@ public class DemoController {
         MBeanServerConnection connection = connector.getMBeanServerConnection();
 
         return mv;
+    }
+
+    @RequestMapping(value = "/sendAndReceive/{message}", method = RequestMethod.GET)
+    public String sendAndReceive(@PathVariable("message") String message) {
+        producer.sendAndReceiveMessage(message);
+        return "redirect:/producer";
     }
 }

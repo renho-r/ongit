@@ -1,13 +1,13 @@
-package com.renho.target.pojo;
+package com.renho.v1.pojo;
 
 import java.sql.Timestamp;
 
-import com.renho.target.TestTarget.CONSTRUCTOR_RENHO;
-import com.renho.target.TestTarget.FIELD_RENHO;
-import com.renho.target.TestTarget.LOCAL_VARIABLE_RENHO;
-import com.renho.target.TestTarget.METHOD_RENHO;
-import com.renho.target.TestTarget.PARAMETER_RENHO;
-import com.renho.target.TestTarget.TYPE_RENHO;
+import com.renho.v1.TestTarget.CONSTRUCTOR_RENHO;
+import com.renho.v1.TestTarget.FIELD_RENHO;
+import com.renho.v1.TestTarget.LOCAL_VARIABLE_RENHO;
+import com.renho.v1.TestTarget.METHOD_RENHO;
+import com.renho.v1.TestTarget.PARAMETER_RENHO;
+import com.renho.v1.TestTarget.TYPE_RENHO;
 
 @TYPE_RENHO(tableName="renho_tableName")
 public class User {
