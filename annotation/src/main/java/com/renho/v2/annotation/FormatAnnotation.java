@@ -14,7 +14,7 @@ public class FormatAnnotation {
     @Retention(RetentionPolicy.RUNTIME)
     @Target(ElementType.FIELD)
     public @interface Index {
-        public int value();
+        int value();
     }
 
 }

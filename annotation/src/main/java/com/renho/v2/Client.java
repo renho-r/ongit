@@ -4,13 +4,11 @@ import com.renho.v2.po.UserInfo;
 import com.renho.v2.annotation.FormatAnnotation.*;
 import org.apache.commons.lang3.StringUtils;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @author renho
@@ -29,15 +27,41 @@ public class Client {
         Class clazz = t.getClass();
         Field[] fields = clazz.getDeclaredFields();
 
-        List<Field> fs = Stream.of(fields).filter(f -> f.getAnnotationsByType(Index.class).length > 0).collect(Collectors.toList());
-        List<Object> indexList = Arrays.asList(new Object[fs.size()]);
-        for(Field f: fs) {
-            f.setAccessible( true );
-            System.out.println(f.get(t));
-            Index index = f.getAnnotation(Index.class);
-            indexList.set(index.value()-1, f.get(t));
-        }
+        List<Field> hasAnnotationFields = filterAnnotation(fields, Index.class);
+        sortByAnnValue(hasAnnotationFields, Index.class);
+        List<Object> indexList = getFormatIndex(hasAnnotationFields, Index.class, t);
         System.out.println(StringUtils.join(indexList.toArray(), "|"));
+    }
+
+    private List<Object> getFormatIndex(List<Field> hasAnnotationFields, Class<Index> iClass, Object obj) throws IllegalAccessException {
+        List<Object> indexList = new ArrayList<>();
+        for(Field f: hasAnnotationFields) {
+            f.setAccessible( true );
+            Index i = f.getAnnotation(iClass);
+            indexList.add(f.get(obj));
+        }
+        return indexList;
+    }
+
+    private void sortByAnnValue(List<Field> hasAnnotationFields, Class<Index> clazz) {
+        Collections.sort(hasAnnotationFields, new Comparator<Field>() {
+            @Override
+            public int compare(Field f1, Field f2) {
+                Index index1 = f1.getAnnotation(clazz);
+                Index index2 = f2.getAnnotation(clazz);
+                return index1.value() - index2.value();
+            }
+        });
+    }
+
+    private List<Field> filterAnnotation(Field[] fields, Class clazz) {
+        List<Field> filteredFields = new ArrayList<>();
+        for(Field f: fields) {
+            if(f.getAnnotationsByType(clazz).length > 0) {
+                filteredFields.add(f);
+            }
+        }
+        return filteredFields;
     }
 
 }
