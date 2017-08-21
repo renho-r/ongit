@@ -1,0 +1,17 @@
+1.控制台权限设置
+	1.1.D:\dev\apache-activemq-5.15.0\conf\jetty.xml
+		<bean id="securityConstraint" class="org.eclipse.jetty.util.security.Constraint">
+	        <property name="name" value="BASIC" />
+	        <property name="roles" value="user,admin" />
+	        <!-- set authenticate=false to disable login -->
+	        <!-- true:需要校验-->
+	        <property name="authenticate" value="false" />
+	    </bean>
+	1.2.D:\dev\apache-activemq-5.15.0\conf\jetty-realm.properties
+		账户密码设置
+		# username: password [,rolename ...]
+		admin: admin123, admin
+
+2.JMS
+	2.1简单
+		

@@ -21,11 +21,17 @@
     <context:component-scan base-package="com.renho.demo.activemq" />
     <mvc:annotation-driven />
 
+    <!--<amq:connectionFactory-->
+            <!--id="amqConnectionFactory"-->
+            <!--brokerURL="tcp://127.0.0.1:61616"-->
+            <!--userName="system"-->
+            <!--password="renho"-->
+    <!--/>-->
+
     <amq:connectionFactory
             id="amqConnectionFactory"
             brokerURL="tcp://127.0.0.1:61616"
-            userName="admin"
-            password="admin"/>
+    />
 
     <!-- 配置JMS连接工长 -->
     <bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory">

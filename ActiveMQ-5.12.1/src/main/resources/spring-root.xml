@@ -16,5 +16,6 @@
     <import resource="activemq.xml"/>
     <!--<import resource="spring-listener.xml"/>-->
     <!--<import resource="spring-adapter-listener.xml"/>-->
-    <import resource="spring-send-receive-listener.xml"/>
+    <!--<import resource="spring-send-receive-listener.xml"/>-->
+    <import resource="spring-mq-security.xml"/>
 </beans>
