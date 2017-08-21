@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProducerService {
 
-    @Resource(name="jmsTemplate")
+//    @Resource(name="jmsTemplate")
     private JmsTemplate jmsTemplate;
 
     //@Resource(name="jmsTemplateSessionAwareQueue")
@@ -51,7 +51,7 @@ public class ProducerService {
      * send and receive
      */
     public void sendAndReceiveMessage(final String msg) {
-        String destination =  jmsTemplate.getDefaultDestination().toString();
+        String destination =  jmsSendTemplate.getDefaultDestination().toString();
         System.out.println("向队列" +destination+ "发送了消息------------" + msg);
         ObjectMessage objMsg = (ObjectMessage) jmsSendTemplate.sendAndReceive(new MessageCreator() {
             public Message createMessage(Session session) throws JMSException {

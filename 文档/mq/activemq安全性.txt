@@ -13,5 +13,58 @@
 		admin: admin123, admin
 
 2.JMS
-	2.1简单
+	2.1.简单
+		2.1.1./Users/renho/software/apache-activemq-5.15.0/conf/activemq.xml
+			broker节点中增加
+			<plugins>    
+	            <simpleAuthenticationPlugin>    
+	                <users>    
+	                    <authenticationUser username="system" password="sRenho"   groups="users,admins"/>    
+	                    <authenticationUser username="user" password="${guest.password}"  groups="users"/>    
+	                    <authenticationUser username="guest" password="${guest.password}" groups="guests"/>    
+	                </users>    
+	            </simpleAuthenticationPlugin>    
+	        </plugins>
+	        占位引用可在conf/credential.properties中配置
 		
+	2.2.JAAS身份验证
+		2.2.1./Users/renho/software/apache-activemq-5.15.0/conf/activemq.xml
+			broker节点中增加
+			<plugins>    
+			    <!--use JAAS to authenticate using the login.config file on the classpath to configure JAAS -->    
+			    <jaasAuthenticationPlugin configuration="activemq-domain" />    
+			    <!--  lets configure a destination based authorization mechanism -->    
+			    <authorizationPlugin>    
+			        <map>    
+			            <authorizationMap>    
+			                <authorizationEntries>    
+			    
+			                <!-->表示通配符,例如USERS.>表示以USERS.开头的主题,>表示所有主题,read表示读的权限,write表示写的权限，admin表示角色组-->    
+			                    <authorizationEntry queue=">" read="admins" write="admins" admin="admins" />    
+			                    <authorizationEntry topic=">" read="admins" write="admins" admin="admins" />    
+			                    <authorizationEntry queue="ActiveMQ.Advisory.>" read="admins" write="admins" admin="admins" />    
+			                    <authorizationEntry topic="ActiveMQ.Advisory.>" read="admins" write="admins" admin="admins" />    
+			                </authorizationEntries>    
+			            </authorizationMap>    
+			        </map>    
+			    </authorizationPlugin>    
+			</plugins>
+			在配置中 ">" 代表所有的意思. 而 "ActiveMQ.Advisory.>" 则代表.名为 "ActiveMQ.Advisory."下的所有.
+
+			login.config 内容如下：
+			activemq-domain {  
+                org.apache.activemq.jaas.PropertiesLoginModule required  
+                debug=true  
+                org.apache.activemq.jaas.properties.user="users.properties"  
+                org.apache.activemq.jaas.properties.group="groups.properties";  
+            };  
+
+
+
+			groups.properties  内容如下：
+			#group=userName  
+			admins=system  
+
+			users.properties  内容如下：
+			#userName=password  
+			system=manager  

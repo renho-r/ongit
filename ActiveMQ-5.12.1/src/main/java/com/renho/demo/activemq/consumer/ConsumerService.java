@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ConsumerService {
 
-    @Resource(name = "jmsTemplate")
+//    @Resource(name = "jmsTemplate")
     private JmsTemplate jmsTemplate;
 
     /**
