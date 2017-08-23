@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:amq="http://activemq.apache.org/schema/core"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.1.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+        http://www.springframework.org/schema/jms
+        http://www.springframework.org/schema/jms/spring-jms-4.1.xsd
+        http://activemq.apache.org/schema/core
+        http://activemq.apache.org/schema/core/activemq-core-5.12.1.xsd"
+>
+    <!-- 配置JMS连接工长 -->
+    <bean id="connectionReceiveFactory" class="org.springframework.jms.connection.CachingConnectionFactory">
+        <constructor-arg ref="amqConnectionFactoryReceiver" />
+        <property name="sessionCacheSize" value="100" />
+    </bean>
+
+    <bean id="queueSendDestination" class="org.apache.activemq.command.ActiveMQQueue">
+        <!-- 设置消息队列的名字 -->
+        <constructor-arg>
+            <value>renho.demo.queueSendDestination</value>
+        </constructor-arg>
+    </bean>
+
+    <!-- 消息监听器 -->
+    <bean id="consumerReceiveMessageListener" class="com.renho.demo.activemq.listener.ConsumerReceiveAndBackMessageListener">
+        <property name="jmsTemplate" ref="jmsReceiveTemplate"/>
+    </bean>
+    <bean id="jmsReceiveTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <property name="connectionFactory" ref="connectionReceiveFactory" />
+        <!--<property name="defaultDestination" ref="queueSendDestination" />-->
+        <!--<property name="receiveTimeout" value="10000" />-->
+        <!--&lt;!&ndash; true是topic，false是queue，默认是false，此处显示写出false &ndash;&gt;-->
+        <!--<property name="pubSubDomain" value="false" />-->
+    </bean>
+    <bean id="jmsReceiveContainer" class="org.springframework.jms.listener.DefaultMessageListenerContainer">
+        <property name="connectionFactory" ref="connectionReceiveFactory" />
+        <property name="destination" ref="queueSendDestination" />
+        <property name="messageListener" ref="consumerReceiveMessageListener" />
+    </bean>
+
+</beans>

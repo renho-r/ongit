@@ -13,9 +13,13 @@
     <context:component-scan base-package="com.renho.demo.entity" />
     <mvc:annotation-driven />
 
-    <import resource="activemq.xml"/>
+    <!--<import resource="activemq.xml"/>-->
     <!--<import resource="spring-listener.xml"/>-->
     <!--<import resource="spring-adapter-listener.xml"/>-->
     <!--<import resource="spring-send-receive-listener.xml"/>-->
-    <import resource="spring-mq-security.xml"/>
+    <!--<import resource="spring-mq-security.xml"/>-->
+
+    <import resource="activemq-security.xml" />
+    <import resource="activemq-security-sender.xml" />
+    <import resource="activemq-security-receive.xml"/>
 </beans>
