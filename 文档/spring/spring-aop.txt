@@ -1,0 +1,7 @@
+<aop:config>
+    <aop:aspect ref="logAspect" >
+        <aop:pointcut id="renhoLog" expression="@annotation(com.renho.log.aop.annotation.MqLog)"/>
+        <!--<aop:before pointcut-ref="renhoLog" method="logReq"/>-->
+        <aop:around pointcut-ref="renhoLog" method="logAround" />
+    </aop:aspect>
+</aop:config>

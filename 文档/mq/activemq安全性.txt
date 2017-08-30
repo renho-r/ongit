@@ -9,8 +9,9 @@
 	    </bean>
 	1.2.D:\dev\apache-activemq-5.15.0\conf\jetty-realm.properties
 		账户密码设置
-		# username: password [,rolename ...]
+		# username: password [,rolename ...]rolename---------[admin|user|guest]
 		admin: admin123, admin
+		r_admin_user: r_admin_passwd, admin
 
 2.JMS
 	2.1.简单
@@ -19,14 +20,14 @@
 			<plugins>    
 	            <simpleAuthenticationPlugin>    
 	                <users>    
-	                    <authenticationUser username="system" password="sRenho"   groups="users,admins"/>    
-	                    <authenticationUser username="user" password="${guest.password}"  groups="users"/>    
+	                    <authenticationUser username="system" password="${activemq.password}" groups="users,admins"/>    
+	                    <authenticationUser username="user" password="${guest.password}" groups="users"/>    
 	                    <authenticationUser username="guest" password="${guest.password}" groups="guests"/>    
 	                </users>    
 	            </simpleAuthenticationPlugin>    
 	        </plugins>
 	        占位引用可在conf/credential.properties中配置
-		
+		控制台查询brows MQ信息时通过credential.properties获取密码？
 	2.2.JAAS身份验证
 		2.2.1./Users/renho/software/apache-activemq-5.15.0/conf/activemq.xml
 			broker节点中增加
@@ -37,13 +38,13 @@
 			    <authorizationPlugin>    
 			        <map>    
 			            <authorizationMap>    
-			                <authorizationEntries>    
-			    
-			                <!-->表示通配符,例如USERS.>表示以USERS.开头的主题,>表示所有主题,read表示读的权限,write表示写的权限，admin表示角色组-->    
-			                    <authorizationEntry queue=">" read="admins" write="admins" admin="admins" />    
-			                    <authorizationEntry topic=">" read="admins" write="admins" admin="admins" />    
-			                    <authorizationEntry queue="ActiveMQ.Advisory.>" read="admins" write="admins" admin="admins" />    
-			                    <authorizationEntry topic="ActiveMQ.Advisory.>" read="admins" write="admins" admin="admins" />    
+			                <authorizationEntries>
+				                <!-->表示通配符,例如USERS.>表示以USERS.开头的主题,>表示所有主题,read表示读的权限,write表示写的权限，admin表示角色组-->    
+				                <authorizationEntry queue=">" read="r_admin_role,admins" write="r_admin_role,admins" admin="r_admin_role,admins" />    
+	                            <authorizationEntry topic=">" read="r_admin_role,admins" write="r_admin_role,admins" admin="r_admin_role,admins" />    
+	                            <authorizationEntry queue="ActiveMQ.Advisory.>" read="r_read_role,r_write_role,r_admin_role" write="r_read_role,r_write_role,r_admin_role" admin="r_read_role,r_write_role,r_admin_role" />  
+	                            <authorizationEntry topic="ActiveMQ.Advisory.>" read="r_read_role,r_write_role,r_admin_role" write="r_read_role,r_write_role,r_admin_role" admin="r_read_role,r_write_role,r_admin_role" />
+	                            <authorizationEntry queue="renho.demo.>" read="r_read_role" write="r_write_role" admin="r_admin_role" />    
 			                </authorizationEntries>    
 			            </authorizationMap>    
 			        </map>    
@@ -63,8 +64,14 @@
 
 			groups.properties  内容如下：
 			#group=userName  
-			admins=system  
+			admins=system
+			r_admin_role=r_admin_user
+			r_read_role=r_read_user
+			r_write_role=r_write_user
 
 			users.properties  内容如下：
 			#userName=password  
 			system=manager  
+			r_admin_user=r_admin_passwd
+			r_read_user=r_read_passwd
+			r_write_user=r_write_passwd
