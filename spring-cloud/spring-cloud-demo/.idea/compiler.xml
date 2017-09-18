@@ -18,6 +18,8 @@
         <module name="spring-cloud-demo-eureka-ribbon-hystrix" />
         <module name="spring-cloud-demo-eureka-server" />
         <module name="spring-cloud-demo-eureka-server-config" />
+        <module name="spring-cloud-demo-eureka-server-docker" />
+        <module name="spring-cloud-demo-eureka-service-hi-docker" />
         <module name="spring-cloud-demo-zipkin-server" />
         <module name="spring-cloud-demo-zipkin-service-hi" />
         <module name="spring-cloud-demo-zipkin-service-miya" />
@@ -38,6 +40,8 @@
       <module name="spring-cloud-demo-eureka-ribbon-hystrix" target="1.5" />
       <module name="spring-cloud-demo-eureka-server" target="1.5" />
       <module name="spring-cloud-demo-eureka-server-config" target="1.5" />
+      <module name="spring-cloud-demo-eureka-server-docker" target="1.5" />
+      <module name="spring-cloud-demo-eureka-service-hi-docker" target="1.5" />
       <module name="spring-cloud-demo-zipkin-server" target="1.5" />
       <module name="spring-cloud-demo-zipkin-service-hi" target="1.5" />
       <module name="spring-cloud-demo-zipkin-service-miya" target="1.5" />

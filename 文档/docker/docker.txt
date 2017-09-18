@@ -1,0 +1,21 @@
+1.docker远程
+	vi /usr/lib/systemd/system/docker.service
+	ExecStart中增加-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+
+2.创建
+	docker run -p 8761:8761 -t renho/spring-cloud-demo-eureka-server-docker
+	docker run -p 8763:8763 -t renho/spring-cloud-demo-eureka-service-hi-docker
+3.开始
+4.停止
+	docker stop 20ca048468f4
+5.查看镜像
+	docker images
+6.删除
+	docker ps -a | grep "Exited" | awk '{print $1 }'|xargs docker stop
+	docker ps -a | grep "Exited" | awk '{print $1 }'|xargs docker rm
+	docker images|grep none|awk '{print $3 }'|xargs docker rmi
+
+	docker rmi $(docker images -f "dangling=true" -q)
+
+ netstat -anp|grep 2375
+ curl 127.0.0.1:2375/info

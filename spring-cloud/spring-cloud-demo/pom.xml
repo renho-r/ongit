@@ -22,6 +22,8 @@
         <module>spring-cloud-demo-zipkin-server</module>
         <module>spring-cloud-demo-zipkin-service-hi</module>
         <module>spring-cloud-demo-zipkin-service-miya</module>
+        <module>spring-cloud-demo-eureka-server-docker</module>
+        <module>spring-cloud-demo-eureka-service-hi-docker</module>
     </modules>
     <packaging>pom</packaging>
 
