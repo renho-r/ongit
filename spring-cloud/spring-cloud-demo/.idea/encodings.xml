@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-client-amqp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-client-eureka" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-server-eureka" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-feign" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-feign-hystric" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon-hystrix" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-server-config" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-zipkin-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-zipkin-service-hi" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-zipkin-service-miya" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-zuul" charset="UTF-8" />
+  </component>
+</project>

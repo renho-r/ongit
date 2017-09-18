@@ -1,0 +1,7 @@
+cd /lib/rabbitmq/lib/rabbitmq_server-3.6.12/sbin
+./rabbitmq-plugins enable rabbitmq_management
+/lib/rabbitmq/lib/rabbitmq_server-3.6.12/sbin
+添加用户:./rabbitmqctl add_user renho renho
+添加权限:./rabbitmqctl set_permissions -p "/" renho ".*" ".*" ".*"
+修改用户角色:./rabbitmqctl set_user_tags renho administrator
+

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo.iml" filepath="$PROJECT_DIR$/spring-cloud-demo.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-config-client/spring-cloud-demo-config-client.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-config-client/spring-cloud-demo-config-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-config-client-amqp/spring-cloud-demo-config-client-amqp.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-config-client-amqp/spring-cloud-demo-config-client-amqp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-config-client-eureka/spring-cloud-demo-config-client-eureka.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-config-client-eureka/spring-cloud-demo-config-client-eureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-config-server/spring-cloud-demo-config-server.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-config-server/spring-cloud-demo-config-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-config-server-eureka/spring-cloud-demo-config-server-eureka.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-config-server-eureka/spring-cloud-demo-config-server-eureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-eureka-client/spring-cloud-demo-eureka-client.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-eureka-client/spring-cloud-demo-eureka-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-eureka-feign/spring-cloud-demo-eureka-feign.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-eureka-feign/spring-cloud-demo-eureka-feign.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-eureka-feign-hystric/spring-cloud-demo-eureka-feign-hystric.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-eureka-feign-hystric/spring-cloud-demo-eureka-feign-hystric.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon/spring-cloud-demo-eureka-ribbon.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon/spring-cloud-demo-eureka-ribbon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon-hystrix/spring-cloud-demo-eureka-ribbon-hystrix.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon-hystrix/spring-cloud-demo-eureka-ribbon-hystrix.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-eureka-server/spring-cloud-demo-eureka-server.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-eureka-server/spring-cloud-demo-eureka-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-eureka-server-config/spring-cloud-demo-eureka-server-config.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-eureka-server-config/spring-cloud-demo-eureka-server-config.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-zipkin-server/spring-cloud-demo-zipkin-server.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-zipkin-server/spring-cloud-demo-zipkin-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-zipkin-service-hi/spring-cloud-demo-zipkin-service-hi.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-zipkin-service-hi/spring-cloud-demo-zipkin-service-hi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-zipkin-service-miya/spring-cloud-demo-zipkin-service-miya.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-zipkin-service-miya/spring-cloud-demo-zipkin-service-miya.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-cloud-demo-zuul/spring-cloud-demo-zuul.iml" filepath="$PROJECT_DIR$/spring-cloud-demo-zuul/spring-cloud-demo-zuul.iml" />
+    </modules>
+  </component>
+</project>
