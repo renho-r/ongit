@@ -1,0 +1,6 @@
+1.自旋锁
+    CAS
+    Compare And Set
+    TicketLock ，CLHlock 和MCSlock
+2.阻塞锁
+3.可重入锁

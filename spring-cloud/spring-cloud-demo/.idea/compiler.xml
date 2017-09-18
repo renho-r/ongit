@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="spring-cloud-demo-config-client" />
+        <module name="spring-cloud-demo-config-client-amqp" />
+        <module name="spring-cloud-demo-config-client-eureka" />
+        <module name="spring-cloud-demo-config-server" />
+        <module name="spring-cloud-demo-config-server-eureka" />
+        <module name="spring-cloud-demo-eureka-client" />
+        <module name="spring-cloud-demo-eureka-feign" />
+        <module name="spring-cloud-demo-eureka-feign-hystric" />
+        <module name="spring-cloud-demo-eureka-ribbon" />
+        <module name="spring-cloud-demo-eureka-ribbon-hystrix" />
+        <module name="spring-cloud-demo-eureka-server" />
+        <module name="spring-cloud-demo-eureka-server-config" />
+        <module name="spring-cloud-demo-eureka-server-docker" />
+        <module name="spring-cloud-demo-eureka-service-hi-docker" />
+        <module name="spring-cloud-demo-zipkin-server" />
+        <module name="spring-cloud-demo-zipkin-service-hi" />
+        <module name="spring-cloud-demo-zipkin-service-miya" />
+        <module name="spring-cloud-demo-zuul" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="spring-cloud-demo" target="1.5" />
+      <module name="spring-cloud-demo-config-client" target="1.5" />
+      <module name="spring-cloud-demo-config-client-amqp" target="1.5" />
+      <module name="spring-cloud-demo-config-client-eureka" target="1.5" />
+      <module name="spring-cloud-demo-config-server" target="1.5" />
+      <module name="spring-cloud-demo-config-server-eureka" target="1.5" />
+      <module name="spring-cloud-demo-eureka-client" target="1.5" />
+      <module name="spring-cloud-demo-eureka-feign" target="1.5" />
+      <module name="spring-cloud-demo-eureka-feign-hystric" target="1.5" />
+      <module name="spring-cloud-demo-eureka-ribbon" target="1.5" />
+      <module name="spring-cloud-demo-eureka-ribbon-hystrix" target="1.5" />
+      <module name="spring-cloud-demo-eureka-server" target="1.5" />
+      <module name="spring-cloud-demo-eureka-server-config" target="1.5" />
+      <module name="spring-cloud-demo-eureka-server-docker" target="1.5" />
+      <module name="spring-cloud-demo-eureka-service-hi-docker" target="1.5" />
+      <module name="spring-cloud-demo-zipkin-server" target="1.5" />
+      <module name="spring-cloud-demo-zipkin-service-hi" target="1.5" />
+      <module name="spring-cloud-demo-zipkin-service-miya" target="1.5" />
+      <module name="spring-cloud-demo-zuul" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

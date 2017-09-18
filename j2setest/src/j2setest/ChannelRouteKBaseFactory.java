@@ -1,70 +1,71 @@
 package j2setest;
-public class ChannelRouteKBaseFactory{
+public class ChannelRouteKBaseFactory {
 
 
-    //µ¥Àı
+    //ï¿½ï¿½ï¿½ï¿½
 
-     private static KnowledgeBaseFactory instance = new ChannelRouteKBaseFactory();
-
-     private final static Object lock = new Object();
-
-     private long version = 0L;
-
-     private Object  result = null;
-
- 
-
-   //Ë½ÓĞ¹¹Ôìº¯Êı
-   private ChannelRouteKBaseFactory(){
-  
-    };
-
- 
-
-   public  static KnowledgeBaseFactory getInstance(){    
-     return instance;
-   }
-
-    public  Object getObject(){
-
-   
-
-    //È¡²ÎÊıÊµ¼Ê°æ±¾ºÅ£¨Êı¾İ¿â£¬»òÔ¶³ÌµÈµØ·½£©
-
-    long remoteVersion = .... ;
-
-    
-
-   //¼ÇÂ¼µ±Ç°Ïß³ÌÈ¡µÃ»º´æµÄ°æ±¾ºÅ
-
-    long     localThreadVersion= version;
-
-   //Èç¹û»º´æÉĞÎ´¸üĞÂ¹ı±¾Ïß³ÌÈ¡µÃµ±Ç°»º´æ°æ±¾ºÅÒÑ¾­¹ıÊ± £¬
-
-  //Ôò½øĞĞ»º´æ¸üĞÂ²Ù×÷£¬´ËÌõ¼şËäÔÚ²¢·¢¿ØÖÆÄÚ£¬
-
-  //¾ÍÊÇÎªÁË¼õÉÙ²¢·¢Ê±µÄËø¾ºÕù£¬±»³ÆÎªÀÖ¹ÛËø¶¨
-
- //£¨ÑÔÍâÖ®Òâ¾ÍÊÇÈÏÎª´ËÊ±Ö»ÓĞ±¾Ïß³Ì·ÃÎÊ£©
-
-   if(localVersion==0 || localVersion < remoteVersion){
-
-       synchronized (lock){
-
-        //ÓÉÓÚÊÇÀÖ¹ÛÈÏÎªÊÇÖ»ÓĞ±¾Ïß³Ì·ÃÎÊ£¬Êµ¼Ê½øĞĞ¸üĞÂÊ±£¬ÔÙ½øĞĞÒ»´Î°æ±¾µÄ±È½Ï
-
-       //±È½ÏÊµ¼Ê»º´æ°æ±¾Óë±¾Ïß³ÌÈ¡µÃ°æ±¾ÏàÍ¬£¬ÔÚÖ¤Ã÷È·ÊµÖ»ÓĞ±¾Ïß³Ì·ÃÎÊ£¬
-
-       //Ôò½øĞĞ¸üĞÂ²Ù×÷£¬¸ºÔğ·µ»Ø×îĞÂµÄ°æ±¾
-
-         if(this.version==localVersion){
-
-             //¸üĞÂ²Ù×÷ result=...;
-
-              return result;
-
-          }else{
-
-           return result;
-
-         }
+//     private static KnowledgeBaseFactory instance = new ChannelRouteKBaseFactory();
+//
+//     private final static Object lock = new Object();
+//
+//     private long version = 0L;
+//
+//     private Object  result = null;
+//
+//
+//
+//   //Ë½ï¿½Ğ¹ï¿½ï¿½ìº¯ï¿½ï¿½
+//   private ChannelRouteKBaseFactory(){
+//
+//    };
+//
+//
+//
+//   public  static KnowledgeBaseFactory getInstance(){
+//     return instance;
+//   }
+//
+//    public  Object getObject(){
+//
+//
+//
+//    //È¡ï¿½ï¿½ï¿½ï¿½Êµï¿½Ê°æ±¾ï¿½Å£ï¿½ï¿½ï¿½ï¿½İ¿â£¬ï¿½ï¿½Ô¶ï¿½ÌµÈµØ·ï¿½ï¿½ï¿½
+//
+//    long remoteVersion = .... ;
+//
+//
+//
+//   //ï¿½ï¿½Â¼ï¿½ï¿½Ç°ï¿½ß³ï¿½È¡ï¿½Ã»ï¿½ï¿½ï¿½Ä°æ±¾ï¿½ï¿½
+//
+//    long     localThreadVersion= version;
+//
+//   //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î´ï¿½ï¿½ï¿½Â¹ï¿½ï¿½ï¿½ï¿½ß³ï¿½È¡ï¿½Ãµï¿½Ç°ï¿½ï¿½ï¿½ï¿½æ±¾ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½Ê± ï¿½ï¿½
+//
+//  //ï¿½ï¿½ï¿½ï¿½Ğ»ï¿½ï¿½ï¿½ï¿½ï¿½Â²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú£ï¿½
+//
+//  //ï¿½ï¿½ï¿½ï¿½Îªï¿½Ë¼ï¿½ï¿½Ù²ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½Ö¹ï¿½ï¿½ï¿½ï¿½ï¿½
+//
+// //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½Ê±Ö»ï¿½Ğ±ï¿½ï¿½ß³Ì·ï¿½ï¿½Ê£ï¿½
+//
+//   if(localVersion==0 || localVersion < remoteVersion){
+//
+//       synchronized (lock){
+//
+//        //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö¹ï¿½ï¿½ï¿½Îªï¿½ï¿½Ö»ï¿½Ğ±ï¿½ï¿½ß³Ì·ï¿½ï¿½Ê£ï¿½Êµï¿½Ê½ï¿½ï¿½Ğ¸ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½Ù½ï¿½ï¿½ï¿½Ò»ï¿½Î°æ±¾ï¿½Ä±È½ï¿½
+//
+//       //ï¿½È½ï¿½Êµï¿½Ê»ï¿½ï¿½ï¿½æ±¾ï¿½ë±¾ï¿½ß³ï¿½È¡ï¿½Ã°æ±¾ï¿½ï¿½Í¬ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½È·ÊµÖ»ï¿½Ğ±ï¿½ï¿½ß³Ì·ï¿½ï¿½Ê£ï¿½
+//
+//       //ï¿½ï¿½ï¿½ï¿½Ğ¸ï¿½ï¿½Â²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ğ·µ»ï¿½ï¿½ï¿½ï¿½ÂµÄ°æ±¾
+//
+//         if(this.version==localVersion){
+//
+//             //ï¿½ï¿½ï¿½Â²ï¿½ï¿½ï¿½ result=...;
+//
+//              return result;
+//
+//          }else{
+//
+//           return result;
+//
+//         }
+}

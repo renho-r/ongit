@@ -30,3 +30,4 @@
 	ps -ef|grep JavaJJ.jar |grep -v grep|awk '{print $2}' 2>>/dev/null
 
 15.sed
+16.linux sublime

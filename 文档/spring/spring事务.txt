@@ -40,3 +40,4 @@
     使用jsonp
 5.保持http状态
     cookie session 重写url带sessionid
+6.DataSourceTransactionManager和HibernateTransactionManager

@@ -4,7 +4,9 @@
 3.Æô¶¯
 	E:\redisÏÂ
 	cmd->run_db.bat
+	./redis-server /path/to/redis.conf
 4.²âÊÔ
+	./redis-cli -a 123
 	cmd->redis-cli -h 127.0.0.1 -p 6379
 	cmd->set keyRenho valueRenho
 	cmd->get keyRenho

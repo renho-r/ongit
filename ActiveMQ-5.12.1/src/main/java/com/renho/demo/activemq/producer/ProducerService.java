@@ -41,6 +41,10 @@ public class ProducerService {
         System.out.println("向队列" +destination+ "发送了消息------------" + msg);
         jmsTemplate.send(new MessageCreator() {
             public Message createMessage(Session session) throws JMSException {
+                ObjectMessage objMessage = session.createObjectMessage();
+                TextMessage textMessage = session.createTextMessage();
+                textMessage.setStringProperty();
+
                 return session.createTextMessage(msg);
             }
         });

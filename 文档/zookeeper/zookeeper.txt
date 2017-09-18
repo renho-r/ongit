@@ -1,2 +1,15 @@
 ./zkServer.sh start
 ./zkCli.sh -server 127.0.0.1:2181
+
+ls /dubbo
+get /dubbo
+rmr /dubbo
+getAcl /dubbo
+
+addauth digest test:test
+
+setAcl / digest:test:V28q/NynI4JI3Rk54h0r8O5kMug=:crwda
+setAcl / world:anyone:crwda
+
+setAcl /dubbo digest:test:V28q/NynI4JI3Rk54h0r8O5kMug=:crwda
+setAcl /dubbo world:anyone:crwda

@@ -1,0 +1,23 @@
+https://cwiki.apache.org/confluence/display/ZOOKEEPER/Client-Server+mutual+authentication
+https://issues.apache.org/jira/browse/ZOOKEEPER-1736
+						1.conf/zoo.cfg增加
+							requireClientAuthScheme=sasl
+							authProvider.1=org.apache.zookeeper.server.auth.SASLAuthenticationProvider
+							jaasLoginRenew=3600000
+							zookeeper.allowSaslFailedClients=false
+
+						2.增加conf/java.env增加
+							export JVMFLAGS="-Djava.security.auth.login.config=/Users/renho/software/zookeeper-3.4.10/conf/jaas.conf -Dzookeeper.allowSaslFailedClients=false"
+
+						3.jaas.conf
+							Server {
+							   org.apache.zookeeper.server.auth.DigestLoginModule required
+							   user_super="adminsecret"
+							   user_bob="bobsecret"
+							   user_admin="admin";
+							};
+							Client {
+							   org.apache.zookeeper.server.auth.DigestLoginModule required
+							   username="bob"
+							   password="bobsecret";
+							};
