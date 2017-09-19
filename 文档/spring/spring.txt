@@ -1,0 +1,11 @@
+1.BeanFactoryPostProcessor
+2.RequestMappingHandlerAdapter
+3.RequestMappingHandlerMapping
+4.HandlerInterceptorAdapter
+5.ResourceUrlProviderExposingInterceptor
+6.
+	key: RequestMappingInfo
+	value: HandlerMothed
+7.BeanNameUrlHandlerMapping
+8.SimpleUrlHandlerMapping
+9.RequestMappingHandlerMapping
