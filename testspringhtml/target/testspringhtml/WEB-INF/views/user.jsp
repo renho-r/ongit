@@ -2,8 +2,8 @@
 <html>
 <head>
 	<meta charset="utf-8" />
-	<link rel="apple-touch-icon" sizes="76x76" href="/resources/materialdashboard/img/apple-icon.png" />
-	<link rel="icon" type="image/png" href="/resources/materialdashboard/img/favicon.png" />
+	<link rel="apple-touch-icon" sizes="76x76" href="resources/materialdashboard/img/apple-icon.png" />
+	<link rel="icon" type="image/png" href="resources/materialdashboard/img/favicon.png" />
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
 	<title>Material Dashboard by Creative Tim</title>
@@ -13,13 +13,13 @@
 
 
     <!-- Bootstrap core CSS     -->
-    <link href="/resources/materialdashboard/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="resources/materialdashboard/css/bootstrap.min.css" rel="stylesheet" />
 
     <!--  Material Dashboard CSS    -->
-    <link href="/resources/materialdashboard/css/material-dashboard.css" rel="stylesheet"/>
+    <link href="resources/materialdashboard/css/material-dashboard.css" rel="stylesheet"/>
 
     <!--  CSS for Demo Purpose, don't include it in your project     -->
-    <link href="/resources/materialdashboard/css/demo.css" rel="stylesheet" />
+    <link href="resources/materialdashboard/css/demo.css" rel="stylesheet" />
 
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">

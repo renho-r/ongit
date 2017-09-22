@@ -23,8 +23,8 @@ public class IndexController {
         return "index";
     }
 
-    @RequestMapping(value = "/views/{pagepath}")
-    public String view(@PathVariable String pagepath) {
-        return pagepath;
+    @RequestMapping(value = "/user")
+    public String user() {
+        return "user";
     }
 }

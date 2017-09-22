@@ -15,3 +15,4 @@ ideaworkspace/jjinsertdb/out
 Servers
 ideaworkspace/*/target
 ActiveMQ-5.12.1/.idea
+*/*target
