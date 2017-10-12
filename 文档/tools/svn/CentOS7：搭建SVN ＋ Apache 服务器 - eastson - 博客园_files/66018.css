@@ -1,0 +1,42 @@
+/* BLOG标题 */
+#top h1 { font-size: 2.2em; }
+
+
+#main, #main h2, .posthead, .posthead h2, .postbody h3,
+p.date, p.postfoot, 
+#leftmenu ul, #leftmenu h3, /*侧边栏*/
+.CalTitle, .Cal, /*日历*/
+#author_profile, /*作者信息*/
+#post_next_prev /*上/下一篇*/ {
+  font-size: 14px;
+}
+
+#leftmenu {width: 240px;}
+.postbody, .postbody span {font-size: 14px;}
+
+
+/* Google搜索 */
+.div_my_zzk { margin-left: 5px; }
+.input_my_zzk { height: 30px; width: 65%; font-size: 25px;}
+input.btn_my_zzk { height: 32px; width: 30%; font-size: 14px; }
+
+
+.Cal { border-right: 0px; }
+
+#cnblogs_post_body h3 {
+  text-align: left; 
+  color: #000000;
+  background-color: #cccccc; 
+  letter-spacing: 0px;
+  padding: 5px 0px 5px 3px;
+}
+
+.BlogStats {display: none; }
+body { 
+  margint: 0px; 
+  padding-left: 0px; 
+  padding-right:0px;
+}
+
+.cnblogs_code pre {margin-left: 8px;}
+.cnblogs_code_toolbar {display:none;}
