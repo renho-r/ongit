@@ -22,7 +22,7 @@ public class Main {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		SAXBuilder builder = new SAXBuilder();
-		String filePath = System.getProperty("user.dir") + "/bin/com/renho/doImport.xml";
+		String filePath = System.getProperty("user.dir") + "/target/classes/doImport.xml";
 		System.out.println(filePath);
 		try {        
 //			Document doc = builder.build(new File("file/disk.xml"));
@@ -45,7 +45,7 @@ public class Main {
 					}
 
 					ComparatorList comparatorList = new ComparatorList();
-					Collections.sort(fieldList, comparatorList);
+					//Collections.sort(fieldList, comparatorList);
 					for(Element e:fieldList) {
 						System.out.print(e.getAttributeValue("name"));
 						System.out.print("-" + e.getAttributeValue("length"));

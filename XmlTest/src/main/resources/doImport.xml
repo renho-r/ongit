@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <import>
 	<table name="KC20">
-		<field name="bn001" length="16" nonull="Y" index="1"></field>
+		<field name="bn001" length="16" nonull="Y" index="1">
+			<id>1000</id>
+		</field>
 		<field name="aae073" length="20" nonull="" index="2"></field>
 	    <field name="akc803" length="6" nonull="" index="3"></field>
 	    <field name="akc804" length="100" nonull="" index="4"></field>
@@ -28,8 +30,5 @@
 	    <field name="aae080" length="3" nonull="" index="26"></field>
 	    <field name="aae081" length="50" nonull="" index="27"></field>
 	    <field name="aae082" length="" nonull="" index="28"></field>
-	</table>
-	<table name="KC21">
-		<field name="aae082" length="" nonull="" index="28"></field>
 	</table>
 </import>
