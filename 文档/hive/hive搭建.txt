@@ -1,0 +1,74 @@
+1.下载apache-hive-1.2.2-bin.tar.gz（apache-hive-2.3.0-bin.tar.gz装完idea可调用，控制台没改成功）
+2.tar -zxvf apache-hive-1.2.2-bin.tar.gz
+3.vi /etc/profile
+	HIVE_HOME='/home/hadoop/apache-hive-1.2.2-bin'
+4.创建oracle用户
+	drop user c##hive cascade;
+	create user c##hive identified by hive;
+	grant connect to c##hive;
+	grant all privileges to c##hive;
+
+5.
+	cd /home/hadoop/apache-hive-1.2.2-bin/conf
+	cp hive-default.xml.template hive-site.xml
+6.修改
+	vi hive-site.xml
+	<configuration>
+		<property>
+      		<name>system:java.io.tmpdir</name>
+     		<value>/home/hadoop/hivetmpdir</value>
+  		</property>
+  		<property>
+     		<name>system:user.name</name>
+     		<value>hive</value>
+   		</property>
+
+		<!--metastore三种配置方式 远端-->
+   		<property>
+    		<name>hive.metastore.local</name>
+    		<value>false</value>
+  		</property>
+
+  		<property>
+    		<name>hive.metastore.uris</name>
+    		<value>thrift://master:9083</value>
+  		</property>
+		<property>
+	    	<name>javax.jdo.option.ConnectionURL</name>
+	    	<value>jdbc:oracle:thin:@192.168.31.128:1521:ORCL</value>
+	    	<description>JDBC connect string for a JDBC metastore</description>
+	  	</property>
+	  	<property>
+	    	<name>javax.jdo.option.ConnectionDriverName</name>
+	    	<value>oracle.jdbc.driver.OracleDriver</value>
+	    	<description>Driver class name for a JDBC metastore</description>
+	  	</property>
+	  	<property>
+	    	<name>javax.jdo.option.ConnectionUserName</name>
+	    	<value>c##hive1</value>
+	    	<description>Username to use against metastore database</description>
+	  	</property>
+	  	<property>
+	    	<name>javax.jdo.option.ConnectionPassword</name>
+	    	<value>hive1</value>
+	    	<description>password to use against metastore database</description>
+	  	</property>
+	</configuration>
+7.oracle jar包放入/home/hadoop/apache-hive-1.2.2-bin/lib
+	放入spark jars下
+8.初始化
+	./schematool -dbType oracle -initSchema
+	./schematool -dbType oracle -initSchemaTo 2.3.0
+9.启动
+	cd /home/hadoop/apache-hive-1.2.2-bin/bin
+	启动hive服务端程序
+	./hive -service metastore
+	./hive –service hiveserver
+	./hive –service hiveserver2
+10.测试
+	CREATE TABLE testtable (foo INT, bar STRING) PARTITIONED BY (ds STRING);
+	LOAD DATA LOCAL INPATH '/home/hadoop/apache-hive-2.3.0-bin/examples/files/kv1.txt' OVERWRITE INTO TABLE testtable PARTITION (ds='2016-07-28');
+	LOAD DATA LOCAL INPATH '/home/hadoop/apache-hive-2.3.0-bin/examples/files/kv2.txt' OVERWRITE INTO TABLE testtable PARTITION (ds='2016-07-29');
+	show tables;
+	select * from testtable;
+11.hive-site.xml放入spark conf目录

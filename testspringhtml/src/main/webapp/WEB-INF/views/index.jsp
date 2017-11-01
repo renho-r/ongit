@@ -19,7 +19,7 @@
 
     <!--     Fonts and icons     -->
     <link href="http://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
-    <link href='http://font./s.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300|Material+Icons' rel='stylesheet' type='text/css'>
     <%--<jsp:include page="/resources/common.jsp" />--%>
 </head>
 
@@ -49,7 +49,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="views/user">
+                    <a href="user">
                         <i class="material-icons">person</i>
                         <p>User Profile</p>
                     </a>
@@ -73,7 +73,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="resources/materialdashboard/maps.html">
+                    <a href="maps">
                         <i class="material-icons">location_on</i>
                         <p>Maps</p>
                     </a>
