@@ -15,3 +15,5 @@ ideaworkspace/jjinsertdb/out
 Servers
 ideaworkspace/*/target
 ActiveMQ-5.12.1/.idea
+文档/oracle/oracle
+*/target
