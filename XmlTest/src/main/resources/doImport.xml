@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<import>
+	<table name="KC20">
+		<field name="bn001" length="16" nonull="Y" index="1">
+			<id>1000</id>
+		</field>
+		<field name="aae073" length="20" nonull="" index="2"></field>
+	    <field name="akc803" length="6" nonull="" index="3"></field>
+	    <field name="akc804" length="100" nonull="" index="4"></field>
+	    <field name="aac003" length="100" nonull="" index="5"></field>
+	    <field name="akc020" length="50" nonull="" index="6"></field>
+	    <field name="aac002" length="20" nonull="" index="7"></field>
+	    <field name="aab004" length="50" nonull="" index="8"></field>
+	    <field name="aae075" length="3" nonull="" index="9"></field>
+	    <field name="akc801" length="6" nonull="" index="10"></field>
+	    <field name="akc802" length="100" nonull="" index="11"></field>
+	    <field name="aae076" length="3" nonull="" index="12"></field>
+	    <field name="aae030" length="" nonull="" index="13"></field>
+	    <field name="aae031" length="" nonull="" index="14"></field>
+	    <field name="akb025" length="20" nonull="" index="15"></field>
+	    <field name="akb026" length="50" nonull="" index="16"></field>
+	    <field name="akb027" length="20" nonull="" index="18"></field>
+	    <field name="akb028" length="50" nonull="" index="19"></field>
+	    <field name="akb029" length="20" nonull="" index="20"></field>
+	    <field name="akb030" length="50" nonull="" index="21"></field>
+	    <field name="aae077" length="100" nonull="" index="22"></field>
+	    <field name="aae078" length="50" nonull="" index="23"></field>
+	    <field name="aae013" length="200" nonull="" index="24"></field>
+	    <field name="aae079" length="16" nonull="" index="25"></field>
+	    <field name="aae080" length="3" nonull="" index="26"></field>
+	    <field name="aae081" length="50" nonull="" index="27"></field>
+	    <field name="aae082" length="" nonull="" index="28"></field>
+	</table>
+</import>

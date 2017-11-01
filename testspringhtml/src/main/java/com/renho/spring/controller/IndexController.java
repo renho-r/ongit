@@ -26,10 +26,13 @@ public class IndexController {
     @RequestMapping(value = "/user")
     public String user() {
         return "user";
+<<<<<<< HEAD
     }
 
     @RequestMapping(value = "/{menuId}")
     public String views(@PathVariable String menuId) {
         return menuId;
+=======
+>>>>>>> 6f2ae9aa9c7ba01d0743444b4e1f9082cc8af3da
     }
 }
