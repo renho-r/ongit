@@ -1,0 +1,16 @@
+1.列出mysql数据库中的所有数据库
+	sqoop list-databases --connect jdbc:mysql://cdhnode0:3306/ --username root --password root123
+2.连接mysql并列出test数据库中的表
+	sqoop list-tables --connect jdbc:mysql://cdhnode0:3306/cm --username root --password root123
+3.将关系型数据的表结构复制到hive中,只是复制表的结构，表中的内容没有复制过去。
+sqoop create-hive-table --connect jdbc:mysql://cdhnode0:3306/cm --table COMMANDS --username root --password root123 --hive-table CM_COMMANDS --map-column-hive RESULT_DATA=string
+	其中 --table sqoop_test为mysql中的数据库test中的表 --hive-table test 为hive中新建的表名称
+	自己提供列对应的类型--map-column-hive RESULT_DATA=string
+4.从关系数据库导入文件到hive中
+	sqoop import --connect jdbc:mysql://cdhnode0:3306/cm --username root --password root123 --table COMMANDS --hive-import --hive-table CM_COMMANDS_DATA --map-column-hive RESULT_DATA=string --m 1 --hive-delims-replacement $$ --hive-overwrite --null-string "" --null-non-string "" --fields-terminated-by '$!'
+	Permission denied: user=root, access=WRITE, inode="/user":hdfs:supergroup:drwxr-xr-x
+	sudo -u hdfs hadoop fs -mkdir /user/root
+	hadoop fs -chmod 777 /user
+5.将hive中的表数据导入到mysql中,在进行导入之前，mysql中的表
+	hive_test必须已经提起创建好了。
+	sqoop export --connect jdbc:mysql://cdhnode0:3306/sqoop_import --username root --password root123 --table CM_COMMANDS_DATA --export-dir /user/hive/warehouse/cm_commands_data/part-m-00000 --verbose --fields-terminated-by '$!'

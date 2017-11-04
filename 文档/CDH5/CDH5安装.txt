@@ -1,0 +1,110 @@
+1.新建CDHNode0虚拟机
+2.固定ip
+	vi /etc/sysconfig/network-scripts/ifcfg-eno16777736
+		BOOTPROTO="static"
+		ONBOOT="yes"
+		IPADDR=192.168.31.160
+		GATEWAY=192.168.31.2
+		NETMASK=255.255.255.0
+	vi /etc/resolv.conf
+		nameserver 114.114.114.114
+4.修改hostname
+	vi /etc/sysconfig/network
+		HOSTNAME=cdhnode0
+	hostnamectl set-hostname cdhnode0
+5.关闭防火墙
+6.安装jdk
+	rpm -ivh jdk-6u31-linux-amd64.rpm
+	rpm -ivh oracle-j2sdk1.7-1.7.0+update67-1.x86_64.rpm
+7.安装依赖
+	yum install net-tools
+	yum install perl
+	yum install psmisc
+	hue:
+		yum install -y python-lxml
+		yum install cyrus-sasl-plain  cyrus-sasl-devel  cyrus-sasl-gssapi
+		yum -y install openssl
+		yum install mod_ssl
+		yum install httpd
+6.复制虚拟机,修改ip,hostname
+7.设置hosts文件,所有主机
+	vi /etc/hosts
+		192.168.31.160	cdhnode0
+		192.168.31.162	cdhnode1
+		192.168.31.164	cdhnode2
+		192.168.31.166	cdhnode3
+8.设置ssh免密码登录
+	每台机器执行ssh-keygen -t rsa
+	cdhnode0: ssh-copy-id root@cdhnode3
+	cdhnode1: ssh-copy-id root@cdhnode3
+	cdhnode2: ssh-copy-id root@cdhnode3
+	cdhnode3: ssh-copy-id root@cdhnode3
+	cdhnode3: scp ~/.ssh/authorized_keys root@cdhnode0:~/.ssh/
+	cdhnode3: scp ~/.ssh/authorized_keys root@cdhnode1:~/.ssh/
+	cdhnode3: scp ~/.ssh/authorized_keys root@cdhnode2:~/.ssh/
+9.安装配置MySql（主节点cdhnode0）
+	卸载mariadb
+		rpm -qa | grep mariadb
+		rpm -e --nodeps mariadb-libs-5.5.44-2.el7.centos.x86_64
+	安装配置MySql
+		mysql-5.7.20-1.el7.x86_64.rpm-bundle.tar
+		vi /etc/my.cnf
+			validate_password_policy=0
+			validate_password_length=1
+			validate_password_mixed_case_count=2
+		service mysqld start
+		//获取root临时密码(mysql5.7)
+		grep 'temporary password' /var/log/mysqld.log
+		mysql -uroot -p
+		mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY 'root123';
+		grant all privileges on *.* to 'root'@'%' identified by 'root123' with grant option;
+		flush privileges;
+10.时间同步
+	yum install ntp
+安装Cloudera Manager Server 和Agent
+1.(每台机器)
+	mkdir /opt/cloudera-manager
+	上传cloudera-manager-centos7-cm5.13.0_x86_64.tar.gz到/opt/cloudera-manager下
+	tar -zxvf cloudera-manager-centos7-cm5.13.0_x86_64.tar.gz
+2.(每台机器)创建cloudera-scm用户
+	当使用tar包方式安装CM时，必须在所有节点上手动创建用户，因为CM 服务和管理服务默认使用cloudera-scm进行配置
+	每个节点上执行：
+	useradd --system --home=/opt/cloudera-manager/cm-5.13.0/run/cloudera-scm-server --no-create-home --shell=/bin/false --comment "cloudera SCM User" cloudera-scm
+	mkdir /var/lib/cloudera-scm-server
+	chown cloudera-scm:cloudera-scm /var/lib/cloudera-scm-server
+	主节点执行:
+		上传mysql驱动到所有节点/opt/cloudera-manager/cm-5.13.0/share/cmf/lib
+		mysql:create database cm;
+		/opt/cloudera-manager/cm-5.13.0/share/cmf/schema/scm_prepare_database.sh mysql cm root root123 --scm-host cdhnode0 scm scm scm
+3.创建Parcel 目录
+	在主节点创建:
+		mkdir -p /opt/cloudera/parcel-repo
+	在所有节点创建:
+		mkdir -p /opt/cloudera/parcels
+
+	/*设置开机启动CM服务
+	将cloudera-scm-server文件复制到/etc/init.d目录下
+	cp /opt/cloudera-manager/cm-5.13.0 /etc/init.d/cloudera-scm-server/etc/init.d/*/
+	主节点
+		mkdir -p /opt/cloudera/parcel-repo
+		上传
+			CDH-5.13.0-1.cdh5.13.0.p0.29-el7.parcel
+			CDH-5.13.0-1.cdh5.13.0.p0.29-el7.parcel.sha
+			manifest.json
+		到/opt/cloudera/parcel-repo
+	在所有节点创建:
+		mkdir -p /opt/cloudera/parcels
+4.启动CM服务
+	所有节点上设置代理配置文件
+	vi /opt/cloudera-manager/cm-5.13.0/etc/cloudera-scm-agent/config.ini
+		修改内容:#Hostname of the CM server.
+		server_host=cdhnode0
+	主节点:
+		/opt/cloudera-manager/cm-5.13.0/etc/init.d/cloudera-scm-server start
+	其它节点启动代理 
+		/opt/cloudera-manager/cm-5.13.0/etc/init.d/cloudera-scm-agent start
+5.安装过程中上传mysql驱动jar到/opt/cloudera/parcels/CDH-5.13.0-1.cdh5.13.0.p0.29/lib/hive/lib-----？
+
+
+
+rm -f /opt/cloudera-manager/cm-5.13.0/lib/cloudera-scm-agent/cm_guid
