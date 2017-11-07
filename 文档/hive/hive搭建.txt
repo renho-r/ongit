@@ -62,9 +62,9 @@
 9.启动
 	cd /home/hadoop/apache-hive-1.2.2-bin/bin
 	启动hive服务端程序
-	./hive -service metastore
-	./hive –service hiveserver
-	./hive –service hiveserver2
+	./hive --service metastore
+	./hive –-service hiveserver
+	./hive –-service hiveserver2
 10.测试
 	CREATE TABLE testtable (foo INT, bar STRING) PARTITIONED BY (ds STRING);
 	LOAD DATA LOCAL INPATH '/home/hadoop/apache-hive-2.3.0-bin/examples/files/kv1.txt' OVERWRITE INTO TABLE testtable PARTITION (ds='2016-07-28');
@@ -72,3 +72,28 @@
 	show tables;
 	select * from testtable;
 11.hive-site.xml放入spark conf目录
+
+12.HIVE 不使用mr，使用spark
+hive-site.xml
+	<property>
+		<name>hive.execution.engine</name>
+		<value>spark</value>
+	</property>
+	<property>
+		<name>hive.enable.spark.execution.engine</name>
+		<value>true</value>
+	</property>
+	<property>
+		<name>spark.home</name>
+		<value>/Users/renho/software/spark-2.2.0-bin-hadoop2.7</value>
+	</property>
+	<property>
+		<name>spark.master</name>
+		<value>local</value>
+	</property>
+hive-env.sh
+	SPARK_HOME=/Users/renho/software/spark-2.2.0-bin-hadoop2.7
+${HIVE_HOME}/bin/hive
+	for f in ${SPARK_HOME}/jars/*.jar; do
+    	CLASSPATH=${CLASSPATH}:$f;
+	done

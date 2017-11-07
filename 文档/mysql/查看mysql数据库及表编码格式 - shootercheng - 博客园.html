@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<!-- saved from url=(0050)http://www.cnblogs.com/shootercheng/p/5836657.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>查看mysql数据库及表编码格式 - shootercheng - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./查看mysql数据库及表编码格式 - shootercheng - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./查看mysql数据库及表编码格式 - shootercheng - 博客园_files/bundle-Banlieue13.css">
+<link id="mobile-style" media="only screen and (max-width: 768px)" type="text/css" rel="stylesheet" href="./查看mysql数据库及表编码格式 - shootercheng - 博客园_files/bundle-Banlieue13-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/shootercheng/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/shootercheng/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/shootercheng/wlwmanifest.xml">
+<script async="" src="./查看mysql数据库及表编码格式 - shootercheng - 博客园_files/analytics.js"></script><script type="text/javascript" src="./查看mysql数据库及表编码格式 - shootercheng - 博客园_files/encoder.js"></script><script src="./查看mysql数据库及表编码格式 - shootercheng - 博客园_files/jquery.js" type="text/javascript"></script>  
+<script type="text/javascript">var currentBlogApp = 'shootercheng', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./查看mysql数据库及表编码格式 - shootercheng - 博客园_files/blog-common.js" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/shootercheng/"><img id="blogLogo" src="./查看mysql数据库及表编码格式 - shootercheng - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/shootercheng/">shootercheng</a></h1>
+<h2>做一个勤奋的探索者</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		<div id="navigator">
+			
+<ul id="navList">
+	<li><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+	<li><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/shootercheng/">首页</a></li>
+	<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+	<li><a id="blog_nav_contact" accesskey="9" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/shootercheng">联系</a></li>
+	<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+	<li><a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/shootercheng/rss">订阅</a>
+	<a id="blog_nav_rss_image" class="aHeaderXML" href="http://www.cnblogs.com/shootercheng/rss"><img src="./查看mysql数据库及表编码格式 - shootercheng - 博客园_files/xml.gif" alt="订阅"></a></li>
+</ul>
+
+
+			<div class="blogStats">
+				
+				<div id="blog_stats">
+<!--done-->
+随笔- 68&nbsp;
+文章- 0&nbsp;
+评论- 7&nbsp;
+</div>
+				
+			</div><!--end: blogStats -->
+		</div><!--end: navigator 博客导航栏 -->
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/shootercheng/p/5836657.html">查看mysql数据库及表编码格式</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body"><p>1.查看数据库编码格式</p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_854123" class="syntaxhighlighter  sql"><div class="toolbar"><span><a href="http://www.cnblogs.com/shootercheng/p/5836657.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="sql plain">mysql&gt; show variables </code><code class="sql color1">like</code> <code class="sql string">'character_set_database'</code><code class="sql plain">;</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>&nbsp;2.查看数据表的编码格式</p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_557451" class="syntaxhighlighter  sql"><div class="toolbar"><span><a href="http://www.cnblogs.com/shootercheng/p/5836657.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="sql plain">mysql&gt; show </code><code class="sql keyword">create</code> <code class="sql keyword">table</code> <code class="sql plain">&lt;表名&gt;;</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>&nbsp;3.创建数据库时指定数据库的字符集</p>
+<div class="cnblogs_code">
+<pre>mysql<span style="color: #808080;">&gt;</span><span style="color: #0000ff;">create</span> <span style="color: #0000ff;">database</span> <span style="color: #808080;">&lt;</span>数据库名<span style="color: #808080;">&gt;</span> <span style="color: #0000ff;">character</span> <span style="color: #0000ff;">set</span> utf8;</pre>
+</div>
+<p>4.创建数据表时指定数据表的编码格式</p>
+<div class="cnblogs_code">
+<pre><span style="color: #0000ff;">create</span> <span style="color: #0000ff;">table</span><span style="color: #000000;"> tb_books (
+    name </span><span style="color: #0000ff;">varchar</span>(<span style="color: #800000; font-weight: bold;">45</span>) <span style="color: #808080;">not</span> <span style="color: #0000ff;">null</span><span style="color: #000000;">,
+    price </span><span style="color: #0000ff;">double</span> <span style="color: #808080;">not</span> <span style="color: #0000ff;">null</span><span style="color: #000000;">,
+    bookCount </span><span style="color: #0000ff;">int</span> <span style="color: #808080;">not</span> <span style="color: #0000ff;">null</span><span style="color: #000000;">,
+    author </span><span style="color: #0000ff;">varchar</span>(<span style="color: #800000; font-weight: bold;">45</span>) <span style="color: #808080;">not</span> <span style="color: #0000ff;">null</span> ) <span style="color: #0000ff;">default</span> charset <span style="color: #808080;">=</span> utf8;</pre>
+</div>
+<p>5.修改数据库的编码格式</p>
+<div class="cnblogs_code">
+<pre>mysql<span style="color: #808080;">&gt;</span><span style="color: #0000ff;">alter</span> <span style="color: #0000ff;">database</span> <span style="color: #808080;">&lt;</span>数据库名<span style="color: #808080;">&gt;</span> <span style="color: #0000ff;">character</span> <span style="color: #0000ff;">set</span> utf8;</pre>
+</div>
+<p>6.修改数据表格编码格式</p>
+<div class="cnblogs_code">
+<pre>mysql<span style="color: #808080;">&gt;</span><span style="color: #0000ff;">alter</span> <span style="color: #0000ff;">table</span> <span style="color: #808080;">&lt;</span>表名<span style="color: #808080;">&gt;</span> <span style="color: #0000ff;">character</span> <span style="color: #0000ff;">set</span> utf8;</pre>
+</div>
+<p>7.修改字段编码格式</p>
+<div class="cnblogs_code">
+<pre>mysql<span style="color: #808080;">&gt;</span><span style="color: #0000ff;">alter</span> <span style="color: #0000ff;">table</span> <span style="color: #808080;">&lt;</span>表名<span style="color: #808080;">&gt;</span> change <span style="color: #808080;">&lt;</span>字段名<span style="color: #808080;">&gt;</span> <span style="color: #808080;">&lt;</span>字段名<span style="color: #808080;">&gt;</span> <span style="color: #808080;">&lt;</span>类型<span style="color: #808080;">&gt;</span> <span style="color: #0000ff;">character</span> <span style="color: #0000ff;">set</span><span style="color: #000000;"> utf8;
+
+mysql</span><span style="color: #808080;">&gt;</span><span style="color: #0000ff;">alter</span> <span style="color: #0000ff;">table</span> <span style="color: #ff00ff;">user</span> change username username <span style="color: #0000ff;">varchar</span>(<span style="color: #800000; font-weight: bold;">20</span>) <span style="color: #0000ff;">character</span> <span style="color: #0000ff;">set</span> utf8 <span style="color: #808080;">not</span> <span style="color: #0000ff;">null</span>;</pre>
+</div>
+<p>&nbsp;8.添加外键</p>
+<div class="cnblogs_code">
+<pre>mysql<span style="color: #808080;">&gt;</span><span style="color: #0000ff;">alter</span> <span style="color: #0000ff;">table</span> tb_product <span style="color: #0000ff;">add</span> <span style="color: #0000ff;">constraint</span> fk_1 <span style="color: #0000ff;">foreign</span> <span style="color: #0000ff;">key</span>(factoryid) <span style="color: #0000ff;">references</span><span style="color: #000000;"> tb_factory(factoryid);
+mysql</span><span style="color: #808080;">&gt;</span><span style="color: #0000ff;">alter</span> <span style="color: #0000ff;">table</span> <span style="color: #808080;">&lt;</span>表名<span style="color: #808080;">&gt;</span> <span style="color: #0000ff;">add</span> <span style="color: #0000ff;">constraint</span> <span style="color: #808080;">&lt;</span>外键名<span style="color: #808080;">&gt;</span> <span style="color: #0000ff;">foreign</span> <span style="color: #0000ff;">key</span><span style="color: #808080;">&lt;</span>字段名<span style="color: #808080;">&gt;</span> <span style="color: #0000ff;">REFERENCES</span> <span style="color: #808080;">&lt;</span>外表表名<span style="color: #808080;">&gt;&lt;</span>字段名<span style="color: #808080;">&gt;</span>;</pre>
+</div>
+<p>9.删除外键</p>
+<div class="cnblogs_code">
+<pre>mysql<span style="color: #808080;">&gt;</span><span style="color: #0000ff;">alter</span> <span style="color: #0000ff;">table</span> tb_people <span style="color: #0000ff;">drop</span> <span style="color: #0000ff;">foreign</span> <span style="color: #0000ff;">key</span><span style="color: #000000;"> fk_1;
+mysql</span><span style="color: #808080;">&gt;</span><span style="color: #0000ff;">alter</span> <span style="color: #0000ff;">table</span> <span style="color: #808080;">&lt;</span>表名<span style="color: #808080;">&gt;</span> <span style="color: #0000ff;">drop</span> <span style="color: #0000ff;">foreign</span> <span style="color: #0000ff;">key</span> <span style="color: #808080;">&lt;</span>外键名<span style="color: #808080;">&gt;</span>;</pre>
+</div>
+<p>&nbsp;</p></div><div id="MySignature" style="display: block;">shootercheng:做一个勤奋的探索者</div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/shootercheng/category/908420.html" target="_blank">MySQL</a></div>
+<div id="EntryTag">标签: <a href="http://www.cnblogs.com/shootercheng/tag/MySQL/">MySQL</a></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(5836657,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;3d838ca4-8606-e611-9fc1-ac853d9f53cc&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./查看mysql数据库及表编码格式 - shootercheng - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./查看mysql数据库及表编码格式 - shootercheng - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/shootercheng/" target="_blank"><img src="./查看mysql数据库及表编码格式 - shootercheng - 博客园_files/20160420073329.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/shootercheng/">shootercheng</a><br>
+            <a href="http://home.cnblogs.com/u/shootercheng/followees">关注 - 1</a><br>
+            <a href="http://home.cnblogs.com/u/shootercheng/followers">粉丝 - 11</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;3d838ca4-8606-e611-9fc1-ac853d9f53cc&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(5836657,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">2</span>
+    </div>
+    <div class="buryit" onclick="votePost(5836657,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+</div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/shootercheng/p/5836572.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/shootercheng/p/5836572.html" title="发布于2016-09-03 11:24">jsp页面写入中文到mysql时出现了乱码(转)</a><br><a href="http://www.cnblogs.com/shootercheng/p/5838645.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/shootercheng/p/5838645.html" title="发布于2016-09-04 09:29">Tomcat工作原理(转)</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2016-09-03 11:55</span> <a href="http://www.cnblogs.com/shootercheng/">shootercheng</a> 阅读(<span id="post_view_count">42763</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=5836657" rel="nofollow">编辑</a> <a href="http://www.cnblogs.com/shootercheng/p/5836657.html#" onclick="AddToWz(5836657);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=280790,cb_entryId=5836657,cb_blogApp=currentBlogApp,cb_blogUserGuid='3d838ca4-8606-e611-9fc1-ac853d9f53cc',cb_entryCreatedDate='2016/9/3 11:55:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="http://www.cnblogs.com/shootercheng/p/5836657.html#" onclick="return RefreshPage();">刷新页面</a><a href="http://www.cnblogs.com/shootercheng/p/5836657.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】50万行VC++源码: 大型组态工控、电力仿真CAD与GIS源码库</a><br><a href="https://group.cnblogs.com/topic/77995.html" target="_blank">【活动】阿里云双11活动开始预热 云服务器限时2折起</a><br><a href="http://click.aliyun.com/m/33696/" target="_blank">【调查】有奖调研即刻参与，你竟然是酱紫程序猿！</a><br><a href="http://xc.hubwiz.com/course/592ee9b2b343f27b0ae1ba99?affid=cnblogs" target="_blank">【推荐】Vue.js 2.x 快速入门，大量高效实战示例</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="http://www.gcpowertools.com.cn/products/spreadjs/?utm_source=cnblogs&amp;utm_medium=blogpage&amp;utm_term=bottom&amp;utm_content=SpreadJS&amp;utm_campaign=community" target="_blank"><img width="300" height="250" src="./查看mysql数据库及表编码格式 - shootercheng - 博客园_files/24442-20171031213013029-1265843211.jpg" alt="葡萄城1101"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="http://news.cnblogs.com/n/581766/" target="_blank">腾讯股价频创历史新高 马化腾重登中国首富宝座</a><br> ·  <a href="http://news.cnblogs.com/n/581765/" target="_blank">乐视致新发公开信：让商业回归本质 业务不受外部影响</a><br> ·  <a href="http://news.cnblogs.com/n/581764/" target="_blank">Skype视频面试服务更新加入群面和更多编程语言</a><br> ·  <a href="http://news.cnblogs.com/n/581763/" target="_blank">逾8成企业雇员认为Face ID可靠，能取代密码</a><br> ·  <a href="http://news.cnblogs.com/n/581762/" target="_blank">京东商城“跨界”住房租赁电商业务：正在收购域名</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a href="http://click.aliyun.com/m/32986/" target="_blank"><img width="468" height="60" src="./查看mysql数据库及表编码格式 - shootercheng - 博客园_files/24442-20171027070203758-1397753435.jpg" alt="阿里云双11"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/581467/" target="_blank">改善程序员生活质量的 3+10 习惯</a><br> ·  <a href="http://kb.cnblogs.com/page/568841/" target="_blank">NASA的10条代码编写原则</a><br> ·  <a href="http://kb.cnblogs.com/page/578502/" target="_blank">为什么你参加了那么多培训，却依然表现平平？</a><br> ·  <a href="http://kb.cnblogs.com/page/579832/" target="_blank">写给初学前端工程师的一封信</a><br> ·  <a href="http://kb.cnblogs.com/page/579480/" target="_blank">实用VPC虚拟私有云设计原则</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="http://home.cnblogs.com/u/shootercheng/">shootercheng</a><br>园龄：<a href="http://home.cnblogs.com/u/shootercheng/" title="入园时间：2016-04-20">1年6个月</a><br>粉丝：<a href="http://home.cnblogs.com/u/shootercheng/followers/">11</a><br>关注：<a href="http://home.cnblogs.com/u/shootercheng/followees/">1</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;3d838ca4-8606-e611-9fc1-ac853d9f53cc&#39;)">+加关注</a></div></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="calendar"><div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2017/10/01&#39;);return false;">&lt;</a></td><td align="center">2017年11月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2017/12/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td><td align="center">1</td><td align="center">2</td><td align="center">3</td><td class="CalTodayDay" align="center">4</td></tr><tr><td class="CalWeekendDay" align="center">5</td><td align="center">6</td><td align="center">7</td><td align="center">8</td><td align="center">9</td><td align="center">10</td><td class="CalWeekendDay" align="center">11</td></tr><tr><td class="CalWeekendDay" align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center">16</td><td align="center">17</td><td class="CalWeekendDay" align="center">18</td></tr><tr><td class="CalWeekendDay" align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td align="center">24</td><td class="CalWeekendDay" align="center">25</td></tr><tr><td class="CalWeekendDay" align="center">26</td><td align="center">27</td><td align="center">28</td><td align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td></tr><tr><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td><td class="CalOtherMonthDay" align="center">8</td><td class="CalOtherMonthDay" align="center">9</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script></div>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/shootercheng/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/shootercheng/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/shootercheng/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/shootercheng/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/shootercheng/tag/" title="我的博客的标签列表">我的标签</a></li>
+<li><a id="itemListLink" onclick="this.blur();WarpClass(&#39;itemListLink&#39;, &#39;itemListLin_con&#39;);return false;" href="http://www.cnblogs.com/shootercheng/p/5836657.html#">更多链接</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/shootercheng/tag/Java/">Java</a>(12)</li><li><a href="http://www.cnblogs.com/shootercheng/tag/MySQL/">MySQL</a>(5)</li><li><a href="http://www.cnblogs.com/shootercheng/tag/Oracle/">Oracle</a>(3)</li><li><a href="http://www.cnblogs.com/shootercheng/tag/Python/">Python</a>(3)</li><li><a href="http://www.cnblogs.com/shootercheng/tag/%EF%BC%AD%EF%BD%8F%EF%BD%8E%EF%BD%87%EF%BD%8F%EF%BC%A4%EF%BC%A2/">ＭｏｎｇｏＤＢ</a>(3)</li><li><a href="http://www.cnblogs.com/shootercheng/tag/Hibernate/">Hibernate</a>(2)</li><li><a href="http://www.cnblogs.com/shootercheng/tag/UML/">UML</a>(2)</li><li><a href="http://www.cnblogs.com/shootercheng/tag/win10/">win10</a>(1)</li><li><a href="http://www.cnblogs.com/shootercheng/tag/SSH%E6%95%B4%E5%90%88/">SSH整合</a>(1)</li><li><a href="http://www.cnblogs.com/shootercheng/tag/TestLink/">TestLink</a>(1)</li><li><a href="http://www.cnblogs.com/shootercheng/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div class="catListPostCategory">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/shootercheng/category/929012.html">CXF(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/shootercheng/category/1020313.html">Eclipse(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/shootercheng/category/939173.html">ExtJS</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/shootercheng/category/980021.html">Hibernate(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/shootercheng/category/818230.html">Java(19)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/shootercheng/category/1000553.html">Java数据结构算法(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/shootercheng/category/937456.html">Java学习(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/shootercheng/category/843839.html">Linux</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/shootercheng/category/888360.html">MongoDB(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/shootercheng/category/908420.html">MySQL(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/shootercheng/category/924283.html">Oracle(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="http://www.cnblogs.com/shootercheng/category/818232.html">Python(10)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="http://www.cnblogs.com/shootercheng/category/983819.html">Spring(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="http://www.cnblogs.com/shootercheng/category/818231.html">UML(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="http://www.cnblogs.com/shootercheng/category/1020350.html">win10(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="http://www.cnblogs.com/shootercheng/category/818233.html">软件测试(2)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catListPostArchive">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/shootercheng/archive/2017/06.html">2017年6月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/shootercheng/archive/2017/05.html">2017年5月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/shootercheng/archive/2017/04.html">2017年4月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/shootercheng/archive/2017/02.html">2017年2月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/shootercheng/archive/2017/01.html">2017年1月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/shootercheng/archive/2016/12.html">2016年12月 (12)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/shootercheng/archive/2016/11.html">2016年11月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/shootercheng/archive/2016/10.html">2016年10月 (8)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/shootercheng/archive/2016/09.html">2016年9月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/shootercheng/archive/2016/07.html">2016年7月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/shootercheng/archive/2016/06.html">2016年6月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/shootercheng/archive/2016/05.html">2016年5月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/shootercheng/archive/2016/04.html">2016年4月 (11)</a> </li>
+
+</ul>
+
+</div>
+
+<div class="catList">
+<h3 class="catListTitle">Maven</h3>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/shootercheng/p/6286869.html#3716643">1. Re:Java基础知识(一) 自增、自减运算符</a></li>
+        <li class="recent_comment_body">@007.17你看下下面几行代码，没有报错，就说明书上是对的...</li>
+        <li class="recent_comment_author">--shootercheng</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/shootercheng/p/6286869.html#3716642">2. Re:Java基础知识(一) 自增、自减运算符</a></li>
+        <li class="recent_comment_body">@007.17你可以是一下 一个 String类型的字符串 使用 + int型或者double型先转换成字符串再连接的...</li>
+        <li class="recent_comment_author">--shootercheng</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/shootercheng/p/6286869.html#3663612">3. Re:Java基础知识(一) 自增、自减运算符</a></li>
+        <li class="recent_comment_body">兄弟，<br>自增代码举例<br>System.out.println("m="+m)中m=7，再+m怎么就等于8了？弟弟不明白，还请指教</li>
+        <li class="recent_comment_author">--007.17</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/shootercheng/p/6285092.html#3603614">4. Re:Java开发工具箱-JDK的安装与配置</a></li>
+        <li class="recent_comment_body">@SpringLife那个链接到是我的百度云盘，只要不移动文件夹结构或删除文件就没啥问题的，官网上去下载应该都会的，发云盘链接主要是下载方便...</li>
+        <li class="recent_comment_author">--shootercheng</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/shootercheng/p/6285092.html#3603553">5. Re:Java开发工具箱-JDK的安装与配置</a></li>
+        <li class="recent_comment_body">写的挺好，挺规范，不过建议你网址链接留下甲骨文官方版本的上一级就可以了，一旦官方改了就会找不到，百度云盘不建议放，以防失效。</li>
+        <li class="recent_comment_author">--SpringLife</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/shootercheng/p/5836657.html">1. 查看mysql数据库及表编码格式(42758)</a></li><li><a href="http://www.cnblogs.com/shootercheng/p/6022411.html">2. Java整型与字符串相互转换(转)(21230)</a></li><li><a href="http://www.cnblogs.com/shootercheng/p/5634220.html">3. win10亮度不能调节的解决方法(4363)</a></li><li><a href="http://www.cnblogs.com/shootercheng/p/6058130.html">4. Java调用MySQL存储过程(4046)</a></li><li><a href="http://www.cnblogs.com/shootercheng/p/5962445.html">5. Python爬取CSDN博客文章(1134)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/shootercheng/p/6286869.html">1. Java基础知识(一) 自增、自减运算符(3)</a></li><li><a href="http://www.cnblogs.com/shootercheng/p/6285092.html">2. Java开发工具箱-JDK的安装与配置(2)</a></li><li><a href="http://www.cnblogs.com/shootercheng/p/5962445.html">3. Python爬取CSDN博客文章(1)</a></li><li><a href="http://www.cnblogs.com/shootercheng/p/5928249.html">4. Python:urllib和urllib2的区别(转)(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/shootercheng/p/5836657.html">1. 查看mysql数据库及表编码格式(2)</a></li><li><a href="http://www.cnblogs.com/shootercheng/p/5962445.html">2. Python爬取CSDN博客文章(2)</a></li><li><a href="http://www.cnblogs.com/shootercheng/p/5838645.html">3. Tomcat工作原理(转)(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2017 shootercheng
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>
