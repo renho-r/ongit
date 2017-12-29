@@ -1,0 +1,27 @@
+1.域名配置
+	vi /etc/hosts
+	增加
+		127.0.0.1	cas.server
+		127.0.0.1	app0.com
+		127.0.0.1	app1.com
+
+2.生成证书
+	keytool -genkey -alias castest -keyalg RSA -keystore /Users/renho/cas/cas-server.keystore
+3.导出证书
+	keytool -export -file /Users/renho/cas/keys/cas-server.crt -alias castest -keystore /Users/renho/cas/cas-server.keystore
+4.导入证书
+	keytool -import -keystore /Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/security/cacerts -file /Users/renho/cas/keys/cas-server.crt -alias castest
+	4.1删除：/Library/Java/JavaVirtualMachines/jdk1.8.0_144.jdk/Contents/Home/jre/lib/security/cacerts 输入密码
+	4.2密码输入：changeit
+5.配置服务端
+	cas-server
+		<Connector port="8443" protocol="HTTP/1.1" SSLEnabled="true"
+           maxThreads="150" scheme="https" secure="true"
+           keystoreFile="/Users/renho/cas/cas-server.keystore" keystorePass="castestpass"
+           clientAuth="false" sslProtocol="TLS" URIEncoding="UTF-8"/>
+
+    cas client
+    	pom.xml
+    	web.xml
+
+6.-Djavax.net.ssl.trustStore=/Users/renho/cas/cas-server.keystore
