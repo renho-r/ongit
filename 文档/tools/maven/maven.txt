@@ -109,3 +109,5 @@ other
 		</executions>
 	</plugin>
 mvn clean package
+
+-Dmaven.test.skip=true
