@@ -54,7 +54,7 @@
 	sparks.count
 	sparks.cache
 MASTER=spark://192.168.0.107:7077 ./spark-shell
-
+./start-all.sh
 4.master,slave1的hosts添加192.168.0.102 renho
 
 ./spark-submit \

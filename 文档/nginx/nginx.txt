@@ -1,0 +1,16 @@
+./configure
+./configure --prefix=/usr/local/nginx --with-pcre=/root/nginx-1.12.2
+
+
+
+------pcre
+./configure --enable-utf8  
+make install
+
+rpm -ivh pcre-devel-8.32-17.el7.x86_64.rpm --force
+
+
+/usr/local/nginx
+cd sbin
+./nginx
+./nginx -s stop
