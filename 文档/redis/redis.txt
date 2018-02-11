@@ -10,7 +10,7 @@
 	cmd->redis-cli -h 127.0.0.1 -p 6379
 	cmd->set keyRenho valueRenho
 	cmd->get keyRenho
-
+	select 15
 5.Êı¾İÀàĞÍ
 	5.1×Ö·û´®String:512M
 		Àı: set key-renho value-renho
@@ -43,3 +43,5 @@
 
 6.ÃüÁî
 	keys *
+
+ÉÚ±øÅäÖÃ7501 7502 7503 7504 7505 7506
