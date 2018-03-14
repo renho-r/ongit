@@ -1,0 +1,25 @@
+#server
+server:
+  port: 8080
+  tomcat.uri-encoding: utf-8
+
+#
+spring:
+  #db
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?characterEncoding=utf8
+    username: renho
+    password: root123
+
+  #mybatis
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.renho.springboot.mybatis.entity
+
+  #视图层控制
+  mvc:
+    view:
+      prefix: classpath:/templates/
+      suffix: .html
+    static-path-pattern: /static/**
