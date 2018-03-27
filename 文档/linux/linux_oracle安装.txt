@@ -87,6 +87,8 @@ vi /etc/rc.d/rc.local
 su oracle -lc "/u01/oracle/bin/lsnrctl start"
 su oracle -lc /u01/oracle/bin/dbstart
 
+chmod +x /etc/rc.d/rc.local
+
 SID_LIST_LISTENER=
 	(SID_LIST=
 		(SID_DESC=

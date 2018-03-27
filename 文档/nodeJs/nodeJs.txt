@@ -40,3 +40,7 @@ supervisor app.js
 
 
 supervisor ./bin/www
+
+
+
+npm install --registry=https://registry.npm.taobao.org

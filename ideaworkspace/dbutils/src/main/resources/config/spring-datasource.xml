@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd" >
+
+    <!-- 数据源配置 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="driverClassName" value="${db.connection.driver_class}" />
+        <property name="url" value="${db.connection.url}" />
+        <property name="username" value="${db.connection.username}" />
+        <property name="password" value="${db.connection.password}" />
+        <property name="maxActive" value="${db.connection.maxActive}" />
+        <property name="maxWait" value="${db.connection.maxWait}" />
+        <property name="initialSize" value="${db.connection.initialSize}" />
+        <property name="minIdle" value="${db.connection.minIdle}" />
+        <property name="timeBetweenEvictionRunsMillis" value="${db.connection.timeBetweenEvictionRunsMillis}" />
+        <property name="minEvictableIdleTimeMillis" value="${db.connection.minEvictableIdleTimeMillis}" />
+        <property name="validationQuery" value="${db.connection.validationQuery}" />
+        <property name="testWhileIdle" value="${db.connection.testWhileIdle}" />
+        <property name="testOnBorrow" value="${db.connection.testOnBorrow}" />
+        <property name="testOnReturn" value="${db.connection.testOnReturn}" />
+        <property name="defaultAutoCommit" value="${db.connection.defaultAutoCommit}"/>
+        <property name="filters" value="stat" />
+        <property name="poolPreparedStatements" value="true" />
+        <property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
+    </bean>
+
+</beans>

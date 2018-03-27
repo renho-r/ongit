@@ -1,0 +1,30 @@
+#server
+server:
+  port: 18080
+  tomcat.uri-encoding: utf-8
+
+#
+spring:
+  #db
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?characterEncoding=utf8
+    username: renho
+    password: root123
+
+  #Spring Data JPA
+  jpa:
+    database: MYSQL
+    show-sql: true
+    hibernate.ddl-auto: update
+    # Naming strategy
+    hibernate.naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+    # stripped before adding them to the entity manager)
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
+
+  #视图层控制
+  mvc:
+    view:
+      prefix: classpath:/templates/
+      suffix: .html
+    static-path-pattern: /static/**

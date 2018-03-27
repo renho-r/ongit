@@ -1,0 +1,25 @@
+error:
+  whitelabel:
+    enabled: false
+
+amazon:
+  associate_id: habuma-20
+
+spring:
+  profiles:
+    active: pro
+
+---
+
+spring:
+  profiles: development
+logging:
+  level:
+    root: DEBUG
+
+---
+spring:
+  profiles: production
+logging:
+  level:
+    root: WARN
