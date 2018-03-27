@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)https://www.cnblogs.com/piscesLoveCc/p/5867900.html -->
+<html lang="zh-cn" class="  ext-strict"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nginx+Center OS 7.2 开机启动设置(转载) - 雨~桐 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/bundle-SimpleMemory.css">
+<link type="text/css" rel="stylesheet" href="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/147531.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/bundle-SimpleMemory-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/piscesLoveCc/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/piscesLoveCc/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/piscesLoveCc/wlwmanifest.xml">
+<script async="" src="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/analytics.js"></script><script src="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/jquery-2.2.0.min.js"></script>
+<script type="text/javascript">var currentBlogApp = 'piscesLoveCc', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/blog-common.js" type="text/javascript"></script>
+</head>
+<body class=" ext-webkit ext-chrome ext-mac" id="syno-nsc-ext-gen3">
+<a name="top"></a>
+<!--PageBeginHtml Block Begin-->
+<link rel="stylesheet" type="text/css" href="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/docco.css">
+<!--PageBeginHtml Block End-->
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/piscesLoveCc/"><img id="blogLogo" src="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/piscesLoveCc/">雨~桐</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/piscesLoveCc/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E9%9B%A8~%E6%A1%90">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/piscesLoveCc/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="http://www.cnblogs.com/piscesLoveCc/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 19&nbsp; </span>
+<span id="stats_article_count">文章 - 6&nbsp; </span>
+<span id="stats-comment_count">评论 - 29</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/piscesLoveCc/p/5867900.html">Nginx+Center OS 7.2 开机启动设置(转载)</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p>centos 7以上是用Systemd进行系统初始化的，Systemd 是 Linux 系统中最新的初始化系统（init），它主要的设计目标是克服 sysvinit 固有的缺点，提高系统的启动速度。关于Systemd的详情介绍在<a href="http://www.ibm.com/developerworks/cn/linux/1407_liuming_init3/">这里</a>。</p>
+<p>Systemd服务文件以.service结尾，比如现在要建立nginx为开机启动，如果用yum install命令安装的，yum命令会自动创建nginx.service文件，直接用命令</p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_231846" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="https://www.cnblogs.com/piscesLoveCc/p/5867900.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">systemcel enable nginx.service</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>设置开机启动即可。<br>在这里我是用源码编译安装的，所以要手动创建nginx.service服务文件。<br>开机没有登陆情况下就能运行的程序，存在系统服务（system）里，即：</p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_658319" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="https://www.cnblogs.com/piscesLoveCc/p/5867900.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">/lib/systemd/</code><code class="cpp functions bold">system</code><code class="cpp plain">/</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<h2>1.在系统服务目录里创建nginx.service文件</h2>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_251259" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="https://www.cnblogs.com/piscesLoveCc/p/5867900.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">vi /lib/systemd/</code><code class="cpp functions bold">system</code><code class="cpp plain">/nginx.service</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>内容如下</p>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_183159" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="https://www.cnblogs.com/piscesLoveCc/p/5867900.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div><div class="line number2 index1 alt1">2</div><div class="line number3 index2 alt2">3</div><div class="line number4 index3 alt1">4</div><div class="line number5 index4 alt2">5</div><div class="line number6 index5 alt1">6</div><div class="line number7 index6 alt2">7</div><div class="line number8 index7 alt1">8</div><div class="line number9 index8 alt2">9</div><div class="line number10 index9 alt1">10</div><div class="line number11 index10 alt2">11</div><div class="line number12 index11 alt1">12</div><div class="line number13 index12 alt2">13</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">[Unit] </code></div><div class="line number2 index1 alt1"><code class="cpp plain">Description=nginx </code></div><div class="line number3 index2 alt2"><code class="cpp plain">After=network.target </code></div><div class="line number4 index3 alt1"><code class="cpp spaces">&nbsp;</code>&nbsp;</div><div class="line number5 index4 alt2"><code class="cpp plain">[Service] </code></div><div class="line number6 index5 alt1"><code class="cpp plain">Type=forking </code></div><div class="line number7 index6 alt2"><code class="cpp plain">ExecStart=/usr/local/nginx/sbin/nginx </code></div><div class="line number8 index7 alt1"><code class="cpp plain">ExecReload=/usr/local/nginx/sbin/nginx -s reload </code></div><div class="line number9 index8 alt2"><code class="cpp plain">ExecStop=/usr/local/nginx/sbin/nginx -s quit</code></div><div class="line number10 index9 alt1"><code class="cpp plain">PrivateTmp=</code><code class="cpp keyword bold">true</code></div><div class="line number11 index10 alt2"><code class="cpp spaces">&nbsp;</code>&nbsp;</div><div class="line number12 index11 alt1"><code class="cpp plain">[Install] </code></div><div class="line number13 index12 alt2"><code class="cpp plain">WantedBy=multi-user.target</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<p>[Unit]:服务的说明<br>Description:描述服务<br>After:描述服务类别<br>[Service]服务运行参数的设置<br>Type=forking是后台运行的形式<br>ExecStart为服务的具体运行命令<br>ExecReload为重启命令<br>ExecStop为停止命令<br>PrivateTmp=True表示给服务分配独立的临时空间<br>注意：[Service]的启动、重启、停止命令全部要求使用绝对路径<br>[Install]运行级别下服务安装的相关设置，可设置为多用户，即系统运行级别为3</p>
+<p>保存退出。</p>
+<h2>2.设置开机启动</h2>
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_66275" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="https://www.cnblogs.com/piscesLoveCc/p/5867900.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">systemctl enable nginx.service</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<h2>3.其他命令</h2>
+<p>启动nginx服务</p>
+<div id="crayon-57d7ad0e141b6083198694" class="crayon-syntax crayon-theme-xcode crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always">
+<div class="crayon-plain-wrap">
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_611642" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="https://www.cnblogs.com/piscesLoveCc/p/5867900.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">systemctl start nginx.service　</code></div></div></td></tr></tbody></table></div></div>
+</div>
+</div>
+</div>
+<p>设置开机自启动</p>
+<div id="crayon-57d7ad0e141bb033704216" class="crayon-syntax crayon-theme-xcode crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always">
+<div class="crayon-plain-wrap">
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_187315" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="https://www.cnblogs.com/piscesLoveCc/p/5867900.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">systemctl enable nginx.service</code></div></div></td></tr></tbody></table></div></div>
+</div>
+</div>
+</div>
+<p>停止开机自启动</p>
+<div id="crayon-57d7ad0e141c0800414066" class="crayon-syntax crayon-theme-xcode crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always">
+<div class="crayon-plain-wrap">
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_496855" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="https://www.cnblogs.com/piscesLoveCc/p/5867900.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">systemctl disable nginx.service</code></div></div></td></tr></tbody></table></div></div>
+</div>
+</div>
+</div>
+<p>查看服务当前状态</p>
+<div id="crayon-57d7ad0e141c5424771358" class="crayon-syntax crayon-theme-xcode crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always">
+<div class="crayon-main">
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_813508" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="https://www.cnblogs.com/piscesLoveCc/p/5867900.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">systemctl status nginx.service</code></div></div></td></tr></tbody></table></div></div>
+</div>
+</div>
+</div>
+<p>重新启动服务</p>
+<div id="crayon-57d7ad0e141ca868434257" class="crayon-syntax crayon-theme-xcode crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always">
+<div class="crayon-plain-wrap">
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_747625" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="https://www.cnblogs.com/piscesLoveCc/p/5867900.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">systemctl restart nginx.service　</code></div></div></td></tr></tbody></table></div></div>
+</div>
+</div>
+</div>
+<p>查看所有已启动的服务</p>
+<div id="crayon-57d7ad0e141ce752636275" class="crayon-syntax crayon-theme-xcode crayon-font-monaco crayon-os-pc print-yes notranslate" data-settings=" minimize scroll-always">
+<div class="crayon-plain-wrap">
+<div class="cnblogs_Highlighter sh-gutter">
+<div><div id="highlighter_958707" class="syntaxhighlighter  cpp"><div class="toolbar"><span><a href="https://www.cnblogs.com/piscesLoveCc/p/5867900.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="gutter"><div class="line number1 index0 alt2">1</div></td><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="cpp plain">systemctl list-units --type=service</code></div></div></td></tr></tbody></table></div></div>
+</div>
+<h2>4.Systemd 命令和 sysvinit 命令的对照表</h2>
+<p><strong>&nbsp;<img src="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/501579-20160913160933305-2055705073.png" alt=""></strong></p>
+<h2>5.Sysvinit 运行级别和 systemd 目标的对应表</h2>
+<p><img src="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/501579-20160913161239289-454079071.png" alt=""></p>
+<p>&nbsp;</p>
+<p>&nbsp; 原文地址：<a title="http://www.dohooe.com/2016/03/03/352.html?utm_source=tuicool&amp;utm_medium=referral" href="http://www.dohooe.com/2016/03/03/352.html?utm_source=tuicool&amp;utm_medium=referral" target="_blank">http://www.dohooe.com/2016/03/03/352.html?utm_source=tuicool&amp;utm_medium=referral</a></p>
+</div>
+</div></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/piscesLoveCc/category/870995.html" target="_blank">Nginx</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(5867900,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;9ee4f8f5-0086-e211-9984-842b2b196315&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/piscesLoveCc/" target="_blank"><img src="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/20170823171847.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/piscesLoveCc/">雨~桐</a><br>
+            <a href="http://home.cnblogs.com/u/piscesLoveCc/followees">关注 - 9</a><br>
+            <a href="http://home.cnblogs.com/u/piscesLoveCc/followers">粉丝 - 12</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;9ee4f8f5-0086-e211-9984-842b2b196315&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(5867900,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">3</span>
+    </div>
+    <div class="buryit" onclick="votePost(5867900,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/piscesLoveCc/p/5799194.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/piscesLoveCc/p/5799194.html" title="发布于2016-08-23 16:21">Nginx+Keepalived实现高可用站点</a><br><a href="http://www.cnblogs.com/piscesLoveCc/p/6120875.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/piscesLoveCc/p/6120875.html" title="发布于2016-12-01 10:36">Nginx启动SSL功能，并进行功能优化，你看这个就足够了</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2016-09-13 16:14</span> <a href="http://www.cnblogs.com/piscesLoveCc/">雨~桐</a> 阅读(<span id="post_view_count">12733</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=5867900" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/piscesLoveCc/p/5867900.html#" onclick="AddToWz(5867900);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=147531,cb_entryId=5867900,cb_blogApp=currentBlogApp,cb_blogUserGuid='9ee4f8f5-0086-e211-9984-842b2b196315',cb_entryCreatedDate='2016/9/13 16:14:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/piscesLoveCc/p/5867900.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/piscesLoveCc/p/5867900.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型组态工控、电力仿真CAD与GIS源码库！</a><br><a href="http://click.aliyun.com/m/43774/" target="_blank">【缅怀】传奇谢幕，回顾霍金76载传奇人生</a><br><a href="http://arction.cn/" target="_blank">【推荐】业界最快速.NET数据可视化图表组件</a><br><a href="https://buy.cloud.tencent.com/domain?fromSource=gwzcw.882687.882687.882687" target="_blank">【腾讯云】买域名送解析+SSL证书+建站</a><br><a href="https://www.yunqi2050.com/#/index" target="_blank">【活动】2050 科技公益大会 - 年青人因科技而团聚</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;C1&#39;);" href="https://cloud.tencent.com/solution/la?fromSource=gwzcw.883654.883654.883654" target="_blank"><img width="300" height="250" src="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/24442-20180326113514896-610961046.jpg" alt="腾讯云0326"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/592783/" target="_blank">百度“叛将”王劲的300天创业历险记</a><br> ·  <a href="https://news.cnblogs.com/n/592782/" target="_blank">美国参议院4月10日召开数据隐私听证会 扎克伯格受邀请</a><br> ·  <a href="https://news.cnblogs.com/n/592779/" target="_blank">苹果和IBM齐呼吁：出台更多监管措施保护个人隐私</a><br> ·  <a href="https://news.cnblogs.com/n/592777/" target="_blank">约战 | 傅盛个人“情怀” 与机器人圈“震怒”</a><br> ·  <a href="https://news.cnblogs.com/n/592774/" target="_blank">无人车巨头每天都在做相同的事情：不惜血本做高精地图是为何？</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;C2&#39;);" href="http://click.aliyun.com/m/42835/" target="_blank"><img width="468" height="60" src="./Nginx+Center OS 7.2 开机启动设置(转载) - 雨_桐 - 博客园_files/TB1mEZFaWmWBuNjy1XaXXXCbXXa-468-60.jpg" alt="阿里云0308"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/575255/" target="_blank">写给自学者的入门指南</a><br> ·  <a href="http://kb.cnblogs.com/page/578690/" target="_blank">和程序员谈恋爱</a><br> ·  <a href="http://kb.cnblogs.com/page/585734/" target="_blank">学会学习</a><br> ·  <a href="http://kb.cnblogs.com/page/588938/" target="_blank">优秀技术人的管理陷阱</a><br> ·  <a href="http://kb.cnblogs.com/page/590141/" target="_blank">作为一个程序员，数学对你到底有多重要</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/piscesLoveCc/">雨~桐</a><br>园龄：<a href="https://home.cnblogs.com/u/piscesLoveCc/" title="入园时间：2013-03-06">5年</a><br>粉丝：<a href="https://home.cnblogs.com/u/piscesLoveCc/followers/">12</a><br>关注：<a href="https://home.cnblogs.com/u/piscesLoveCc/followees/">9</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;9ee4f8f5-0086-e211-9984-842b2b196315&#39;)">+加关注</a></div><script>getFollowStatus('9ee4f8f5-0086-e211-9984-842b2b196315')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/02/01&#39;);return false;">&lt;</a></td><td align="center">2018年3月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/04/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">25</td><td class="CalOtherMonthDay" align="center">26</td><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td align="center">1</td><td align="center">2</td><td class="CalWeekendDay" align="center">3</td></tr><tr><td class="CalWeekendDay" align="center">4</td><td align="center">5</td><td align="center">6</td><td align="center">7</td><td align="center">8</td><td align="center">9</td><td class="CalWeekendDay" align="center">10</td></tr><tr><td class="CalWeekendDay" align="center">11</td><td align="center">12</td><td align="center">13</td><td align="center">14</td><td align="center">15</td><td align="center">16</td><td class="CalWeekendDay" align="center">17</td></tr><tr><td class="CalWeekendDay" align="center">18</td><td align="center">19</td><td align="center">20</td><td align="center">21</td><td align="center">22</td><td align="center">23</td><td class="CalWeekendDay" align="center">24</td></tr><tr><td class="CalWeekendDay" align="center">25</td><td align="center">26</td><td class="CalTodayDay" align="center">27</td><td align="center">28</td><td align="center">29</td><td align="center">30</td><td class="CalWeekendDay" align="center">31</td></tr><tr><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td><td class="CalOtherMonthDay" align="center">6</td><td class="CalOtherMonthDay" align="center">7</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/piscesLoveCc/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block">
+<div class="catListTag">
+<h3 class="catListTitle">我的标签</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/piscesLoveCc/tag/C%23/">C#</a>(4)</li><li><a href="http://www.cnblogs.com/piscesLoveCc/tag/IoC/">IoC</a>(4)</li><li><a href="http://www.cnblogs.com/piscesLoveCc/tag/Unity/">Unity</a>(4)</li><li><a href="http://www.cnblogs.com/piscesLoveCc/tag/ASP.NET%20Core/">ASP.NET Core</a>(3)</li><li><a href="http://www.cnblogs.com/piscesLoveCc/tag/DDD/">DDD</a>(2)</li><li><a href="http://www.cnblogs.com/piscesLoveCc/tag/Extjs/">Extjs</a>(2)</li><li><a href="http://www.cnblogs.com/piscesLoveCc/tag/EXTJS4%20treeStore/">EXTJS4 treeStore</a>(1)</li><li><a href="http://www.cnblogs.com/piscesLoveCc/tag/Elasticsearch/">Elasticsearch</a>(1)</li><li><a href="http://www.cnblogs.com/piscesLoveCc/tag/VS2017/">VS2017</a>(1)</li><li><a href="http://www.cnblogs.com/piscesLoveCc/tag/%E5%A7%94%E6%89%98/">委托</a>(1)</li><li><a href="http://www.cnblogs.com/piscesLoveCc/tag/">更多</a></li>
+</ul>
+</div></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/piscesLoveCc/category/829903.html">AOP</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/piscesLoveCc/category/857280.html">ASP.NET Core(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/piscesLoveCc/category/1041937.html">Elasticsearch(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/piscesLoveCc/category/829905.html">EntityFramework</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/piscesLoveCc/category/829904.html">Ioc(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/piscesLoveCc/category/871618.html">Keepalived(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/piscesLoveCc/category/1041940.html">Kibana(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/piscesLoveCc/category/1041938.html">Logstash(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/piscesLoveCc/category/832864.html">Message Queue(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/piscesLoveCc/category/866684.html">MyCat(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/piscesLoveCc/category/857282.html">NET Core(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="http://www.cnblogs.com/piscesLoveCc/category/870995.html">Nginx(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="http://www.cnblogs.com/piscesLoveCc/category/1041942.html">Nlog(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="http://www.cnblogs.com/piscesLoveCc/category/865812.html">Redis(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="http://www.cnblogs.com/piscesLoveCc/category/868835.html">Redis-Cluster(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="http://www.cnblogs.com/piscesLoveCc/category/857281.html">Supervisor(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_16" href="http://www.cnblogs.com/piscesLoveCc/category/829906.html">Swift</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_17" href="http://www.cnblogs.com/piscesLoveCc/category/829902.html">Unity(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_18" href="http://www.cnblogs.com/piscesLoveCc/category/1008694.html">VS2017(2)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/piscesLoveCc/archive/2017/08.html">2017年8月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/piscesLoveCc/archive/2017/07.html">2017年7月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/piscesLoveCc/archive/2017/05.html">2017年5月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/piscesLoveCc/archive/2016/12.html">2016年12月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/piscesLoveCc/archive/2016/09.html">2016年9月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/piscesLoveCc/archive/2016/08.html">2016年8月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/piscesLoveCc/archive/2016/07.html">2016年7月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/piscesLoveCc/archive/2016/05.html">2016年5月 (4)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_articlecategory" class="catListArticleCategory sidebar-block">
+<h3 class="catListTitle">文章分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_2_Link_0" href="http://www.cnblogs.com/piscesLoveCc/category/834466.html">ASP.NET Core(1)</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_1" href="http://www.cnblogs.com/piscesLoveCc/category/832911.html">DDD(2)</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_2" href="http://www.cnblogs.com/piscesLoveCc/category/469309.html">Extjs学习笔记(2)</a> </li>
+
+<li><a id="CatList_LinkList_2_Link_3" href="http://www.cnblogs.com/piscesLoveCc/category/837433.html">Log4net</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/piscesLoveCc/p/7230426.html#3895589">1. Re:Elasticsearch,Kibana,Logstash,NLog实现ASP.NET Core 分布式日志系统</a></li>
+        <li class="recent_comment_body">@蜗牛往前走应该没有，这个规则与Nlog的layout对应上即可。...</li>
+        <li class="recent_comment_author">--雨~桐</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/piscesLoveCc/p/7230426.html#3895549">2. Re:Elasticsearch,Kibana,Logstash,NLog实现ASP.NET Core 分布式日志系统</a></li>
+        <li class="recent_comment_body">这里是不是写反了？可能应该是：...</li>
+        <li class="recent_comment_author">--蜗牛往前走</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/piscesLoveCc/p/7366418.html#3863849">3. Re:.NET Core 从1.1升级到2.0记录（Cookie中间件踩坑）</a></li>
+        <li class="recent_comment_body">大兄弟在吗，有一个cookie的问题想请教。研究了一天早上了，毫无头绪啊。</li>
+        <li class="recent_comment_author">--87Super</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/piscesLoveCc/p/6120875.html#3863838">4. Re:Nginx启动SSL功能，并进行功能优化，你看这个就足够了</a></li>
+        <li class="recent_comment_body">赞 很好 学习了</li>
+        <li class="recent_comment_author">--chenzhaohf</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/piscesLoveCc/p/6120875.html#3848995">5. Re:Nginx启动SSL功能，并进行功能优化，你看这个就足够了</a></li>
+        <li class="recent_comment_body">@D..C你可以看我的另一篇文章，地址Ubuntu 安装Nginx...</li>
+        <li class="recent_comment_author">--雨~桐</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/piscesLoveCc/p/5794926.html">1. Ubuntu16.04.1  安装Nginx(33922)</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/p/6120875.html">2. Nginx启动SSL功能，并进行功能优化，你看这个就足够了(17065)</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/p/5867900.html">3. Nginx+Center OS 7.2 开机启动设置(转载)(12733)</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/p/5779795.html">4. Ubuntu16.04.1 安装Redis-Cluster(2311)</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/p/5757477.html">5. CenterOS中安装Redis及开机启动设置(1852)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/piscesLoveCc/p/7366418.html">1. .NET Core 从1.1升级到2.0记录（Cookie中间件踩坑）(9)</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/p/7230426.html">2. Elasticsearch,Kibana,Logstash,NLog实现ASP.NET Core 分布式日志系统(6)</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/p/6120875.html">3. Nginx启动SSL功能，并进行功能优化，你看这个就足够了(5)</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/p/5794926.html">4. Ubuntu16.04.1  安装Nginx(4)</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/p/7423205.html">5. .NET Core 常用加密和Hash工具NETCore.Encrypt(3)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/piscesLoveCc/p/5794926.html">1. Ubuntu16.04.1  安装Nginx(25)</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/p/7230426.html">2. Elasticsearch,Kibana,Logstash,NLog实现ASP.NET Core 分布式日志系统(6)</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/p/6120875.html">3. Nginx启动SSL功能，并进行功能优化，你看这个就足够了(5)</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/p/7423205.html">4. .NET Core 常用加密和Hash工具NETCore.Encrypt(5)</a></li><li><a href="http://www.cnblogs.com/piscesLoveCc/p/7366418.html">5. .NET Core 从1.1升级到2.0记录（Cookie中间件踩坑）(5)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2018 雨~桐
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+<div id="syno-nsc-ext-comp-1008" class=" x-tip-invalid" style="position: absolute; z-index: 11000; visibility: hidden; display: none;"><div class="x-tip-invalid-tl"><div class="x-tip-invalid-tr"><div class="x-tip-invalid-tc"><div class="x-tip-invalid-header x-unselectable" id="syno-nsc-ext-gen4"><span class="x-tip-invalid-header-text"></span></div></div></div></div><div class="x-tip-invalid-bwrap" id="syno-nsc-ext-gen5"><div class="x-tip-invalid-ml"><div class="x-tip-invalid-mr"><div class="x-tip-invalid-mc" id="syno-nsc-ext-gen8"><div class="x-tip-invalid-body" id="syno-nsc-ext-gen6" style="height: auto;"></div></div></div></div><div class="x-tip-invalid-bl x-panel-nofooter" id="syno-nsc-ext-gen7"><div class="x-tip-invalid-br"><div class="x-tip-invalid-bc"></div></div></div></div><div class="x-tip-anchor x-tip-anchor-top" id="syno-nsc-ext-gen9" style="z-index: 11001;"></div></div></body></html>

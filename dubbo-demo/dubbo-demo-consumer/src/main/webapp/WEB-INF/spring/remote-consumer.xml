@@ -13,7 +13,7 @@
     <!-- 使用multicast广播注册中心暴露服务地址   
     <dubbo:registry address="multicast://224.5.6.7:1234" />-->
     <!-- 使用zookeeper注册中心暴露服务地址 -->  
-    <dubbo:registry address="zookeeper://192.168.19.128:2181" />
+    <dubbo:registry address="zookeeper://127.0.0.1:2181" />
     
 	<dubbo:reference id="sayHelloService" interface="com.renho.dubbotest.service.ISayHelloService"/>
     <!--actives="10" connections="10"-->
