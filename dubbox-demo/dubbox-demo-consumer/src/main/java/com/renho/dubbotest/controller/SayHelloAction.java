@@ -13,8 +13,6 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.renho.dubbotest.service.ISayHelloService;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Controller
