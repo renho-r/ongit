@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<!-- saved from url=(0048)https://www.cnblogs.com/linjiaxin/p/6690757.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="same-origin">
+<title>centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园</title>
+<link type="text/css" rel="stylesheet" href="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/bundle-red_autumnal_leaves.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/bundle-red_autumnal_leaves-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="http://www.cnblogs.com/linjiaxin/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="http://www.cnblogs.com/linjiaxin/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="http://www.cnblogs.com/linjiaxin/wlwmanifest.xml">
+<script async="" src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/analytics.js.下载"></script><script src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+<script type="text/javascript">var currentBlogApp = 'linjiaxin', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+</head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="http://www.cnblogs.com/linjiaxin/"><img id="blogLogo" src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="http://www.cnblogs.com/linjiaxin/">林加欣</a></h1>
+<h2></h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li><a id="blog_nav_sitehome" class="menu" href="http://www.cnblogs.com/">博客园</a></li>
+<li><a id="blog_nav_myhome" class="menu" href="http://www.cnblogs.com/linjiaxin/">首页</a></li>
+<li><a id="blog_nav_newpost" class="menu" rel="nofollow" href="https://i.cnblogs.com/EditPosts.aspx?opt=1">新随笔</a></li>
+<li><a id="blog_nav_contact" class="menu" rel="nofollow" href="https://msg.cnblogs.com/send/%E6%9E%97%E5%8A%A0%E6%AC%A3">联系</a></li>
+<li><a id="blog_nav_rss" class="menu" href="http://www.cnblogs.com/linjiaxin/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="http://www.cnblogs.com/linjiaxin/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			<div id="blog_stats">
+<span id="stats_post_count">随笔 - 117&nbsp; </span>
+<span id="stats_article_count">文章 - 1&nbsp; </span>
+<span id="stats-comment_count">评论 - 6</span>
+</div>
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="http://www.cnblogs.com/linjiaxin/p/6690757.html">centos7安装docker并安装jdk和tomcat（常用命令）</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body"><p><span style="background-color: #ff0000">&nbsp;阿里专属的镜像加速</span></p>
+<p>在宿主机器编辑文件：vi /etc/docker/daemon.json</p>
+<p>阿里专属的镜像加速地址，类似于“<a href="https://91cntlkt.mirror.aliyuncs.com/">https://91cntlkt.mirror.aliyuncs.com</a>”。</p>
+<p>请在该配置文件中加入（没有该文件的话，请先建一个）：</p>
+<p>&nbsp;</p>
+<p>{</p>
+<p>&nbsp; "registry-mirrors": ["<a href="https://91cntlkt.mirror.aliyuncs.com/">https://91cntlkt.mirror.aliyuncs.com</a>"]</p>
+<p>}</p>
+<p>&nbsp;</p>
+<p>最后，需要重启docker服务</p>
+<p>之后再使用pull命令拉取镜像，这时候是从ustc获取镜像，而且速度杠杠的</p>
+<p><strong>安装docker步骤：</strong></p>
+<p><strong>1.先安装centos7</strong></p>
+<p><strong>2.安装docker：yum install docker</strong></p>
+<p><strong>3安装docker对应的centos镜像：docker pull centos</strong></p>
+<p><strong>4安装tomcat：docker pull tomcat</strong></p>
+<p><strong><span class="hljs-tag">5指定容器和主机的映射端口：docker <span class="hljs-tag">run <span class="hljs-tag">-p 8081<span class="hljs-pseudo">:8080 <span class="hljs-tag">tomcat<span class="hljs-pseudo">:7（docker run <span style="background-color: #ff0000">-d</span> -p 8081:8080 docker.io/tomcat断开命令后后还可以访问tomcat）</span></span></span></span></span></span></strong></p>
+<p>6重启容器：<span class="pln">docker restart myrunoob</span></p>
+<p><span class="pln">删除镜像：</span></p>
+<pre class="hljs elixir"><span style="background-color: #ff0000"><code><span class="hljs-comment">docker rmi -f id</span></code></span></pre>
+<p>&nbsp;</p>
+<p>&nbsp;1、环境，CentOS7 Minimal 64位，Docker必须要64位的系统<br>2、通过yum命令直接安装，yum install docker<br>3、启动Docker，并将其设置为开机启动<br>(1)启动，systemctl start docker.service<br>(2)开机启动，systemctl enable docker.service<br>(3)帮助，docker --help<br>(4)概要信息，docker info<br>(5)镜像查看，docker images<br>(6)容器查看，即进程查看，docker ps -a<br>4、安装镜像，可以到https://registry.hub.docker.com/search?q=library查看官方的镜像。镜像，基于当前系统、Docker，制作的文件集合，即可以是操作系统、程序，如centos镜像、ubuntu镜像、mysql镜像、Nginx镜像<br>5、安装程序镜像，以Nginx为例，<br>(1)下载镜像，docker pull nginx:1.9<br>(2)启动容器，docker run -d -p 8080:80 nginx:1.9，把容器内的nginx的80端口，映射到当前服务器的8080端口，当前服务器的ip是192.168.0.191，浏览器输入http://192.168.0.191:8080/，就可以看到nginx已启动，<br>(3)<span style="background-color: #ff0000">再启动多一个容器</span>，docker run -d -p 8081:80 nginx:1.9，浏览器输入http://192.168.0.191:8081/，就可以看到另外一个nginx已启动<br>(4)到这里就能体现出<span style="background-color: #ff0000">Docker部署应用和传统部署应用的区别</span>了，传统部署的话，需要人工拷贝多一份nginx，再配置端口，而Docker部署的话，在已制作好的镜像基础上，一条命令就可以部署一个新的应用<br>6、安装系统镜像，以centos7为例，因为镜像运行的时候，会用当前系统的各种资源，所以镜像只有60M大小，<br>(1)下载镜像，docker pull centos:7<br>(2)启动容器，docker run -i -t centos:7 /bin/bash，这样就可以进入到centos7镜像系统<br>7、完成。</p>
+<p><strong>1、从容器里面拷文件到宿主机？</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp;答：在宿主机里面执行以下命令</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<a class="replace_word" title="Docker知识库" href="http://lib.csdn.net/base/docker" target="_blank">Docker</a>&nbsp;cp 容器名：要拷贝的文件在容器里面的路径 &nbsp; &nbsp; &nbsp; 要拷贝到宿主机的相应路径</strong></p>
+<p><strong>&nbsp;</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp;示例： 假设容器名为testtomcat,要从容器里面拷贝的文件路为：/usr/local/tomcat/webapps/test/js/test.js, &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 现在要将test.js从容器里面拷到宿主机的/opt路径下面，那么命令应该怎么写呢？</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp;答案：在宿主机上面执行命令</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;docker cp testtomcat：/usr/local/tomcat/webapps/test/js/test.js /opt</strong></p>
+<p><strong>2、从宿主机拷文件到容器里面</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; 答：在宿主机里面执行如下命令</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; docker cp 要拷贝的文件路径 容器名：要拷贝到容器里面对应的路径</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp;示例：假设容器名为testtomcat,现在要将宿主机/opt/test.js文件拷贝到容器里面 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 的/usr/local/tomcat/webapps/test/js路径下面，那么命令该怎么写呢？</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp;答案：在宿主机上面执行如下命令</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;docker cp /opt/test.js testtomcat：/usr/local/tomcat/webapps/test/js</strong></p>
+<p><strong>3、在这里在记录一个问题，怎么看容器名称？</strong></p>
+<p><strong>&nbsp; &nbsp; &nbsp; 执行命令：docker ps,出现如图所示，其中NAMES就是容器名了。</strong></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>Docker更多资料请到<a href="https://dashboard.daocloud.io/">https://dashboard.daocloud.io</a>学习</p>
+<p>&nbsp; 软件环境：jdk、tomcat、docker、centos、虚拟机</p>
+<p>&nbsp;&nbsp;</p>
+<p>首先，您要准备一个 CentOS 的操作系统，虚拟机也行。总之，可以通过 Linux 客户端工具访问到 CentOS 操作系统就行。</p>
+<p>需要说明的是，Ubuntu 或其它 Linux 操作系统也能玩 Docker，只不过本文选择了以 CentOS 为例，仅此而已。</p>
+<p>CentOS 具体要求如下：</p>
+<ol>
+<li>必须是 64 位操作系统</li>
+<li>建议内核在 3.8 以上</li>
+
+
+
+</ol>
+<p>通过以下命令查看您的 CentOS 内核：</p>
+<div><div id="highlighter_363867" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash functions">uname</code> <code class="bash plain">-r</code></div></div></td></tr></tbody></table></div></div>
+<p>如果执行以上命令后，输出的内核版本号低于 3.8，请参考下面的方法来来升级您的 Linux 内核。</p>
+<p>对于 CentOS 6.5 而言，内核版本默认是 2.6。首先，可通过以下命令安装最新内核：</p>
+<div><div id="highlighter_423866" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">rpm --</code><code class="bash functions">import</code> <code class="bash plain">https:</code><code class="bash plain">//www</code><code class="bash plain">.elrepo.org</code><code class="bash plain">/RPM-GPG-KEY-elrepo</code><code class="bash plain">.org</code></div><div class="line number2 index1 alt1"><code class="bash plain">rpm -ivh http:</code><code class="bash plain">//www</code><code class="bash plain">.elrepo.org</code><code class="bash plain">/elrepo-release-6-5</code><code class="bash plain">.el6.elrepo.noarch.rpm</code></div><div class="line number3 index2 alt2"><code class="bash plain">yum -y --enablerepo=elrepo-kernel </code><code class="bash functions">install</code> <code class="bash plain">kernel-lt</code></div></div></td></tr></tbody></table></div></div>
+<p>随后，编辑以下配置文件：</p>
+<div><div id="highlighter_7446" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash functions">vi</code> <code class="bash plain">/etc/grub</code><code class="bash plain">.conf</code></div></div></td></tr></tbody></table></div></div>
+<p>将<code>default=1</code>修改为<code>default=0</code>。</p>
+<p>最后，通过<code>reboot</code>命令重启操作系统。</p>
+<p>重启后如果不出意外的话，再次查看内核，您的 CentOS 内核将会显示为 3.10。</p>
+<p>如果到这里，您和我们所期望的结果是一致的。恭喜您！下面我们就一起来安装 Docker 了。</p>
+<h2>安装 Docker</h2>
+<p>只需通过以下命令即可安装 Docker 软件：</p>
+<div><div id="highlighter_454570" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">rpm -Uvh http:</code><code class="bash plain">//download</code><code class="bash plain">.fedoraproject.org</code><code class="bash plain">/pub/epel/6/i386/epel-release-6-8</code><code class="bash plain">.noarch.rpm</code></div><div class="line number2 index1 alt1"><code class="bash plain">yum -y </code><code class="bash functions">install</code> <code class="bash plain">docker-io</code></div></div></td></tr></tbody></table></div></div>
+<p>可使用以下命令，查看 Docker 是否安装成功：</p>
+<div><div id="highlighter_186346" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">docker version</code></div></div></td></tr></tbody></table></div></div>
+<p>若输出了 Docker 的版本号，则说明安装成功了，可通过以下命令启动 Docker 服务：</p>
+<div><div id="highlighter_651908" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">service docker start</code></div></div></td></tr></tbody></table></div></div>
+<p>一旦 Docker 服务启动完毕，我们下面就可以开始使用 Docker 了。</p>
+<h1>做法</h1>
+<p>就像曾经安装软件一样，我们首先需要有一张刻录了该软件的光盘，如果您使用的是虚拟光驱，那么就需要运行一种名为“镜像”的文件，通过它来安装软件。在 Docker 的世界里，也有一个名为“镜像”的东西，已经安装我们所需的操作系统，我们一般成为“Docker 镜像”，本文简称“镜像”。</p>
+<p>那么问题来了，我们从哪里下载镜像呢？</p>
+<p><a href="https://www.docker.com/" target="_blank">Docker 官网</a>&nbsp;确实已经提供了所有的镜像下载地址，可惜在国内却是无法访问的。幸好国内好心人提供了一个&nbsp;<a href="http://docker.cn/" target="_blank">Docker 中文网</a>，在该网站上可以下载我们所需的 Docker 镜像。</p>
+<h2>下载镜像</h2>
+<p>我们不妨还是以 CentOS 为例，通过以下步骤，下载一个 CentOS 的镜像。</p>
+<p>首先，访问 Docker 中文网，在首页中搜索名为“centos”的镜像，在搜索的结果中，有一个“官方镜像”，它就是我们所需的。</p>
+<p>然后，进入 CentOS 官方镜像页面，在“Pull this repository”输入框中，有一段命令，把它复制下来，在自己的命令行上运行该命令，随后将立即下载该镜像。</p>
+<p>最后，使用以下命令查看本地所有的镜像：</p>
+<div><div id="highlighter_687245" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">docker images</code></div></div></td></tr></tbody></table></div></div>
+<p>当下载完成后，您应该会看到：</p>
+<div><div id="highlighter_769623" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">REPOSITORY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TAG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMAGE ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CREATED&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VIRTUAL SIZE</code></div><div class="line number2 index1 alt1"><code class="bash plain">docker.cn</code><code class="bash plain">/docker/centos</code>&nbsp;&nbsp; <code class="bash plain">centos6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 25c5298b1a36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7 weeks ago&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 215.8 MB</code></div></div></td></tr></tbody></table></div></div>
+<p>如果看到以上输出，说明您可以使用“docker.cn/docker/centos”这个镜像了，或将其称为仓库（Repository），该镜像有一个名为“centos6”的标签（Tag），此外还有一个名为“25c5298b1a36 ”的镜像 ID（可能您所看到的镜像 ID 与此处的不一致，那是正常现象，因为这个数字是随机生成的）。此外，我们可以看到该镜像只有 215.8 MB，非常小巧，而不像虚拟机的镜像文件那样庞大。</p>
+<p>现在镜像已经有了，我们下面就需要使用该镜像，来启动容器。</p>
+<h2>启动容器</h2>
+<p>容器是在镜像的基础上来运行的，一旦容器启动了，我们就可以登录到容器中，安装自己所需的软件或应用程序。既然镜像已经下载到本地，那么如何才能启动容器呢？</p>
+<p>只需使用以下命令即可启动容器：</p>
+<div><div id="highlighter_111924" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">&lt;span style=</code><code class="bash string">"background-color: #ff0000"</code><code class="bash plain">&gt;docker run -i -t -</code><code class="bash functions">v</code> <code class="bash plain">/root/software/</code><code class="bash plain">:</code><code class="bash plain">/mnt/software/</code> <code class="bash plain">25c5298b1a36 </code><code class="bash plain">/bin/bash</code><code class="bash plain">&lt;</code><code class="bash plain">/span</code><code class="bash plain">&gt;</code></div></div></td></tr></tbody></table></div></div>
+<p>这条命令比较长，我们稍微分解一下，其实包含以下三个部分：</p>
+<div><div id="highlighter_902502" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">docker run &lt;相关参数&gt; &lt;镜像 ID&gt; &lt;初始命令&gt;</code></div></div></td></tr></tbody></table></div></div>
+<p>其中，相关参数包括：</p>
+<ul>
+<li><code>-i</code>：表示以“交互模式”运行容器</li>
+<li><code>-t</code>：表示容器启动后会进入其命令行</li>
+<li><code>-v</code>：表示需要将本地哪个目录挂载到容器中，格式：-v &lt;宿主机目录&gt;:&lt;容器目录&gt;</li>
+</ul>
+<p>假设我们的所有安装程序都放在了宿主机的<code>/root/software/</code>目录下，现在需要将其挂载到容器的<code>/mnt/software/</code>目录下。</p>
+<p>需要说明的是，不一定要使用“镜像 ID”，也可以使用“仓库名:标签名”，例如：docker.cn/docker/centos:centos6。</p>
+<p>初始命令表示一旦容器启动，需要运行的命令，此时使用“/bin/bash”，表示什么也不做，只需进入命令行即可。</p>
+<h2>安装相关软件</h2>
+<p>为了搭建 Java Web 运行环境，我们需要安装 JDK 与 Tomcat，下面的过程均在容器内部进行。我们不妨选择<code>/opt/</code>目录作为安装目录，首先需要通过<code>cd /opt/</code>命令进入该目录。</p>
+<h3>安装 JDK(<span style="background-color: #ff0000"><strong>从宿主机拷文件到容器里面</strong></span>docker cp jdk-7u55-linux-i586.tar.gz high_saha:/opt)</h3>
+<p>首先，解压 JDK 程序包：</p>
+<div><div id="highlighter_119371" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">&lt;1 docker </code><code class="bash functions">cp</code> <code class="bash plain">jdk-7u55-linux-i586.</code><code class="bash functions">tar</code><code class="bash plain">.gz high_saha:</code><code class="bash plain">/opt</code></div></div></td></tr></tbody></table></div></div>
+<div><div id="highlighter_889830" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">&lt;2 </code><code class="bash functions">tar</code> <code class="bash plain">-zxf jdk-7u4-linux-x64.</code><code class="bash functions">tar</code><code class="bash plain">.gz</code></div></div></td></tr></tbody></table></div></div>
+<p>然后，重命名 JDK 目录：</p>
+<div><div id="highlighter_616641" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash functions">mv</code> <code class="bash plain">jdk1.7.0_67/ jdk/</code></div></div></td></tr></tbody></table></div></div>
+<h3>安装 Tomcat</h3>
+<p>首先，解压 Tomcat 程序包：</p>
+<div><div id="highlighter_878098" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">&lt;1 wget &lt;a href=</code><code class="bash string">"http://archive.apache.org/dist/tomcat/tomcat-7/v7.0.52/bin/apache-tomcat-7.0.52.tar.gz"</code><code class="bash plain">&gt;http:</code><code class="bash plain">//archive</code><code class="bash plain">.apache.org</code><code class="bash plain">/dist/tomcat/tomcat-7/v7</code><code class="bash plain">.0.52</code><code class="bash plain">/bin/apache-tomcat-7</code><code class="bash plain">.0.52.</code><code class="bash functions">tar</code><code class="bash plain">.gz&lt;</code><code class="bash plain">/a</code><code class="bash plain">&gt;</code></div><div class="line number2 index1 alt1"><code class="bash plain">&lt;2 </code><code class="bash functions">tar</code> <code class="bash plain">-zxf apache-tomcat-7.0.52.</code><code class="bash functions">tar</code><code class="bash plain">.gz</code></div></div></td></tr></tbody></table></div></div>
+<p>然后，重命名 Tomcat 目录：</p>
+<div><div id="highlighter_665033" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash functions">mv</code> <code class="bash plain">apache-tomcat-7.0.55/ tomcat/</code></div></div></td></tr></tbody></table></div></div>
+<h2>设置环境变量</h2>
+<p>首先，编辑<code>.bashrc</code>文件</p>
+<div><div id="highlighter_229777" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash functions">vi</code> <code class="bash plain">~/.bashrc</code></div></div></td></tr></tbody></table></div></div>
+<p>然后，在该文件末尾添加如下配置：</p>
+<div><div id="highlighter_485891" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash functions">export</code> <code class="bash plain">JAVA_HOME=</code><code class="bash plain">/opt/jdk</code></div><div class="line number2 index1 alt1"><code class="bash functions">export</code> <code class="bash plain">PATH=$PATH:$JAVA_HOME</code><code class="bash plain">/bin</code></div></div></td></tr></tbody></table></div></div>
+<p>最后，需要使用<code>source</code>命令，让环境变量生效：</p>
+<div><div id="highlighter_433259" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash functions">source</code> <code class="bash plain">~/.bashrc</code></div></div></td></tr></tbody></table></div></div>
+<p>安装jdk后用java -version测试出现“bash: ./java: /lib/ld-linux.so.2: bad ELF interpreter: 没有那个文件或目录”的问题“，于是到网上搜了下，用sudo yum install glibc.i686命令安装好glibc之后问题就解决了。</p>
+<h2>编写运行脚本</h2>
+<p>我们需要编写一个运行脚本，当启动容器时，运行该脚本，启动 Tomcat，具体过程如下：</p>
+<p>首先，创建运行脚本：</p>
+<div><div id="highlighter_238894" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash functions">vi</code> <code class="bash plain">/root/run</code><code class="bash plain">.sh</code></div></div></td></tr></tbody></table></div></div>
+<p>然后，编辑脚本内容如下：</p>
+<div><div id="highlighter_451606" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash preprocessor bold">#!/bin/bash</code></div><div class="line number2 index1 alt1"><code class="bash functions">source</code> <code class="bash plain">~/.bashrc</code></div><div class="line number3 index2 alt2"><code class="bash plain">sh </code><code class="bash plain">/opt/tomcat/bin/catalina</code><code class="bash plain">.sh run</code></div></div></td></tr></tbody></table></div></div>
+<p>注意：这里必须先加载环境变量，然后使用 Tomcat 的运行脚本来启动 Tomcat 服务。</p>
+<p>最后，为运行脚本添加执行权限：</p>
+<div><div id="highlighter_249712" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash functions">chmod</code> <code class="bash plain">u+x </code><code class="bash plain">/root/run</code><code class="bash plain">.sh</code></div></div></td></tr></tbody></table></div></div>
+<h2>退出容器</h2>
+<p>当以上步骤全部完成后，可使用<code>exit</code>命令，退出容器。</p>
+<p>随后，可使用如下命令查看正在运行的容器：</p>
+<div><div id="highlighter_368196" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">docker </code><code class="bash functions">ps</code></div></div></td></tr></tbody></table></div></div>
+<p>此时，您应该看不到任何正在运行的程序，因为刚才已经使用<code>exit</code>命令退出的容器，此时容器处于停止状态，可使用如下命令查看所有容器：</p>
+<div><div id="highlighter_919360" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">docker </code><code class="bash functions">ps</code> <code class="bash plain">-a</code></div></div></td></tr></tbody></table></div></div>
+<p>输出如下内容：</p>
+<div><div id="highlighter_891005" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">CONTAINER ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMAGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COMMAND&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CREATED&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PORTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NAMES</code></div><div class="line number2 index1 alt1"><code class="bash plain">57c312bbaad1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; docker.cn</code><code class="bash plain">/docker/centos</code><code class="bash plain">:centos6&nbsp;&nbsp; </code><code class="bash string">"/bin/bash"</code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="bash plain">27 minutes ago&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Exited (0) 19 seconds ago&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; naughty_goldstine</code></div></div></td></tr></tbody></table></div></div>
+<p>记住以上<code>CONTAINER ID</code>（容器 ID），随后我们将通过该容器，创建一个可运行 Java Web 的镜像。</p>
+<h2>创建 Java Web 镜像</h2>
+<p>使用以下命令，根据某个“容器 ID”来创建一个新的“镜像”：</p>
+<div><div id="highlighter_913129" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">docker commit 57c312bbaad1 huangyong</code><code class="bash plain">/javaweb</code><code class="bash plain">:0.1</code></div></div></td></tr></tbody></table></div></div>
+<p>该容器的 ID 是“57c312bbaad1”，所创建的镜像名是“huangyong/javaweb:0.1”，随后可使用镜像来启动 Java Web 容器。</p>
+<h2>启动 Java Web 容器</h2>
+<p>有必要首先使用<code>docker images</code>命令，查看当前所有的镜像：</p>
+<div><div id="highlighter_832375" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">REPOSITORY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TAG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMAGE ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CREATED&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; VIRTUAL SIZE</code></div><div class="line number2 index1 alt1"><code class="bash plain">huangyong</code><code class="bash plain">/javaweb</code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="bash plain">0.1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fc826a4706af&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 38 seconds ago&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 562.8 MB</code></div><div class="line number3 index2 alt2"><code class="bash plain">docker.cn</code><code class="bash plain">/docker/centos</code>&nbsp;&nbsp; <code class="bash plain">centos6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 25c5298b1a36&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 7 weeks ago&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 215.8 MB</code></div></div></td></tr></tbody></table></div></div>
+<p>可见，此时已经看到了最新创建的镜像“huangyong/javaweb:0.1”，其镜像 ID 是“fc826a4706af”。正如上面所描述的那样，我们可以通过“镜像名”或“镜像 ID”来启动容器，与上次启动容器不同的是，我们现在不再进入容器的命令行，而是直接启动容器内部的 Tomcat 服务。此时，需要使用以下命令：</p>
+<div><div id="highlighter_719666" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">docker run -d -p 58080:8080 --name javaweb huangyong</code><code class="bash plain">/javaweb</code><code class="bash plain">:0.1 </code><code class="bash plain">/root/run</code><code class="bash plain">.sh</code></div></div></td></tr></tbody></table></div></div>
+<p>稍作解释：</p>
+<ul>
+<li><code>-d</code>：表示以“守护模式”执行<code>/root/run.sh</code>脚本，此时 Tomcat 控制台不会出现在输出终端上。</li>
+<li><code>-p</code>：表示宿主机与容器的端口映射，此时将容器内部的 8080 端口映射为宿主机的 58080 端口，这样就向外界暴露了 58080 端口，可通过 Docker 网桥来访问容器内部的 8080 端口了。</li>
+<li><code>--name</code>：表示容器名称，用一个有意义的名称命名即可。</li>
+</ul>
+<p>关于 Docker 网桥的内容，需要补充说明一下。实际上 Docker 在宿主机与容器之间，搭建了一座网络通信的桥梁，我们可通过宿主机 IP 地址与端口号来映射容器内部的 IP 地址与端口号，</p>
+<p>在一系列参数后面的是“镜像名”或“镜像 ID”，怎么方便就怎么来。最后是“初始命令”，它是上面编写的运行脚本，里面封装了加载环境变量并启动 Tomcat 服务的命令。</p>
+<p>当运行以上命令后，会立即输出一长串“容器 ID”，我们可通过<code>docker ps</code>命令来查看当前正在运行的容器。</p>
+<div><div id="highlighter_978775" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">CONTAINER ID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; IMAGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; COMMAND&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CREATED&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; STATUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PORTS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; NAMES</code></div><div class="line number2 index1 alt1"><code class="bash plain">82f47923f926&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; huangyong</code><code class="bash plain">/javaweb</code><code class="bash plain">:0.1&nbsp;&nbsp; </code><code class="bash string">"/root/run.sh"</code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <code class="bash plain">4 seconds ago&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Up 3 seconds&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.0.0.0:58080-&gt;8080</code><code class="bash plain">/tcp</code>&nbsp;&nbsp; <code class="bash plain">javaweb</code></div></div></td></tr></tbody></table></div></div>
+<h1>品尝</h1>
+<p>在浏览器中，输入以下地址，即可访问 Tomcat 首页：</p>
+<div><div id="highlighter_799154" class="syntaxhighlighter nogutter  bash"><div class="toolbar"><span><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" class="toolbar_item command_help help">?</a></span></div><table border="0" cellpadding="0" cellspacing="0"><tbody><tr><td class="code"><div class="container"><div class="line number1 index0 alt2"><code class="bash plain">http:</code><code class="bash plain">//192</code><code class="bash plain">.168.65.132:58080/</code></div></div></td></tr></tbody></table></div></div>
+<p>注意：这里使用的是宿主机的 IP 地址，与对外暴露的端口号 58080，它映射容器内部的端口号 8080。</p>
+<h1>使用docker exec进入Docker容器</h1>
+<h1>除了上面几种做法之外，docker在1.3.X版本之后还提供了一个新的命令exec用于进入容器，这种方式相对更简单一些，下面我们来看一下该命令的使用：</h1>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<div class="dp-highlighter bg_plain">
+<div class="bar">
+<div class="tools"><strong>[plain]</strong>&nbsp;<a class="ViewSource" title="view plain" href="http://blog.csdn.net/u010397369/article/details/41045251#">view plain</a><span data-mod="popu_168"><span data-mod="popu_168">&nbsp;<a class="CopyToClipboard" title="copy" href="http://blog.csdn.net/u010397369/article/details/41045251#">copy</a></span></span>
+<div>&nbsp;</div>
+<span data-mod="popu_168"><span data-mod="popu_169">&nbsp;<span class="tracking-ad" data-mod="popu_167"><a title="在CODE上查看代码片" href="https://code.csdn.net/snippets/516694" target="_blank"><img src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/CODE_ico.png" alt="在CODE上查看代码片" width="12" height="12"></a><span class="tracking-ad" data-mod="popu_170"><a title="派生到我的代码片" href="https://code.csdn.net/snippets/516694/fork" target="_blank"><img src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/ico_fork.svg" alt="派生到我的代码片" width="12" height="12"></a></span></span></span></span></div>
+</div>
+<ol start="1">
+<li class="alt">$&nbsp;sudo&nbsp;docker&nbsp;exec&nbsp;--help&nbsp;&nbsp;</li>
+</ol></div>
+<h1><img src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/20150105125735137" alt=""></h1>
+<p>&nbsp;</p>
+<p>接下来我们使用该命令进入一个已经在运行的容器</p>
+<p>&nbsp;</p>
+<div class="dp-highlighter bg_plain">
+<div class="bar">
+<div class="tools"><strong>[plain]</strong>&nbsp;<a class="ViewSource" title="view plain" href="http://blog.csdn.net/u010397369/article/details/41045251#">view plain</a><span data-mod="popu_168"><span data-mod="popu_168">&nbsp;<a class="CopyToClipboard" title="copy" href="http://blog.csdn.net/u010397369/article/details/41045251#">copy</a></span></span>
+<div>&nbsp;</div>
+<span data-mod="popu_168"><span data-mod="popu_169">&nbsp;<span class="tracking-ad" data-mod="popu_167"><a title="在CODE上查看代码片" href="https://code.csdn.net/snippets/516694" target="_blank"><img src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/CODE_ico.png" alt="在CODE上查看代码片" width="12" height="12"></a><span class="tracking-ad" data-mod="popu_170"><a title="派生到我的代码片" href="https://code.csdn.net/snippets/516694/fork" target="_blank"><img src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/ico_fork.svg" alt="派生到我的代码片" width="12" height="12"></a></span></span></span></span></div>
+</div>
+<ol start="1">
+<li class="alt">$&nbsp;sudo&nbsp;docker&nbsp;ps&nbsp;&nbsp;</li>
+<li>$&nbsp;sudo&nbsp;<span style="background-color: #ff0000">docker&nbsp;exec&nbsp;-it&nbsp;775c7c9ee1e1&nbsp;/bin/bash</span>&nbsp;&nbsp;</li>
+</ol></div>
+<h1><img src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/20150105130038079" alt=""></h1>
+<p>&nbsp;</p>
+<p>在使用docker容器时，有时候里边没有安装vim，敲vim命令时提示说：vim: command not found，这个时候就需要安装vim，可是当你敲<span style="background-color: #ff0000">apt-get install vim</span>命令时，提示：</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; Reading package lists... Done<br>&nbsp; &nbsp; &nbsp; &nbsp; Building dependency tree &nbsp; &nbsp; &nbsp;&nbsp;<br>&nbsp; &nbsp; &nbsp; &nbsp; Reading state information... Done<br>&nbsp; &nbsp; &nbsp; &nbsp; E: Unable to locate package vim</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 这时候需要敲：<span style="background-color: #ff0000">apt-get update</span>，这个命令的作用是：同步 /etc/apt/sources.list 和 /etc/apt/sources.list.d 中列出的源的索引，这样才能获取到最新的软件包。</p>
+<p>&nbsp; &nbsp; &nbsp; &nbsp; 等更新完毕以后再敲命令：apt-get install vim命令即可。</p>
+<p>&nbsp;</p>
+<h1 id="docker的镜像和容器的区别">Docker的镜像和容器的区别</h1>
+<h2 id="一docker镜像"><a name="t2"></a>一、Docker镜像</h2>
+<p>要理解<a class="replace_word" title="Docker知识库" href="http://lib.csdn.net/base/docker" target="_blank">Docker</a>镜像和Docker容器之间的区别，确实不容易。</p>
+<p>假设<a class="replace_word" title="Linux知识库" href="http://lib.csdn.net/base/linux" target="_blank">Linux</a>内核是第0层，那么无论怎么运行Docker，它都是运行于内核层之上的。这个Docker镜像，是一个只读的镜像，位于第1层，它不能被修改或不能保存状态。</p>
+<p>一个Docker镜像可以构建于另一个Docker镜像之上，这种层叠关系可以是多层的。第1层的镜像层我们称之为基础镜像（Base Image），其他层的镜像（除了最顶层）我们称之为父层镜像（Parent Image）。这些镜像继承了他们的父层镜像的所有属性和设置，并在Dockerfile中添加了自己的配置。</p>
+<p>Docker镜像通过镜像ID进行识别。镜像ID是一个64字符的十六进制的字符串。但是当我们运行镜像时，通常我们不会使用镜像ID来引用镜像，而是使用镜像名来引用。要列出本地所有有效的镜像，可以使用命令</p>
+<pre><code># docker images
+</code></pre>
+<p>镜像可以发布为不同的版本，这种机制我们称之为标签（Tag）。&nbsp;<br><img title="" src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/20150906225017378" alt="这里写图片描述"></p>
+<p>如上图所示，neo4j镜像有两个版本：lastest版本和2.1.5版本。</p>
+<p>可以使用pull命令加上指定的标签：</p>
+<pre><code># docker pull ubuntu:14.04
+# docker pull ubuntu:12.04
+</code></pre>
+<h2 id="二docker容器"><a name="t3"></a>二、Docker容器</h2>
+<p>Docker容器可以使用命令创建：</p>
+<pre><code># docker run imagename
+</code></pre>
+<p>它会在所有的镜像层之上增加一个可写层。这个可写层有运行在CPU上的进程，而且有两个不同的状态：运行态（Running）和退出态（Exited）。这就是Docker容器。当我们使用docker run启动容器，Docker容器就进入运行态，当我们停止Docker容器时，它就进入退出态。</p>
+<p><span style="background-color: #ff0000">当我们有一个正在运行的Docker容器时，从运行态到停止态，我们对它所做的一切变更都会永久地写到容器的文件系统中。要切记，对容器的变更是写入到容器的文件系统的，而不是写入到Docker镜像中的。</span></p>
+<p><span style="background-color: #ff0000">我们可以用同一个镜像启动多个Docker容器，这些容器启动后都是活动的，彼此还是相互隔离的。我们对其中一个容器所做的变更只会局限于那个容器本身。</span></p>
+<p>如果对容器的底层镜像进行修改，那么当前正在运行的容器是不受影响的，不会发生自动更新现象。</p>
+<p>如果想更新容器到其镜像的新版本，那么必须当心，确保我们是以正确的方式构建了<a class="replace_word" title="算法与数据结构知识库" href="http://lib.csdn.net/base/datastructure" target="_blank">数据结构</a>，否则我们可能会导致损失容器中所有数据的后果。</p>
+<p>64字符的十六进制的字符串来定义容器ID，它是容器的唯一标识符。容器之间的交互是依靠容器ID识别的，由于容器ID的字符太长，我们通常只需键入容器ID的前4个字符即可。当然，我们还可以使用容器名，但显然用4字符的容器ID更为简便。</p></div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="http://www.cnblogs.com/linjiaxin/category/957033.html" target="_blank">docker</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(6690757,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;5a694eeb-6bfc-e511-9fc1-ac853d9f53cc&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/linjiaxin/" target="_blank"><img src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/sample_face.gif" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/linjiaxin/">林加欣</a><br>
+            <a href="http://home.cnblogs.com/u/linjiaxin/followees">关注 - 1</a><br>
+            <a href="http://home.cnblogs.com/u/linjiaxin/followers">粉丝 - 18</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;5a694eeb-6bfc-e511-9fc1-ac853d9f53cc&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(6690757,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(6690757,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="http://www.cnblogs.com/linjiaxin/p/6617855.html" class="p_n_p_prefix">« </a> 上一篇：<a href="http://www.cnblogs.com/linjiaxin/p/6617855.html" title="发布于2017-03-25 17:55">使用递归算法结合数据库解析成java树形结构</a><br><a href="http://www.cnblogs.com/linjiaxin/p/6706829.html" class="p_n_p_prefix">» </a> 下一篇：<a href="http://www.cnblogs.com/linjiaxin/p/6706829.html" title="发布于2017-04-13 23:39">HttpStatus各种状态</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2017-04-10 20:24</span> <a href="http://www.cnblogs.com/linjiaxin/">林加欣</a> 阅读(<span id="post_view_count">2914</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=6690757" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" onclick="AddToWz(6690757);return false;">收藏</a></div>
+	</div>
+	<script type="text/javascript">var allowComments=true,cb_blogId=278232,cb_entryId=6690757,cb_blogApp=currentBlogApp,cb_blogUserGuid='5a694eeb-6bfc-e511-9fc1-ac853d9f53cc',cb_entryCreatedDate='2017/4/10 20:24:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/linjiaxin/p/6690757.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型组态工控、电力仿真CAD与GIS源码库！</a><br><a href="https://www.cnblogs.com/cmt/p/8525042.html" target="_blank">【报名】2050 大会 - 博客园程序员团聚（5.25 杭州·云栖小镇）</a><br><a href="https://www.wodidashi.com/web/web3/spread/wb-recruit/pc/index.html?site=cnblogs&amp;pos=HomeB2&amp;type=Banner" target="_blank">【招聘】花大价钱找技术大牛我们是认真的！</a><br><a href="https://buy.cloud.tencent.com/domain?fromSource=gwzcw.882687.882687.882687" target="_blank">【腾讯云】买域名送解析+SSL证书+建站</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;C1&#39;);" href="https://cloud.tencent.com/solution/la?fromSource=gwzcw.891967.891967.891967" target="_blank"><img width="300" height="250" src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/24442-20180402101833163-1165053275.jpg" alt="qcloud_C1_0402"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>最新IT新闻</b>:<br> ·  <a href="https://news.cnblogs.com/n/594020/" target="_blank">天海投资：拟75亿元收购当当 控制权不发生变更</a><br> ·  <a href="https://news.cnblogs.com/n/594019/" target="_blank">对话冯鑫：传统电视厂商会更落后，暴风肯定能到行业前三</a><br> ·  <a href="https://news.cnblogs.com/n/594018/" target="_blank">微博联合秒拍、一直播展开涉未成年违规违法内容专项清理</a><br> ·  <a href="https://news.cnblogs.com/n/594017/" target="_blank">步步高：腾讯与京东受让公司股份事项完成过户</a><br> ·  <a href="https://news.cnblogs.com/n/594016/" target="_blank">扎克伯格说了14年对不起：历次道歉回顾</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="cnblogs_c2" class="c_ad_block"><a onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;C2&#39;);" href="http://click.aliyun.com/m/42835/" target="_blank"><img width="468" height="60" src="./centos7安装docker并安装jdk和tomcat（常用命令） - 林加欣 - 博客园_files/TB1mEZFaWmWBuNjy1XaXXXCbXXa-468-60.jpg" alt="阿里云0308"></a></div>
+<div id="under_post_kb"><div class="itnews c_ad_block" id="kb_block"><b>最新知识库文章</b>:<br><div id="kb_recent"> ·  <a href="http://kb.cnblogs.com/page/575255/" target="_blank">写给自学者的入门指南</a><br> ·  <a href="http://kb.cnblogs.com/page/578690/" target="_blank">和程序员谈恋爱</a><br> ·  <a href="http://kb.cnblogs.com/page/585734/" target="_blank">学会学习</a><br> ·  <a href="http://kb.cnblogs.com/page/588938/" target="_blank">优秀技术人的管理陷阱</a><br> ·  <a href="http://kb.cnblogs.com/page/590141/" target="_blank">作为一个程序员，数学对你到底有多重要</a><br></div>» <a href="http://kb.cnblogs.com/" target="_blank">更多知识库文章...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+<!--done-->
+<div class="newsItem">
+<h3 class="catListTitle">公告</h3>
+	<div id="blog-news"><div id="profile_block">昵称：<a href="https://home.cnblogs.com/u/linjiaxin/">林加欣</a><br>园龄：<a href="https://home.cnblogs.com/u/linjiaxin/" title="入园时间：2016-04-07">2年</a><br>粉丝：<a href="https://home.cnblogs.com/u/linjiaxin/followers/">18</a><br>关注：<a href="https://home.cnblogs.com/u/linjiaxin/followees/">1</a><div id="p_b_follow"><a href="javascript:void(0);" onclick="follow(&#39;5a694eeb-6bfc-e511-9fc1-ac853d9f53cc&#39;)">+加关注</a></div><script>getFollowStatus('5a694eeb-6bfc-e511-9fc1-ac853d9f53cc')</script></div></div><script type="text/javascript">loadBlogNews();</script>
+</div>
+
+			<div id="blog-calendar" style=""><table id="blogCalendar" class="Cal" cellspacing="0" cellpadding="0" title="Calendar">
+	<tbody><tr><td colspan="7"><table class="CalTitle" cellspacing="0">
+		<tbody><tr><td class="CalNextPrev"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/03/01&#39;);return false;">&lt;</a></td><td align="center">2018年4月</td><td class="CalNextPrev" align="right"><a href="javascript:void(0);" onclick="loadBlogCalendar(&#39;2018/05/01&#39;);return false;">&gt;</a></td></tr>
+	</tbody></table></td></tr><tr><th class="CalDayHeader" align="center" abbr="日" scope="col">日</th><th class="CalDayHeader" align="center" abbr="一" scope="col">一</th><th class="CalDayHeader" align="center" abbr="二" scope="col">二</th><th class="CalDayHeader" align="center" abbr="三" scope="col">三</th><th class="CalDayHeader" align="center" abbr="四" scope="col">四</th><th class="CalDayHeader" align="center" abbr="五" scope="col">五</th><th class="CalDayHeader" align="center" abbr="六" scope="col">六</th></tr><tr><td class="CalOtherMonthDay" align="center">25</td><td class="CalOtherMonthDay" align="center">26</td><td class="CalOtherMonthDay" align="center">27</td><td class="CalOtherMonthDay" align="center">28</td><td class="CalOtherMonthDay" align="center">29</td><td class="CalOtherMonthDay" align="center">30</td><td class="CalOtherMonthDay" align="center">31</td></tr><tr><td class="CalWeekendDay" align="center">1</td><td align="center">2</td><td align="center">3</td><td align="center">4</td><td align="center">5</td><td align="center">6</td><td class="CalWeekendDay" align="center">7</td></tr><tr><td class="CalWeekendDay" align="center">8</td><td align="center">9</td><td align="center">10</td><td class="CalTodayDay" align="center">11</td><td align="center">12</td><td align="center">13</td><td class="CalWeekendDay" align="center">14</td></tr><tr><td class="CalWeekendDay" align="center">15</td><td align="center">16</td><td align="center">17</td><td align="center">18</td><td align="center">19</td><td align="center">20</td><td class="CalWeekendDay" align="center">21</td></tr><tr><td class="CalWeekendDay" align="center">22</td><td align="center">23</td><td align="center">24</td><td align="center">25</td><td align="center">26</td><td align="center">27</td><td class="CalWeekendDay" align="center">28</td></tr><tr><td class="CalWeekendDay" align="center">29</td><td align="center">30</td><td class="CalOtherMonthDay" align="center">1</td><td class="CalOtherMonthDay" align="center">2</td><td class="CalOtherMonthDay" align="center">3</td><td class="CalOtherMonthDay" align="center">4</td><td class="CalOtherMonthDay" align="center">5</td></tr>
+</tbody></table></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block">
+<div id="sidebar_search" class="mySearch">
+<h3 class="catListTitle">搜索</h3>
+<div id="sidebar_search_box">
+<div id="widget_my_zzk" class="div_my_zzk"><input type="text" id="q" onkeydown="return zzk_go_enter(event);" class="input_my_zzk">&nbsp;<input onclick="zzk_go()" type="button" value="找找看" id="btnZzk" class="btn_my_zzk"></div>
+<div id="widget_my_google" class="div_my_zzk"><input type="text" name="google_q" id="google_q" onkeydown="return google_go_enter(event)" class="input_my_zzk">&nbsp;<input onclick="google_go()" type="button" value="谷歌搜索" class="btn_my_zzk"></div>
+</div>
+</div>
+
+</div><div id="sidebar_shortcut" class="sidebar-block">
+<div class="catListLink">
+<h3 class="catListTitle">常用链接</h3>
+<ul>
+<li><a href="http://www.cnblogs.com/linjiaxin/p/" title="我的博客的随笔列表">我的随笔</a></li><li><a href="http://www.cnblogs.com/linjiaxin/MyComments.html" title="我发表过的评论列表">我的评论</a></li><li><a href="http://www.cnblogs.com/linjiaxin/OtherPosts.html" title="我评论过的随笔列表">我的参与</a></li><li><a href="http://www.cnblogs.com/linjiaxin/RecentComments.html" title="我的博客的评论列表">最新评论</a></li><li><a href="http://www.cnblogs.com/linjiaxin/tag/" title="我的博客的标签列表">我的标签</a></li>
+</ul>
+<div id="itemListLin_con" style="display:none;">
+<ul>
+
+</ul>
+</div>
+</div></div><div id="sidebar_toptags" class="sidebar-block"></div><div id="sidebar_categories">
+<div id="sidebar_postcategory" class="catListPostCategory sidebar-block">
+<h3 class="catListTitle">随笔分类</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_0_Link_0" href="http://www.cnblogs.com/linjiaxin/category/957033.html">docker(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_1" href="http://www.cnblogs.com/linjiaxin/category/898998.html">Dubbo(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_2" href="http://www.cnblogs.com/linjiaxin/category/898991.html">Hibernate(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_3" href="http://www.cnblogs.com/linjiaxin/category/897874.html">Java(12)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_4" href="http://www.cnblogs.com/linjiaxin/category/911522.html">Javaweb(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_5" href="http://www.cnblogs.com/linjiaxin/category/905303.html">JPA(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_6" href="http://www.cnblogs.com/linjiaxin/category/845273.html">Jquery(12)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_7" href="http://www.cnblogs.com/linjiaxin/category/897872.html">Js(5)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_8" href="http://www.cnblogs.com/linjiaxin/category/845272.html">Linux(9)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_9" href="http://www.cnblogs.com/linjiaxin/category/914814.html">Maven(4)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_10" href="http://www.cnblogs.com/linjiaxin/category/899000.html">Mq</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_11" href="http://www.cnblogs.com/linjiaxin/category/845270.html">Mybatis(7)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_12" href="http://www.cnblogs.com/linjiaxin/category/928940.html">Mysql(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_13" href="http://www.cnblogs.com/linjiaxin/category/898997.html">Nginx(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_14" href="http://www.cnblogs.com/linjiaxin/category/1058822.html">Oracle(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_15" href="http://www.cnblogs.com/linjiaxin/category/899002.html">Redis(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_16" href="http://www.cnblogs.com/linjiaxin/category/898996.html">Solr</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_17" href="http://www.cnblogs.com/linjiaxin/category/845269.html">Spring(3)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_18" href="http://www.cnblogs.com/linjiaxin/category/1156900.html">SpringBoot(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_19" href="http://www.cnblogs.com/linjiaxin/category/845271.html">Springmvc(15)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_20" href="http://www.cnblogs.com/linjiaxin/category/908651.html">sql(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_21" href="http://www.cnblogs.com/linjiaxin/category/905822.html">SSH</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_22" href="http://www.cnblogs.com/linjiaxin/category/905821.html">SSM</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_23" href="http://www.cnblogs.com/linjiaxin/category/1126014.html">vue学习(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_24" href="http://www.cnblogs.com/linjiaxin/category/898994.html">webUI(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_25" href="http://www.cnblogs.com/linjiaxin/category/999210.html">Zookeeper(2)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_26" href="http://www.cnblogs.com/linjiaxin/category/898988.html">分布式架构(6)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_27" href="http://www.cnblogs.com/linjiaxin/category/1131919.html">计算机网络(1)</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_28" href="http://www.cnblogs.com/linjiaxin/category/1077604.html">深入理解Java</a> </li>
+
+<li><a id="CatList_LinkList_0_Link_29" href="http://www.cnblogs.com/linjiaxin/category/996773.html">算法(4)</a> </li>
+
+</ul>
+
+</div>
+
+<div id="sidebar_postarchive" class="catListPostArchive sidebar-block">
+<h3 class="catListTitle">随笔档案</h3>
+
+<ul>
+
+<li><a id="CatList_LinkList_1_Link_0" href="http://www.cnblogs.com/linjiaxin/archive/2018/01.html">2018年1月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_1" href="http://www.cnblogs.com/linjiaxin/archive/2017/12.html">2017年12月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_2" href="http://www.cnblogs.com/linjiaxin/archive/2017/11.html">2017年11月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_3" href="http://www.cnblogs.com/linjiaxin/archive/2017/10.html">2017年10月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_4" href="http://www.cnblogs.com/linjiaxin/archive/2017/09.html">2017年9月 (10)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_5" href="http://www.cnblogs.com/linjiaxin/archive/2017/08.html">2017年8月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_6" href="http://www.cnblogs.com/linjiaxin/archive/2017/07.html">2017年7月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_7" href="http://www.cnblogs.com/linjiaxin/archive/2017/06.html">2017年6月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_8" href="http://www.cnblogs.com/linjiaxin/archive/2017/05.html">2017年5月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_9" href="http://www.cnblogs.com/linjiaxin/archive/2017/04.html">2017年4月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_10" href="http://www.cnblogs.com/linjiaxin/archive/2017/03.html">2017年3月 (4)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_11" href="http://www.cnblogs.com/linjiaxin/archive/2017/02.html">2017年2月 (5)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_12" href="http://www.cnblogs.com/linjiaxin/archive/2017/01.html">2017年1月 (3)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_13" href="http://www.cnblogs.com/linjiaxin/archive/2016/12.html">2016年12月 (11)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_14" href="http://www.cnblogs.com/linjiaxin/archive/2016/11.html">2016年11月 (28)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_15" href="http://www.cnblogs.com/linjiaxin/archive/2016/10.html">2016年10月 (13)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_16" href="http://www.cnblogs.com/linjiaxin/archive/2016/09.html">2016年9月 (2)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_17" href="http://www.cnblogs.com/linjiaxin/archive/2016/08.html">2016年8月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_18" href="http://www.cnblogs.com/linjiaxin/archive/2016/07.html">2016年7月 (1)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_19" href="http://www.cnblogs.com/linjiaxin/archive/2016/06.html">2016年6月 (6)</a> </li>
+
+<li><a id="CatList_LinkList_1_Link_20" href="http://www.cnblogs.com/linjiaxin/archive/2016/04.html">2016年4月 (1)</a> </li>
+
+</ul>
+
+</div>
+
+</div><div id="sidebar_recentcomments" class="sidebar-block"><div id="recent_comments_wrap">
+<div class="catListComment">
+<h3 class="catListTitle">最新评论</h3>
+
+	<div id="RecentCommentsBlock"><ul>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/linjiaxin/p/6476480.html#3873921">1. Re:Vmware虚拟机三种网络模式详解</a></li>
+        <li class="recent_comment_body">写的太清楚了，赞</li>
+        <li class="recent_comment_author">--紫薇郎</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/linjiaxin/p/5578731.html#3688688">2. Re:推荐60个jQuery插件(转)</a></li>
+        <li class="recent_comment_body">65</li>
+        <li class="recent_comment_author">--林加欣</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/linjiaxin/p/5578731.html#3644283">3. Re:推荐60个jQuery插件(转)</a></li>
+        <li class="recent_comment_body">实现一个智能提示功能需要ajax、数据库、jsp/php、算法等很多知识，如果数据量大，还需要特殊优化一个小功能，花费太大精力很不划算92find.com上的一个js插件实现了搜索框自动补全托管服务，......</li>
+        <li class="recent_comment_author">--auo</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/linjiaxin/p/6105457.html#3574246">4. Re:史上最全最强SpringMVC详细示例实战教程</a></li>
+        <li class="recent_comment_body">写的好，就是不够细</li>
+        <li class="recent_comment_author">--皓007</li>
+        <li class="recent_comment_title"><a href="http://www.cnblogs.com/linjiaxin/p/5628301.html#3543999">5. Re:springmvc上传图片并显示图片--支持多图片上传</a></li>
+        <li class="recent_comment_body">@1-菜鸟战斗机可以...</li>
+        <li class="recent_comment_author">--林加欣</li>
+</ul>
+</div>
+</div>
+</div></div><div id="sidebar_topviewedposts" class="sidebar-block"><div id="topview_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">阅读排行榜</h3>
+	<div id="TopViewPostsBlock"><ul><li><a href="http://www.cnblogs.com/linjiaxin/p/6086743.html">1. JAVA，JSP，Servlet获取当前工程路径-绝对路径(11880)</a></li><li><a href="http://www.cnblogs.com/linjiaxin/p/6099572.html">2. mybatis  example使用 and和or联合查询（转）(8971)</a></li><li><a href="http://www.cnblogs.com/linjiaxin/p/6104214.html">3. list集合为空或为null的区别(6611)</a></li><li><a href="http://www.cnblogs.com/linjiaxin/p/6476480.html">4. Vmware虚拟机三种网络模式详解(6424)</a></li><li><a href="http://www.cnblogs.com/linjiaxin/p/5628301.html">5. springmvc上传图片并显示图片--支持多图片上传(5650)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topcommentedposts" class="sidebar-block"><div id="topfeedback_posts_wrap">
+<div class="catListFeedback">
+<h3 class="catListTitle">评论排行榜</h3>
+	<div id="TopFeedbackPostsBlock"><ul><li><a href="http://www.cnblogs.com/linjiaxin/p/5578731.html">1. 推荐60个jQuery插件(转)(2)</a></li><li><a href="http://www.cnblogs.com/linjiaxin/p/5628301.html">2. springmvc上传图片并显示图片--支持多图片上传(2)</a></li><li><a href="http://www.cnblogs.com/linjiaxin/p/6105457.html">3. 史上最全最强SpringMVC详细示例实战教程(1)</a></li><li><a href="http://www.cnblogs.com/linjiaxin/p/6476480.html">4. Vmware虚拟机三种网络模式详解(1)</a></li></ul></div>
+</div>
+</div></div><div id="sidebar_topdiggedposts" class="sidebar-block"><div id="topdigg_posts_wrap">
+<div class="catListView">
+<h3 class="catListTitle">推荐排行榜</h3>
+<div id="TopDiggPostsBlock"><ul><li><a href="http://www.cnblogs.com/linjiaxin/p/6476480.html">1. Vmware虚拟机三种网络模式详解(5)</a></li><li><a href="http://www.cnblogs.com/linjiaxin/p/6086743.html">2. JAVA，JSP，Servlet获取当前工程路径-绝对路径(2)</a></li><li><a href="http://www.cnblogs.com/linjiaxin/p/5628301.html">3. springmvc上传图片并显示图片--支持多图片上传(2)</a></li><li><a href="http://www.cnblogs.com/linjiaxin/p/6099572.html">4. mybatis  example使用 and和or联合查询（转）(1)</a></li></ul></div>
+</div></div></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2018 林加欣
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+</body></html>

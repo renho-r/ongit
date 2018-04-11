@@ -19,3 +19,9 @@
 
  netstat -anp|grep 2375
  curl 127.0.0.1:2375/info
+
+
+docker run --privileged=true -v /root/software/test/:/opt/tomcat/webapps/test  -p 8081:8080 --name aaaaa renho/test:v1.0 /root/run.sh
+docker export 9d > my.tar
+cat my.tar | sudo docker import - renho/test:v1.0
+docker exec -it 0f8586201c5e /bin/bash
