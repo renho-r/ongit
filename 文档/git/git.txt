@@ -170,3 +170,10 @@ git init --bare renho.git
 
 git config --global user.name "Your Name"
 git config --global user.email you@example.com
+
+
+# 执行命令将db.php加入不提交队列
+git update-index --assume-unchanged include/db.php
+# 执行命令将db.php取消加入不提交队列
+git update-index --no-assume-unchanged include/db.php
+# 说明：include/db.php 为文件的路径
