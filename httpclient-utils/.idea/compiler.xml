@@ -9,5 +9,8 @@
         <module name="httpclient-utils" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="httpclient-utils" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>

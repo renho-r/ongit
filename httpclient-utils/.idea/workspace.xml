@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SPLITTER_PROPORTION" value="0.45429516" />
+    <option name="GROUP_BY_SEVERITY" value="true" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="ba65dd06-17f3-49a0-97a1-21b32e7f831c" name="Default" comment="" />
-    <ignored path="$PROJECT_DIR$/out/" />
+    <list default="true" id="443402d7-93cd-4e27-ad49-f2d5007a26b8" name="Default" comment="" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -12,15 +15,43 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf>
-      <file leaf-file-name="HttpAsyncClientUtils.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/HttpAsyncClientUtils.java">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="HttpAsyncClientUtilsTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpAsyncClientUtilsTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2400">
-              <caret line="150" column="40" selection-start-line="150" selection-start-column="40" selection-end-line="150" selection-end-column="40" />
+            <state relative-caret-position="60">
+              <caret line="13" column="31" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="37" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HttpTestTask.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpTestTask.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-1137">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#5018#5019#0" expanded="true" />
+                <element signature="e#5055#5056#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HttpClientUtilsTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpClientUtilsTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HttpSyncClientUtilsTest.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpSyncClientUtilsTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="19" column="41" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
             </state>
           </provider>
         </entry>
@@ -30,76 +61,40 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Enum" />
-        <option value="JUnit4 Test Class" />
         <option value="Class" />
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>httpClient</find>
-      <find>MAX</find>
-      <find>toNanos</find>
-      <find>HTTP_CONTEXT</find>
-      <find>count</find>
-      <find>requet</find>
-      <find>HttpSyncClientUtils.GET.request</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>count.decrementAndGet()</replace>
-      <replace>request</replace>
-      <replace>HttpClientUtils.doGet</replace>
-    </replaceStrings>
+  <component name="GradleLocalSettings">
+    <option name="projectSyncType">
+      <map>
+        <entry key="$USER_HOME$/Downloads/sbia_examples/ch03" value="PREVIEW" />
+      </map>
+    </option>
   </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/pool/HttpClientPool.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/pool/IdleConnectionMonitorThread.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/pool/MyConnectionKeepAliveStrategy.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/httpclient/A.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/A.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/PropertiesUtils.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/httpclient/MyConnectionKeepAliveStrategy.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/httpclient/HttpClientPool.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/httpclient/HttpUtils.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/httpclient/HttpClientUtils.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httpclient/HttpClientUtils.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/HttpAsyncClientUtils.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/HttpClientUtilsA.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/HttpSyncClientUtils.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/exception/A.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/exception/HttpException.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/exception/AppHttpException.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpclient/HttpClientPool.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/HttpSyncClientUtilsNew.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpasyncclient/A.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpsyncclient/HttpClientPool.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpasyncclient/AsyncClientEvictExpiredConnections.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/HttpSyncClientUtils.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/renho/utils/httputils/HttpSyncClientUtilsTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/HttpAsyncClientUtils.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/renho/utils/httputils/HttpAsyncClientUtilsTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/HttpAsyncClientUtilsTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/test/HttpSyncClientUtilsTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/test/HttpAsyncClientUtilsTest.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/HttpClientUtils.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpsyncclient/HttpSyncClientPool.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpsyncclient/IdleConnectionMonitorThread.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpasyncclient/IdleConnectionEvictor.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpsyncclient/CustConnectionKeepAliveStrategy.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpasyncclient/CustConnectionKeepAliveStrategy.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpasyncclient/HttpAsyncClientPool.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/test/HttpTestTask.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/httpclientpool.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/HttpAsyncClientUtils.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/renho/test/HttpClientUtilsTest.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/B.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/A.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/test/HttpTestTask.java" />
       </list>
     </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <annotation-enable>false</annotation-enable>
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
@@ -107,10 +102,24 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="localRepository" value="D:\dev\apache-maven-3.5.3\repository" />
-        <option name="userSettingsFile" value="D:\dev\apache-maven-3.5.3\conf\settings.xml" />
+        <option name="localRepository" value="$MAVEN_REPOSITORY$" />
+        <option name="userSettingsFile" value="$USER_HOME$/software/apache-maven-3.3.9/conf/settings.xml" />
       </MavenGeneralSettings>
     </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="httpclient-utils" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
+  </component>
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="y" value="23" />
@@ -122,6 +131,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -162,50 +172,7 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="renho" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="httpclient-utils" type="b2602c69:ProjectViewProjectNode" />
-              <item name="httpclient-utils" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="renho" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-              <item name="httputils" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="httpclient-utils" type="b2602c69:ProjectViewProjectNode" />
-              <item name="httpclient-utils" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="renho" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-              <item name="httputils" type="462c0819:PsiDirectoryNode" />
-              <item name="exception" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="httpclient-utils" type="b2602c69:ProjectViewProjectNode" />
-              <item name="httpclient-utils" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="renho" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-              <item name="httputils" type="462c0819:PsiDirectoryNode" />
-              <item name="httpasyncclient" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="httpclient-utils" type="b2602c69:ProjectViewProjectNode" />
-              <item name="httpclient-utils" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-              <item name="renho" type="462c0819:PsiDirectoryNode" />
-              <item name="utils" type="462c0819:PsiDirectoryNode" />
-              <item name="httputils" type="462c0819:PsiDirectoryNode" />
-              <item name="httpsyncclient" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="httpclient-utils" type="b2602c69:ProjectViewProjectNode" />
@@ -214,59 +181,30 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="httpclient-utils" type="b2602c69:ProjectViewProjectNode" />
-              <item name="httpclient-utils" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="httpclient-utils" type="b2602c69:ProjectViewProjectNode" />
-              <item name="httpclient-utils" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-              <item name="java" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="httpclient-utils" type="b2602c69:ProjectViewProjectNode" />
-              <item name="External Libraries" type="cb654da1:ExternalLibrariesNode" />
-            </path>
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="PackagesPane" />
-      <pane id="AndroidView" />
       <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
-    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
-    <property name="last_directory_selection" value="$PROJECT_DIR$/src/main/java/com/renho" />
-    <property name="node.js.path.for.package.tslint" value="project" />
-    <property name="node.js.selected.package.tslint" value="" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="/usr/local/bin/node" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="MavenSettings" />
+    <property name="project.structure.last.edited" value="Problems" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2614488" />
+    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateTestDialog.RecentsKey">
-      <recent name="com.renho.utils.httputils" />
-    </key>
-    <key name="CreateTestDialog.Recents.Supers">
-      <recent name="" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.renho.utils.httputils.httpasyncclient" />
-      <recent name="com.renho.utils.httputils" />
-      <recent name="com.renho.utils" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\workspace\ongit\httpclient-utils\src\main\java\com\renho\utils" />
-      <recent name="F:\workspace\ongit\httpclient-utils\src\main\java\com\renho" />
+    <key name="CreateBuilderDialog.RecentsKey">
+      <recent name="com.renho" />
+      <recent name="com.renho.test" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -282,16 +220,8 @@
     </option>
   </component>
   <component name="RunManager" selected="Application.HttpClientUtilsTest">
-    <configuration name="HttpAsyncClientUtilsTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.renho.test.HttpAsyncClientUtilsTest" />
-      <module name="httpclient-utils" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.renho.test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
     </configuration>
     <configuration name="HttpClientUtilsTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.renho.test.HttpClientUtilsTest" />
@@ -356,100 +286,156 @@
       <properties />
       <listeners />
     </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Twisted Trial">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
     <list>
       <item itemvalue="Application.HttpSyncClientUtilsTest" />
-      <item itemvalue="Application.HttpAsyncClientUtilsTest" />
       <item itemvalue="Application.HttpClientUtilsTest" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.HttpClientUtilsTest" />
         <item itemvalue="Application.HttpSyncClientUtilsTest" />
-        <item itemvalue="Application.HttpAsyncClientUtilsTest" />
       </list>
     </recent_temporary>
   </component>
   <component name="SvnConfiguration">
-    <configuration />
+    <configuration>$USER_HOME$/.subversion</configuration>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="ba65dd06-17f3-49a0-97a1-21b32e7f831c" name="Default" comment="" />
-      <created>1527326505669</created>
+      <changelist id="443402d7-93cd-4e27-ad49-f2d5007a26b8" name="Default" comment="" />
+      <created>1527426523823</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1527326505669</updated>
-      <workItem from="1527326507559" duration="33404000" />
+      <updated>1527426523823</updated>
+      <workItem from="1527426525963" duration="573000" />
+      <workItem from="1527428206705" duration="92000" />
+      <workItem from="1527690848896" duration="234000" />
+      <workItem from="1527691209854" duration="345000" />
+      <workItem from="1527691588547" duration="265000" />
+      <workItem from="1527691877295" duration="739000" />
+      <workItem from="1527692638607" duration="253000" />
+      <workItem from="1527692912093" duration="665000" />
+      <workItem from="1527693603410" duration="847000" />
+      <workItem from="1527694627429" duration="114000" />
+      <workItem from="1527694763126" duration="104000" />
+      <workItem from="1527694889313" duration="453000" />
+      <workItem from="1527695368630" duration="244000" />
+      <workItem from="1527697090902" duration="606000" />
     </task>
     <servers />
   </component>
-  <component name="TestHistory">
-    <history-entry file="HttpAsyncClientUtilsTest_testReq - 2018.05.26 at 23h 54m 14s.xml">
-      <configuration name="HttpAsyncClientUtilsTest.testReq" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="HttpAsyncClientUtilsTest_testReq - 2018.05.26 at 23h 54m 38s.xml">
-      <configuration name="HttpAsyncClientUtilsTest.testReq" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="HttpAsyncClientUtilsTest_testReq - 2018.05.26 at 23h 54m 46s.xml">
-      <configuration name="HttpAsyncClientUtilsTest.testReq" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="HttpAsyncClientUtilsTest_testReq - 2018.05.26 at 23h 58m 21s.xml">
-      <configuration name="HttpAsyncClientUtilsTest.testReq" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="HttpAsyncClientUtilsTest_testReq - 2018.05.26 at 23h 59m 30s.xml">
-      <configuration name="HttpAsyncClientUtilsTest.testReq" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="HttpAsyncClientUtilsTest_testReq - 2018.05.27 at 00h 04m 49s.xml">
-      <configuration name="HttpAsyncClientUtilsTest.testReq" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="HttpAsyncClientUtilsTest - 2018.05.27 at 00h 05m 36s.xml">
-      <configuration name="HttpAsyncClientUtilsTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="HttpAsyncClientUtilsTest_testReq - 2018.05.27 at 00h 05m 55s.xml">
-      <configuration name="HttpAsyncClientUtilsTest.testReq" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="HttpAsyncClientUtilsTest_testReq - 2018.05.27 at 00h 06m 08s.xml">
-      <configuration name="HttpAsyncClientUtilsTest.testReq" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="HttpAsyncClientUtilsTest - 2018.05.27 at 00h 07m 01s.xml">
-      <configuration name="HttpAsyncClientUtilsTest" configurationId="JUnit" />
-    </history-entry>
-  </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33404000" />
+    <option name="totallyTimeSpent" value="5534000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <frame x="0" y="23" width="1920" height="1120" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info anchor="right" id="Palette" order="5" />
-      <window_info anchor="bottom" id="TODO" order="11" />
-      <window_info anchor="bottom" id="Messages" order="4" weight="0.36853448" />
-      <window_info anchor="right" id="Palette&#9;" order="1" />
-      <window_info id="Image Layers" order="4" />
-      <window_info anchor="right" id="Capture Analysis" order="0" />
-      <window_info anchor="bottom" id="Event Log" order="2" side_tool="true" />
-      <window_info anchor="right" id="Maven Projects" order="4" />
-      <window_info anchor="bottom" id="Database Changes" order="0" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Run" order="7" weight="0.38685346" />
-      <window_info anchor="bottom" id="Version Control" order="3" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Terminal" order="1" />
+      <window_info anchor="right" id="Key Promoter X" order="3" weight="0.32960597" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
+      <window_info anchor="right" id="Maven Projects" order="3" visible="true" weight="0.13045794" />
+      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Dependency Viewer" weight="0.32942328" />
       <window_info id="Capture Tool" order="2" />
-      <window_info id="Designer" order="0" />
-      <window_info active="true" content_ui="combo" id="Project" order="5" sideWeight="0.4992785" visible="true" weight="0.18443497" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="8" weight="0.25" />
+      <window_info id="Designer" order="2" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Tail" order="8" />
+      <window_info active="true" anchor="bottom" id="Inspection Results" order="7" visible="true" weight="0.40860215" />
       <window_info anchor="right" id="Database" order="3" />
-      <window_info anchor="bottom" id="Find" order="6" weight="0.3448276" />
-      <window_info id="Structure" order="6" sideWeight="0.50144094" side_tool="true" weight="0.18017058" />
-      <window_info anchor="right" id="Ant Build" order="7" weight="0.25" />
-      <window_info id="UI Designer" order="1" />
-      <window_info anchor="right" id="Theme Preview" order="2" />
-      <window_info anchor="bottom" id="Debug" order="8" weight="0.39978448" />
-      <window_info id="Favorites" order="3" side_tool="true" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="6" type="SLIDING" weight="0.4" />
-      <window_info anchor="bottom" id="Inspection" order="10" weight="0.4" />
-      <window_info anchor="bottom" id="Message" order="5" />
-      <window_info anchor="bottom" id="Cvs" order="9" weight="0.25" />
+      <window_info id="Structure" order="1" sideWeight="0.50252104" side_tool="true" weight="0.171459" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info id="UI Designer" order="2" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.40664712" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="3" />
+      <window_info id="Image Layers" order="2" />
+      <window_info anchor="right" id="Capture Analysis" order="3" />
+      <window_info anchor="bottom" id="Version Control" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.4183773" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.47702834" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.497479" visible="true" weight="0.18743344" />
+      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="right" id="SciView" order="3" weight="0.32960597" />
+      <window_info anchor="right" id="Theme Preview" order="3" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Messages" order="7" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.24973376" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -458,337 +444,465 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <option name="time" value="14" />
-    </breakpoint-manager>
-    <watches-manager>
-      <configuration name="JUnit">
-        <watch expression="PropertiesUtils.getProperty(&quot;max.total&quot;, MAX_TOTAL)" />
-        <watch expression="PropertiesUtils.getProperty(&quot;default.max.per.route&quot;, DEFAULT_MAX_PER_ROUTE)" />
-        <watch expression="PropertiesUtils.getProperty(&quot;request.timeout&quot;, &quot;3000&quot;)" />
-        <watch expression="PropertiesUtils.getProperty(&quot;connect.timeout&quot;, &quot;5000&quot;)" />
-        <watch expression="PropertiesUtils.getProperty(&quot;socket.timeout&quot;, &quot;5000&quot;)" />
-      </configuration>
-    </watches-manager>
-  </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/A.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="27" column="44" selection-start-line="27" selection-start-column="44" selection-end-line="27" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/Program Files/Java/jdk1.8.0_162/src.zip!/java/util/Properties.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="986" column="18" selection-start-line="986" selection-start-column="18" selection-end-line="986" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/HttpClientUtilsA.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="2" column="11" selection-start-line="2" selection-start-column="11" selection-end-line="2" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/Program Files/Java/jdk1.8.0_162/src.zip!/java/lang/Throwable.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="453" column="34" selection-start-line="453" selection-start-column="34" selection-end-line="453" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/apache/httpcomponents/httpcore/4.4.9/httpcore-4.4.9.jar!/org/apache/http/HttpException.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="7" column="16" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/apache/httpcomponents/httpclient/4.5.5/httpclient-4.5.5.jar!/org/apache/http/client/methods/HttpRequestBase.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="14" column="37" selection-start-line="14" selection-start-column="22" selection-end-line="14" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/apache/httpcomponents/httpclient/4.5.5/httpclient-4.5.5.jar!/org/apache/http/client/methods/HttpGet.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="9" column="34" lean-forward="true" selection-start-line="9" selection-start-column="34" selection-end-line="9" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/Program Files/Java/jdk1.8.0_162/src.zip!/java/lang/AbstractMethodError.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="38" column="18" lean-forward="true" selection-start-line="38" selection-start-column="6" selection-end-line="38" selection-end-column="25" />
-          <folding>
-            <element signature="e#838#839#0" expanded="true" />
-            <element signature="e#861#862#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/exception/AppHttpException.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="5" column="29" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="29" />
+        <state relative-caret-position="150">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
           <folding>
             <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/Program Files/Java/jdk1.8.0_162/src.zip!/java/util/concurrent/TimeUnit.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-115">
-          <caret line="70" column="12" selection-start-line="70" selection-start-column="12" selection-end-line="70" selection-end-column="12" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/apache/httpcomponents/httpasyncclient/4.1.3/httpasyncclient-4.1.3.jar!/org/apache/http/impl/nio/client/HttpAsyncClientBuilder.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="320" column="40" selection-start-line="320" selection-start-column="40" selection-end-line="320" selection-end-column="40" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/apache/httpcomponents/httpclient/4.5.5/httpclient-4.5.5.jar!/org/apache/http/client/config/RequestConfig.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="16" column="13" selection-start-line="16" selection-start-column="13" selection-end-line="16" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/apache/httpcomponents/httpasyncclient/4.1.3/httpasyncclient-4.1.3-sources.jar!/org/apache/http/impl/nio/client/HttpAsyncClientBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="566" column="74" lean-forward="true" selection-start-line="566" selection-start-column="70" selection-end-line="566" selection-end-column="83" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/apache/httpcomponents/httpclient/4.5.5/httpclient-4.5.5-sources.jar!/org/apache/http/client/config/RequestConfig.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="41" column="50" lean-forward="true" selection-start-line="41" selection-start-column="50" selection-end-line="41" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/apache/httpcomponents/httpcore/4.4.9/httpcore-4.4.9.jar!/org/apache/http/HttpResponse.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="9" column="17" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="17" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/apache/httpcomponents/httpasyncclient/4.1.3/httpasyncclient-4.1.3-sources.jar!/org/apache/http/impl/nio/client/CloseableHttpAsyncClient.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="88" column="32" selection-start-line="88" selection-start-column="32" selection-end-line="88" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/apache/httpcomponents/httpcore/4.4.9/httpcore-4.4.9.jar!/org/apache/http/util/Asserts.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/apache/httpcomponents/httpcore/4.4.9/httpcore-4.4.9-sources.jar!/org/apache/http/util/Asserts.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="43" column="23" selection-start-line="43" selection-start-column="23" selection-end-line="43" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpasyncclient/AsyncClientEvictExpiredConnections.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="56" column="21" lean-forward="true" selection-start-line="56" selection-start-column="21" selection-end-line="56" selection-end-column="21" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/apache/httpcomponents/httpcore/4.4.9/httpcore-4.4.9-sources.jar!/org/apache/http/concurrent/FutureCallback.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="26" column="34" selection-start-line="26" selection-start-column="24" selection-end-line="26" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/renho/utils/httputils/HttpSyncClientUtilsTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="32" column="50" lean-forward="true" selection-start-line="31" selection-start-column="12" selection-end-line="32" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/A.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="2" column="14" selection-start-line="2" selection-start-column="14" selection-end-line="2" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/renho/utils/httputils/HttpAsyncClientUtilsTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="96">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-          <folding>
-            <element signature="e#1826#1827#0" expanded="true" />
-            <element signature="e#1878#1879#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/HttpSyncClientUtils.java111">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="16">
-          <caret line="4" column="7" selection-start-line="4" selection-start-column="7" selection-end-line="4" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpAsyncClientUtilsTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="467">
-          <caret line="58" column="5" lean-forward="true" selection-start-line="35" selection-start-column="4" selection-end-line="58" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpsyncclient/HttpSyncClientPool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="33" column="84" selection-start-line="33" selection-start-column="84" selection-end-line="33" selection-end-column="84" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpasyncclient/IdleConnectionEvictor.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="140">
-          <caret line="10" column="55" selection-start-line="10" selection-start-column="55" selection-end-line="10" selection-end-column="55" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpsyncclient/IdleConnectionMonitorThread.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="464">
-          <caret line="32" column="148" selection-start-line="32" selection-start-column="49" selection-end-line="32" selection-end-column="148" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpasyncclient/HttpAsyncClientPool.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpasyncclient/CustConnectionKeepAliveStrategy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
-          <caret line="34" column="58" selection-start-line="34" selection-start-column="58" selection-end-line="34" selection-end-column="58" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpsyncclient/CustConnectionKeepAliveStrategy.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="18" lean-forward="true" selection-start-line="18" selection-end-line="18" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpSyncClientUtilsTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="132">
-          <caret line="48" column="37" selection-start-line="48" selection-start-column="37" selection-end-line="48" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#280#281#0" expanded="true" />
+            <element signature="e#325#326#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpTestTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="912">
-          <caret line="74" column="141" selection-start-line="74" selection-start-column="141" selection-end-line="74" selection-end-column="141" />
+        <state relative-caret-position="195">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#5018#5019#0" expanded="true" />
+            <element signature="e#5055#5056#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/httpclientpool.properties">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/B.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="16" selection-start-column="16" selection-end-column="16" />
+        <state relative-caret-position="120">
+          <caret line="8" column="16" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpAsyncClientUtilsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="13" column="31" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpClientUtilsTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="13" column="44" selection-start-line="13" selection-start-column="44" selection-end-line="13" selection-end-column="44" />
+        <state relative-caret-position="75">
+          <caret line="10" lean-forward="true" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/A.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#280#281#0" expanded="true" />
+            <element signature="e#325#326#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/PropertiesUtils.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpTestTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="647">
-          <caret line="43" column="36" selection-start-line="43" selection-start-column="25" selection-end-line="43" selection-end-column="36" />
+        <state relative-caret-position="195">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/B.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="16" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpAsyncClientUtilsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="13" column="31" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpClientUtilsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="15" column="28" selection-start-line="15" selection-start-column="28" selection-end-line="15" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/A.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#280#281#0" expanded="true" />
+            <element signature="e#325#326#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/HttpClientUtils.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/B.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="13" column="42" lean-forward="true" selection-start-line="13" selection-start-column="42" selection-end-line="13" selection-end-column="42" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="150">
+          <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/HttpSyncClientUtils.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/A.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2151">
-          <caret line="61" column="22" selection-start-line="61" selection-start-column="22" selection-end-line="61" selection-end-column="22" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="165">
+          <caret line="11" column="16" selection-start-line="11" selection-start-column="16" selection-end-line="11" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/B.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="1" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/A.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="7" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/B.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="1" lean-forward="true" selection-start-line="13" selection-start-column="1" selection-end-line="13" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpSyncClientUtilsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="19" column="41" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpasyncclient/CustConnectionKeepAliveStrategy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="19" column="13" lean-forward="true" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/exception/AppHttpException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="29" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpTestTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="29" column="22" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpClientUtilsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="8" column="32" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/exception/AppHttpException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="29" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpTestTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="225">
+          <caret line="29" column="22" selection-start-line="29" selection-start-column="22" selection-end-line="29" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpClientUtilsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="8" column="32" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/exception/AppHttpException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="29" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/exception/AppHttpException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="29" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/exception/AppHttpException.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="15" lean-forward="true" selection-start-line="15" selection-end-line="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="uml://MAVEN/com.renho:httpclient-utils:1.0-SNAPSHOT">
+      <provider selected="true" editor-type-id="UmlEditorProvider">
+        <state>
+          <ID>MAVEN</ID>
+          <OriginalElement>com.renho:httpclient-utils:1.0-SNAPSHOT</OriginalElement>
+          <nodes>
+            <node x="463.75" y="237.0">com.renho:httpclient-utils:1.0-SNAPSHOT</node>
+            <node x="127.0" y="158.0">org.apache.httpcomponents:httpclient:jar:4.5.5</node>
+            <node x="0.0" y="79.0">org.apache.httpcomponents:httpclient:jar:4.5.5/org.apache.httpcomponents:httpcore:jar:4.4.9</node>
+            <node x="260.0" y="79.0">org.apache.httpcomponents:httpclient:jar:4.5.5/commons-logging:commons-logging:jar:1.2</node>
+            <node x="105.0" y="79.0">org.apache.httpcomponents:httpclient:jar:4.5.5/commons-codec:commons-codec:jar:1.10</node>
+            <node x="461.75" y="158.0">org.apache.httpcomponents:httpasyncclient:jar:4.1.3</node>
+            <node x="424.0" y="79.0">org.apache.httpcomponents:httpasyncclient:jar:4.1.3/org.apache.httpcomponents:httpcore:jar:4.4.6</node>
+            <node x="529.0" y="79.0">org.apache.httpcomponents:httpasyncclient:jar:4.1.3/org.apache.httpcomponents:httpcore-nio:jar:4.4.6</node>
+            <node x="541.5" y="0.0">org.apache.httpcomponents:httpasyncclient:jar:4.1.3/org.apache.httpcomponents:httpcore-nio:jar:4.4.6/org.apache.httpcomponents:httpcore:jar:4.4.9</node>
+            <node x="659.0" y="79.0">org.apache.httpcomponents:httpasyncclient:jar:4.1.3/org.apache.httpcomponents:httpclient:jar:4.5.3</node>
+            <node x="801.5" y="158.0">junit:junit:jar:4.11</node>
+            <node x="770.0" y="79.0">junit:junit:jar:4.11/org.hamcrest:hamcrest-core:jar:1.3</node>
+          </nodes>
+          <notes />
+          <edges>
+            <edge source="org.apache.httpcomponents:httpasyncclient:jar:4.1.3" target="org.apache.httpcomponents:httpasyncclient:jar:4.1.3/org.apache.httpcomponents:httpcore:jar:4.4.6">
+              <point x="-15.875" y="-14.5" />
+              <point x="509.375" y="128.0" />
+              <point x="466.5" y="128.0" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="org.apache.httpcomponents:httpclient:jar:4.5.5" target="org.apache.httpcomponents:httpclient:jar:4.5.5/commons-logging:commons-logging:jar:1.2">
+              <point x="30.33333333333337" y="-14.5" />
+              <point x="202.83333333333337" y="138.0" />
+              <point x="296.0" y="138.0" />
+              <point x="-36.0" y="14.5" />
+            </edge>
+            <edge source="org.apache.httpcomponents:httpasyncclient:jar:4.1.3" target="org.apache.httpcomponents:httpasyncclient:jar:4.1.3/org.apache.httpcomponents:httpclient:jar:4.5.3">
+              <point x="47.625" y="-14.5" />
+              <point x="572.875" y="138.0" />
+              <point x="704.5" y="138.0" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="org.apache.httpcomponents:httpasyncclient:jar:4.1.3" target="org.apache.httpcomponents:httpasyncclient:jar:4.1.3/org.apache.httpcomponents:httpcore-nio:jar:4.4.6">
+              <point x="15.875" y="-14.5" />
+              <point x="541.125" y="128.0" />
+              <point x="584.0" y="128.0" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="com.renho:httpclient-utils:1.0-SNAPSHOT" target="org.apache.httpcomponents:httpasyncclient:jar:4.1.3">
+              <point x="0.0" y="-14.5" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="org.apache.httpcomponents:httpasyncclient:jar:4.1.3/org.apache.httpcomponents:httpcore-nio:jar:4.4.6" target="org.apache.httpcomponents:httpasyncclient:jar:4.1.3/org.apache.httpcomponents:httpcore-nio:jar:4.4.6/org.apache.httpcomponents:httpcore:jar:4.4.9">
+              <point x="0.0" y="-14.5" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="com.renho:httpclient-utils:1.0-SNAPSHOT" target="junit:junit:jar:4.11">
+              <point x="41.0" y="-14.5" />
+              <point x="566.25" y="212.0" />
+              <point x="831.0" y="212.0" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="com.renho:httpclient-utils:1.0-SNAPSHOT" target="org.apache.httpcomponents:httpclient:jar:4.5.5">
+              <point x="-41.0" y="-14.5" />
+              <point x="484.25" y="212.0" />
+              <point x="172.5" y="212.0" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="org.apache.httpcomponents:httpclient:jar:4.5.5" target="org.apache.httpcomponents:httpclient:jar:4.5.5/commons-codec:commons-codec:jar:1.10">
+              <point x="0.0" y="-14.5" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="org.apache.httpcomponents:httpclient:jar:4.5.5" target="org.apache.httpcomponents:httpclient:jar:4.5.5/org.apache.httpcomponents:httpcore:jar:4.4.9">
+              <point x="-30.33333333333337" y="-14.5" />
+              <point x="142.16666666666663" y="138.0" />
+              <point x="42.5" y="138.0" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="junit:junit:jar:4.11" target="junit:junit:jar:4.11/org.hamcrest:hamcrest-core:jar:1.3">
+              <point x="0.0" y="-14.5" />
+              <point x="0.0" y="14.5" />
+            </edge>
+            <edge source="org.apache.httpcomponents:httpasyncclient:jar:4.1.3" target="org.apache.httpcomponents:httpclient:jar:4.5.5/commons-logging:commons-logging:jar:1.2">
+              <point x="-47.625" y="-14.5" />
+              <point x="477.625" y="138.0" />
+              <point x="368.0" y="138.0" />
+              <point x="36.0" y="14.5" />
+            </edge>
+          </edges>
+          <settings layout="Hierarchic Group" zoom="1.0" x="221.0" y="132.0" />
+          <SelectedNodes>
+            <node>org.apache.httpcomponents:httpclient:jar:4.5.5/commons-logging:commons-logging:jar:1.2</node>
+          </SelectedNodes>
+          <Categories />
+          <SCOPE>All</SCOPE>
+          <VISIBILITY>All</VISIBILITY>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpclient/4.5.5/httpclient-4.5.5.pom">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="48" column="18" selection-start-line="48" selection-start-column="18" selection-end-line="48" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/apache/httpcomponents/httpclient/4.5.5/httpclient-4.5.5.jar!/org/apache/http/conn/ConnectionKeepAliveStrategy.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="10" column="17" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpsyncclient/CustConnectionKeepAliveStrategy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="27" column="56" lean-forward="true" selection-start-line="27" selection-start-column="56" selection-end-line="27" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpasyncclient/HttpAsyncClientPool.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/HttpAsyncClientUtils.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2400">
-          <caret line="150" column="40" selection-start-line="150" selection-start-column="40" selection-end-line="150" selection-end-column="40" />
+        <state relative-caret-position="146">
+          <caret line="196" column="4" selection-start-line="196" selection-start-column="4" selection-end-line="196" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/utils/httputils/httpasyncclient/CustConnectionKeepAliveStrategy.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="19" column="13" selection-start-line="19" selection-start-column="13" selection-end-line="19" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/B.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="16" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/A.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="11" selection-start-line="11" selection-end-line="12" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="e#280#281#0" expanded="true" />
+            <element signature="e#325#326#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpAsyncClientUtilsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="13" column="31" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpClientUtilsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpSyncClientUtilsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="19" column="41" selection-start-line="19" selection-start-column="41" selection-end-line="19" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/HttpTestTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1137">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+          <folding>
+            <element signature="e#5018#5019#0" expanded="true" />
+            <element signature="e#5055#5056#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>scala-sdk-2.10.6</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2614488" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2614488" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2614488" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.25578704" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>

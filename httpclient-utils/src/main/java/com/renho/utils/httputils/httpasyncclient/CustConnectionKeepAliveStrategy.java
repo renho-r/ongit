@@ -17,6 +17,7 @@ public class CustConnectionKeepAliveStrategy implements ConnectionKeepAliveStrat
 
     private static final String KEEP_ALIVE_DURATION = "30";
 
+    @Override
     public long getKeepAliveDuration(HttpResponse response, HttpContext context) {
         // Honor 'keep-alive' header
         HeaderElementIterator it = new BasicHeaderElementIterator(

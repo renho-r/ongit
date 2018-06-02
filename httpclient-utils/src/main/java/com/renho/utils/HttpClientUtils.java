@@ -42,7 +42,7 @@ public class HttpClientUtils {
         return HttpSyncClientUtils.POST.requestWithContext(reqUri, reqData);
     }
 
-    public static String doPostAsync(String reqUri, Map<String, String> reqData) throws AppHttpException, IOException, URISyntaxException {
+    public static String doPostAsync(String reqUri, Map<String, String> reqData) throws IOException, URISyntaxException {
         return HttpAsyncClientUtils.POST.request(reqUri, reqData);
     }
 

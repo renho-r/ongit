@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class HttpAsyncClientUtilsTest {
 
-    public static void main(String[] args) throws URISyntaxException, AppHttpException, IOException {
+    public static void main(String[] args) throws URISyntaxException, IOException {
 
         Map<String, String> reqData = new HashMap<>();
         reqData.put("busiId", "busiId-renho");

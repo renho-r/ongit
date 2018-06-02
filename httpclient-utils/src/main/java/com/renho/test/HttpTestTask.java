@@ -18,10 +18,10 @@ import java.util.concurrent.Callable;
 
 public class HttpTestTask implements Callable<String> {
 
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS");
 
     @Override
-    public String call() throws Exception {
+    public String call() {
         try {
             Map<String, String> syncReqData = new HashMap<>();
             syncReqData.put("busiId", "sync:busiId-renho");
@@ -82,28 +82,32 @@ public class HttpTestTask implements Callable<String> {
         return "";
     }
 
+    private final FutureCallback<HttpResponse> futureCallback = new FutureCallback<HttpResponse>() {
+
+        @Override
+        public void completed(final HttpResponse response) {
+            try {
+                System.out.println(EntityUtils.toString(response.getEntity()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void failed(final Exception ex) {
+            ex.printStackTrace();
+        }
+
+        @Override
+        public void cancelled() {
+        }
+
+
+    };
+
+
+
     private FutureCallback<HttpResponse> getFutureCallback() {
-        return new FutureCallback<HttpResponse>() {
-
-            @Override
-            public void completed(final HttpResponse response) {
-                try {
-                    System.out.println(EntityUtils.toString(response.getEntity()));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void failed(final Exception ex) {
-                ex.printStackTrace();
-            }
-
-            @Override
-            public void cancelled() {
-            }
-
-
-        };
+        return futureCallback;
     }
 }
