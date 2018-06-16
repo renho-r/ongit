@@ -18,6 +18,6 @@ ActiveMQ-5.12.1/.idea
 <<<<<<< HEAD
 文档/oracle/oracle
 */target
-=======
 */*target
->>>>>>> 6f2ae9aa9c7ba01d0743444b4e1f9082cc8af3da
+*/*.idea
+*/*.iml
