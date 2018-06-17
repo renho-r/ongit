@@ -21,3 +21,8 @@ ActiveMQ-5.12.1/.idea
 =======
 */*target
 >>>>>>> 6f2ae9aa9c7ba01d0743444b4e1f9082cc8af3da
+dubbox-demo/.idea/vcs.xml
+dubbox-demo/dubbox-demo-api/target/
+dubbox-demo/dubbox-demo-consumer/target/
+dubbox-demo/dubbox-demo-provider/target/
+dubbox-demo/.idea/workspace.xml
