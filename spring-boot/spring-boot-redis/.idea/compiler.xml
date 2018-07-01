@@ -9,5 +9,8 @@
         <module name="spring-boot-redis" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel target="1.8">
+      <module name="spring-boot-redis" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>

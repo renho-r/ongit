@@ -9,6 +9,7 @@
 	$ npm run dev
 
 2.
+npm i element-ui -S
 cnpm install --save iview
 cnpm install --save mockjs
 cnpm install --save vuex

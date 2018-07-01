@@ -1,53 +1,99 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="cb89d528-db0e-43c0-a4be-4c15ebf46194" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../../spring-redis/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../spring-redis/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../文档/mysql/._.DS_Store" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../文档/mysql/._mysql命令.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/rabbitmq.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../文档/rabbitmq/rabbitmq.txt" afterDir="false" />
+    <list default="true" id="c7a7208b-9838-4bbd-bbaa-1ea9bc6a5700" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/../../._.DS_Store" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/renho.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-boot-redis.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springcode/._.DS_Store" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springcode/._spring配置文件.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springcode/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springcode/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../springcode/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springcode/src/._.DS_Store" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springcode/src/main/._.DS_Store" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springcode/src/main/java/com/._.DS_Store" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springcode/src/main/java/com/renho/._.DS_Store" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springcode/src/main/java/com/renho/bean/._.DS_Store" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springcode/src/main/java/com/renho/test/._.DS_Store" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springcode/src/main/webapp/._.DS_Store" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/vue/vue.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../文档/vue/vue.txt" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
-    <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="FileEditorManager">
-    <leaf />
+  <component name="FUSProjectUsageTrigger">
+    <session id="1213894178">
+      <usages-collector id="statistics.file.extensions.open">
+        <counts>
+          <entry key="java" value="1" />
+        </counts>
+      </usages-collector>
+      <usages-collector id="statistics.file.types.open">
+        <counts>
+          <entry key="JAVA" value="1" />
+        </counts>
+      </usages-collector>
+    </session>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/SpringbootApplication.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="120">
+              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>\&lt;\?xml version\=\&quot;1\.0\&quot; encoding\=\&quot;UTF\-8\&quot;\?\&gt;\n\n\&lt;project xmlns\=\&quot;http\:\/\/maven\.apache\.org\/POM\/4\.0\.0\&quot; xmlns\:xsi\=\&quot;http\:\/\/www\.w3\.org\/2001\/XMLSchema\-instance\&quot;\n  xsi\:schemaLocation\=\&quot;http\:\/\/maven\.apache\.org\/POM\/4\.0\.0 http\:\/\/maven\.apache\.org\/xsd\/maven\-4\.0\.0\.xsd\&quot;\&gt;\n  \&lt;modelVersion\&gt;4\.0\.0\&lt;\/modelVersion\&gt;\n\n  \&lt;groupId\&gt;com\.renho\&lt;\/groupId\&gt;\n  \&lt;artifactId\&gt;spring\-boot\-redis\&lt;\/artifactId\&gt;\n  \&lt;version\&gt;1\.0\-SNAPSHOT\&lt;\/version\&gt;\n\n  \&lt;name\&gt;spring\-boot\-redis\&lt;\/name\&gt;\n  \&lt;\!\-\- FIXME change it to the project\'s website \-\-\&gt;\n  \&lt;url\&gt;http\:\/\/www\.example\.com\&lt;\/url\&gt;\n\n  \&lt;properties\&gt;\n    \&lt;project\.build\.sourceEncoding\&gt;UTF\-8\&lt;\/project\.build\.sourceEncoding\&gt;\n    \&lt;maven\.compiler\.source\&gt;1\.7\&lt;\/maven\.compiler\.source\&gt;\n    \&lt;maven\.compiler\.target\&gt;1\.7\&lt;\/maven\.compiler\.target\&gt;\n  \&lt;\/properties\&gt;\n\n  \&lt;dependencies\&gt;\n    \&lt;dependency\&gt;\n      \&lt;groupId\&gt;junit\&lt;\/groupId\&gt;\n      \&lt;artifactId\&gt;junit\&lt;\/artifactId\&gt;\n      \&lt;version\&gt;4\.11\&lt;\/version\&gt;\n      \&lt;scope\&gt;test\&lt;\/scope\&gt;\n    \&lt;\/dependency\&gt;\n  \&lt;\/dependencies\&gt;\n  \&lt;dependencyManagement\&gt;\n    \&lt;dependencies\&gt;\n      \&lt;dependency\&gt;\n        \&lt;\!\-\- Import dependency management from Spring Boot \-\-\&gt;\n        \&lt;groupId\&gt;org\.springframework\.boot\&lt;\/groupId\&gt;\n        \&lt;artifactId\&gt;spring\-boot\-dependencies\&lt;\/artifactId\&gt;\n        \&lt;version\&gt;2\.1\.0\.BUILD\-SNAPSHOT\&lt;\/version\&gt;\n        \&lt;type\&gt;pom\&lt;\/type\&gt;\n        \&lt;scope\&gt;import\&lt;\/scope\&gt;\n      \&lt;\/dependency\&gt;\n    \&lt;\/dependencies\&gt;\n  \&lt;\/dependencyManagement\&gt;\n  \&lt;build\&gt;\n    \&lt;pluginManagement\&gt;\&lt;\!\-\- lock down plugins versions to avoid using Maven defaults \(may be moved to parent pom\) \-\-\&gt;\n      \&lt;plugins\&gt;\n        \&lt;plugin\&gt;\n          \&lt;artifactId\&gt;maven\-clean\-plugin\&lt;\/artifactId\&gt;\n          \&lt;version\&gt;3\.0\.0\&lt;\/version\&gt;\n        \&lt;\/plugin\&gt;\n        \&lt;\!\-\- see http\:\/\/maven\.apache\.org\/ref\/current\/maven\-core\/default\-bindings\.html\#Plugin_bindings_for_jar_packaging \-\-\&gt;\n        \&lt;plugin\&gt;\n          \&lt;artifactId\&gt;maven\-resources\-plugin\&lt;\/artifactId\&gt;\n          \&lt;version\&gt;3\.0\.2\&lt;\/version\&gt;\n        \&lt;\/plugin\&gt;\n        \&lt;plugin\&gt;\n          \&lt;artifactId\&gt;maven\-compiler\-plugin\&lt;\/artifactId\&gt;\n          \&lt;version\&gt;3\.7\.0\&lt;\/version\&gt;\n        \&lt;\/plugin\&gt;\n        \&lt;plugin\&gt;\n          \&lt;artifactId\&gt;maven\-surefire\-plugin\&lt;\/artifactId\&gt;\n          \&lt;version\&gt;2\.20\.1\&lt;\/version\&gt;\n        \&lt;\/plugin\&gt;\n        \&lt;plugin\&gt;\n          \&lt;artifactId\&gt;maven\-jar\-plugin\&lt;\/artifactId\&gt;\n          \&lt;version\&gt;3\.0\.2\&lt;\/version\&gt;\n        \&lt;\/plugin\&gt;\n        \&lt;plugin\&gt;\n          \&lt;artifactId\&gt;maven\-install\-plugin\&lt;\/artifactId\&gt;\n          \&lt;version\&gt;2\.5\.2\&lt;\/version\&gt;\n        \&lt;\/plugin\&gt;\n        \&lt;plugin\&gt;\n          \&lt;artifactId\&gt;maven\-deploy\-plugin\&lt;\/artifactId\&gt;\n          \&lt;version\&gt;2\.8\.2\&lt;\/version\&gt;\n        \&lt;\/plugin\&gt;\n      \&lt;\/plugins\&gt;\n    \&lt;\/pluginManagement\&gt;\n  \&lt;\/build\&gt;\n\&lt;\/project\&gt;\n</find>
+      <find>PropertySourcesPlaceholderConfigurer</find>
     </findStrings>
+    <replaceStrings>
+      <replace />
+    </replaceStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
+  <component name="GradleLocalSettings">
+    <option name="projectSyncType">
+      <map>
+        <entry key="$USER_HOME$/Downloads/sbia_examples/ch03" value="PREVIEW" />
+      </map>
+    </option>
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/A.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/config/A.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/com/renho/config/RedisConfig.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/renho/SpringbootApplicationTest.java" />
         <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
       </list>
     </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <annotation-enable>false</annotation-enable>
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
@@ -55,31 +101,15 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="localRepository" value="D:\dev\apache-maven-3.5.3\repository" />
-        <option name="userSettingsFile" value="D:\dev\apache-maven-3.5.3\conf\settings.xml" />
+        <option name="localRepository" value="$MAVEN_REPOSITORY$" />
+        <option name="userSettingsFile" value="$USER_HOME$/software/apache-maven-3.3.9/conf/settings.xml" />
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="MavenProjectNavigator">
-    <treeState>
-      <expand>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="spring-boot-redis" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-        </path>
-        <path>
-          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
-          <item name="spring-boot-redis" type="9519ce18:MavenProjectsStructure$ProjectNode" />
-          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
-        </path>
-      </expand>
-      <select />
-    </treeState>
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1920" />
-    <option name="height" value="1100" />
+    <option name="height" value="1120" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -88,6 +118,7 @@
     </navigator>
     <panes>
       <pane id="Scope" />
+      <pane id="AndroidView" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -96,32 +127,80 @@
               <item name="spring-boot-redis" type="b2602c69:ProjectViewProjectNode" />
               <item name="spring-boot-redis" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="spring-boot-redis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-redis" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-redis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-redis" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-redis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-redis" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-redis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-redis" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="renho" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-redis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-redis" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="renho" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-redis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-redis" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-redis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-redis" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="spring-boot-redis" type="b2602c69:ProjectViewProjectNode" />
+              <item name="spring-boot-redis" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="renho" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="AndroidView" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="RequestMappingsPanelOrder0" value="0" />
-    <property name="RequestMappingsPanelOrder1" value="1" />
-    <property name="RequestMappingsPanelOrder2" value="2" />
-    <property name="RequestMappingsPanelWidth0" value="75" />
-    <property name="RequestMappingsPanelWidth1" value="75" />
-    <property name="RequestMappingsPanelWidth2" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="android.sdk.path" value="$USER_HOME$/Library/Android/sdk" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="node.js.path.for.package.tslint" value="project" />
-    <property name="node.js.selected.package.tslint" value="" />
-    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1529418764353" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="/usr/local/bin/node" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
-    <property name="settings.editor.selected.configurable" value="web.server" />
-  </component>
-  <component name="RecentsManager">
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="com.renho" />
-    </key>
+    <property name="project.structure.last.edited" value="Problems" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2614488" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -135,271 +214,208 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="JUnit.SpringbootApplicationTest.testAddString">
+  <component name="RunManager">
+    <configuration default="true" type="tests" factoryName="Nosetests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_regexPattern" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Twisted Trial">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Unittests">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="py.test">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+    </configuration>
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="Application" factoryName="Application">
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-    </configuration>
-    <configuration name="SpringbootApplicationTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="spring-boot-redis" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.renho.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.renho" />
-      <option name="MAIN_CLASS_NAME" value="com.renho.SpringbootApplicationTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
-    </configuration>
-    <configuration name="SpringbootApplicationTest.testAddMap" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="spring-boot-redis" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.renho.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.renho" />
-      <option name="MAIN_CLASS_NAME" value="com.renho.SpringbootApplicationTest" />
-      <option name="METHOD_NAME" value="testAddMap" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
-    </configuration>
-    <configuration name="SpringbootApplicationTest.testAddString" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="spring-boot-redis" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.renho.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.renho" />
-      <option name="MAIN_CLASS_NAME" value="com.renho.SpringbootApplicationTest" />
-      <option name="METHOD_NAME" value="testAddString" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
-    </configuration>
-    <configuration name="SpringbootApplicationTest.testEString" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="spring-boot-redis" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.renho.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.renho" />
-      <option name="MAIN_CLASS_NAME" value="com.renho.SpringbootApplicationTest" />
-      <option name="METHOD_NAME" value="testEString" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
-    </configuration>
-    <configuration name="SpringbootApplicationTest.testMap" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="spring-boot-redis" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.renho.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.renho" />
-      <option name="MAIN_CLASS_NAME" value="com.renho.SpringbootApplicationTest" />
-      <option name="METHOD_NAME" value="testMap" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit">
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <patterns />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="SpringbootApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="spring-boot-redis" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.renho.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.renho.SpringbootApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
     <configuration default="true" type="TestNG" factoryName="TestNG">
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="SUITE_NAME" />
-      <option name="PACKAGE_NAME" />
-      <option name="MAIN_CLASS_NAME" />
-      <option name="METHOD_NAME" />
-      <option name="GROUP_NAME" />
-      <option name="TEST_OBJECT" value="CLASS" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
       <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="OUTPUT_DIRECTORY" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <option name="USE_DEFAULT_REPORTERS" value="false" />
-      <option name="PROPERTIES_FILE" />
       <properties />
       <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
     </configuration>
-    <list>
-      <item itemvalue="JUnit.SpringbootApplicationTest" />
-      <item itemvalue="JUnit.SpringbootApplicationTest.testAddString" />
-      <item itemvalue="JUnit.SpringbootApplicationTest.testEString" />
-      <item itemvalue="JUnit.SpringbootApplicationTest.testAddMap" />
-      <item itemvalue="JUnit.SpringbootApplicationTest.testMap" />
-    </list>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.SpringbootApplicationTest.testAddString" />
-        <item itemvalue="JUnit.SpringbootApplicationTest" />
-        <item itemvalue="JUnit.SpringbootApplicationTest.testMap" />
-        <item itemvalue="JUnit.SpringbootApplicationTest.testAddMap" />
-        <item itemvalue="JUnit.SpringbootApplicationTest.testEString" />
+        <item itemvalue="Spring Boot.SpringbootApplication" />
       </list>
     </recent_temporary>
   </component>
   <component name="SvnConfiguration">
-    <configuration />
+    <configuration>$USER_HOME$/.subversion</configuration>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="cb89d528-db0e-43c0-a4be-4c15ebf46194" name="Default" comment="" />
-      <created>1526565194676</created>
+      <changelist id="c7a7208b-9838-4bbd-bbaa-1ea9bc6a5700" name="Default" comment="" />
+      <created>1529216145805</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1526565194676</updated>
-      <workItem from="1526565196013" duration="3966000" />
-      <workItem from="1526569695253" duration="382000" />
-      <workItem from="1526713130147" duration="17000" />
+      <updated>1529216145805</updated>
+      <workItem from="1529216147935" duration="68000" />
+      <workItem from="1529216313361" duration="1422000" />
+      <workItem from="1529416877822" duration="255000" />
+      <workItem from="1529418712111" duration="62000" />
     </task>
-    <task id="LOCAL-00001" summary="m">
-      <created>1526570018661</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1526570018661</updated>
-    </task>
-    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="SpringbootApplicationTest_testEString - 2018.05.17 at 22h 54m 42s.xml">
-      <configuration name="SpringbootApplicationTest.testEString" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SpringbootApplicationTest_testAddMap - 2018.05.17 at 22h 56m 26s.xml">
-      <configuration name="SpringbootApplicationTest.testAddMap" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SpringbootApplicationTest_testAddMap - 2018.05.17 at 22h 57m 15s.xml">
-      <configuration name="SpringbootApplicationTest.testAddMap" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SpringbootApplicationTest_testMap - 2018.05.17 at 22h 58m 28s.xml">
-      <configuration name="SpringbootApplicationTest.testMap" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SpringbootApplicationTest_testMap - 2018.05.17 at 22h 58m 39s.xml">
-      <configuration name="SpringbootApplicationTest.testMap" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="SpringbootApplicationTest - 2018.05.17 at 23h 08m 31s.xml">
+    <history-entry file="SpringbootApplicationTest - 2018.06.17 at 14h 24m 57s.xml">
       <configuration name="SpringbootApplicationTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SpringbootApplicationTest_testMap - 2018.05.17 at 23h 08m 57s.xml">
+    <history-entry file="SpringbootApplicationTest_testString - 2018.06.17 at 14h 26m 16s.xml">
+      <configuration name="SpringbootApplicationTest.testString" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SpringbootApplicationTest - 2018.06.17 at 14h 26m 40s.xml">
+      <configuration name="SpringbootApplicationTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SpringbootApplicationTest_testMap - 2018.06.17 at 14h 28m 37s.xml">
       <configuration name="SpringbootApplicationTest.testMap" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SpringbootApplicationTest - 2018.05.17 at 23h 09m 03s.xml">
-      <configuration name="SpringbootApplicationTest" configurationId="JUnit" />
+    <history-entry file="SpringbootApplicationTest_testMap - 2018.06.17 at 14h 29m 20s.xml">
+      <configuration name="SpringbootApplicationTest.testMap" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SpringbootApplicationTest - 2018.05.17 at 23h 09m 33s.xml">
-      <configuration name="SpringbootApplicationTest" configurationId="JUnit" />
+    <history-entry file="SpringbootApplicationTest_testMap - 2018.06.17 at 14h 29m 59s.xml">
+      <configuration name="SpringbootApplicationTest.testMap" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="SpringbootApplicationTest_testAddString - 2018.05.17 at 23h 10m 20s.xml">
-      <configuration name="SpringbootApplicationTest.testAddString" configurationId="JUnit" />
+    <history-entry file="SpringbootApplicationTest_testMap - 2018.06.17 at 14h 30m 31s.xml">
+      <configuration name="SpringbootApplicationTest.testMap" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SpringbootApplicationTest_testMap - 2018.06.17 at 14h 31m 19s.xml">
+      <configuration name="SpringbootApplicationTest.testMap" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SpringbootApplicationTest_testMap - 2018.06.17 at 14h 36m 55s.xml">
+      <configuration name="SpringbootApplicationTest.testMap" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="SpringbootApplicationTest_testMap - 2018.06.17 at 14h 39m 24s.xml">
+      <configuration name="SpringbootApplicationTest.testMap" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4365000" />
+    <option name="totallyTimeSpent" value="1807000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
+    <frame x="0" y="23" width="1920" height="1120" extended-state="0" />
+    <editor active="true" />
     <layout>
-      <window_info anchor="right" id="Palette" order="3" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Palette&#9;" order="3" />
-      <window_info id="Image Layers" order="2" />
-      <window_info anchor="right" id="Capture Analysis" order="3" />
-      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50053304" side_tool="true" weight="0.36637932" />
-      <window_info anchor="right" id="Maven Projects" order="3" weight="0.32995737" />
-      <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Version Control" order="7" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.4385776" />
-      <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32901832" />
-      <window_info id="Capture Tool" order="2" />
-      <window_info id="Designer" order="2" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23880596" />
-      <window_info anchor="right" id="Database" order="3" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24121405" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info id="UI Designer" order="2" />
-      <window_info anchor="right" id="Theme Preview" order="3" />
-      <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" weight="0.3656958" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="UI Designer" order="5" />
+      <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Messages" order="7" weight="0.44504312" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.4799609" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.38709676" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Spring" order="7" />
+      <window_info anchor="bottom" id="Terminal" order="8" />
+      <window_info anchor="bottom" id="Docker" order="9" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Database Changes" order="11" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Version Control" order="12" />
+      <window_info anchor="bottom" id="Tail" order="13" />
+      <window_info anchor="bottom" id="Messages" order="14" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Key Promoter X" order="5" />
+      <window_info anchor="right" id="Maven Projects" order="6" />
+      <window_info anchor="right" id="SciView" order="7" />
+      <window_info anchor="right" id="Database" order="8" />
+      <window_info anchor="right" id="Palette&#9;" order="9" />
+      <window_info anchor="right" id="Theme Preview" order="10" />
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -408,96 +424,187 @@
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
-  <component name="VcsManagerConfiguration">
-    <MESSAGE value="m" />
-    <option name="LAST_COMMIT_MESSAGE" value="m" />
-  </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <option name="time" value="7" />
-    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="JUnit">
+        <watch expression="beanName" />
+      </configuration>
+    </watches-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="51" selection-start-line="51" selection-end-line="51" />
+        <state relative-caret-position="310">
+          <caret line="49" column="24" selection-start-line="49" selection-start-column="24" selection-end-line="49" selection-end-column="24" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/renho/SpringbootApplicationTest.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-redis/1.8.9.RELEASE/spring-data-redis-1.8.9.RELEASE.jar!/org/springframework/data/redis/core/RedisConnectionUtils.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="14" column="4" lean-forward="true" selection-start-line="14" selection-start-column="4" selection-end-line="14" selection-end-column="4" />
+        <state relative-caret-position="143">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/junit/junit/4.12/junit-4.12-sources.jar!/org/junit/runner/RunWith.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/4.3.13.RELEASE/spring-context-4.3.13.RELEASE.jar!/org/springframework/context/config/spring-context-3.1.xsd">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="34" column="23" lean-forward="true" selection-start-line="34" selection-start-column="23" selection-end-line="34" selection-end-column="23" />
+        <state relative-caret-position="165">
+          <caret line="94" column="4" selection-start-line="94" selection-start-column="4" selection-end-line="94" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/junit/junit/4.12/junit-4.12-sources.jar!/org/junit/runner/Runner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="21" column="28" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/renho/AppTest.java" />
-    <entry file="file://$PROJECT_DIR$/pom.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="816">
-          <caret line="51" selection-start-line="51" selection-end-line="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/junit/junit/4.12/junit-4.12-sources.jar!/org/junit/runner/RunWith.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="34" column="23" selection-start-line="34" selection-start-column="23" selection-end-line="34" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/junit/junit/4.12/junit-4.12-sources.jar!/org/junit/runner/Runner.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="21" column="28" selection-start-line="21" selection-start-column="22" selection-end-line="21" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/SpringbootApplication.java">
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/4.3.13.RELEASE/spring-beans-4.3.13.RELEASE.jar!/org/springframework/beans/factory/support/AbstractAutowireCapableBeanFactory.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="144">
-          <caret line="9" column="14" lean-forward="true" selection-start-line="9" selection-start-column="14" selection-end-line="9" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/renho/SpringbootApplicationTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="22" column="19" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="29" />
+          <caret line="715" selection-start-line="715" selection-end-line="715" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/config/RedisConfig.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="34" column="37" selection-start-line="34" selection-start-column="17" selection-end-line="34" selection-end-column="37" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="158">
+          <caret line="34" selection-start-line="34" selection-end-line="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/4.3.13.RELEASE/spring-beans-4.3.13.RELEASE.jar!/org/springframework/beans/factory/config/PropertyResourceConfigurer.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="90">
+          <caret line="16" column="22" selection-start-line="16" selection-start-column="22" selection-end-line="16" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/4.3.13.RELEASE/spring-beans-4.3.13.RELEASE-sources.jar!/org/springframework/beans/factory/config/PropertyResourceConfigurer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="51" column="22" selection-start-line="51" selection-start-column="22" selection-end-line="51" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-redis/1.8.9.RELEASE/spring-data-redis-1.8.9.RELEASE-sources.jar!/org/springframework/data/redis/core/RedisAccessor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="415">
+          <caret line="54" selection-start-line="54" selection-end-line="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/4.3.13.RELEASE/spring-beans-4.3.13.RELEASE-sources.jar!/org/springframework/beans/factory/support/AbstractAutowireCapableBeanFactory.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="1482" selection-start-line="1482" selection-end-line="1482" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-redis/1.8.9.RELEASE/spring-data-redis-1.8.9.RELEASE-sources.jar!/org/springframework/data/redis/core/RedisTemplate.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="241">
+          <caret line="193" selection-start-line="193" selection-end-line="193" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/data/spring-data-redis/1.8.9.RELEASE/spring-data-redis-1.8.9.RELEASE-sources.jar!/org/springframework/data/redis/core/RedisConnectionUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="161">
+          <caret line="78" selection-start-line="78" selection-end-line="78" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/4.3.13.RELEASE/spring-beans-4.3.13.RELEASE-sources.jar!/org/springframework/beans/factory/config/PlaceholderConfigurerSupport.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1550">
+          <caret line="87" column="22" selection-start-line="87" selection-start-column="22" selection-end-line="87" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-beans/4.3.13.RELEASE/spring-beans-4.3.13.RELEASE-sources.jar!/org/springframework/beans/factory/config/PreferencesPlaceholderConfigurer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="190">
+          <caret line="118" column="17" lean-forward="true" selection-start-line="118" selection-start-column="17" selection-end-line="118" selection-end-column="17" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="112">
-          <caret line="7" column="22" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="22" />
+        <state relative-caret-position="105">
+          <caret line="7" column="25" selection-start-line="7" selection-start-column="22" selection-end-line="7" selection-end-column="25" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/renho/SpringbootApplicationTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="39" selection-start-line="39" selection-end-line="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/SpringbootApplication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>scala-sdk-2.10.6</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2614488" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2614488" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2614488" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ScopeChooserConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.25578704" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
   </component>
 </project>
