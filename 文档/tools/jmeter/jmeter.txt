@@ -1,0 +1,1 @@
+jmeter -n -t g:/HTTP请求.jmx -l g:/testplan/result/result.txt -e -o g:/testplan/webreport
