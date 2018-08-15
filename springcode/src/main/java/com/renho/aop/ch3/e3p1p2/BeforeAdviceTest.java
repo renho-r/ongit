@@ -1,7 +1,5 @@
 package com.renho.aop.ch3.e3p1p2;
 
-import static org.junit.Assert.*;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

@@ -9,12 +9,15 @@
             http://code.alibabatech.com/schema/dubbo
             http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
 	<!-- 提供方应用信息，用于计算依赖关系 -->
-    <dubbo:application name="hello-world-app-consumer"  />
+    <dubbo:application name="hello-world-app-consumer-1"  />
     <!-- 使用multicast广播注册中心暴露服务地址   
     <dubbo:registry address="multicast://224.5.6.7:1234" />-->
     <!-- 使用zookeeper注册中心暴露服务地址 -->  
-    <dubbo:registry address="zookeeper://127.0.0.1:2181" />
+    <dubbo:registry address="zookeeper://myserver:2181" />
+
+    <dubbo:protocol name="dubbo" host="192.168.21.100"/>
     
-	<dubbo:reference id="sayHelloService" interface="com.renho.dubbotest.service.ISayHelloService"/>
+	<dubbo:reference id="sayHelloService" interface="com.renho.dubbotest.service.ISayHelloService" filter="logFilter"/>
+    <!--<dubbo:monitor protocol="registry"/>-->
     <!--actives="10" connections="10"-->
 </beans>

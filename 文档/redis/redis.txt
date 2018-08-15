@@ -63,3 +63,5 @@ $:./redis-cli -h 192.168.111.130 -p 7501 -a 123
 $:info
 $:./redis-cli -h 192.168.111.130 -p 7505 -a 123
 sentinel master mymaster
+SENTINEL slaves mymaster
+SENTINEL sentinels mymaster
