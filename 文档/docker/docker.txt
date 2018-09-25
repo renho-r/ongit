@@ -38,3 +38,4 @@ docker run -i -t centos7_jdk8 /bin/bash
 
 docker run --privileged=true --name renho -v /home/docker/app/test.jar:/usr/local/app/test.jar -p 9090:9090 -it centos7_jdk8 /bin/bash
 docker run --privileged=true --name renho -v /home/docker/app/test.jar:/usr/local/app/test.jar -p 9090:9090 -itd centos7_jdk8 'java -jar /usr/local/test.jar >> /usr/local/nohup.log' 
+sudo systemctl enable docker
