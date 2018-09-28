@@ -88,3 +88,4 @@ systemctl disable docker
 systemctl start docker
 systemctl stop docker
 systemctl daemon-reload
+sudo systemctl enable docker
