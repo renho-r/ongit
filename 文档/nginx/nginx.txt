@@ -40,3 +40,10 @@ nginx -c /path/to/nginx.conf
 
 平滑重启nginx：
 kill -HUP 主进程号
+
+
+./configure --prefix=/home/renho/nginx-renho1 --with-pcre=/home/renho/pcre-8.42 --without-http_gzip_module
+make && make install
+
+./configure --prefix=/home/renho/nginx-renho2 --with-pcre=/home/renho/pcre-8.42 --without-http_gzip_module
+make && make install

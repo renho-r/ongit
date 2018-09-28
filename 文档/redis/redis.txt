@@ -65,3 +65,9 @@ $:./redis-cli -h 192.168.111.130 -p 7505 -a 123
 sentinel master mymaster
 SENTINEL slaves mymaster
 SENTINEL sentinels mymaster
+
+
+
+°²×°
+make
+make PREFIX=/home/renho/redis-4.0.1 install

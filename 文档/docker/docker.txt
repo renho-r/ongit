@@ -38,3 +38,53 @@ docker run -i -t centos7_jdk8 /bin/bash
 
 docker run --privileged=true --name renho -v /home/docker/app/test.jar:/usr/local/app/test.jar -p 9090:9090 -it centos7_jdk8 /bin/bash
 docker run --privileged=true --name renho -v /home/docker/app/test.jar:/usr/local/app/test.jar -p 9090:9090 -itd centos7_jdk8 'java -jar /usr/local/test.jar >> /usr/local/nohup.log' 
+
+
+树莓派
+
+/lib/systemd/system/docker.service
+
+1.
+	# 下载官方提供的安装脚本
+	curl -fsSL get.docker.com -o get-docker.sh
+	# 下载的脚本已经有定义阿里云镜像加速地址，这里加参数使用
+	sudo sh get-docker.sh --mirror Aliyun
+	# 使pi账号也可以使用docker（否则说权限不够，只能前面加sudo），注意要重启才生效
+	sudo usermod -aG docker pi
+	# 设置开机启动docker
+	sudo systemctl enable docker
+	# 下载docker-compose，官网是建议使用python的pip安装
+	sudo pip install docker-compose
+	sudo usermod -aG docker 
+2.
+curl -sSL https://get.docker.com | sh
+wget https://curl.haxx.se/ca/cacert-2018-03-07.pem
+cacert-2018-03-07.pem
+curl -fsSL --cacert ./cacert-2018-03-07.pem get.docker.com | sh
+curl -sSL https://get.docker.com | sh
+ll
+wget https://get.docker.com/
+mkdie docker
+mkdir docker
+cd docker/
+ll
+vi install.sh
+chmod 755 install.sh 
+./install.sh 
+sudo usermod -aG docker $USER
+docker info
+sudo usermod -aG docker $USER
+sudo usermod -aG docker pi
+docker info
+exit
+docker info
+docker pull registry.docker-cn.com/portainer/portainer:linux-arm-1.14.0
+mkdir -p ~/portaniner/data
+docker run -d --name portainer --restart unless-stopped -p 9000:9000 -v ~/portaniner/data:/data -v /var/run/docker.sock:/var/run/docker.sock registry.docker-cn.com/portainer/portainer:linux-arm-1.14.0
+
+
+systemctl enable docker
+systemctl disable docker
+systemctl start docker
+systemctl stop docker
+systemctl daemon-reload

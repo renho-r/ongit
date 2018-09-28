@@ -1,0 +1,7 @@
+./elasticsearch
+
+elasticsearch.yml
+network.host: 0.0.0.0
+
+安装插件:中文搜索
+	./elasticsearch-plugin instal1 analysis-smartcn

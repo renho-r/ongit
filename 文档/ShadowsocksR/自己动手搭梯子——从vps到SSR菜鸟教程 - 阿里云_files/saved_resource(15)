@@ -1,0 +1,121 @@
+.www-aliyun-yq-productsale1 .module-wrap {
+  font-family: '\5FAE\8F6F\96C5\9ED1', '\5FAE\8F6F\96C5\9ED1   Regular';
+}
+.www-aliyun-yq-productsale1 .module-wrap ul,
+.www-aliyun-yq-productsale1 .module-wrap p,
+.www-aliyun-yq-productsale1 .module-wrap h1,
+.www-aliyun-yq-productsale1 .module-wrap h2,
+.www-aliyun-yq-productsale1 .module-wrap h3,
+.www-aliyun-yq-productsale1 .module-wrap h4,
+.www-aliyun-yq-productsale1 .module-wrap h5,
+.www-aliyun-yq-productsale1 .module-wrap h6 {
+  margin: 0;
+  padding: 0;
+}
+.www-aliyun-yq-productsale1 .module-wrap li {
+  list-style-type: none;
+}
+.www-aliyun-yq-productsale1 .module-wrap a {
+  text-decoration: none;
+}
+.www-aliyun-yq-productsale1 .module-wrap .pdl {
+  padding-left: 52px;
+}
+.www-aliyun-yq-productsale1 .module-wrap .pdb16 {
+  padding-bottom: 16px;
+}
+.www-aliyun-yq-productsale1 .module-wrap .pdb20 {
+  padding-bottom: 20px;
+}
+.www-aliyun-yq-productsale1 .module-wrap .product-container {
+  width: 330px;
+  height: auto;
+  overflow: hidden;
+  padding: 30px 30px 30px 30px;
+  background: #f9f9f9;
+}
+.www-aliyun-yq-productsale1 .module-wrap .product-container h2 {
+  font-size: 18px;
+  color: #333;
+  font-family: '\5FAE\8F6F\96C5\9ED1', '\5FAE\8F6F\96C5\9ED1   Regular';
+  margin-bottom: 20px;
+  font-weight: 400;
+}
+.www-aliyun-yq-productsale1 .module-wrap .single-product {
+  background: #f9f9f9;
+}
+.www-aliyun-yq-productsale1 .module-wrap .blank {
+  height: 1px;
+  background: #d6d6d6;
+  margin: 20px 0;
+}
+.www-aliyun-yq-productsale1 .module-wrap .product-icon {
+  position: relative;
+  float: left;
+}
+.www-aliyun-yq-productsale1 .module-wrap .product-icon-yuns {
+  width: 32px;
+  height: 32px;
+  background-position: -768px -992px !important;
+}
+.www-aliyun-yq-productsale1 .module-wrap .mr20 {
+  margin-right: 20px;
+}
+.www-aliyun-yq-productsale1 .module-wrap .product-icon-yundatabase {
+  width: 32px;
+  height: 32px;
+  background-position: -640px -992px !important;
+}
+.www-aliyun-yq-productsale1 .module-wrap .product-icon-cdn {
+  width: 32px;
+  height: 32px;
+  background-position: -256px -1024px !important;
+}
+.www-aliyun-yq-productsale1 .module-wrap .product-titile {
+  height: 16px;
+  position: relative;
+}
+.www-aliyun-yq-productsale1 .module-wrap .product-title-tip {
+  font-size: 16px;
+  color: #333;
+}
+.www-aliyun-yq-productsale1 .module-wrap .product-activity-flag {
+  display: inline-block;
+  background: url("https://img.alicdn.com/tps/TB1XlphMpXXXXcMXpXXXXXXXXXX-66-22.png") no-repeat;
+  width: 66px;
+  height: 22px;
+  line-height: 22px;
+  text-align: center;
+  font-size: 12px;
+  color: #fff;
+}
+.www-aliyun-yq-productsale1 .module-wrap .product-desc {
+  font-size: 14px;
+  color: #666;
+}
+.www-aliyun-yq-productsale1 .module-wrap .product-price {
+  font-size: 16px;
+  color: #fe663e;
+}
+.www-aliyun-yq-productsale1 .module-wrap .product-ori-price {
+  display: inline-block;
+  font-size: 12px;
+  color: #666;
+  text-decoration: line-through;
+  margin-left: 16px;
+}
+.www-aliyun-yq-productsale1 .module-wrap .product-buy-btn {
+  display: inline-block;
+  padding: 6px 16px;
+  border: 1px solid #00a4cf;
+  color: #00a4cf;
+  margin-right: 15px;
+  font-size: 12px;
+}
+.www-aliyun-yq-productsale1 .module-wrap .product-buy-link {
+  color: #00a4cf;
+  font-size: 12px;
+}
+.www-aliyun-yq-productsale1 .module-wrap .product-buy-link:hover {
+  text-decoration: underline;
+}
