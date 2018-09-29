@@ -37,8 +37,10 @@ docker run -d -p 9000:9000 portainer/portainer -H tcp://192.168.111.130:2375
 docker run -i -t centos7_jdk8 /bin/bash
 
 docker run --privileged=true --name renho -v /home/docker/app/test.jar:/usr/local/app/test.jar -p 9090:9090 -it centos7_jdk8 /bin/bash
-docker run --privileged=true --name renho -v /home/docker/app/test.jar:/usr/local/app/test.jar -p 9090:9090 -itd centos7_jdk8 'java -jar /usr/local/test.jar >> /usr/local/nohup.log' 
+docker run --privileged=true --name renho -v /home/docker/app/test.jar:/usr/local/app/test.jar -p 9090:9090 -itd centos7_jdk8 java -jar /usr/local/test.jar
+docker run --privileged=true --name service-test -v /home/docker/service-test.jar:/usr/local/app/service-test.jar -p 9090:9090 -itd centos7_jdk8 java -jar /usr/local/app/service-test.jar
 
+docker logs -f cid
 
 树莓派
 
@@ -89,3 +91,6 @@ systemctl start docker
 systemctl stop docker
 systemctl daemon-reload
 sudo systemctl enable docker
+
+
+docker run --privileged=true --name service-test -v /home/docker/service-test.jar:/usr/local/app/service-test.jar -p 9090:9090 -itd centos7_jdk8 'java -jar /usr/local/app/service-test.jar >> /usr/local/service-test.log'

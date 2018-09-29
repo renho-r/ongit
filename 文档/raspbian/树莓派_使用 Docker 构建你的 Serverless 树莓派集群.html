@@ -1,0 +1,803 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0036)https://linux.cn/article-9007-1.html -->
+<html xmlns="http://www.w3.org/1999/xhtml" data-blockbyte-bs-uid="52632"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>树莓派|使用 Docker 构建你的 Serverless 树莓派集群</title>
+ 
+<meta name="keywords" content="使用 Docker 构建你的 Serverless 树莓派集群">
+<meta name="description" content="这篇博文将向你展示如何使用 Docker 和 OpenFaaS 框架构建你自己的 Serverless 树莓派集群。大家常常问我能用他们的集群来做些什么？而这个应用完美匹配卡片尺寸的设备——只需添加更多的树莓派就能获取更强的计算能力。 ">
+<meta name="copyright" content="2005-2017 Linux.cn">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="applicable-device" content="pc,mobile">
+<meta name="referrer" content="always">
+<!--<base href="https://linux.cn/">--><base href="."><link rel="stylesheet" type="text/css" href="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/style_1_common.css">
+<link rel="stylesheet" type="text/css" href="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/style_1_portal_view.css">
+<link href="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/responsive.css" rel="stylesheet">
+
+<script type="text/javascript">var STYLEID = '1', STATICURL = 'https://dn-linuxcn.qbox.me/static/', IMGDIR = 'https://dn-linuxcn.qbox.me/static/image/common', VERHASH = 'mNH', charset = 'utf-8', discuz_uid = '0', cookiepre = 'dx_516d_', cookiedomain = '.linux.cn', cookiepath = '/', showusercard = '1', attackevasive = '0', disallowfloat = '', creditnotice = '1|经验|,2|L币|,3|贡献|', defaultstyle = '', REPORTURL = 'aHR0cDovL2xpbnV4LmNuL2FydGljbGUtOTAwNy0xLmh0bWw=', SITEURL = 'https://linux.cn/', JSPATH = 'https://dn-linuxcn.qbox.me/static/js/', CSSPATH = 'data/cache/style_', DYNAMICURL = '';</script>
+<script src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/common.js.下载" type="text/javascript"></script>
+<script src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/jquery-1.11.0.min.js.下载" type="text/javascript"></script>
+<script type="text/javascript">jQuery.noConflict();</script>
+<script src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/jquery.plugins.js.下载" type="text/javascript"></script>
+<script src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/bootstrap.min.js.下载" type="text/javascript"></script>
+<link rel="alternate" type="application/rss+xml" title="Linux中国开源社区 RSS" href="https://linux.cn/rss.xml">
+<link rel="shortcut icon" href="https://dn-linuxcn.qbox.me/favicon.ico" sizes="32x32">
+<link rel="canonical" href="https://linux.cn/article-9007-1.html"><script src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/portal.js.下载" type="text/javascript"></script>
+<style class="blockbyte-bs-style" data-name="content">body>div#blockbyte-bs-indicator>div{opacity:0;pointer-events:none}body>iframe#blockbyte-bs-sidebar.blockbyte-bs-visible,body>iframe#blockbyte-bs-overlay.blockbyte-bs-visible{opacity:1;pointer-events:auto}body.blockbyte-bs-noscroll{overflow:hidden !important}body>div#blockbyte-bs-indicator>div{position:absolute;transform:translate3d(-40px, 0, 0);top:0;left:0;width:40px !important;height:100%;background:rgba(0,0,0,0.5);border-radius:0 10px 10px 0;transition:opacity 0.3s, transform 0.3s;z-index:2}body>div#blockbyte-bs-indicator>div>span{-webkit-mask:no-repeat center/32px;-webkit-mask-image:url(chrome-extension://jdbnofccmhefkmjbkkdkfiicjkgofkdh/img/icon-bookmark.svg);background-color:#ffffff;position:absolute;display:block;top:0;left:0;width:100%;height:100%}body>div#blockbyte-bs-indicator[data-pos='right']{left:auto;right:0}body>div#blockbyte-bs-indicator[data-pos='right']>div{transform:translate3d(40px, 0, 0);left:auto;right:0;border-radius:10px 0 0 10px}body>div#blockbyte-bs-indicator.blockbyte-bs-fullHeight>div{border-radius:0}body>div#blockbyte-bs-indicator.blockbyte-bs-hover>div{transform:translate3d(0, 0, 0);opacity:1}body>div#blockbyte-bs-indicator[data-pos='left'].blockbyte-bs-has-lsb{height:100% !important;top:0 !important}body>div#blockbyte-bs-indicator[data-pos='left'].blockbyte-bs-has-lsb>div{background:transparent}body>div#blockbyte-bs-indicator[data-pos='left'].blockbyte-bs-has-lsb>div>span{-webkit-mask-position-y:20px}body>iframe#blockbyte-bs-sidebar{width:350px;max-width:none;height:0;z-index:2147483646;background-color:rgba(0,0,0,0.6) !important;border:none;display:block !important;transform:translate3d(-350px, 0, 0);transition:width 0s 0.3s, height 0s 0.3s, opacity 0.3s, transform 0.3s}body>iframe#blockbyte-bs-sidebar[data-pos='right']{left:auto;right:0;transform:translate3d(350px, 0, 0)}body>iframe#blockbyte-bs-sidebar.blockbyte-bs-visible{width:calc(100% + 350px);height:100%;transform:translate3d(0, 0, 0);transition:opacity 0.3s, transform 0.3s}body>iframe#blockbyte-bs-sidebar.blockbyte-bs-hideMask{background:none !important}body>iframe#blockbyte-bs-sidebar.blockbyte-bs-hideMask:not(.blockbyte-bs-hover){width:calc(350px + 50px)}body>iframe#blockbyte-bs-overlay{width:100%;max-width:none;height:100%;z-index:2147483647;border:none;background:rgba(0,0,0,0.5) !important;transition:opacity 0.3s}
+</style></head>
+
+<body id="nv_portal" class="pg_view" onkeydown="if(event.keyCode==27) return false;" style="">
+<div id="append_parent"></div><div id="ajaxwaitid"></div>
+<div id="toptb" class="cl">
+<div class="wp">
+<div class="z"><a href="https://linux.cn/rss.xml" target="_blank">RSS</a><a href="https://linux.cn/tag/">TAG</a></div>
+<div class="y">
+<a href="https://linux.cn/aboutus.html">关于我们/aboutus</a><a href="https://linux.cn/business.html">广告合作/ad</a><a href="https://linux.cn/article-8670-1.html">帮助我们/contribute</a></div>
+</div>
+</div>
+
+
+<div id="hd">
+<div class="wp" style="box-shadow: 1px 1px 2px #666;">
+<h1 id="linuxcn_logo" style="display: block;margin: 24px;padding:0;position: absolute; width: 128px;height: 128px;background-image: url(https://dn-linuxcn.qbox.me/static/image/common/linuxcn_logo_2017.png);"><a href="https://linux.cn/" title="Linux.中国 - 开源社区"><img src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/linuxcn_logo_2017.png" class="logo_rotate" border="0" style="border-radius: 50%; position: absolute; transform: rotate(349deg); text-indent: 349px;">
+<img src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/radio.png" style="border-radius: 50%; -webkit-animation: spin 60s linear infinite; animation: spin 60s linear infinite;transform: rotate(0deg);"></a><style type="text/css">@-webkit-keyframes spin{100%{-webkit-transform:rotate(360deg);}}@keyframes spin{100%{transform:rotate(360deg);}}</style></h1>
+<div class="hdc cl"><div class="y"><script src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/logging.js.下载" type="text/javascript"></script>
+<form method="post" autocomplete="off" id="lsform" action="https://linux.cn/member.php?mod=logging&amp;action=login&amp;loginsubmit=yes&amp;infloat=yes&amp;lssubmit=yes" onsubmit="pwmd5(&#39;ls_password&#39;);return lsSubmit();">
+<div class="fastlg cl" style="width: auto;">
+<span id="return_ls" style="display:none"></span>
+<div class="y pns">
+<table cellspacing="0" cellpadding="0">
+<tbody><tr>
+<td><label for="ls_username">帐号</label></td>
+<td><input type="text" name="username" id="ls_username" class="px vm xg1" value="用户名/Email" onfocus="if(this.value == &#39;用户名/Email&#39;){this.value = &#39;&#39;;this.className = &#39;px vm&#39;;}" onblur="if(this.value == &#39;&#39;){this.value = &#39;用户名/Email&#39;;this.className = &#39;px vm xg1&#39;;}" tabindex="901"></td>
+<td class="fastlg_l"><label for="ls_cookietime"><input type="checkbox" name="cookietime" id="ls_cookietime" class="pc" value="2592000" tabindex="903">自动登录</label></td>
+<td>&nbsp;<a href="javascript:;" onclick="showWindow(&#39;login&#39;, &#39;member.php?mod=logging&amp;action=login&amp;viewlostpw=1&#39;)">找回密码</a></td>
+</tr>
+<tr>
+<td><label for="ls_password">密码</label></td>
+<td><input type="password" name="password" id="ls_password" class="px vm" autocomplete="off" tabindex="902"></td>
+<td class="fastlg_l"><button type="submit" class="pn vm" tabindex="904"><em>登录</em></button></td>
+<td>&nbsp;<a href="https://linux.cn/member.php?mod=knight" class="xi2 xw1">骑士注册</a></td>
+</tr>
+</tbody></table>
+<input type="hidden" name="quickforward" value="yes">
+<input type="hidden" name="handlekey" value="ls">
+</div>
+
+<div class="fastlg_fm y" style="margin-right: 10px; padding-right: 10px">
+<p><a href="https://linux.cn/connect.php?mod=login&amp;op=init&amp;referer=portal.php%3Fmod%3Dview%26aid%3D9007%26page%3D1%26ref%3D&amp;statfrom=login_simple"><img src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/qq_login.gif" class="vm" alt="QQ登录"></a></p>
+<p><a href="https://linux.cn/xwb.php?m=xwbAuth.login"><img src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/sina_login.gif" class="vm" style="padding: 2px 0;" alt="微博登录"></a></p>
+</div>
+
+<script>
+try{
+(function(){
+var node = document.getElementById("lsform").firstChild;
+var i = 1;
+while(i < 3 && node.nodeType!=1){
+node=node.nextSibling;
+i++;
+}
+node.style.width = 'auto';
+})();
+}catch(e){}
+</script>
+</div>
+</form>
+
+<script src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/md5.js.下载" type="text/javascript" reload="1"></script>
+</div>
+<h2 style="float:right;width: 400px;height: 70px;overflow: hidden;margin: 5px 20px;">
+<div class="linuxcnad">
+    </div>
+</h2>
+</div>
+<div class="p_pop h_pop" id="mn_userapp_menu" style="display: none"></div><div id="topmenu_wrapper" style="height: 33px;">
+<div id="topmenu" class="affix">
+<div id="nv">
+<ul><li id="mn_N6666"><a href="https://linux.cn/" hidefocus="true" style="font-weight: bold;">Linux 中国</a></li><li id="mn_P3" onmouseover="navShow(&#39;P3&#39;)"><a href="https://linux.cn/tech/" hidefocus="true" style="color: #FFFAE5;">技术</a></li><li id="mn_P1"><a href="https://linux.cn/news/" hidefocus="true" style="color: #FFFAE5;">新闻</a></li><li id="mn_P4" onmouseover="navShow(&#39;P4&#39;)"><a href="https://linux.cn/talk/" hidefocus="true" style="color: #FFFAE5;">观点</a></li><li id="mn_P8" onmouseover="navShow(&#39;P8&#39;)"><a href="https://linux.cn/share/" hidefocus="true" style="color: #FFFAE5;">分享</a></li><li id="mn_N9be8" onmouseover="navShow(&#39;N9be8&#39;)"><a href="https://linux.cn/forum/" hidefocus="true" target="_blank" style="color: cyan;">论坛</a></li><li id="mn_N1fa1"><a href="https://linux.cn/lctt/" hidefocus="true" target="_blank">LCTT</a></li><li id="mn_Nb6ad"><a href="https://contribute.linux.cn/" hidefocus="true" target="_blank" style="color: red;">投稿</a></li></ul>
+</div>
+<div id="mu" class="cl">
+<ul class="cl " id="snav_mn_P3" style="display:none;">
+<li><a href="https://linux.cn/tech/desktop/" hidefocus="true">桌面应用</a></li><li><a href="https://linux.cn/tech/sa/" hidefocus="true">系统运维</a></li><li><a href="https://linux.cn/tech/program/" hidefocus="true">软件开发</a></li><li><a href="https://linux.cn/tech/raspberrypi/" hidefocus="true">树莓派</a></li><li><a href="https://linux.cn/tech/container/" hidefocus="true">容器与云</a></li></ul>
+<ul class="cl " id="snav_mn_P4" style="display:none;">
+<li><a href="https://linux.cn/talk/comic/" hidefocus="true">极客漫画</a></li><li><a href="https://linux.cn/talk/ossip/" hidefocus="true">开源智慧</a></li></ul>
+<ul class="cl " id="snav_mn_P8" style="display:none;">
+<li><a href="https://linux.cn/share/distro/" hidefocus="true">Linux 发行版</a></li></ul>
+<ul class="cl " id="snav_mn_N9be8" style="display:none;">
+<li><a href="https://linux.cn/thread/" hidefocus="true" style="color: blue;">全部话题</a></li><li><a href="javascript:showWindow(&#39;nav&#39;, &#39;forum.php?mod=misc&amp;action=nav&amp;special=0&#39;);" hidefocus="true" style="color: red;">发新帖</a></li><li><a href="javascript:void();" hidefocus="true">|</a></li><li><a href="https://linux.cn/forum/news/" hidefocus="true">新闻杂谈</a></li><li><a href="https://linux.cn/forum/sa/" hidefocus="true">系统运维</a></li><li><a href="https://linux.cn/forum/program/" hidefocus="true">编程开发</a></li></ul>
+<ul class="cl " id="snav_mn_N39f5" style="display:none;">
+<li><a href="https://linux.cn/space.php" hidefocus="true">首页</a></li><li><a href="https://linux.cn/home.php?mod=space&amp;do=home" hidefocus="true">动态</a></li><li><a href="https://linux.cn/home.php?mod=space&amp;do=doing" hidefocus="true">记录</a></li><li><a href="https://linux.cn/home.php?mod=space&amp;do=blog" hidefocus="true">博客</a></li><li><a href="https://linux.cn/home.php?mod=space&amp;do=album" hidefocus="true">相册</a></li><li><a href="https://linux.cn/home.php?mod=space&amp;do=favorite" hidefocus="true">收藏</a></li><li><a href="https://linux.cn/home.php?mod=space&amp;do=friend" hidefocus="true">好友</a></li><li><a href="https://linux.cn/home.php?mod=spacecp&amp;ac=invite" hidefocus="true">邀请</a></li></ul>
+<ul class="cl " id="snav_mn_userapp" style="display:none;">
+</ul>
+</div></div>
+</div>
+<div id="scbar" class="cl">
+<form id="scbar_form" method="post" autocomplete="off" onsubmit="searchFocus($(&#39;scbar_txt&#39;))" action="https://linux.cn/search.php?searchsubmit=yes" target="_blank">
+<input type="hidden" name="mod" id="scbar_mod" value="search">
+<input type="hidden" name="formhash" value="4129c3d2">
+<input type="hidden" name="srchtype" value="title">
+<input type="hidden" name="srhfid" value="0">
+<input type="hidden" name="srhlocality" value="portal::view">
+<table id="scbar_table" cellspacing="0" cellpadding="0" style="float:right;">
+<tbody><tr>
+<td class="scbar_icon_td"></td>
+<td class="scbar_txt_td"><input type="text" name="srchtxt" id="scbar_txt" value="请注册后再搜索" autocomplete="off" speech="" class=" xg1" placeholder="请注册后再搜索"></td>
+<td class="scbar_type_td"><a href="javascript:;" id="scbar_type" class="xg1" onclick="showMenu(this.id)" hidefocus="true">搜索</a></td>
+<td class="scbar_btn_td"><button type="submit" name="searchsubmit" id="scbar_btn" sc="1" class="pn pnc" value="true"><strong class="xi2">搜索</strong></button></td>
+<td class="scbar_hot_td">
+<div id="scbar_hot">
+</div>
+</td>
+</tr>
+</tbody></table>
+</form>
+<span class="z titletext" style="padding: 0 10px 0 20px;">❏ 站外平台：</span>
+<ul id="ext_plantform" class="cl mutag z">
+<li><a class="hidefocus tsina" hidefocus="true" href="https://weibo.com/linuxcn" target="_blank" title="微博认证号：Linux中国"></a></li>
+<li><a class="hidefocus tticon" hidefocus="true" href="https://www.toutiao.com/c/user/52889878622/" target="_blank" title="今日头条：Linux中国"></a></li>
+<li><a class="hidefocus tticon" hidefocus="true" href="http://www.toutiao.com/c/user/3357852467/" target="_blank" title="今日头条：Linux技术"></a></li>
+<li><a class="hidefocus wyicon" hidefocus="true" href="http://dy.163.com/v2/article/detail/D282EJLD0511CPOJ.html" target="_blank" title="网易号：Linux"></a></li>
+<li><a class="hidefocus fbicon" hidefocus="true" href="https://www.facebook.com/linux.china/" target="_blank" title="Facebook Page：Linux中国"></a></li>
+<li><a class="hidefocus zhicon" hidefocus="true" href="https://www.zhihu.com/org/linuxzhong-guo/" target="_blank" title="知乎机构号：Linux中国"></a></li>
+<li><a class="hidefocus twicon" hidefocus="true" href="https://twitter.com/linux_cn" target="_blank" title="Twitter：Linux中国"></a></li>
+<li><a class="hidefocus tgicon" hidefocus="true" href="https://t.me/linuxdotcn" target="_blank" title="Telegram Channel：Linux中国"></a></li>
+</ul>
+</div>
+<br class="clear">
+<ul id="scbar_type_menu" class="p_pop" style="display: none;"><li><a href="javascript:;" rel="search">全站</a></li></ul>
+<script type="text/javascript">
+initSearchmenu('scbar', '');
+</script>
+<script type="text/javascript">
+(function($){
+$(window).load(function() {
+function logo_rotate() {
+var curdate = new Date();
+var minutes = curdate.getHours() * 60 + curdate.getMinutes();
+var r = (360 * (minutes % 720)) / 720;
+
+$('#hd h1 img.logo_rotate')
+.animate({textIndent: r }, {
+    step: function(now,fx) {
+      $(this).css('transform','rotate('+now+'deg)');
+    },
+    duration:'slow'
+});
+$('#hd h1')
+.unbind()
+.mouseout(function() {
+$('#hd h1 img.logo_rotate').animate({textIndent: r }, {
+    step: function(now,fx) {
+      $(this).css('transform','rotate('+now+'deg)');
+    },
+    duration:'slow'
+})
+})
+.mouseover(function() {
+$('#hd h1 img.logo_rotate').animate({textIndent: 0 }, {
+    step: function(now,fx) {
+      $(this).css('transform','rotate('+now+'deg)');
+    },
+    duration:'slow'
+})
+});
+}
+logo_rotate();
+setInterval(logo_rotate,60000);
+/*function logo_radio() {
+var curdate = new Date();
+var seconds = curdate.getSeconds() + curdate.getMilliseconds() / 1000;
+var r = 360 * (seconds / 60);
+$('#logo_radio').css({
+//	'-webkit-transform':'rotate('+r+'deg)',
+//	'-moz-transform':'rotate('+r+'deg)',
+'transform':'rotate('+r+'deg)'});
+}
+setInterval(logo_radio,1000);
+*/
+$("#topmenu").affix({offset : {
+top : $("#topmenu").offset().top,
+bottom: 218}});
+$('#topmenu_wrapper').height($("#topmenu").height());
+$("#topmenu").on('affixed.bs.affix',function() {
+if ($('#linuxcn_logo').is(':visible')) {
+$('#mn_N6666').css({'display': 'block','width': '179px'});
+$('#mn_N6666 a').css({'padding': '0 45px'});
+$(this).css({'padding-left': 0,'width':'1200px'});
+}
+});
+$("#topmenu").on('affixed-top.bs.affix',function() {
+if ($('#linuxcn_logo').is(':visible')) {
+$('#mn_N6666').css({'display': 'none'});
+$(this).css({'padding-left': '180px','width': '1020px'});
+}
+});
+})
+})(jQuery);
+</script>
+
+</div>
+</div>
+<div id="wp" class="wp">
+<!--[name]!portalcategory_viewtplname![/name]-->
+
+<script src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/forum_viewthread.js.下载" type="text/javascript"></script>
+<script type="text/javascript">zoomstatus = parseInt(1), imagemaxwidth = '700', aimgcount = new Array();</script>
+
+<div class="linuxcnad">
+    </div>
+<div id="pt" class="cl">
+<div class="z">
+<a href="https://linux.cn/" class="nvhm" title="首页">Linux中国开源社区</a> <em>›</em><a href="https://linux.cn/tech/">技术</a><em>›</em>
+<a href="https://linux.cn/tech/raspberrypi/">树莓派</a> <em>›</em>
+查看内容
+</div>
+</div>
+
+<div class="linuxcnad"></div>
+<style id="diy_style" type="text/css"></style>
+<div class="wp">
+<!--[diy=diy1]--><div id="diy1" class="area"></div><!--[/diy]-->
+</div>
+<style type="text/css">
+#nv_portal .vw .h.hm {background: #FFF url(https://dn-linuxcn.qbox.me/data/attachment/album/201710/28/223210p2s4am8lj55amy5j.jpg); background-size: cover; background-position: center; height: 640px;position: relative;padding: 10px;}
+#nv_portal .vw .h.hm h1 {background-color: rgba(33,33,33,0.8); border-radius: 10px;position: absolute;margin: 10px 20px 20px 20px;padding: 15px 10px;bottom: 0;width: 90%; }
+#nv_portal .vw .d table {margin: 0;}
+</style>
+<div id="ct" class="ct2 wp cl">
+<div class="mn">
+<article class="vw">
+<div class="h hm bm" style="margin-top: 0;">
+<h1 class="ph" id="article_title">使用 Docker 构建你的 Serverless 树莓派集群 </h1>
+<div class="ph" id="article_copyright">
+<span>作者： 
+    	 
+    		    			<span class="textcut"><a href="https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/" target="_blank">Alex Ellis</a></span>
+    		    	    	<span>译者： 
+<a href="https://linux.cn/lctt/" target="_blank">LCTT</a>&nbsp;<a href="https://linux.cn/lctt/haoqixu" target="_blank">xu0o0</a></span>
+<p id="article_date">
+| 2017-10-28 22:32&nbsp;&nbsp;
+收藏: <em id="_favtimes">3</em>&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+</span></div>
+</div>
+
+<!--[diy=diysummarytop]--><div id="diysummarytop" class="area"></div><!--[/diy]-->
+
+
+<!--[diy=diysummarybottom]--><div id="diysummarybottom" class="area"></div><!--[/diy]-->
+
+<div class="d">
+
+<!--[diy=diycontenttop]--><div id="diycontenttop" class="area"></div><!--[/diy]-->
+<style type="text/css">
+#ad10.linuxcnad img {max-width: 100% !important; margin: 0 !important;}
+#ad10.linuxcnad a {padding: 0 !important;border-bottom: none !important;}
+</style>
+<div class="linuxcnad" id="ad10">
+    </div>
+<div id="article_content" class="bm">
+<div class="linuxcnad"></div>
+
+
+<p>这篇博文将向你展示如何使用 Docker 和 <a href="https://github.com/alexellis/faas" class="ext" rel="external nofollow" target="_blank">OpenFaaS</a> 框架构建你自己的 Serverless 树莓派集群。大家常常问我能用他们的集群来做些什么？而这个应用完美匹配卡片尺寸的设备——只需添加更多的树莓派就能获取更强的计算能力。</p>
+<blockquote>
+<p>“Serverless” （无服务器）是事件驱动架构的一种设计模式，与“桥接模式”、“外观模式”、“工厂模式”和“云”这些名词一样，都是一种抽象概念。</p>
+</blockquote>
+<p class="article_img"><img src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/223221o3uuquzstbt9iyz1.jpg" alt="图片：3 个 Raspberry Pi Zero" title="图片：3 个 Raspberry Pi Zero"></p>
+<p class="article_img_desc"><em>图片：3 个 Raspberry Pi Zero</em></p>
+<p>这是我在本文中描述的集群，用黄铜支架分隔每个设备。</p>
+<a id="3_970" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h3 id="toc_1">Serverless 是什么？它为何重要？</h3>
+<p>行业对于 “serverless” 这个术语的含义有几种解释。在这篇博文中，我们就把它理解为一种事件驱动的架构模式，它能让你用自己喜欢的任何语言编写轻量可复用的功能。<a href="https://blog.alexellis.io/introducing-functions-as-a-service/" class="ext" rel="external nofollow" target="_blank">更多关于 Serverless 的资料</a>。</p>
+<p class="article_img"><img src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/223221iq6h44fbthejhs4a.png" alt="Serverless 架构也引出了“功能即服务服务”模式，简称 FaaS" title="Serverless 架构也引出了“功能即服务服务”模式，简称 FaaS" style="width: 747px; cursor: pointer;"></p>
+<p class="article_img_desc"><em>Serverless 架构也引出了“功能即服务服务”模式，简称 FaaS</em></p>
+<p>Serverless 的“功能”可以做任何事，但通常用于处理给定的输入——例如来自 GitHub、Twitter、PayPal、Slack、Jenkins CI pipeline 的事件；或者以树莓派为例，处理像红外运动传感器、激光绊网、温度计等真实世界的传感器的输入。</p>
+<p>Serverless 功能能够更好地结合第三方的后端服务，使系统整体的能力大于各部分之和。</p>
+<p>了解更多背景信息，可以阅读我最近一偏博文：<a href="https://blog.alexellis.io/introducing-functions-as-a-service/" class="ext" rel="external nofollow" target="_blank">功能即服务（FaaS）简介</a>。</p>
+<a id="3_2214" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h3 id="toc_2">概述</h3>
+<p>我们将使用 <a href="https://github.com/alexellis/faas" class="ext" rel="external nofollow" target="_blank">OpenFaaS</a>，它能够让主机或者集群作为支撑 Serverless 功能运行的后端。任何能够使用 Docker 部署的可执行二进制文件、脚本或者编程语言都能在 <a href="https://github.com/alexellis/faas" class="ext" rel="external nofollow" target="_blank">OpenFaaS</a> 上运作，你可以根据速度和伸缩性选择部署的规模。另一个优点是，它还内建了用户界面和监控系统。</p>
+<p>这是我们要执行的步骤：</p>
+<ul>
+<li>在一个或多个主机上配置 Docker （树莓派 2 或者 3）；</li>
+<li>利用 Docker Swarm 将它们连接；</li>
+<li>部署 <a href="https://github.com/alexellis/faas" class="ext" rel="external nofollow" target="_blank">OpenFaaS</a>；</li>
+<li>使用 Python 编写我们的第一个功能。</li>
+</ul>
+<a id="3_3012" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h3 id="toc_3">Docker Swarm</h3>
+<p>Docker 是一项打包和部署应用的技术，支持集群上运行，有着安全的默认设置，而且在搭建集群时只需要一条命令。OpenFaaS 使用 Docker 和 Swarm 在你的可用树莓派上传递你的 Serverless 功能。</p>
+<p>我推荐你在这个项目中使用带树莓派 2 或者 3，以太网交换机和<a href="https://www.amazon.co.uk/Anker-PowerPort-Family-Sized-Technology-Smartphones/dp/B00PK1IIJY" class="ext" rel="external nofollow" target="_blank">强大的 USB 多端口电源适配器</a>。</p>
+<a id="3_3537" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h3 id="toc_4">准备 Raspbian</h3>
+<p>把&nbsp;<a href="http://downloads.raspberrypi.org/raspbian/images/raspbian-2017-07-05/" class="ext" rel="external nofollow" target="_blank">Raspbian Jessie Lite</a>&nbsp;写入 SD 卡（8GB 容量就正常工作了，但还是推荐使用 16GB 的 SD 卡）。</p>
+<p><em>注意：不要下载成 Raspbian Stretch 了</em></p>
+<blockquote>
+<p>社区在努力让 Docker 支持 Raspbian Stretch，但是还未能做到完美运行。请从<a href="http://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2017-07-05/" class="ext" rel="external nofollow" target="_blank">树莓派基金会网站</a>下载 Jessie Lite 镜像。</p>
+</blockquote>
+<p>我推荐使用 <a href="https://etcher.io/" class="ext" rel="external nofollow" target="_blank">Etcher.io</a> 烧写镜像。</p>
+<blockquote>
+<p>在引导树莓派之前，你需要在引导分区创建名为 <code>ssh</code> 的空白文件。这样才能允许远程登录。</p>
+</blockquote>
+<a id="4_4386" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h4 id="toc_5">接通电源，然后修改主机名</h4>
+<p>现在启动树莓派的电源并且使用 <code>ssh</code> 连接：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">$ </span><span class="kwd">ssh</span><span class="pln"> pi@raspberrypi</span><span class="pun">.</span><span class="kwd">local</span></code></li><li class="L1"><code></code></li></ol></pre>
+<blockquote>
+<p>默认密码是 <code>raspberry</code></p>
+</blockquote>
+<p>使用 <code>raspi-config</code> 工具把主机名改为 <code>swarm-1</code> 或者类似的名字，然后重启。</p>
+<p>当你到了这一步，你还可以把划分给 GPU （显卡）的内存设置为 16MB。</p>
+<a id="4_4910" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h4 id="toc_6">现在安装 Docker</h4>
+<p>我们可以使用通用脚本来安装：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">$ curl </span><span class="pun">-</span><span class="pln">sSL https</span><span class="pun">:</span><span class="com">//get.docker.com | sh</span></code></li></ol></pre>
+<blockquote>
+<p>这个安装方式在将来可能会发生变化。如上文所说，你的系统需要是 Jessie，这样才能得到一个确定的配置。</p>
+</blockquote>
+<p>你可能会看到类似下面的警告，不过你可以安全地忽略它并且成功安装上 Docker CE 17.05：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">WARNING</span><span class="pun">:</span><span class="pln"> raspbian </span><span class="kwd">is</span><span class="pln"> </span><span class="kwd">no</span><span class="pln"> longer updated </span><span class="pun">@</span><span class="pln"> https</span><span class="pun">:</span><span class="com">//get.docker.com/  </span></code></li><li class="L1"><code><span class="typ">Installing</span><span class="pln"> the legacy docker</span><span class="pun">-</span><span class="pln">engine </span><span class="kwd">package</span><span class="pun">...</span><span class="pln">  </span></code></li></ol></pre>
+<p>之后，用下面这个命令确保你的用户帐号可以访问 Docker 客户端：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">$ </span><span class="kwd">usermod</span><span class="pln"> pi </span><span class="pun">-</span><span class="pln">aG docker</span></code></li></ol></pre>
+<blockquote>
+<p>如果你的用户名不是 <code>pi</code>，那就把它替换成你的用户名。</p>
+</blockquote>
+<a id="4_5873" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h4 id="toc_7">修改默认密码</h4>
+<p>输入 <code>$sudo passwd pi</code>，然后设置一个新密码，请不要跳过这一步！</p>
+<a id="4_6017" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h4 id="toc_8">重复以上步骤</h4>
+<p>现在为其它的树莓派重复上述步骤。</p>
+<a id="3_6114" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h3 id="toc_9">创建你的 Swarm 集群</h3>
+<p>登录你的第一个树莓派，然后输入下面的命令：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">$ docker swarm </span><span class="kwd">init</span></code></li><li class="L1"><code><span class="typ">Swarm</span><span class="pln"> initialized</span><span class="pun">:</span><span class="pln"> current node </span><span class="pun">(</span><span class="lit">3ra7i5ldijsffjnmubmsfh767</span><span class="pun">)</span><span class="pln"> </span><span class="kwd">is</span><span class="pln"> now a manager</span><span class="pun">.</span></code></li><li class="L2"><code></code></li><li class="L3"><code><span class="typ">To</span><span class="pln"> add a worker to </span><span class="kwd">this</span><span class="pln"> swarm</span><span class="pun">,</span><span class="pln"> run the following command</span><span class="pun">:</span></code></li><li class="L4"><code></code></li><li class="L5"><code><span class="pln">    docker swarm </span><span class="kwd">join</span><span class="pln"> \</span></code></li><li class="L6"><code><span class="pln">    </span><span class="pun">--</span><span class="pln">token SWMTKN</span><span class="pun">-</span><span class="lit">1</span><span class="pun">-</span><span class="lit">496mv9itb7584pzcddzj4zvzzfltgud8k75rvujopw15n3ehzu</span><span class="pun">-</span><span class="pln">af445b08359golnzhncbdj9o3 \</span></code></li><li class="L7"><code><span class="pln">    </span><span class="lit">192.168</span><span class="pun">.</span><span class="lit">0.79</span><span class="pun">:</span><span class="lit">2377</span></code></li><li class="L8"><code></code></li></ol></pre>
+<p>你会看到它显示了一个口令，以及其它节点加入集群的命令。接下来使用 <code>ssh</code> 登录每个树莓派，运行这个加入集群的命令。</p>
+<p>等待连接完成后，在第一个树莓派上查看集群的节点：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">$ docker node </span><span class="kwd">ls</span></code></li><li class="L1"><code><span class="pln">ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS  </span></code></li><li class="L2"><code><span class="lit">3ra7i5ldijsffjnmubmsfh767</span><span class="pln"> </span><span class="pun">*</span><span class="pln">   swarm1              </span><span class="typ">Ready</span><span class="pln">               </span><span class="typ">Active</span><span class="pln">              </span><span class="typ">Leader</span><span class="pln">  </span></code></li><li class="L3"><code><span class="pln">k9mom28s2kqxocfq1fo6ywu63     swarm3              </span><span class="typ">Ready</span><span class="pln">               </span><span class="typ">Active</span><span class="pln">  </span></code></li><li class="L4"><code><span class="pln">y2p089bs174vmrlx30gc77h4o     swarm4              </span><span class="typ">Ready</span><span class="pln">               </span><span class="typ">Active</span><span class="pln">  </span></code></li><li class="L5"><code></code></li></ol></pre>
+<p>恭喜你！你现在拥有一个树莓派集群了！</p>
+<a id="4_7372" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h4 id="toc_10">更多关于集群的内容</h4>
+<p>你可以看到三个节点启动运行。这时只有一个节点是集群管理者。如果我们的管理节点<em>死机</em>了，集群就进入了不可修复的状态。我们可以通过添加冗余的管理节点解决这个问题。而且它们依然会运行工作负载，除非你明确设置了让你的服务只运作在工作节点上。</p>
+<p>要把一个工作节点升级为管理节点，只需要在其中一个管理节点上运行 <code>docker node promote &lt;node_name&gt;</code> 命令。</p>
+<blockquote>
+<p>注意： Swarm 命令，例如 <code>docker service ls</code> 或者 <code>docker node ls</code> 只能在管理节点上运行。</p>
+</blockquote>
+<p>想深入了解管理节点与工作节点如何保持一致性，可以查阅 <a href="https://docs.docker.com/engine/swarm/admin_guide/" class="ext" rel="external nofollow" target="_blank">Docker Swarm 管理指南</a>。</p>
+<a id="3_8297" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h3 id="toc_11">OpenFaaS</h3>
+<p>现在我们继续部署程序，让我们的集群能够运行 Serverless 功能。<a href="https://github.com/alexellis/faas" class="ext" rel="external nofollow" target="_blank">OpenFaaS</a> 是一个利用 Docker 在任何硬件或者云上让任何进程或者容器成为一个 Serverless 功能的框架。因为 Docker 和 Golang 的可移植性，它也能很好地运行在树莓派上。</p>
+<p class="article_img"><img src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/223229u8118z3xcxcx8zx1.png" alt="" style="width: 747px; cursor: pointer;"></p>
+<blockquote>
+<p>如果你支持 <a href="https://github.com/alexellis/faas" class="ext" rel="external nofollow" target="_blank">OpenFaaS</a>，希望你能 <strong>星标</strong> <a href="https://github.com/alexellis/faas" class="ext" rel="external nofollow" target="_blank">OpenFaaS</a> 的 GitHub 仓库。</p>
+</blockquote>
+<p>登录你的第一个树莓派（你运行 <code>docker swarm init</code> 的节点），然后部署这个项目：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">$ </span><span class="kwd">git</span><span class="pln"> </span><span class="kwd">clone</span><span class="pln"> https</span><span class="pun">:</span><span class="com">//github.com/alexellis/faas/</span></code></li><li class="L1"><code><span class="pln">$ </span><span class="kwd">cd</span><span class="pln"> faas</span></code></li><li class="L2"><code><span class="pln">$ </span><span class="pun">./</span><span class="pln">deploy_stack</span><span class="pun">.</span><span class="pln">armhf</span><span class="pun">.</span><span class="pln">sh</span></code></li><li class="L3"><code><span class="typ">Creating</span><span class="pln"> network func_functions  </span></code></li><li class="L4"><code><span class="typ">Creating</span><span class="pln"> service func_gateway  </span></code></li><li class="L5"><code><span class="typ">Creating</span><span class="pln"> service func_prometheus  </span></code></li><li class="L6"><code><span class="typ">Creating</span><span class="pln"> service func_alertmanager  </span></code></li><li class="L7"><code><span class="typ">Creating</span><span class="pln"> service func_nodeinfo  </span></code></li><li class="L8"><code><span class="typ">Creating</span><span class="pln"> service func_markdown  </span></code></li><li class="L9"><code><span class="typ">Creating</span><span class="pln"> service func_wordcount  </span></code></li><li class="L0"><code><span class="typ">Creating</span><span class="pln"> service func_echoit  </span></code></li><li class="L1"><code></code></li></ol></pre>
+<p>你的其它树莓派会收到 Docer Swarm 的指令，开始从网上拉取这个 Docker 镜像，并且解压到 SD 卡上。这些工作会分布到各个节点上，所以没有哪个节点产生过高的负载。</p>
+<p>这个过程会持续几分钟，你可以用下面指令查看它的完成状况：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">$ </span><span class="kwd">watch</span><span class="pln"> </span><span class="str">'docker service ls'</span></code></li><li class="L1"><code><span class="pln">ID                  NAME                MODE                REPLICAS            IMAGE                                   PORTS  </span></code></li><li class="L2"><code><span class="lit">57ine9c10xhp</span><span class="pln">        func_wordcount      replicated          </span><span class="lit">1</span><span class="pun">/</span><span class="lit">1</span><span class="pln">                 functions</span><span class="pun">/</span><span class="pln">alpine</span><span class="pun">:</span><span class="pln">latest</span><span class="pun">-</span><span class="pln">armhf  </span></code></li><li class="L3"><code><span class="pln">d979zipx1gld        func_prometheus     replicated          </span><span class="lit">1</span><span class="pun">/</span><span class="lit">1</span><span class="pln">                 alexellis2</span><span class="pun">/</span><span class="pln">prometheus</span><span class="pun">-</span><span class="pln">armhf</span><span class="pun">:</span><span class="lit">1.5</span><span class="pun">.</span><span class="lit">2</span><span class="pln">       </span><span class="pun">*:</span><span class="lit">9090</span><span class="pun">-&gt;</span><span class="lit">9090</span><span class="pun">/</span><span class="pln">tcp  </span></code></li><li class="L4"><code><span class="pln">f9yvm0dddn47        func_echoit         replicated          </span><span class="lit">1</span><span class="pun">/</span><span class="lit">1</span><span class="pln">                 functions</span><span class="pun">/</span><span class="pln">alpine</span><span class="pun">:</span><span class="pln">latest</span><span class="pun">-</span><span class="pln">armhf  </span></code></li><li class="L5"><code><span class="pln">lhbk1fc2lobq        func_markdown       replicated          </span><span class="lit">1</span><span class="pun">/</span><span class="lit">1</span><span class="pln">                 functions</span><span class="pun">/</span><span class="pln">markdownrender</span><span class="pun">:</span><span class="pln">latest</span><span class="pun">-</span><span class="pln">armhf  </span></code></li><li class="L6"><code><span class="pln">pj814yluzyyo        func_alertmanager   replicated          </span><span class="lit">1</span><span class="pun">/</span><span class="lit">1</span><span class="pln">                 alexellis2</span><span class="pun">/</span><span class="pln">alertmanager</span><span class="pun">-</span><span class="pln">armhf</span><span class="pun">:</span><span class="lit">0.5</span><span class="pun">.</span><span class="lit">1</span><span class="pln">     </span><span class="pun">*:</span><span class="lit">9093</span><span class="pun">-&gt;</span><span class="lit">9093</span><span class="pun">/</span><span class="pln">tcp  </span></code></li><li class="L7"><code><span class="pln">q4bet4xs10pk        func_gateway        replicated          </span><span class="lit">1</span><span class="pun">/</span><span class="lit">1</span><span class="pln">                 functions</span><span class="pun">/</span><span class="pln">gateway</span><span class="pun">-</span><span class="pln">armhf</span><span class="pun">:</span><span class="lit">0.6</span><span class="pun">.</span><span class="lit">0</span><span class="pln">           </span><span class="pun">*:</span><span class="lit">8080</span><span class="pun">-&gt;</span><span class="lit">8080</span><span class="pun">/</span><span class="pln">tcp  </span></code></li><li class="L8"><code><span class="pln">v9vsvx73pszz        func_nodeinfo       replicated          </span><span class="lit">1</span><span class="pun">/</span><span class="lit">1</span><span class="pln">                 functions</span><span class="pun">/</span><span class="pln">nodeinfo</span><span class="pun">:</span><span class="pln">latest</span><span class="pun">-</span><span class="pln">armhf  </span></code></li><li class="L9"><code></code></li></ol></pre>
+<p>我们希望看到每个服务都显示 “1/1”。</p>
+<p>你可以根据服务名查看该服务被调度到哪个树莓派上：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">$ docker service </span><span class="kwd">ps</span><span class="pln"> func_markdown</span></code></li><li class="L1"><code><span class="pln">ID                  IMAGE                                   NODE    STATE  </span></code></li><li class="L2"><code><span class="pln">func_markdown</span><span class="pun">.</span><span class="lit">1</span><span class="pln">     functions</span><span class="pun">/</span><span class="pln">markdownrender</span><span class="pun">:</span><span class="pln">latest</span><span class="pun">-</span><span class="pln">armhf   swarm4  </span><span class="typ">Running</span><span class="pln">  </span></code></li></ol></pre>
+<p>状态一项应该显示 <code>Running</code>，如果它是 <code>Pending</code>，那么镜像可能还在下载中。</p>
+<p>在这时，查看树莓派的 IP 地址，然后在浏览器中访问它的 8080 端口：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">$ </span><span class="kwd">ifconfig</span></code></li></ol></pre>
+<p>例如，如果你的 IP 地址是 192.168.0.100，那就访问 <a href="http://192.168.0.100:8080/" class="ext" rel="external nofollow" target="_blank">http://192.168.0.100:8080</a> 。</p>
+<p>这是你会看到 FaaS UI（也叫 API 网关）。这是你定义、测试、调用功能的地方。</p>
+<p>点击名称为 “func_markdown” 的 Markdown 转换功能，输入一些 Markdown（这是 Wikipedia 用来组织内容的语言）文本。</p>
+<p>然后点击 “invoke”。你会看到调用计数增加，屏幕下方显示功能调用的结果。</p>
+<p class="article_img"><img src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/223229fpnm7byd4tx33bbm.png" alt="" style="width: 747px; cursor: pointer;"></p>
+<a id="3_12312" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h3 id="toc_12">部署你的第一个 Serverless 功能：</h3>
+<p>这一节的内容已经有相关的教程，但是我们需要几个步骤来配置树莓派。</p>
+<a id="4_12482" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h4 id="toc_13">获取 FaaS-CLI</h4>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">$ curl </span><span class="pun">-</span><span class="pln">sSL cli</span><span class="pun">.</span><span class="pln">openfaas</span><span class="pun">.</span><span class="pln">com </span><span class="pun">|</span><span class="pln"> </span><span class="kwd">sudo</span><span class="pln"> sh</span></code></li><li class="L1"><code><span class="pln">armv7l  </span></code></li><li class="L2"><code><span class="typ">Getting</span><span class="pln"> </span><span class="kwd">package</span><span class="pln"> https</span><span class="pun">:</span><span class="com">//github.com/alexellis/faas-cli/releases/download/0.4.5-b/faas-cli-armhf  </span></code></li></ol></pre>
+<a id="4_12723" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h4 id="toc_14">下载样例</h4>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">$ </span><span class="kwd">git</span><span class="pln"> </span><span class="kwd">clone</span><span class="pln"> https</span><span class="pun">:</span><span class="com">//github.com/alexellis/faas-cli</span></code></li><li class="L1"><code><span class="pln">$ </span><span class="kwd">cd</span><span class="pln"> faas</span><span class="pun">-</span><span class="pln">cli</span></code></li></ol></pre>
+<a id="4_12879" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h4 id="toc_15">为树莓派修补样例模版</h4>
+<p>我们临时修改我们的模版，让它们能在树莓派上工作：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">$ </span><span class="kwd">cp</span><span class="pln"> </span><span class="kwd">template</span><span class="pun">/</span><span class="pln">node</span><span class="pun">-</span><span class="pln">armhf</span><span class="pun">/</span><span class="typ">Dockerfile</span><span class="pln"> </span><span class="kwd">template</span><span class="pun">/</span><span class="pln">node</span><span class="pun">/</span></code></li><li class="L1"><code><span class="pln">$ </span><span class="kwd">cp</span><span class="pln"> </span><span class="kwd">template</span><span class="pun">/</span><span class="pln">python</span><span class="pun">-</span><span class="pln">armhf</span><span class="pun">/</span><span class="typ">Dockerfile</span><span class="pln"> </span><span class="kwd">template</span><span class="pun">/</span><span class="pln">python</span><span class="pun">/</span></code></li></ol></pre>
+<p>这么做是因为树莓派和我们平时关注的大多数计算机使用不一样的处理器架构。</p>
+<blockquote>
+<p>了解 Docker 在树莓派上的最新状况，请查阅：&nbsp;<a href="https://blog.alexellis.io/5-things-docker-rpi/" class="ext" rel="external nofollow" target="_blank">你需要了解的五件事</a>。</p>
+</blockquote>
+<p>现在你可以跟着下面为 PC、笔记本和云端所写的教程操作，但我们在树莓派上要先运行一些命令。</p>
+<ul>
+<li><a href="https://blog.alexellis.io/first-faas-python-function" class="ext" rel="external nofollow" target="_blank">使用 OpenFaaS 运行你的第一个 Serverless Python 功能</a></li>
+</ul>
+<p>注意第 3 步：</p>
+<ul>
+<li>把你的功能放到先前从 GitHub 下载的 <code>faas-cli</code> 文件夹中，而不是 <code>~/functinos/hello-python</code> 里。</li>
+<li>同时，在 <code>stack.yml</code> 文件中把 <code>localhost</code> 替换成第一个树莓派的 IP 地址。</li>
+</ul>
+<p>集群可能会花费几分钟把 Serverless 功能下载到相关的树莓派上。你可以用下面的命令查看你的服务，确保副本一项显示 “1/1”：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">$ </span><span class="kwd">watch</span><span class="pln"> </span><span class="str">'docker service ls'</span></code></li><li class="L1"><code><span class="pln">pv27thj5lftz        hello</span><span class="pun">-</span><span class="pln">python        replicated          </span><span class="lit">1</span><span class="pun">/</span><span class="lit">1</span><span class="pln">                 alexellis2</span><span class="pun">/</span><span class="pln">faas</span><span class="pun">-</span><span class="pln">hello</span><span class="pun">-</span><span class="pln">python</span><span class="pun">-</span><span class="pln">armhf</span><span class="pun">:</span><span class="pln">latest  </span></code></li></ol></pre>
+<p><strong>继续阅读教程：</strong> <a href="https://blog.alexellis.io/first-faas-python-function" class="ext" rel="external nofollow" target="_blank">使用 OpenFaaS 运行你的第一个 Serverless Python 功能</a></p>
+<p>关于 Node.js 或者其它语言的更多信息，可以进一步访问 <a href="https://github.com/alexellis/faas" class="ext" rel="external nofollow" target="_blank">FaaS 仓库</a>。</p>
+<a id="3_14807" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h3 id="toc_16">检查功能的指标</h3>
+<p>既然使用 Serverless，你也不想花时间监控你的功能。幸运的是，OpenFaaS 内建了 <a href="https://prometheus.io/" class="ext" rel="external nofollow" target="_blank">Prometheus</a> 指标检测，这意味着你可以追踪每个功能的运行时长和调用频率。</p>
+<a id="4_15097" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h4 id="toc_17">指标驱动自动伸缩</h4>
+<p>如果你给一个功能生成足够的负载，OpenFaaS 将自动扩展你的功能；当需求消失时，你又会回到单一副本的状态。</p>
+<p>这个请求样例你可以复制到浏览器中：</p>
+<p>只要把 IP 地址改成你的即可。</p>
+<p class="article_img"><img src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/223230qnr5rgeg0zgv2erc.png" alt=""></p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">http</span><span class="pun">:</span><span class="com">//192.168.0.25:9090/graph?g0.range_input=15m&amp;g0.stacked=1&amp;g0.expr=rate(gateway_function_invocation_total%5B20s%5D)&amp;g0.tab=0&amp;g1.range_input=1h&amp;g1.expr=gateway_service_count&amp;g1.tab=0  </span></code></li></ol></pre>
+<p>这些请求使用 PromQL（Prometheus 请求语言）编写。第一个请求返回功能调用的频率：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">rate</span><span class="pun">(</span><span class="pln">gateway_function_invocation_total</span><span class="pun">[</span><span class="lit">20s</span><span class="pun">])</span><span class="pln">  </span></code></li></ol></pre>
+<p>第二个请求显示每个功能的副本数量，最开始应该是每个功能只有一个副本。</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">gateway_service_count  </span></code></li></ol></pre>
+<p>如果你想触发自动扩展，你可以在树莓派上尝试下面指令：</p>
+<pre class="prettyprint linenums prettyprinted" style=""><ol class="linenums"><li class="L0"><code><span class="pln">$ </span><span class="kwd">while</span><span class="pln"> </span><span class="pun">[</span><span class="pln"> </span><span class="kwd">true</span><span class="pln"> </span><span class="pun">];</span><span class="pln"> </span><span class="kwd">do</span><span class="pln"> curl </span><span class="pun">-</span><span class="lit">4</span><span class="pln"> localhost</span><span class="pun">:</span><span class="lit">8080</span><span class="pun">/</span><span class="kwd">function</span><span class="pun">/</span><span class="pln">func_echoit </span><span class="pun">--</span><span class="pln">data </span><span class="str">"hello world"</span><span class="pln"> </span><span class="pun">;</span><span class="pln"> </span><span class="kwd">done</span></code></li></ol></pre>
+<p>查看 Prometheus 的 “alerts” 页面，可以知道你是否产生足够的负载来触发自动扩展。如果没有，你可以尝试在多个终端同时运行上面的指令。</p>
+<p class="article_img"><img src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/223231yf17n5n4a7m4x3no.png" alt=""></p>
+<p>当你降低负载，副本数量显示在你的第二个图表中，并且 <code>gateway_service_count</code> 指标再次降回 1。</p>
+<a id="3_16875" class="target-fix ext" rel="external nofollow" target="_blank" style="visibility: hidden;"></a><h3 id="toc_18">结束演讲</h3>
+<p>我们现在配置好了 Docker、Swarm， 并且让 OpenFaaS 运行代码，把树莓派像大型计算机一样使用。</p>
+<blockquote>
+<p>希望大家支持这个项目，<strong>星标</strong> <a href="https://github.com/alexellis/faas" class="ext" rel="external nofollow" target="_blank">FaaS 的 GitHub 仓库</a>。</p>
+</blockquote>
+<p>你是如何搭建好了自己的 Docker Swarm 集群并且运行 OpenFaaS 的呢？在 Twitter <a href="https://twitter.com/alexellisuk" class="ext" rel="external nofollow" target="_blank">@alexellisuk</a> 上分享你的照片或推文吧。</p>
+<p><strong>观看我在 Dockercon 上关于 OpenFaaS 的视频</strong></p>
+<p>我在 <a href="https://blog.alexellis.io/dockercon-2017-captains-log/" class="ext" rel="external nofollow" target="_blank">Austin 的 Dockercon</a> 上展示了 OpenFaaS。——观看介绍和互动例子的视频： <a href="https://www.youtube.com/embed/-h2VTE9WnZs" class="ext" rel="external nofollow" target="_blank">https://www.youtube.com/embed/-h2VTE9WnZs</a></p>
+<p>有问题？在下面的评论中提出，或者给我发邮件，邀请我进入你和志同道合者讨论树莓派、Docker、Serverless 的 Slack channel。</p>
+<p><strong>想要学习更多关于树莓派上运行 Docker 的内容？</strong></p>
+<p>我建议从 <a href="https://blog.alexellis.io/5-things-docker-rpi/" class="ext" rel="external nofollow" target="_blank">你需要了解的五件事</a> 开始，它包含了安全性、树莓派和普通 PC 间微妙差别等话题。</p>
+<ul>
+<li><a href="https://blog.alexellis.io/dockercon-tips-docker-raspberry-pi/" class="ext" rel="external nofollow" target="_blank">Dockercon tips: Docker &amp; Raspberry Pi</a></li>
+<li><a href="https://blog.alexellis.io/gpio-on-swarm/" class="ext" rel="external nofollow" target="_blank">Control GPIO with Docker Swarm</a></li>
+<li><a href="https://blog.alexellis.io/docker-engine-in-your-pocket/" class="ext" rel="external nofollow" target="_blank">Is that a Docker Engine in your pocket??</a></li>
+</ul>
+<hr>
+<p>via: <a href="https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/" class="ext" rel="external nofollow" target="_blank">https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/</a></p>
+<p>作者：<a href="https://twitter.com/alexellisuk" class="ext" rel="external nofollow" target="_blank">Alex Ellis</a> 译者：<a href="https://github.com/haoqixu" class="ext" rel="external nofollow" target="_blank">haoqixu</a> 校对：<a href="https://github.com/wxy" class="ext" rel="external nofollow" target="_blank">wxy</a></p>
+<p>本文由 <a href="https://github.com/LCTT/TranslateProject" class="ext" rel="external nofollow" target="_blank">LCTT</a> 原创编译，<a href="https://linux.cn/article-9007-1.html">Linux中国</a> 荣誉推出</p>
+</div>
+</div>
+
+<div class="sd pph">
+
+
+<div id="translator_info" class="bm">
+<div class="bm_h cl">
+LCTT 译者
+</div>
+<div class="bm_c">
+<div>
+<a href="https://linux.cn/lctt/haoqixu" target="_blank"><img class="avatar" src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/9400582" style="max-width: 64px; float: left;margin-top: 10px;"></a>
+<div style="float: left;margin-left: 10px;font-size: 12px;line-height: 1.5em; ">
+<div>
+<a href="https://github.com/haoqixu" target="_blank"><img src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/github_icon.png" style="vertical-align:middle;"></a> <a href="https://linux.cn/lctt/haoqixu" target="_blank" style="font-weight: bold;">xu0o0</a> 🌟🌟</div>
+<div class="addfiles">共计翻译： <span class="num" style="color: #f00;font-weight: 700;">5.0</span> 篇
+| 共计贡献： <span class="num" style="color: #f00;font-weight: 700;">423</span> 天</div>
+<div>贡献时间：2017-07-28 -&gt; 2018-09-24</div><a href="https://linux.cn/lctt/haoqixu" target="_blank">访问我的 LCTT 主页</a> | <a href="https://github.com/haoqixu" target="_blank">在 GitHub 上关注我</a>
+</div>
+<br class="clear">
+</div>
+</div>
+</div>
+<div class="drag">
+<!--[diy=diyrighttop]--><div id="diyrighttop" class="area"></div><!--[/diy]-->
+</div>
+
+<div class="linuxcnad">
+    </div>
+<div class="linuxcnad">
+    </div>
+<div class="linuxcnad"><div class="hm"><a href="https://linux.cn/go/nw4s" target="_blank"><img src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/170456d3lyz99il79tlinr.png" width="100%" border="0"></a></div></div>
+
+<div class="linuxcnad"></div>
+<div id="right_affix" style="width:350px;" class="affix">
+<div class="linuxcnad">
+    </div>
+<div class="linuxcnad"></div>
+<div id="inner_nav" class="bm">
+<div class="bm_h cl">
+本文导航
+</div>
+<div class="bm_c inner_menu">
+<ul class="xl cl"><li><span class="folder">-</span><a href="https://linux.cn/article-9007-1.html#3_970">Serverless 是什么？它为何重要？</a><span class="y">05%</span></li><li><span class="folder">-</span><a href="https://linux.cn/article-9007-1.html#3_2214">概述</a><span class="y">11%</span></li><li><span class="folder">-</span><a href="https://linux.cn/article-9007-1.html#3_3012">Docker Swarm</a><span class="y">15%</span></li><li><span class="folder"><a href="javascript:void(0);" onclick="menuFolder(this);">-</a></span><a href="https://linux.cn/article-9007-1.html#3_3537">准备 Raspbian</a><span class="y">18%</span><ul class="xl cl"><li><span class="folder">-</span><a href="https://linux.cn/article-9007-1.html#4_4386">接通电源，然后修改主机名</a><span class="y">23%</span></li><li><span class="folder">-</span><a href="https://linux.cn/article-9007-1.html#4_4910">现在安装 Docker</a><span class="y">25%</span></li><li><span class="folder">-</span><a href="https://linux.cn/article-9007-1.html#4_5873">修改默认密码</a><span class="y">30%</span></li><li><span class="folder">-</span><a href="https://linux.cn/article-9007-1.html#4_6017">重复以上步骤</a><span class="y">31%</span></li></ul></li><li><span class="folder"><a href="javascript:void(0);" onclick="menuFolder(this);">-</a></span><a href="https://linux.cn/article-9007-1.html#3_6114">创建你的 Swarm 集群</a><span class="y">32%</span><ul class="xl cl"><li><span class="folder">-</span><a href="https://linux.cn/article-9007-1.html#4_7372">更多关于集群的内容</a><span class="y">38%</span></li></ul></li><li><span class="folder">-</span><a href="https://linux.cn/article-9007-1.html#3_8297">OpenFaaS</a><span class="y">43%</span></li><li><span class="folder"><a href="javascript:void(0);" onclick="menuFolder(this);">-</a></span><a href="https://linux.cn/article-9007-1.html#3_12312">部署你的第一个 Serverless 功能：</a><span class="y">64%</span><ul class="xl cl"><li><span class="folder">-</span><a href="https://linux.cn/article-9007-1.html#4_12482">获取 FaaS-CLI</a><span class="y">65%</span></li><li><span class="folder">-</span><a href="https://linux.cn/article-9007-1.html#4_12723">下载样例</a><span class="y">66%</span></li><li><span class="folder">-</span><a href="https://linux.cn/article-9007-1.html#4_12879">为树莓派修补样例模版</a><span class="y">67%</span></li></ul></li><li><span class="folder"><a href="javascript:void(0);" onclick="menuFolder(this);">-</a></span><a href="https://linux.cn/article-9007-1.html#3_14807">检查功能的指标</a><span class="y">77%</span><ul class="xl cl"><li><span class="folder">-</span><a href="https://linux.cn/article-9007-1.html#4_15097">指标驱动自动伸缩</a><span class="y">79%</span></li></ul></li><li><span class="folder">-</span><a href="https://linux.cn/article-9007-1.html#3_16875">结束演讲</a><span class="y">88%</span></li></ul></div>
+</div>
+<div id="favorite" class="bm">
+<div class="bm_h cl">
+<h3>收藏</h3>
+</div>
+<div class="bm_c pbn" style="text-align: center;">
+<a href="javascript:void();" onmouseover="show_qrcode(event,&#39;#qrcode&#39;, SITEURL + &#39;article-9007-1.html?utm_medium=weixin&#39;);" onmouseout="show_qrcode(event,&#39;#qrcode&#39;,&#39;&#39;);" class="weixin_large"></a>
+<a title="收藏到微博" href="javascript:void( share_tsina(SITEURL + &#39;article-9007-shareweibo.html&#39;,&#39;article_title&#39;,&#39;article_summary&#39;,&#39;https://dn-linuxcn.qbox.me/data/attachment/album/201710/28/223210p2s4am8lj55amy5j.jpg&#39;) );" class="tsina_large"></a>
+<a href="https://linux.cn/home.php?mod=spacecp&amp;ac=favorite&amp;type=article&amp;id=9007&amp;handlekey=favoritearticlehk_9007" id="a_favorite" onclick="showWindow(this.id, this.href, &#39;get&#39;, 0);" class="fav_large" title="收藏到本站"></a>
+    	<a href="https://linux.cn/article-9007-1.html?pr" class="print_large" title="收藏到纸张"></a>
+</div>
+<div id="article_summary" style="display: none;">这篇博文将向你展示如何使用 Docker 和 OpenFaaS 框架构建你自己的 Serverless 树莓派集群。大家常常问我能用他们的集群来做些什么？而这个应用完美匹配卡片尺寸的设备——只需添加更多的树莓派就能获取更强的计算能力。</div>
+</div>			
+
+</div>
+
+<div class="drag">
+<!--[diy=diy2]--><div id="diy2" class="area"></div><!--[/diy]-->
+</div>
+
+
+</div>
+<div class="h bm_c bm z" id="footer_info">
+<p class="copyright">
+    	 
+    		    			    			<span class="z textcut">编译自：<a href="https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/" target="_blank">https://blog.alexellis.io/your-serverless-raspberry-pi-cluster/</a></span>
+    			    		    		<span class="y">作者： Alex Ellis</span>    		<br class="clear">
+    	    	<span class="z">原创：<a href="https://linux.cn/lctt/" target="_blank">LCTT</a> <a href="https://linux.cn/article-9007-1.html" target="_blank">https://linux.cn/article-9007-1.html</a></span>
+            			<span class="y">译者： xu0o0</span>    		<br class="clear">
+    	    	<br>
+    	    		<span>本文由 LCTT 原创翻译，<a href="https://linux.cn/article-9007-1.html">Linux中国首发</a>。也想加入译者行列，为开源做一些自己的贡献么？欢迎加入 <a href="http://lctt.github.io/" target="_blank">LCTT</a>！<br>翻译工作和译文发表仅用于学习和交流目的，翻译工作遵照 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.zh" target="_blank">CC-BY-NC-SA 协议规定</a>，如果我们的工作有侵犯到您的权益，请及时联系我们。</span>
+    		    		<br class="clear">
+    		<span style="color:red;">欢迎遵照 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.zh" target="_blank">CC-BY-NC-SA 协议规定</a>转载，敬请在正文中标注并保留原文/译文链接和作者/译者等信息。</span>
+                		<br class="clear">
+    	    	<span>文章仅代表作者的知识和看法，如有不同观点，请楼下排队<a href="javascript:void(0);" onclick="$(&#39;message&#39;).focus();">吐槽</a> :D</span>
+    	<br class="clear">
+</p>
+
+
+<div class="linuxcnad"></div>
+<!--[diy=diycontentbottom]--><div id="diycontentbottom" class="area"></div><!--[/diy]-->
+
+<!--[diy=diycontentclickbottom]--><div id="diycontentclickbottom" class="area"></div><!--[/diy]-->
+
+<script type="text/javascript">
+var menudata = [{"title":"Serverless \u662f\u4ec0\u4e48\uff1f\u5b83\u4e3a\u4f55\u91cd\u8981\uff1f","level":3,"position":970,"child":[],"page":1},{"title":"\u6982\u8ff0","level":3,"position":2214,"child":[],"page":1},{"title":"Docker Swarm","level":3,"position":3012,"child":[],"page":1},{"title":"\u51c6\u5907 Raspbian","level":3,"position":3537,"child":[{"title":"\u63a5\u901a\u7535\u6e90\uff0c\u7136\u540e\u4fee\u6539\u4e3b\u673a\u540d","level":4,"position":4386,"child":[],"page":1},{"title":"\u73b0\u5728\u5b89\u88c5 Docker","level":4,"position":4910,"child":[],"page":1},{"title":"\u4fee\u6539\u9ed8\u8ba4\u5bc6\u7801","level":4,"position":5873,"child":[],"page":1},{"title":"\u91cd\u590d\u4ee5\u4e0a\u6b65\u9aa4","level":4,"position":6017,"child":[],"page":1}],"page":1},{"title":"\u521b\u5efa\u4f60\u7684 Swarm \u96c6\u7fa4","level":3,"position":6114,"child":[{"title":"\u66f4\u591a\u5173\u4e8e\u96c6\u7fa4\u7684\u5185\u5bb9","level":4,"position":7372,"child":[],"page":1}],"page":1},{"title":"OpenFaaS","level":3,"position":8297,"child":[],"page":1},{"title":"\u90e8\u7f72\u4f60\u7684\u7b2c\u4e00\u4e2a Serverless \u529f\u80fd\uff1a","level":3,"position":12312,"child":[{"title":"\u83b7\u53d6 FaaS-CLI","level":4,"position":12482,"child":[],"page":1},{"title":"\u4e0b\u8f7d\u6837\u4f8b","level":4,"position":12723,"child":[],"page":1},{"title":"\u4e3a\u6811\u8393\u6d3e\u4fee\u8865\u6837\u4f8b\u6a21\u7248","level":4,"position":12879,"child":[],"page":1}],"page":1},{"title":"\u68c0\u67e5\u529f\u80fd\u7684\u6307\u6807","level":3,"position":14807,"child":[{"title":"\u6307\u6807\u9a71\u52a8\u81ea\u52a8\u4f38\u7f29","level":4,"position":15097,"child":[],"page":1}],"page":1},{"title":"\u7ed3\u675f\u6f14\u8bb2","level":3,"position":16875,"child":[],"page":1}];
+menuAnchor(menudata);
+</script>
+<div class="o cl ptm pbm">
+<a href="https://linux.cn/home.php?mod=spacecp&amp;ac=share&amp;type=article&amp;id=9007&amp;handlekey=sharearticlehk_9007" id="a_share" onclick="showWindow(this.id, this.href, &#39;get&#39;, 0);" title="站内分享" class="siteshare z"></a>
+<a href="https://linux.cn/home.php?mod=spacecp&amp;ac=favorite&amp;type=article&amp;id=9007&amp;handlekey=favoritearticlehk_9007" id="a_favorite" onclick="showWindow(this.id, this.href, &#39;get&#39;, 0);" class="favorite z" title="收藏"></a>
+<a href="https://linux.cn/misc.php?mod=invite&amp;action=article&amp;id=9007" id="a_invite" onclick="showWindow(&#39;invite&#39;, this.href, &#39;get&#39;, 0);" class="invite z" title="邀请"></a>
+<a href="https://linux.cn/article-9007-1.html?pr" class="print z" title="打印"></a>
+				
+</div>
+<div class="pren pbm cl">
+<em>上一篇：<a href="https://linux.cn/article-8942-1.html">用 Linux、Python 和树莓派酿制啤酒</a></em><em>下一篇：<a href="https://linux.cn/article-9249-1.html">树莓派 3 新手指南</a></em></div>
+</div>
+<div id="related" class="bm block z">
+<div class="bm_h cl">
+<h3>相关阅读</h3>
+</div>
+<div class="bm_c pbn" id="related_tag">
+<ul class="xl xl2 cl bbs pbm" id="tag"><li><a href="https://linux.cn/tag-%E6%A0%91%E8%8E%93%E6%B4%BE.html">树莓派</a></li>
+<li><a href="https://linux.cn/tag-docker.html">docker</a></li>
+<li><a href="https://linux.cn/tag-OpenFaaS.html">OpenFaaS</a></li>
+</ul>
+</div>
+<div class="bm_c xl xl1 cl" id="related_article">
+<ul><li><em>2018-06-14</em><a href="https://linux.cn/article-9747-1-rel.html" target="_blank">底层 Linux 容器运行时之发展史</a> </li>
+<li><em>2018-06-21</em><a href="https://linux.cn/article-9766-1-rel.html" target="_blank">如何使用树莓派制作一个数字针孔摄像头</a> </li>
+<li><em>2018-06-21</em><a href="https://linux.cn/article-9768-1-rel.html" target="_blank">8 个基本的 Docker 容器管理命令</a> </li>
+<li><em>2018-06-23</em><a href="https://linux.cn/article-9773-1-rel.html" target="_blank">怎样在桌面上安装 Docker CE？</a> </li>
+<li><em>2018-07-02</em><a href="https://linux.cn/article-9799-1-rel.html" target="_blank">容器基础知识：你需要知道的术语</a> </li>
+</ul>
+</div>
+</div>
+<br class="clear">
+</article>
+<!--[diy=diycontentrelatetop]--><div id="diycontentrelatetop" class="area"></div><!--[/diy]-->
+
+<!--[diy=diycontentrelate]--><div id="diycontentrelate" class="area"></div><!--[/diy]-->
+
+<div class="vw">
+<div class="bm h" style="padding: 0;display: none;">
+<div class="bm_h cl">
+<h3>评论功能关闭</h3>
+</div>
+<div class="bm_c pbn" style="color: #F44336; font-weight: 500;">
+根据国家法律法规要求，本站暂时关闭文章评论功能。开放时间不确定。我们将谋求一种可以让大家更好的发表意见的方式。
+</div>
+</div>
+<div id="add_comment" class="h bm" style="display: none;">
+<div class="bm_h cl">
+<h3>发表评论</h3>
+</div>
+<div class="bm_c pbn" style="color: #F44336; font-weight: 500;">
+根据国家法律法规要求，只有实名认证后才可以发表评论。
+</div>
+</div>
+<div id="comment" class="bm h">
+<div class="bm_h cl">
+<h3 class="z"><a name="comment"></a>最新评论</h3>
+<h3 class="y">
+<a href="https://linux.cn/portal.php?mod=portalcp&amp;ac=comment&amp;op=new&amp;aid=9007" class="y" style="color:#C00;" id="c_new" onclick="showWindow(this.id, this.href, &#39;get&#39;, 0);">我也要发表评论</a></h3>
+</div>
+<div id="comment_ul" class="bm_c"></div>
+</div>
+</div>
+<!--[diy=diycontentcomment]--><div id="diycontentcomment" class="area"></div><!--[/diy]-->
+</div>
+
+</div>
+
+
+<div class="wp mtn">
+<!--[diy=diy3]--><div id="diy3" class="area"></div><!--[/diy]-->
+</div>
+<input type="hidden" id="portalview" value="1">
+
+<script type="text/javascript">
+(function($){
+$(window).load(function() {
+// 顶部固顶菜单高度
+affix_topmenu = 33;
+// 可见窗口的高度
+window_height = $(window).height();
+
+// 右侧固顶区的顶部固顶条件，当滚动至此时，本区域以顶部固顶
+affix_rtop = $("#right_affix").offset().top - affix_topmenu;
+// 右侧固顶区的底部固顶条件，当滚动至此时，本区域以底部固顶
+//if ($('#comment') && $('#comment').offset() != undefined) {
+//affix_rbottom = $('body').height() - $('#comment').offset().top - $('#comment').height() - 2;
+//} else {
+//	affix_rbottom = $('body').height() - 2;
+//}
+affix_rbottom = $('body').height() - $('#related').offset().top + 46;
+// 右侧固顶区的高度
+affix_rheight = $("#right_affix").height();
+if (window_height >= affix_topmenu + affix_rheight) {
+// 可见窗口可以见到全部的右侧固顶区域时，使用顶部和底部固顶条件
+//affix_roffset = {top : affix_rtop, bottom: affix_rbottom};
+affix_roffset = {top : affix_rtop};
+} else {
+// 否则，只使用顶部固顶条件（如果也设置了底部固顶条件，或导致闪烁）
+affix_roffset = {top : affix_rtop};
+}
+
+$("#right_affix").affix({offset : affix_roffset});
+
+// 左侧固顶区的顶部固顶条件，当滚动至此时，本区域以顶部固顶
+//affix_ltop = $("#add_comment").offset().top - affix_topmenu;
+//affix_loffset = {top : affix_ltop};
+
+//$("#add_comment").affix({offset : affix_loffset});
+
+// 文章内插图及注释
+
+var max_width = $("#article_content").width() - 60;
+var imgp = $("#article_content IMG").parents("P");
+imgp.each(function(){
+$(this).addClass("article_img");
+var img = $(this).find("IMG");
+if (img.parent("A").is("A")) {
+img.unwrap();
+}
+// 如果有图片描述
+var desc = null;
+if ((desc = $(this).next("P")) && desc && desc.contents() && desc.contents().first().is("EM") ) {
+desc.addClass("article_img_desc");
+desc_txt = desc.contents().first().text();
+img.attr({"title":desc_txt,"alt":desc_txt});
+} else if ((desc = img.next("BR").next("EM")) && desc.text()) {
+var desc_txt = desc.text();
+img.next("BR").remove();
+img.next("EM").remove();
+$(this).after("<p class='article_img_desc'><em>" + desc_txt + "</em></p>");
+} else {
+var desc_txt = img.attr("title") || img.attr("alt");
+if (desc_txt != '' && typeof desc_txt != 'undefined') {
+$(this).after("<p class='article_img_desc'><em>" + desc_txt + "</em></p>");
+}
+}
+if (img.attr("width") > max_width) {
+img.attr("width",'');
+img.attr("height",'');
+img.css("cursor","pointer");
+img.click(function(){window.open(img.attr("src"));});
+} else if (img.width() > max_width) {
+img.css("height",parseInt(img.height() * (max_width / img.attr("width"))));
+img.css("width",max_width);
+img.css("cursor","pointer");
+img.click(function(){window.open(img.attr("src"));});
+}
+});
+
+var pre = $("#article_content PRE");
+pre.each(function(){
+// 如果有代码描述
+var desc = null;
+if ((desc = $(this).next("P")) && desc && desc.contents() && desc.contents().first().is("EM") ) {
+desc.addClass("article_img_desc");
+desc_txt = desc.contents().first().text();
+}
+});
+
+// 链接
+var re_sitelink = /^https?:\/\/(www.)?linux(.net)?.cn\//i;
+$("#article_content a").map(function(){
+if ($(this).attr('href') == undefined) {
+$(this).css({'visibility':'hidden'});
+} else if ($(this).attr('href').substr(0,1) == '#') {
+$(this).attr('href','https://linux.cn/article-9007-1.html' + $(this).attr('href'));
+}
+if (re_sitelink.test($(this).attr('href'))) {
+if ($(this).text() == 'Linux中国') $(this).attr('href',$(location).attr('href'));
+} else {
+$(this).addClass("ext").attr({"rel":"external nofollow","target":"_blank"});
+}
+});
+
+// 视频
+$("video").map(function() {
+width = $(this).attr("width");
+height = $(this).attr("height");
+$(this).wrap("<div class='videoContainer'></div>").parent()
+.css({width: width,height : height});
+});
+$("#article_content table").wrap("<section class='bm'><section style='white-space:nowrap;overflow:scroll;'></section></section>")
+.parent().parent().prepend("<section class='hm bm_h'>&lt; 如显示不全，请左右滑动 &gt;</section>")
+.append("<section class='hm bm_f'></section>");
+$("#article_content table td").map(function() {
+var c = $(this).text();
+if (c.length > 20) $(this).css("white-space","normal");
+
+});
+})
+})(jQuery);
+</script>
+<link rel="stylesheet" href="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/prettify.css" type="text/css">
+<script src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/prettify.min.js.下载" type="text/javascript"></script>
+<script type="text/javascript">
+var sourceBaseUrl = "https://dn-linuxcn.qbox.me/static/js/tinymce/plugins/prettify";
+prettyPrint();
+</script>	</div>
+
+
+<script type="text/javascript">var cookieLogin = Ajax("TEXT");cookieLogin.get("connect.php?mod=check&op=cookie", function() {});</script>
+
+    <div id="footer">
+        <p>
+            <span>Linux.CN © 2003 →→→  Linux中国</span>
+            <span class="line">|</span>
+            <span>Powered by <strong>DX</strong> | 图片存储于<a href="http://www.qiniu.com/" target="_blank">七牛云</a></span>
+        </p>
+        <p>
+            <a href="http://www.miitbeian.gov.cn/" target="_blank">京ICP备05083684号-1</a>            京公网安备110105001595
+        </p>
+        <p>
+        <a href="https://linux.cn/legal.html">服务条款</a> |
+        除特别申明外，本站原创内容版权遵循 <a href="http://creativecommons.org/licenses/by-nc-sa/3.0/deed.zh" target="_blank">CC-BY-NC-SA 协议规定</a></p>
+        <p>
+        <a href="https://linux.cn/"><img src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/linuxcn_logo_mini.png" align="absmiddle"></a>
+        <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank"><img src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/cc.png" align="absmiddle"></a>
+        </p>
+<p>
+</p>
+</div>
+
+<div id="ft" class="cl"></div>
+<script src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/home.php" type="text/javascript"></script>
+<div id="scrolltop" style="left: auto; right: 0px; visibility: visible;">
+<span>
+<a href="javascript:void();" class="wxicon" onmouseover="show_qrcode(event,&#39;#qrcode&#39;, SITEURL + &#39;article-9007-1.html?utm_source=weixin&#39;);" onmouseout="show_qrcode(event,&#39;#qrcode&#39;,&#39;&#39;);"></a>
+<a title="分享到微博" href="javascript:void( share_tsina(SITEURL + &#39;article-9007-1.html?utm_source=weibo&#39;,&#39;article_title&#39;,&#39;article_content&#39;,&#39;https://dn-linuxcn.qbox.me/data/attachment/album/201710/28/223210p2s4am8lj55amy5j.jpg&#39;) );" class="tsina"></a>
+<a title="收藏" href="https://linux.cn/home.php?mod=spacecp&amp;ac=favorite&amp;type=article&amp;id=9007&amp;handlekey=favoritearticlehk_9007" id="a_favorite" onclick="showWindow(this.id, this.href, &#39;get&#39;, 0);" class="favorite"></a>
+    	<a href="https://linux.cn/article-9007-1.html?pr" class="print" title="!print!"></a>
+
+</span>
+<span hidefocus="true"><a title="返回顶部" onclick="window.scrollTo(&#39;0&#39;,&#39;0&#39;)" class="scrolltopa"><b>返回顶部</b></a></span>
+</div>
+<script type="text/javascript">_attachEvent(window, 'scroll', function () { showTopLink(); });</script>
+<div id="qrcode">
+<p>分享到微信</p>
+<div id="canvas"></div>
+<p><em>打开微信，点击顶部的“╋”，<br>
+使用“扫一扫”将网页分享至微信。</em></p></div>
+<script src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/ads.js.下载" type="text/javascript"></script><div id="pleaseRemoveOurSiteFromBlackList" style="display: none;"></div>
+<div id="LmNHCisOsS" style="display: none; background-color: #A00; position: fixed; top: 0; width: 100%; z-index: 9999; left: 0; font-size: 16px; color: #fff; text-align: center; padding: 10px; opacity: 0.8;">请将我们加入您的广告过滤器的白名单，请支持开源站点。谢谢您。</div>
+<script type="text/javascript">
+(function($){
+$(window).load(function() {
+if ($('#pleaseRemoveOurSiteFromBlackList').length == 0 && $(window).width() >= 480) {
+$('#LmNHCisOsS').css('display','block');
+}
+if (location.href.substr(0,17) != 'https://linux.cn/') {
+location.href = 'https://linux.cn/';
+}
+function roundTopFocus() {
+if ($('.topfocus').length) {
+//var tf1 = $('.topfocus').children().first();
+//$('.topfocus').children().fadeOut('fast',function(){tf1.remove().appendTo($('.topfocus')).fadeIn()}).fadeIn();
+} else if ($('.article_titlead').length) {
+var ad1 = $('.article_titlead').children().first();
+$('.article_titlead').children().fadeOut('slow',function(){ad1.remove().appendTo($('.article_titlead')).fadeIn()}).fadeIn();
+
+}
+}
+setInterval(roundTopFocus, 10000);
+});
+})(jQuery);
+</script>
+
+
+<iframe id="blockbyte-bs-sidebar" data-pos="left" src="./树莓派_使用 Docker 构建你的 Serverless 树莓派集群_files/saved_resource.html"></iframe><div id="blockbyte-bs-indicator" class="blockbyte-bs-fullHeight blockbyte-bs-visible" data-pos="left" style="width: 1px; height: 100%; top: 0%;"><div><span></span></div></div></body></html>
