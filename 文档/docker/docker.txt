@@ -94,3 +94,33 @@ sudo systemctl enable docker
 
 
 docker run --privileged=true --name service-test -v /home/docker/service-test.jar:/usr/local/app/service-test.jar -p 9090:9090 -itd centos7_jdk8 'java -jar /usr/local/app/service-test.jar >> /usr/local/service-test.log'
+
+docker run --detach \
+    --hostname ipipipipipipipipi \
+    --publish 10443:443 --publish 10080:80 --publish 10022:22 \
+    --name gitlab \
+    --restart always \
+    --volume /srv/gitlab/config:/etc/gitlab \
+    --volume /srv/gitlab/logs:/var/log/gitlab \
+    --volume /srv/gitlab/data:/var/opt/gitlab \
+    gitlab/gitlab-ce:latest
+
+Docker Compose
+pip install docker-compose
+
+docker-compose.yml
+wordpress:
+  image: wordpress
+  links:
+    - db
+  ports:
+    - 8080:80
+db:
+  image: mariadb
+  environment:
+    MYSQL_ROOT_PASSWORD: example
+
+docker-compose up
+docker-compose start
+docker-compose stop
+docker-compose down
