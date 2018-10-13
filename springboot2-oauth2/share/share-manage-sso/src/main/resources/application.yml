@@ -3,9 +3,9 @@ spring:
     name: share
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://myserver:3306/test
-    username: renho
-    password: x
+    url: jdbc:mysql://ip:3306/test
+    username: 
+    password: 
   mvc:
     view:
       prefix: classpath:/templates/
@@ -17,10 +17,10 @@ security:
       client-id: r
       client-secret: rr
       scope: all
-      access-token-uri: http://localhost:8000/oauth/token
-      user-authorization-uri: http://localhost:8000/oauth/authorize
+      access-token-uri: http://192.168.1.106:8000/oauth/token
+      user-authorization-uri: http://192.168.1.106:8000/oauth/authorize
     resource:
-      token-info-uri: http://localhost:8000/oauth/check_token
+      token-info-uri: http://192.168.1.106:8000/oauth/check_token
 server:
   port: 8080
   #sso不设置，报错问题
@@ -32,3 +32,5 @@ mybatis:
 urls:
   anon:
   - /res/**
+share:
+  basepath: /Users/renho/workspace/ongit

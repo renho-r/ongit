@@ -57,7 +57,7 @@
 
     <logger name="sun.rmi.loader" level="WARN"/>
     <logger name="com.zaxxer.hikari" level="WARN"/>
-    <logger name="org.springframework" level="debug"/>
+    <logger name="org.springframework" level="info"/>
     <logger name="org.apache.http" level="WARN"/>
     <logger name="com.ulisesbocchio" level="WARN"/>
     <logger name="com.netflix.discovery" level="WARN"/>
