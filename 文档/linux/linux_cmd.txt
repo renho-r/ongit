@@ -32,3 +32,4 @@
 15.sed
 16.linux sublime
 17.echo 3 > /proc/sys/vm/drop_caches
+18.netstat -antp | grep 2181
