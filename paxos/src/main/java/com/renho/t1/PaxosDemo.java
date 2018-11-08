@@ -1,4 +1,4 @@
-package com.renho;
+package com.renho.t1;
 
 /**
  * @author: xxxxx
@@ -108,7 +108,7 @@ public final class PaxosDemo {
         }
 
         public Promise onPrepare(Proposal proposal) {
-//假设这个过程有50%的几率失败
+            //假设这个过程有50%的几率失败
             if (Math.random() - 0.5 > 0) {
                 printInfo("ACCEPTER_" + name, "PREPARE", "NO RESPONSE");
                 return null;
@@ -128,7 +128,7 @@ public final class PaxosDemo {
         }
 
         public boolean onAccept(Proposal proposal) {
-//假设这个过程有50%的几率失败
+            //假设这个过程有50%的几率失败
             if (Math.random() - 0.5 > 0) {
                 printInfo("ACCEPTER_" + name, "ACCEPT", "NO RESPONSE");
                 return false;
