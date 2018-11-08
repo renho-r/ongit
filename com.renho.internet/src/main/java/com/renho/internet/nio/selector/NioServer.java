@@ -15,7 +15,7 @@ public class NioServer {
 	
 	public void init() throws IOException {
 		ServerSocketChannel ssc = ServerSocketChannel.open();
-		ssc.setConfigureBlocking(false);
+//		ssc.setConfigureBlocking(false);
 		ssc.socket().bind(new InetSocketAddress(8080));
 		
 		selector = Selector.open();

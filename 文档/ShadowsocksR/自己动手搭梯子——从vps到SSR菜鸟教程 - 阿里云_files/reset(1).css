@@ -1,0 +1,33 @@
+
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0; padding:0; }
+body, button, input, select, textarea { font-size:15px ;}
+body, h1, h2, h3, h4, h5, h6, hr, p, blockquote, dl, dt, dd, ul, ol, li, pre, form, fieldset, legend, button, input, textarea, th, td { margin:0; padding:0; }
+body, button, input, select, textarea{font-family: "PingFangSC-Regular", sans-serif;}				
+h1, h2, h3, h4, h5, h6{ font-size:100%; }
+address, cite, dfn, em, var { font-style:normal; }
+code, kbd, pre, samp { font-family: PingFangSC-Regular, sans-serif; }
+small{ font-size:12px; }
+ul, ol { list-style:none; }
+a { text-decoration:none; }
+sup { vertical-align:text-top; }
+sub{ vertical-align:text-bottom; }
+legend { color:#000; }
+fieldset, img { border:0; }
+button, input, select, textarea { font-size:100%; }
+table { border-collapse:collapse; border-spacing:0; }
+pre { 
+white-space: pre-wrap!important; /*css-3*/ 
+white-space: -moz-pre-wrap!important; /*Mozilla,since1999*/ 
+white-space: -pre-wrap!important; /*Opera4-6*/ 
+white-space: -o-pre-wrap!important; /*Opera7*/ 
+word-wrap: break-word!important; /*InternetExplorer5.5+*/ 
+font-family: PingFangSC-Regular, sans-serif!important;
+} 
+img{
+	max-width: 100%!important;
+}
+
+code {  
+white-space: normal!important;  
+word-break: break-all!important;  
+}  

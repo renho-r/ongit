@@ -1,0 +1,5 @@
+1.安装
+	$ ./configure
+	make
+	make install
+2.siege -r 1 -c 1 "http://localhost:8080/api/test/now" 

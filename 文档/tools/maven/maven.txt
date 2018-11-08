@@ -111,3 +111,10 @@ other
 mvn clean package
 
 -Dmaven.test.skip=true
+
+
+15.指定不同本地库打包,配置文件指定不同库
+	mvn clean package -s "D:\dev\apache-maven-3.5.3\conf\settings_sso.xml"
+16.不同配置文件
+	<profiles>
+        <profile>

@@ -1,0 +1,4 @@
+FROM centos7_jdk8
+WORKDIR /usr/local/app
+ADD service-test.jar service-test.jar
+ENTRYPOINT ["java","-jar","service-test.jar"]

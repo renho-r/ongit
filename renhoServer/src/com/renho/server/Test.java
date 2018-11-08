@@ -11,7 +11,7 @@ import java.net.Socket;
 public class Test {
 
 	public static void main(String[] args) throws IOException {
-		ServerSocket ss = new ServerSocket(8080);
+		ServerSocket ss = new ServerSocket(9099);
 		while(true) {
 			Socket socket = ss.accept();
 			InputStream in = socket.getInputStream();
@@ -26,7 +26,7 @@ public class Test {
 			/*响应头end*/
 			
 			/*响应正文 start*/
-			File file = new File("E:/renho/workspace/ongit/renhoServer/WebRoot/", "index.html");
+			File file = new File("F:\\workspace\\ongit\\renhoServer\\WebRoot\\", "index.html");
 			if (file.exists()) {
 				FileInputStream fis = new FileInputStream(file);
 				byte[] bytes = new byte[1024];

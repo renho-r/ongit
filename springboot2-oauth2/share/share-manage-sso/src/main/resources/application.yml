@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: share
+  datasource:
+    driverClassName: com.mysql.jdbc.Driver
+    url: jdbc:mysql://ip:3306/test
+    username: 
+    password: 
+  mvc:
+    view:
+      prefix: classpath:/templates/
+      suffix: .html
+    static-path-pattern: /static/**
+security:
+  oauth2:
+    client:
+      client-id: r
+      client-secret: rr
+      scope: all
+      access-token-uri: http://192.168.1.106:8000/oauth/token
+      user-authorization-uri: http://192.168.1.106:8000/oauth/authorize
+    resource:
+      token-info-uri: http://192.168.1.106:8000/oauth/check_token
+server:
+  port: 8080
+  #sso不设置，报错问题
+  servlet:
+    context-path: /share
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.renho.share.domain.po
+urls:
+  anon:
+  - /res/**
+share:
+  basepath: /Users/renho/workspace/ongit

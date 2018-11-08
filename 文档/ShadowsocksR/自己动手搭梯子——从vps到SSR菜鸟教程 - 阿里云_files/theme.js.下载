@@ -1,0 +1,20 @@
+$(document).ready(function() {
+    var con = $('#tab');
+    con.find('.list li').click(function(){
+        var i = $(this).index();
+        $(this).addClass('selected').siblings('li').removeClass('selected');
+        con.find('.container .hide').eq(i).show().siblings('.hide').hide();
+    })
+
+    var h = $('.section1').find('.top').height();
+    var img
+        = $('.section1').find('.img').height();
+    //alert(h);alert(img);
+    if(h==img){
+        $('.b-text').hide();
+        $('#text').height(h);
+    }else{
+        $('.b-text').show();
+        $('.section').find('.b-text').css({'min-height':h-img-16});
+    }
+});

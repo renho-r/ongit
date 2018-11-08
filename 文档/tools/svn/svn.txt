@@ -73,3 +73,9 @@
 	svn　revert　[--recursive]　文件名
 20.不checkout而查看输出特定文件或URL的内容
 	svn　cat　http://文件全路径 
+21.报错
+	idea svn: E230001: Server SSL certificate verification failed: certificate issued for a different hostname, issuer is not trusted
+	TortoiseSVN操作下连svn server
+22.忽略文件
+	svn:ignore	*.DS_Store
+	svn:global-ignores	*.DS_Store

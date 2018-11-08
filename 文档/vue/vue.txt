@@ -1,0 +1,27 @@
+1.安装
+	npm install vue
+	# 全局安装 vue-cli
+	$ npm install --global vue-cli
+	# 创建一个基于 webpack 模板的新项目
+	$ vue init webpack my-project
+	# 安装依赖，走你
+	$ cd my-project
+	$ npm run dev
+
+2.
+npm i element-ui -S
+cnpm install --save iview
+cnpm install --save mockjs
+cnpm install --save vuex
+cnpm install --save axios element-ui js-cookie
+cnpm install --save clipboard
+
+cnpm install --save-dev sass-loader
+cnpm install --save-dev node-sass
+
+cnpm install style-loader --save
+cnpm install --save css-loader
+cnpm install --save file-loader
+cnpm install --save less less-loader
+cnpm install --save screenfull
+cnpm install --save nprogress nprogress/nprogress.css

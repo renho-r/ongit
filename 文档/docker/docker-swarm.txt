@@ -1,0 +1,19 @@
+docker swarm init
+你会看到它显示了一个口令，以及其它节点加入集群的命令。接下来使用 ssh 登录每个树莓派，运行这个加入集群的命令。
+docker swarm join --token SWMTKN-1-4peyxt43nwtwwqdd53omesgddjekkv3rs4p1p93cm10mas8upp-b4n5tggz8m866y7kess8hg13i 192.168.1.154:2377
+
+
+docker node promote <node_name>
+
+
+$ git clone https://github.com/alexellis/faas/
+$ cd faas
+$ ./deploy_stack.armhf.sh
+
+
+curl -sSL cli.openfaas.com | sudo 
+
+
+faas-cli build -f ./hello-python.yml
+$ faas-cli push -f ./hello-python.yml
+$ faas-cli deploy -f ./hello-python.yml

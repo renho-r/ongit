@@ -27,7 +27,7 @@ public class SayHelloServiceImpl implements ISayHelloService {
 			e.printStackTrace();
 		}
 
-		return ip + ":" + address;
+		return ip + ":" + address + ":" + System.currentTimeMillis();
 	}
 
 }

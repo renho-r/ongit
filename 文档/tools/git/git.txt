@@ -13,6 +13,7 @@
 	例.readme.txt文件
 	2.1把文件添加到仓库
 		$git add readme.txt
+		$git add -A
 	2.2把文件提交到仓库
 		$git commit -m "commit注释"
 3.查看版本库
@@ -48,6 +49,8 @@
 		--git checkout其实是用版本库里的版本替换工作区的版本
 	5.2丢弃暂存区
 		$git reset HEAD readme.txt
+	5.3撤销git add
+		$ git reset -q
 6.删除文件
 	例.test.txt
 	6.1文件系统中删除
