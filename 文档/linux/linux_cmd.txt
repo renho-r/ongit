@@ -1,6 +1,7 @@
 1.查找文件 
 	find / -name filename.txt 根据名称查找/目录下的filename.txt文件。 
-	find . -name “*.xml” 递归查找所有的xml文件 
+	find . -name "*.xml" 递归查找所有的xml文件
+
 2.创建文件：touch test.txt 
 3.压缩文件 
 	tar -czf test.tar.gz /test1 /test2
@@ -30,6 +31,14 @@
 	ps -ef|grep JavaJJ.jar |grep -v grep|awk '{print $2}' 2>>/dev/null
 
 15.sed
+	打印n到m行: sed -n "1, 100p" catalina.out > renho.log
 16.linux sublime
 17.echo 3 > /proc/sys/vm/drop_caches
 18.netstat -antp | grep 2181
+19.分割文件
+	按行切割, 生成到目录split_by_l文件split_by_l_开头: split -l 100000 catalina.out split_by_l/split_by_l_
+	按字节切割, 尽量保证行完整: split -C 100M catalina.out split_by_C/split_by_C_
+20.比较文件
+	diff conf_8/server.xml conf_9/server.xml -y -w
+21.文件查找
+	grep -n "port" server.xml
