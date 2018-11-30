@@ -40,27 +40,35 @@ echo "[ INFO ] ngrok已启动
 
 客户端自启动
 ngrok.yml
-server_addr: "myvps.cn:4443"
+server_addr: "ngrok.renho.me:443"
 trust_host_root_certs: false
 tunnels:
     ssh:
         remote_port: 50022
         proto:
-            tcp: "192.168.31.14:22"
-    http:
+            tcp: "192.168.0.154:22"
+    http1:
         remote_port: 50080
         subdomain:
-            mysubdomain
-        auth:
-            "user:password"
+            test
+        #auth:
+        #    "user:password"
         proto:
-            http: 80
+            http: 18800
+    http2:
+        remote_port: 50081
+        subdomain:
+            sc
+        #auth:
+        #    "user:password"
+        proto:
+            http: 9000
     vnc:
         remote_port: 55901
         proto:
-            tcp: "192.168.31.14:5901"
+            tcp: "192.168.0.154:5901"
 
-nohup /home/pi/myngrok/ngrok -log=/home/pi/myngrok/ngrok.log -log-level=INFO -config=/home/pi/myngrok/ngrok.yml start http ssh vnc > ngrok.log &
+nohup /home/pi/myngrok/ngrok -log=/home/pi/myngrok/ngrok.log -log-level=INFO -config=/home/pi/myngrok/ngrok.yml start http1 http2 ssh vnc > ngrok.log &
 vi /etc/rc.local
 在exit 0前加入/home/pi/myngrok/ngrok.sh
 
