@@ -16,6 +16,20 @@
 	docker images|grep none|awk '{print $3 }'|xargs docker rmi
 
 	docker rmi $(docker images -f "dangling=true" -q)
+7.新建网络
+	docker network create --subnet=172.22.0.0/16 renho
+
+8.docker nginx
+	docker cp 19b951:/etc/nginx/ /home/pi/docker-nginx
+	docker run \
+	-p 18800:80 \
+	--name nginx154 \
+	-v /home/pi/docker-nginx/logs:/var/log/nginx \
+	-v /home/pi/docker-nginx:/etc/nginx \
+	--network renho --ip 172.22.0.100 \
+	--restart=unless-stopped \
+	-d nginx
+
 
  netstat -anp|grep 2375
  curl 127.0.0.1:2375/info
@@ -82,7 +96,7 @@ exit
 docker info
 docker pull registry.docker-cn.com/portainer/portainer:linux-arm-1.14.0
 mkdir -p ~/portaniner/data
-docker run -d --name portainer --restart unless-stopped -p 9000:9000 -v ~/portaniner/data:/data -v /var/run/docker.sock:/var/run/docker.sock registry.docker-cn.com/portainer/portainer:linux-arm-1.14.0
+docker run -d --name portainer --network renho --ip 172.22.0.110 --restart unless-stopped -p 9000:9000 -v ~/portaniner/data:/data -v /var/run/docker.sock:/var/run/docker.sock registry.docker-cn.com/portainer/portainer:linux-arm-1.14.0
 
 
 systemctl enable docker
