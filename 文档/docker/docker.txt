@@ -124,3 +124,6 @@ docker-compose up
 docker-compose start
 docker-compose stop
 docker-compose down
+
+Error response from daemon: reference does not exist
+rm -rf /var/lib/docker/image/devicemapper/imagedb/*/sha256/54514d54a4a5*

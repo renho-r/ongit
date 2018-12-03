@@ -1,0 +1,79 @@
+filebeat.inputs:
+- type: nginx-req-resp-log
+
+  # Change to true to enable this input configuration.
+  enabled: true
+
+  # 指定要监控的日志，可以指定具体得文件或者目录
+  # Paths that should be crawled and fetched. Glob based paths.
+  paths:
+    - /usr/local/nginx/logs/*.xtpt.log
+
+  # 指定被监控的文件的编码类型，使用plain和utf-8都是可以处理中文日志的
+  #encoding: plain
+
+  # 指定文件的输入类型log(默认)或者stdin
+  input_type: log
+
+  # 如果一个文件在某个时间段内没有发生过更新，则关闭监控的文件handle。默认1h
+  #close_older: 1h
+  #指定Filebeat忽略指定时间段以外修改的日志内容，比如2h（两个小时）或者5m(5分钟),change只会在下一次scan才会被发现
+  ignore_older: 48h
+  #启用此选项时，Filebeat将关闭文件句柄（如果文件尚未在指定的时间内收获）。例如，如果您的日志文件每隔几秒更新一次，则可以安全地设置close_inactive为1m。如果存在具有完全不同更新速率的日志文件，则可以使用具有不同值的多个探测器配置。
+  clean_inactive: 72h
+  #当文件名称有变化时，包括改名和删除，会自动关闭一个文件。
+  #force_close_files: false
+
+  #clean_removed
+  ############################################################################################################################################
+  #backoff选项指定Filebeat如何积极地抓取新文件进行更新。默认1s
+  #backoff选项定义Filebeat在达到EOF之后再次检查文件之间等待的时间。
+  #每间隔backoff发送一次同步
+  backoff: 1s
+  
+  # Filebeat检测到某个文件到了EOF之后等待检测文件更新的最大时间默认是10秒。
+  max_backoff: 10s
+  backoff_factor: 2
+
+  # 定义到达max_backoff的速度默认因子是2到达max_backoff后变成每次等待max_backoff那么长的时间才backoff一次直到文件有更新才会重置为backoff。
+  #根据现在的默认配置是这样的，每隔1s检测一下文件变化，如果连续检测两次之后文件还没有变化，下一次检测间隔时间变为10s
+  ############################################################################################################################################
+
+#============================= Filebeat modules ===============================
+
+filebeat.config.modules:
+  # Glob pattern for configuration loading
+  path: ${path.config}/modules.d/*.yml
+
+  # Set to true to enable config reloading
+  reload.enabled: false
+
+  # Period on which files under path should be checked for changes
+  #reload.period: 10s
+
+#==================== Elasticsearch template setting ==========================
+
+setup.template.settings:
+  index.number_of_shards: 3
+
+setup.kibana:
+
+#redis
+output.redis:
+   hosts: ["192.168.111.130"]
+   port: 6379
+   key: "leaf-node-log"
+
+#kafka
+# output.kafka:
+#   # initial brokers for reading cluster metadata
+#   hosts: ["127.0.0.1:9092"]
+
+#   # message topic selection + partitioning
+#   topic: 'renho'
+#   partition.round_robin:
+#     reachable_only: false
+
+#   required_acks: 1
+#   compression: gzip
+#   max_message_bytes: 1000000

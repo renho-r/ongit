@@ -1,0 +1,37 @@
+
+1.kafka服务端启动
+    ./kafka-server-start.sh ../config/server.properties
+    ./kafka-server-start.sh -daemon ../config/server.properties 
+2.创建Topic
+    ./kafka-topics.sh --create --zookeeper 127.0.0.1:2181/kafka --replication-factor 1 --partitions 1 --topic renho
+    #解释
+    --replication-factor 1   #复制两份
+    --partitions 1 #创建1个分区
+    --topic #主题为renho
+
+3.在一台服务器上创建一个发布者
+    #创建一个broker，发布者
+    ./kafka-console-producer.sh --broker-list 127.0.0.1:9092 --topic renho
+
+4.在一台服务器上创建一个订阅者
+    ./kafka-console-consumer.sh --bootstrap-server 127.0.0.1:9092 --topic renho --from-beginning --group=renho
+5.查看topic
+    ./kafka-topics.sh --list --zookeeper 127.0.0.1:2181
+6.查看topic状态
+    ./kafka-topics.sh --describe --zookeeper localhost:2181/kafka --topic renho
+7.查看top信息,分区，leader等
+    ./kafka-topics.sh --describe --zookeeper localhost:2181/kafka --topic renho
+8.删除topic
+    ./kafka-topics.sh --delete --zookeeper myserver:2181/kafka --topic renho
+    rm -rf /var/kafka/log/tmp/renho*
+    zookeeper zkClis.sh
+    rmr /kafka/consumers/renho-group
+    rmr /kafka/config/topics/renho
+    rmr /kafka/brokers/topics/renho
+    rmr /kafka/admin/delete_topics/renho
+9.启动集群
+    ./kafka-server-start.sh -daemon ../config/server.properties 
+    ./kafka-server-start.sh -daemon ../config/server_01.properties 
+    server.properties 修改内容
+        broker.id
+        log.dirs

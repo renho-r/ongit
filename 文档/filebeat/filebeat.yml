@@ -1,0 +1,68 @@
+filebeat.prospectors:
+- type: nginx-req-log
+  fields:
+    list: req
+  enabled: true
+  paths:
+    - /usr/local/nginx/logs/xtpt_monitor_req_*.xtpt.log
+  input_type: log
+  ignore_older: 48h
+  clean_inactive: 72h
+  backoff: 1s
+  max_backoff: 10s
+  backoff_factor: 2
+- type: nginx-resp-log
+  fields:
+    list: resp
+  enabled: true
+  paths:
+    - /usr/local/nginx/logs/xtpt_monitor_resp_*.xtpt.log
+  input_type: log
+  ignore_older: 48h
+  clean_inactive: 72h
+  backoff: 1s
+  max_backoff: 10s
+  backoff_factor: 2
+#============================= Filebeat modules ===============================
+
+filebeat.config.modules:
+  # Glob pattern for configuration loading
+  path: ${path.config}/modules.d/*.yml
+
+  # Set to true to enable config reloading
+  reload.enabled: false
+
+  # Period on which files under path should be checked for changes
+  #reload.period: 10s
+
+#==================== Elasticsearch template setting ==========================
+
+setup.template.settings:
+  index.number_of_shards: 3
+
+setup.kibana:
+
+# redis
+output.redis:
+  hosts: ["192.168.111.130"]
+  port: 6379
+  db: 1
+  key: "default_list"
+  keys: 
+    - key: "%{[fields.list]}"
+      mappings:
+        req: "req"
+        resp: "resp"
+
+#kafka
+# output.kafka:
+#   hosts: ["127.0.0.1:9092"]
+
+#   #topic: 'renho'
+#   topic: '%{[fields.list]}'
+#   partition.round_robin:
+#     reachable_only: false
+
+#   required_acks: 1
+#   compression: gzip
+#   max_message_bytes: 1000000
