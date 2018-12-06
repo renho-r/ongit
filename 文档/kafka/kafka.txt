@@ -1,4 +1,3 @@
-
 1.kafka服务端启动
     ./kafka-server-start.sh ../config/server.properties
     ./kafka-server-start.sh -daemon ../config/server.properties 
@@ -35,3 +34,35 @@
     server.properties 修改内容
         broker.id
         log.dirs
+10.查看消费情况offsets lag
+    ./kafka-consumer-groups.sh --describe --bootstrap-server 192.168.0.154:9092 --group renho
+    ./kafka-consumer-groups.sh --describe --bootstrap-server 192.168.0.154:9092 --offsets --group renho
+
+delete.topic.enable=true
+
+注意：如果要想让其他机子远程访问你的kafka，加上一条配置：
+ 
+advertised.host.name=192.168.101.101 #提供访问的地址
+
+
+--查看topic消费进度kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list 192.168.0.154:9092 --topic renho --time -1
+    -1表示查询test各个分区当前最大的消息位移值(注意，这里的位移不只是consumer端的位移，而是指消息在每个分区的位置)    
+如果你要查询曾经生产过的最大消息数，那么只运行上面这条命令然后把各个分区的结果相加就可以了。但如果你需要查询当前集群中该topic的消息数，那么还需要运行下面这条命令：kafka-run-class.sh kafka.tools.GetOffsetShell --broker-list 192.168.0.154:9092 --topic renho --time -2
+    -2表示去获取当前各个分区的最小位移。之后把运行第一条命令的结果与刚刚获取的位移之和相减就是集群中该topic的当前消息总数。
+
+查看消费情况
+./kafka-consumer-groups.sh --describe --bootstrap-server 192.168.0.154:9092 --offsets --group renho
+消费滞后(Lag)
+
+我们深究一下kafka-consumer_groups.sh脚本，发现只有一句代码：
+
+exec $(dirname $0)/kafka-run-class.sh kafka.admin.ConsumerGroupCommand "$@"
+1
+其含义就是执行kafka.admin.ConsumerGroupCommand而已。进一步深究，在ConsumerGroupCommand内部抓住了2句关键代码：
+
+val consumerGroupService = new KafkaConsumerGroupService(opts)
+val (state, assignments) = consumerGroupService.describeGroup()
+https://github.com/hiddenzzh/kafka/blob/master/src/main/java/com/hidden/custom/kafka/admin/KafkaConsumerGroupCustomService.java
+
+
+jmx
