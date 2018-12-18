@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<!-- saved from url=(0045)https://www.cnblogs.com/reghao/p/8504719.html -->
+<html lang="zh-cn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer" content="origin">
+<title>Nginx 配置 HTTP 和 HTTPS - reghao - 博客园</title>
+<meta property="og:description" content="Nginx 的配置文件 nginx.conf 中有一些顶级指令（即上下文）用来分组适用于不同流量类型的指令： events，通用的连接处理。 http，HTTP 流量。 mail，Mail 流量。 s">
+<link type="text/css" rel="stylesheet" href="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/blog-common.css">
+<link id="MainCss" type="text/css" rel="stylesheet" href="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/bundle-SimpleMemory.css">
+<link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/bundle-SimpleMemory-mobile.css">
+<link title="RSS" type="application/rss+xml" rel="alternate" href="https://www.cnblogs.com/reghao/rss">
+<link title="RSD" type="application/rsd+xml" rel="EditURI" href="https://www.cnblogs.com/reghao/rsd.xml">
+<link type="application/wlwmanifest+xml" rel="wlwmanifest" href="https://www.cnblogs.com/reghao/wlwmanifest.xml">
+<script src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/f.txt"></script><script src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/amp4ads-host-v0.js.下载"></script><script src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/pubads_impl_rendering_277.js.下载"></script><script async="" src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/analytics.js.下载"></script><script src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/jquery-2.2.0.min.js.下载"></script>
+<script type="text/javascript">var currentBlogApp = 'reghao', cb_enable_mathjax=false;var isLogined=false;</script>
+<script src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/blog-common.js.下载" type="text/javascript"></script>
+<link rel="preload" href="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/f(1).txt" as="script"><script type="text/javascript" src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/f(1).txt"></script><script src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/pubads_impl_277.js.下载" async=""></script><link rel="prefetch" href="https://tpc.googlesyndication.com/safeframe/1-0-31/html/container.html"></head>
+<body>
+<a name="top"></a>
+
+<!--done-->
+<div id="home">
+<div id="header">
+	<div id="blogTitle">
+	<a id="lnkBlogLogo" href="https://www.cnblogs.com/reghao/"><img id="blogLogo" src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/logo.gif" alt="返回主页"></a>			
+		
+<!--done-->
+<h1><a id="Header1_HeaderTitle" class="headermaintitle" href="https://www.cnblogs.com/reghao/">reghao's notes</a></h1>
+<h2>Talk is cheap. Show me the code.</h2>
+
+
+
+		
+	</div><!--end: blogTitle 博客的标题和副标题 -->
+	<div id="navigator">
+		
+<ul id="navList">
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li><a id="blog_nav_rss" class="menu" href="https://www.cnblogs.com/reghao/rss">订阅</a>
+<!--<a id="blog_nav_rss_image" class="aHeaderXML" href="https://www.cnblogs.com/reghao/rss"><img src="//www.cnblogs.com/images/xml.gif" alt="订阅" /></a>--></li>
+<li><a id="blog_nav_admin" class="menu" rel="nofollow" href="https://i.cnblogs.com/">管理</a></li>
+</ul>
+		<div class="blogStats">
+			
+			
+			
+		</div><!--end: blogStats -->
+	</div><!--end: navigator 博客导航栏 -->
+</div><!--end: header 头部 -->
+
+<div id="main">
+	<div id="mainContent">
+	<div class="forFlow">
+		
+<div id="post_detail">
+<!--done-->
+<div id="topics">
+	<div class="post">
+		<h1 class="postTitle">
+			<a id="cb_post_title_url" class="postTitle2" href="https://www.cnblogs.com/reghao/p/8504719.html">Nginx 配置 HTTP 和 HTTPS</a>
+		</h1>
+		<div class="clear"></div>
+		<div class="postBody">
+			<div id="cnblogs_post_body" class="blogpost-body cnblogs-markdown"><p>Nginx 的配置文件 nginx.conf 中有一些顶级指令（即上下文）用来分组适用于不同流量类型的指令：</p>
+<ul>
+<li>events，通用的连接处理。</li>
+<li>http，HTTP 流量。</li>
+<li>mail，Mail 流量。</li>
+<li>stream，TCP 流量。</li>
+</ul>
+<p>放置在这些上下文之外的指令（directives）被认为是放置在主上下文（main context）中。在每个流量处理上下文中，可以放置一个或多个 server 上下文来定义用于控制请求处理的虚拟服务器（virtual servers）。</p>
+<blockquote>
+<p>在 http 上下文中，每个 server 上下文负责对一个特定域名或 IP 地址的资源的请求进行处理，server 上下中的一个或多个 location 上下文用来定义如何处理特定的 URI 集合。</p>
+<p>对于 mail 和 stream 上下文，每个 server 上下文负责对特定 TCP 端口或 UNIX 套接字上的流量进行处理。</p>
+</blockquote>
+<p>nginx.conf 配置文件的一个大致框架如下所示：</p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">user</span> nobody; <span class="hljs-comment"># 位于主上下文的指令</span>
+
+<span class="hljs-section">events</span> {
+    <span class="hljs-comment"># 连接处理的配置</span>
+}
+
+<span class="hljs-section">http</span> {
+    <span class="hljs-comment"># 对 HTTP 请求的配置，会影响所有的虚拟服务器</span>
+
+    <span class="hljs-section">server</span> {
+        <span class="hljs-comment"># 对第一台 HTTP 虚拟服务器的配置</span>
+
+        <span class="hljs-attribute">location</span> /one {
+            <span class="hljs-comment"># 配置该如何处理以 /one 开始的 URI</span>
+        }
+    }
+}
+
+<span class="hljs-section">stream</span> {
+    <span class="hljs-comment"># 对 TCP 请求的配置，会影响所有的虚拟服务器</span>
+
+    <span class="hljs-section">server</span> {
+        <span class="hljs-comment"># 对第一台 TCP 虚拟服务器的配置</span>
+    }
+}</code></pre>
+<h3 id="基本配置">基本配置</h3>
+<p>在 nginx.conf 文件中的配置可分为三个部分：配置主上下文、配置 events 上下文和配置 http 上下文。</p>
+<p>主上下文的配置是全局设置，具体配置如下：</p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">user</span> nginx nginx;
+<span class="hljs-attribute">worker_processes</span> <span class="hljs-number">2</span>;
+<span class="hljs-attribute">error_log</span> /var/log/nginx/error.log  <span class="hljs-literal">notice</span>;
+<span class="hljs-attribute">worker_rlimit_nofile</span> <span class="hljs-number">1024</span>;</code></pre>
+<ul>
+<li>user，指定运行 worker process 的用户和用户组，默认由 nginx 用户运行。</li>
+<li>worker_processes，指定 Nginx 开启的子进程（worker process）数量。</li>
+<li><p>error_log，指定全局错误日志文件。</p>
+<blockquote>
+<p>根据包含的日志信息详细度递减，分别 debug、info、notice、warn、error 和 crit 级别可供选择。</p>
+</blockquote></li>
+<li><p>worker_rlimit_nofile，指定一个 Nginx 进程最多可打开的文件描述符数量。</p>
+<blockquote>
+<p>Linux 中可打开的文件描述符数量通过 ulimit -n 1024 命令来设置。</p>
+</blockquote></li>
+</ul>
+<p>events 上下文用来指定 Nginx 的工作模式以及连接上限，具体配置如下：</p>
+<pre><code class="hljs nginx"><span class="hljs-section">events</span> {
+    <span class="hljs-attribute">use</span> <span class="hljs-literal">epoll</span>;
+    <span class="hljs-attribute">worker_connections</span> <span class="hljs-number">1024</span>;
+}</code></pre>
+<ul>
+<li><p>use，指定 Nginx 的工作模式。</p>
+<blockquote>
+<p>Nginx 支持的工作模式有 select、poll、kqueue、epoll、rtsig 和 /dev/poll。</p>
+<p>其中 select 和 poll 是标准工作模式，kqueue 和 epoll 是高效工作模式。</p>
+<blockquote>
+<p>epoll 用于 Linux 平台上，而 kqueue 则用于 BSD 系统。</p>
+</blockquote>
+</blockquote></li>
+<li><p>worker_connections，指定 Nginx 中每个进程的最大连接数（即接收客户端的最大请求数）。</p>
+<blockquote>
+<p>最大客户端连接数由 worker_processes 和 worker_connections 共同决定，即 Max_clients = worker_processes*worker_connections。</p>
+<p>进程接受的最大连接数受 Linux 系统进程的最大可打开文件描述符限制，可通过 ulimit 命令来修改。</p>
+</blockquote></li>
+</ul>
+<p>http 上下文是 Nginx 中最核心的模块，它负责 HTTP 服务器相关的属性配置。具体配置如下：</p>
+<pre><code class="hljs nginx"><span class="hljs-section">http</span> {
+    <span class="hljs-attribute">include</span> mime.types;
+    <span class="hljs-attribute">default_type</span> application/octet-stream;
+    
+    <span class="hljs-attribute">log_format</span> main <span class="hljs-string">'<span class="hljs-variable">$remote_addr</span> - <span class="hljs-variable">$remote_user</span> [<span class="hljs-variable">$time_local</span>] "<span class="hljs-variable">$request</span>" '</span>
+                      <span class="hljs-string">'<span class="hljs-variable">$status</span> <span class="hljs-variable">$body_bytes_sent</span> "<span class="hljs-variable">$http_referer</span>" '</span>
+                      <span class="hljs-string">'"<span class="hljs-variable">$http_user_agent</span>" "<span class="hljs-variable">$http_x_forwarded_for</span>"'</span>;
+    <span class="hljs-attribute">access_log</span> /var/log/nginx/access.log main;
+    
+    <span class="hljs-attribute">sendfile</span> <span class="hljs-literal">on</span>;
+    <span class="hljs-attribute">tcp_nopush</span> <span class="hljs-literal">on</span>;
+    <span class="hljs-attribute">tcp_nodelay</span> <span class="hljs-literal">on</span>;
+    
+    <span class="hljs-attribute">keepalive_timeout</span> <span class="hljs-number">10</span>;
+    
+    <span class="hljs-section">server</span> {
+        <span class="hljs-comment"># 配置 HTTP 虚拟服务器</span>
+    }
+}</code></pre>
+<ul>
+<li>include，包含 /etc/nginx/mime.type 文件，此文件用于设定文件的 mime 类型以便于 Nginx 识别。</li>
+<li><p>default_type，设置默认文件类型为二进制流。</p>
+<blockquote>
+<p>当文件类型在 mime.type 文件中未指定时默认为二进制流，此时访问该文件，Nginx 不会解析，而是直接下载。</p>
+</blockquote></li>
+<li>log_format，设置日志格式以及记录哪些信息。</li>
+<li><p>access_log，此 http 上下文中的全局访问日志。</p>
+<blockquote>
+<p>后面的 main 指定日志格式，即使用 log_format 中定义的格式。</p>
+</blockquote></li>
+<li><p>sendfile，开启高效的文件传输模式。</p>
+<blockquote>
+<p>设置 tcp_nopush 和 tcp_nodelay 为 on 是为防止网络阻塞。</p>
+</blockquote></li>
+<li><p>keepalive_timeout，设置客户端连接保持活动的超时时间。</p></li>
+</ul>
+<p>http 中的 server 上下文用于配置 HTTP 虚拟服务器，具体配置如下：</p>
+<pre><code class="hljs nginx"><span class="hljs-section">server</span> {
+    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;
+    <span class="hljs-attribute">server_name</span> localhost <span class="hljs-number">192.168.0.99</span> www.hao.com;
+
+    <span class="hljs-attribute">root</span> /www/nginx;
+    <span class="hljs-attribute">index</span> index.html index.jsp;
+        
+    <span class="hljs-attribute">charset</span> utf-<span class="hljs-number">8</span>;
+    <span class="hljs-attribute">access_log</span> /var/log/nginx/host.access.log  main;
+    <span class="hljs-attribute">error_log</span> /var/log/nginx/host.<span class="hljs-literal">error</span>.log  <span class="hljs-literal">error</span>;
+        
+    <span class="hljs-attribute">location</span> / {
+        <span class="hljs-comment"># 配置如何处理特定的 URI 集合</span>
+    }
+}</code></pre>
+<ul>
+<li>listen，此虚拟服务器监听的端口。不同的虚拟服务器可监听不同的端口。</li>
+<li>server_name，指定 IP 地址或域名。</li>
+<li>root，定义此虚拟服务器的根目录。</li>
+<li>index，定义此虚拟服务器的默认首页地址。按序依次访问定义的文件。</li>
+<li>charset，设置网页的默认编码格式。</li>
+<li>access_log，此虚拟服务器的访问日志。</li>
+<li>error_log，此虚拟服务器的错误日志。</li>
+</ul>
+<p>server 中的 location 上下文用于配置处理特定的 URI 集合，具体配置如下：</p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">location</span> / {
+    <span class="hljs-attribute">root</span> /home/nginx;
+    <span class="hljs-attribute">index</span> index.html index.jsp;
+}</code></pre>
+<ul>
+<li>location /，匹配访问路径为以 / 开始的 URI。</li>
+<li><p>root，以 / 开始的 URI 在当前 location 上下文中的根目录。</p>
+<blockquote>
+<p>可与 server 上下文中的根目录相同，也可自定义一个新的根目录。</p>
+</blockquote></li>
+<li><p>index，当前 location 上下文中默认的首页地址。</p></li>
+</ul>
+<h3 id="https-配置">HTTPS 配置</h3>
+<p>客户端通过 HTTPS 可与服务器进行安全的交互，不用担心消息会被拦截和读取。HTTPS 证书用来帮助客户端核实它们连接的服务器的身份。</p>
+<blockquote>
+<p>服务器证书是一个公共实体，它被发送到连接到服务器的每个客户端。私钥则是一个安全实体，应该被存储到一个受访问限制的文件中，但是它必须对 Nginx 的主进程可读。</p>
+</blockquote>
+<p>要使 Nginx 提供 HTTPS 功能，第一步是要创建 SSL 证书。首先在 nginx 的安装目录下创建一个 ssl 目录。</p>
+<pre><code class="hljs dos"><span class="hljs-built_in">mkdir</span> /etc/nginx/ssl</code></pre>
+<p>然后在 ssl 目录中创建 SSL 证书，如下是创建一个有效期 10 年，加密强度为 RSA2048 SSL 密钥 nginx.key 和 X509 证书文件 nginx.crt。</p>
+<pre><code class="hljs css"><span class="hljs-selector-tag">openssl</span> <span class="hljs-selector-tag">req</span> <span class="hljs-selector-tag">-x509</span> <span class="hljs-selector-tag">-nodes</span> <span class="hljs-selector-tag">-days</span> 3650 <span class="hljs-selector-tag">-newkey</span> <span class="hljs-selector-tag">rsa</span><span class="hljs-selector-pseudo">:2048</span> <span class="hljs-selector-tag">-keyout</span> <span class="hljs-selector-tag">nginx</span><span class="hljs-selector-class">.key</span> <span class="hljs-selector-tag">-out</span> <span class="hljs-selector-tag">nginx</span><span class="hljs-selector-class">.crt</span></code></pre>
+<ul>
+<li>-x509 指定使用 X.509 证书签名请求（Certificate Signing Request，CSR）管理。</li>
+<li>-node 告诉 openssl 在生成证书时忽略密码环节（此处需要 Nginx 自动读取此文件，而非是以用户交互的形式）。</li>
+<li>-day 指定证书的有效期。</li>
+<li>-newkey rsa:2048 表示生成一个新证书和一个新的 SSL key（加密强度为 RSA 2048）。</li>
+<li>-keyout 指定 SSL 输出文件名。</li>
+<li>-out 指定生成的证书文件名。</li>
+</ul>
+<p>执行上述命令后，会要求填入下述信息。</p>
+<pre><code class="hljs delphi">Generating a <span class="hljs-number">2048</span> bit RSA <span class="hljs-keyword">private</span> key
+.....................................+++
+...........+++
+writing new <span class="hljs-keyword">private</span> key <span class="hljs-keyword">to</span> <span class="hljs-string">'/etc/nginx/ssl/nginx.key'</span>
+-----
+You are about <span class="hljs-keyword">to</span> be asked <span class="hljs-keyword">to</span> enter information that will be incorporated
+into your certificate request.
+What you are about <span class="hljs-keyword">to</span> enter <span class="hljs-keyword">is</span> what <span class="hljs-keyword">is</span> called a Distinguished <span class="hljs-keyword">Name</span> <span class="hljs-keyword">or</span> a DN.
+There are quite a few fields but you can leave some blank
+<span class="hljs-keyword">For</span> some fields there will be a <span class="hljs-keyword">default</span> value,
+<span class="hljs-keyword">If</span> you enter <span class="hljs-string">'.'</span>, the field will be left blank.
+-----
+Country <span class="hljs-keyword">Name</span> (<span class="hljs-number">2</span> letter code) [XX]:CN
+State <span class="hljs-keyword">or</span> Province <span class="hljs-keyword">Name</span> (full <span class="hljs-keyword">name</span>) []:Beijing
+Locality <span class="hljs-keyword">Name</span> (eg, city) [<span class="hljs-keyword">Default</span> City]:Beijing
+Organization <span class="hljs-keyword">Name</span> (eg, company) [<span class="hljs-keyword">Default</span> Company Ltd]:hao
+Organizational <span class="hljs-keyword">Unit</span> <span class="hljs-keyword">Name</span> (eg, section) []:hao
+Common <span class="hljs-keyword">Name</span> (eg, your <span class="hljs-keyword">name</span> <span class="hljs-keyword">or</span> your server<span class="hljs-string">'s hostname) []:www.hao.com
+Email Address []:admin@hao.com</span></code></pre>
+<p>SSL 创建完成后，第二部就是配置 Nginx 使用 SSL。首先是配置将 HTTP 请求的重定向到 HTTPS。</p>
+<pre><code class="hljs nginx"><span class="hljs-section">server</span> {
+    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;
+    <span class="hljs-attribute">server_name</span> localhost <span class="hljs-number">192.168.0.99</span> www.hao.com;
+
+    <span class="hljs-comment"># HTTPS 配置</span>
+    <span class="hljs-attribute">rewrite</span><span class="hljs-regexp"> ^</span> https://<span class="hljs-variable">$http_host</span><span class="hljs-variable">$request_uri</span>? <span class="hljs-literal">permanent</span>;
+}</code></pre>
+<ul>
+<li><p>rewrite，对 URL 进行重写。</p>
+<blockquote>
+<p>语法：rewrite 规则 定向路径 重写类型;</p>
+<blockquote>
+<p>规则，匹配目标 URL 的字符串或正则表达式。</p>
+</blockquote>
+<blockquote>
+<p>定向路径，匹配到规则后要定向的路径。</p>
+<blockquote>
+<p>$http_host 表示主机地址。</p>
+</blockquote>
+<blockquote>
+<p>$request_uri 表示 URI。</p>
+</blockquote>
+</blockquote>
+<blockquote>
+<p>重写类型，</p>
+<blockquote>
+<p>last，完成 rewrite 后，浏览器地址栏的 URL 不变。</p>
+</blockquote>
+<blockquote>
+<p>break，本条规则匹配完成后，终止匹配，不再匹配后面的规则，浏览器地址栏的 URL 不变。</p>
+</blockquote>
+<blockquote>
+<p>redirect，返回 302 临时重定向，浏览器地址会显示跳转后的 URL。</p>
+</blockquote>
+<blockquote>
+<p>permanent，返回 301 永久重定向，浏览器地址栏会显示跳转后的 URL。</p>
+</blockquote>
+</blockquote>
+</blockquote></li>
+</ul>
+<p>然后配置对 HTTPS 请求的处理。</p>
+<pre><code class="hljs nginx"><span class="hljs-section">server</span> {
+    <span class="hljs-attribute">listen</span> <span class="hljs-number">443</span> ssl;
+    <span class="hljs-attribute">server_name</span> www.hao.com;
+
+    <span class="hljs-attribute">ssl_certificate</span> /etc/nginx/ssl/nginx.crt;
+    <span class="hljs-attribute">ssl_certificate_key</span> /etc/nginx/ssl/nginx.key;
+    <span class="hljs-attribute">ssl_protocols</span> TLSv1 TLSv1.<span class="hljs-number">1</span> TLSv1.<span class="hljs-number">2</span>;
+    <span class="hljs-attribute">ssl_ciphers</span> HIGH:!aNULL:!MD5;
+
+    <span class="hljs-attribute">root</span> /www/nginx/https;
+    <span class="hljs-attribute">index</span> index.html index.jsp;
+        
+    <span class="hljs-attribute">keepalive_timeout</span> <span class="hljs-number">70</span>;
+        
+    <span class="hljs-attribute">server_tokens</span> <span class="hljs-literal">off</span>;
+
+    <span class="hljs-attribute">access_log</span> /var/log/nginx/www.hao.com.access.log;
+    <span class="hljs-attribute">error_log</span> /var/log/nginx/www.hao.com.<span class="hljs-literal">error</span>.log;
+}</code></pre>
+<ul>
+<li>listen，监听 443 端口并使用 ssl 参数。</li>
+<li>ssl_certificate，指定服务器证书的路径。</li>
+<li>ssl_certificate_key，指定私钥的路径。</li>
+<li>ssl_protocols，指定 SSL 协议（Nginx 默认使用）。</li>
+<li>ssl_ciphers，以 OpenSSL 库理解的格式指定密码（Nginx 默认使用）。</li>
+<li>server_tokens，关闭（显示）Nginx 版本号。</li>
+</ul>
+<p>最后重启 Nginx 以使用新的配置文件。</p>
+<pre><code class="hljs nginx"><span class="hljs-attribute">service</span> nginx restart</code></pre>
+<p>也可配置一个同时处理 HTTP/HTTPS 的服务器，server 上下文中的配置如下：</p>
+<pre><code class="hljs nginx"><span class="hljs-section">server</span> {
+    <span class="hljs-attribute">listen</span> <span class="hljs-number">80</span>;
+    <span class="hljs-attribute">listen</span> <span class="hljs-number">443</span> ssl;
+    <span class="hljs-attribute">server_name</span> <span class="hljs-number">192.168.0.99</span>;
+
+    <span class="hljs-attribute">ssl_certificate</span> /etc/nginx/ssl/nginx.crt;
+    <span class="hljs-attribute">ssl_certificate_key</span> /etc/nginx/ssl/nginx.key;
+
+    <span class="hljs-attribute">root</span> /www/nginx;
+    <span class="hljs-attribute">index</span> index.html index.jsp;
+        
+    <span class="hljs-attribute">keepalive_timeout</span> <span class="hljs-number">70</span>;
+        
+    <span class="hljs-attribute">server_tokens</span> <span class="hljs-literal">off</span>;
+
+    <span class="hljs-attribute">access_log</span> /var/log/nginx/www.hao.com.access.log;
+    <span class="hljs-attribute">error_log</span> /var/log/nginx/www.hao.com.<span class="hljs-literal">error</span>.log;   
+}</code></pre>
+<h4 id="https-服务器优化">HTTPS 服务器优化</h4>
+<p>SSL 连接会占用更多的更多的 CPU 资源（例如 SSL 握手），因此在多处理器系统上，应多运行几个工作进程（worker process）。有两种方法可以减少每个客户端执行 SSL 握手的操作：</p>
+<ul>
+<li>首先使连接 keep-alive，然后通过一个连接发送多个请求。</li>
+<li>然后是重用 SSL session 参数，以避免并行和后续连接的 SSL 握手。</li>
+</ul>
+<p>Session 存储在 worker 共享的 SSL session 高速缓存中，并可通过 ssl_session_cache 指令配置。在 http 上下文中对 session 的配置如下所示。</p>
+<pre><code class="hljs nginx"><span class="hljs-section">http</span> {
+    <span class="hljs-attribute">ssl_session_cache</span> shared:SSL:<span class="hljs-number">10m</span>;
+    <span class="hljs-attribute">ssl_session_timeout</span> <span class="hljs-number">10m</span>;
+}</code></pre>
+<ul>
+<li>ssl_session_cache，指定 SSL 共享缓存的大小为 10M。</li>
+<li>ssl_session_timeout，指定 SSL 共享缓存的超时为 10 mins。</li>
+</ul>
+</div><div id="MySignature"></div>
+<div class="clear"></div>
+<div id="blog_post_info_block">
+<div id="BlogPostCategory">分类: <a href="https://www.cnblogs.com/reghao/category/1163797.html" target="_blank">nginx</a></div>
+<div id="EntryTag"></div>
+<div id="blog_post_info"><div id="green_channel">
+        <a href="javascript:void(0);" id="green_channel_digg" onclick="DiggIt(8504719,cb_blogId,1);green_channel_success(this,&#39;谢谢推荐！&#39;);">好文要顶</a>
+            <a id="green_channel_follow" onclick="follow(&#39;3c860893-ac7f-4799-484d-08d54dba4453&#39;);" href="javascript:void(0);">关注我</a>
+    <a id="green_channel_favorite" onclick="AddToWz(cb_entryId);return false;" href="javascript:void(0);">收藏该文</a>
+    <a id="green_channel_weibo" href="javascript:void(0);" title="分享至新浪微博" onclick="ShareToTsina()"><img src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/icon_weibo_24.png" alt=""></a>
+    <a id="green_channel_wechat" href="javascript:void(0);" title="分享至微信" onclick="shareOnWechat()"><img src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/wechat.png" alt=""></a>
+</div>
+<div id="author_profile">
+    <div id="author_profile_info" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/reghao/" target="_blank"><img src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/20180806135759.png" class="author_avatar" alt=""></a>
+        <div id="author_profile_detail" class="author_profile_info">
+            <a href="http://home.cnblogs.com/u/reghao/">reghao</a><br>
+            <a href="http://home.cnblogs.com/u/reghao/followees">关注 - 0</a><br>
+            <a href="http://home.cnblogs.com/u/reghao/followers">粉丝 - 0</a>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="author_profile_honor"></div>
+    <div id="author_profile_follow">
+                <a href="javascript:void(0);" onclick="follow(&#39;3c860893-ac7f-4799-484d-08d54dba4453&#39;);return false;">+加关注</a>
+    </div>
+</div>
+<div id="div_digg">
+    <div class="diggit" onclick="votePost(8504719,&#39;Digg&#39;)">
+        <span class="diggnum" id="digg_count">0</span>
+    </div>
+    <div class="buryit" onclick="votePost(8504719,&#39;Bury&#39;)">
+        <span class="burynum" id="bury_count">0</span>
+    </div>
+    <div class="clear"></div>
+    <div class="diggword" id="digg_tips">
+    </div>
+</div>
+<script type="text/javascript">
+    currentDiggType = 0;
+</script></div>
+<div class="clear"></div>
+<div id="post_next_prev"><a href="https://www.cnblogs.com/reghao/p/8490855.html" class="p_n_p_prefix">« </a> 上一篇：<a href="https://www.cnblogs.com/reghao/p/8490855.html" title="发布于2018-03-01 22:31">Java Web 工程目录结构</a><br><a href="https://www.cnblogs.com/reghao/p/8536628.html" class="p_n_p_prefix">» </a> 下一篇：<a href="https://www.cnblogs.com/reghao/p/8536628.html" title="发布于2018-03-09 22:04">Nginx 配置反向代理和负载均衡</a><br></div>
+</div>
+
+
+		</div>
+		<div class="postDesc">posted @ <span id="post-date">2018-03-04 14:55</span> <a href="https://www.cnblogs.com/reghao/">reghao</a> 阅读(<span id="post_view_count">9817</span>) 评论(<span id="post_comment_count">0</span>)  <a href="https://i.cnblogs.com/EditPosts.aspx?postid=8504719" rel="nofollow">编辑</a> <a href="https://www.cnblogs.com/reghao/p/8504719.html#" onclick="AddToWz(8504719);return false;">收藏</a></div>
+	</div>
+	<script src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/highlight.min.js.下载"></script><script>markdown_highlight();</script><script type="text/javascript">var allowComments=true,cb_blogId=410845,cb_entryId=8504719,cb_blogApp=currentBlogApp,cb_blogUserGuid='3c860893-ac7f-4799-484d-08d54dba4453',cb_entryCreatedDate='2018/3/4 14:55:00';loadViewCount(cb_entryId);var cb_postType=1;</script>
+	
+</div><!--end: topics 文章、评论容器-->
+</div><a name="!comments"></a><div id="blog-comments-placeholder"></div><script type="text/javascript">var commentManager = new blogCommentManager();commentManager.renderComments(0);</script>
+<div id="comment_form" class="commentform">
+<a name="commentform"></a>
+<div id="divCommentShow"></div>
+<div id="comment_nav"><span id="span_refresh_tips"></span><a href="javascript:void(0);" onclick="return RefreshCommentList();" id="lnk_RefreshComments" runat="server" clientidmode="Static">刷新评论</a><a href="https://www.cnblogs.com/reghao/p/8504719.html#" onclick="return RefreshPage();">刷新页面</a><a href="https://www.cnblogs.com/reghao/p/8504719.html#top">返回顶部</a></div>
+<div id="comment_form_container"><div class="login_tips">注册用户登录后才能发表评论，请 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return login(&#39;commentform&#39;);">登录</a> 或 <a rel="nofollow" href="javascript:void(0);" class="underline" onclick="return register();">注册</a>，<a href="http://www.cnblogs.com/">访问</a>网站首页。</div></div>
+<div class="ad_text_commentbox" id="ad_text_under_commentbox"></div>
+<div id="ad_t2"><a href="http://www.ucancode.com/index.htm" target="_blank">【推荐】超50万VC++源码: 大型组态工控、电力仿真CAD与GIS源码库！</a><br><a href="http://clickc.admaster.com.cn/c/a113612,b3081535,c1705,i0,m101,8a1,8b3,h" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-EH&#39;)">【活动】华为云12.12会员节全场1折起 满额送Mate20</a><br><a href="http://clickc.admaster.com.cn/c/a116493,b2949399,c1705,i0,m101,8a1,8b3,h" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-会员节&#39;)">【活动】华为云会员节云服务特惠1折起</a><br><a href="https://cloud.tencent.com/developer/conf/2018-beijing?fromSource=gwzcw.1768694.1768694.1768694" target="_blank" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;T2-腾讯云&#39;)">【活动】腾讯云+社区开发者大会12月15日首都北京盛大起航！</a><br></div>
+<div id="opt_under_post"></div>
+<div id="cnblogs_c1" class="c_ad_block"><a href="https://cloud.tencent.com/act/special/amd?fromSource=gwzcw.1351353.1351353.1351353" target="_blank"><img width="300" height="250" src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/24442-20181129113406214-695115565.jpg" alt="腾讯云1129" onclick="ga(&#39;send&#39;, &#39;event&#39;, &#39;Link&#39;, &#39;click&#39;, &#39;C1&#39;);"></a></div>
+<div id="under_post_news"><div class="itnews c_ad_block"><b>相关博文：</b><br>·  <a href="https://www.cnblogs.com/kgdxpr/p/8482266.html" target="_blank" onclick="clickRecomItmem(8482266,&#39;WoE//7H24c2UHfKWtQ/tvKNbQXFhxc02Ah7MKCZoVLq1gV1r1ZW55MlZXLrfptUxz7acYp6qPNg3lVa4EcQwUBEIUONqCS5M4BRgCraiO13fkOp9hayXP+j3RmAiUaXfWQrkI4ubaqq8mfkpOWc=&#39;)">nginx配置http和https共存</a><br>·  <a href="https://www.cnblogs.com/kinglongdai/p/8383949.html" target="_blank" onclick="clickRecomItmem(8383949,&#39;8dGNnlmjJJzae3Hn6cMFP6fDZ6YTmiU8afTMPS9eabadyrRbrCqo7IySbNJ11ancrQEfA7RPFJsII8NyliK4gFDO597al/t9QkCttmfjKYsAUe0yOGPHq48Cqhsm5mD5xudxMZlhqoVkKF4asJ0=&#39;)">Nginx 教程 （1）：基本概念</a><br>·  <a href="https://www.cnblogs.com/1995hxt/p/6100202.html" target="_blank" onclick="clickRecomItmem(6100202,&#39;rxect5UZoDkstV8+ZgsTdSVUSbRe1fw4CVmRTdXWv+BkS6/LqIbJ9X9Snekv8vtAglxcbWfnES5bUzd3xYp+XLxoqqpBqR5mNdJ72rnZ3qBOK1Ud6jwGNE4v1J5gfxgE1k2B5udJuOJH0c0FLeM=&#39;)">转：nginx入门指南，快速搭建静态文件服务器和代理服务器</a><br>·  <a href="https://www.cnblogs.com/manongrensheng/p/7423116.html" target="_blank" onclick="clickRecomItmem(7423116,&#39;SyMFFFp2snTw4Xw2Af1mm1bYCs+adffydlP09f7gVhWIPY+Y9m+JpUvpKpDVUQ20I8havBmP/Vj82DTsQ8OpsBonyJZJTaEMIKlN45nKIK6jXAAmntkOC8wOVNTMh0a/G+7fHujTB3RmyeR2PrE=&#39;)">nginx配置https转发http</a><br>·  <a href="https://www.cnblogs.com/evai/p/7224247.html" target="_blank" onclick="clickRecomItmem(7224247,&#39;fVBzhQ9WSItn/aFk6Rr0kg0hPWIaBwDnFWAAJeRxmL/W6PNTBwuof9R/R+cLjjzIWx7X9LJprcFpBMOjzsr5ghC7B92GvebmVCeGIcUpxIdI+wRkeNav12wVcdNdSMei+tAD7AW+cqgGSub8Xbw=&#39;)">nginx配置http跳转https</a><br></div></div>
+<script async="async" src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/gpt.js.下载"></script>
+<script>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+</script>
+
+<script>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/1090369/C2', [468, 60], 'div-gpt-ad-1539008685004-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<div id="cnblogs_c2" class="c_ad_block">
+    <div id="div-gpt-ad-1539008685004-0" style="height:60px; width:468px;" data-google-query-id="CKDGmLrLld8CFUOMvQod-SIACw">
+    <script>
+    if (new Date() >= new Date(2018, 9, 13)) {
+        googletag.cmd.push(function() { googletag.display('div-gpt-ad-1539008685004-0'); });
+    }
+    </script>
+    <div id="google_ads_iframe_/1090369/C2_0__container__" style="border: 0pt none;"><iframe id="google_ads_iframe_/1090369/C2_0" title="3rd party ad content" name="google_ads_iframe_/1090369/C2_0" width="468" height="60" scrolling="no" marginwidth="0" marginheight="0" frameborder="0" style="border: 0px; vertical-align: bottom;" data-google-container-id="1" data-load-complete="true" src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/saved_resource.html"></iframe></div></div>
+</div>
+<div id="under_post_kb"><div class="itnews c_ad_block"><b>最新新闻</b>：<br> ·  <a href="https://news.cnblogs.com/n/614532/" target="_blank">体检正常 半年后查出癌症晚期！肿瘤标志物靠谱吗？</a><br> ·  <a href="https://news.cnblogs.com/n/614531/" target="_blank">全国第一单区块链理赔、发票开出：1分钟报销</a><br> ·  <a href="https://news.cnblogs.com/n/614530/" target="_blank">谷歌云——腾讯云的新盟友？</a><br> ·  <a href="https://news.cnblogs.com/n/614529/" target="_blank">谷歌涂鸦纪念纳粹德国幸存者 诺贝尔文学奖得主Nelly Sachs</a><br> ·  <a href="https://news.cnblogs.com/n/614527/" target="_blank">识别癌症DNA 这种纳米金颗粒只要10分钟</a><br>» <a href="http://news.cnblogs.com/" title="IT新闻" target="_blank">更多新闻...</a></div></div>
+<div id="HistoryToday" class="c_ad_block"></div>
+<script type="text/javascript">
+    fixPostBody();
+    setTimeout(function () { incrementViewCount(cb_entryId); }, 50);
+    deliverAdT2();
+    deliverAdC1();
+    deliverAdC2();    
+    loadNewsAndKb();
+    loadBlogSignature();
+    LoadPostInfoBlock(cb_blogId, cb_entryId, cb_blogApp, cb_blogUserGuid);
+    GetPrevNextPost(cb_entryId, cb_blogId, cb_entryCreatedDate, cb_postType);
+    loadOptUnderPost();
+    GetHistoryToday(cb_blogId, cb_blogApp, cb_entryCreatedDate);   
+</script>
+</div>
+
+
+	</div><!--end: forFlow -->
+	</div><!--end: mainContent 主体内容容器-->
+
+	<div id="sideBar">
+		<div id="sideBarMain">
+			
+			<div id="blog-calendar" style="display:none"></div><script type="text/javascript">loadBlogDefaultCalendar();</script>
+			
+			<div id="leftcontentcontainer">
+				<div id="blog-sidecolumn"><div id="sidebar_search" class="sidebar-block"></div></div><script type="text/javascript">loadBlogSideColumn();</script>
+			</div>
+			
+		</div><!--end: sideBarMain -->
+	</div><!--end: sideBar 侧边栏容器 -->
+	<div class="clear"></div>
+	</div><!--end: main -->
+	<div class="clear"></div>
+	<div id="footer">
+		
+<!--done-->
+Copyright ©2018 reghao
+	</div><!--end: footer -->
+</div><!--end: home 自定义的最大容器 -->
+
+
+<iframe id="google_osd_static_frame_2958942804959" name="google_osd_static_frame" style="display: none; width: 0px; height: 0px;" src="./Nginx 配置 HTTP 和 HTTPS - reghao - 博客园_files/saved_resource(1).html"></iframe></body></html>
