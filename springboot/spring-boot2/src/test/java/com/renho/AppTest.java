@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Unit test for simple App.
  */
-public class AppTest 
+public class AppTest
 {
     /**
      * Rigorous Test :-)
@@ -21,6 +21,5 @@ public class AppTest
         String r = "renho";
         List<String> ss = new ArrayList();
         ss.forEach(s -> s.equals(r));
-        ss.
     }
 }
