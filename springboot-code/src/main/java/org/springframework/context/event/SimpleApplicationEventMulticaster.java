@@ -126,7 +126,8 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 
 	@Override
 	public void multicastEvent(ApplicationEvent event) {
-		//resolveDefaultEventType(event):封装事件的默认类型（ApplicationStartingEvent）的ResolvableType对象
+		//1.系统启动事件：resolveDefaultEventType(event):封装事件的默认类型（ApplicationStartingEvent）的ResolvableType对象
+		//2.应用环境配置加载完成事件：org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent[source=org.springframework.boot.SpringApplication@69fb6037]
 		//发布事件
 		multicastEvent(event, resolveDefaultEventType(event));
 	}
@@ -134,10 +135,21 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 	@Override
 	public void multicastEvent(final ApplicationEvent event, @Nullable ResolvableType eventType) {
 		ResolvableType type = (eventType != null ? eventType : resolveDefaultEventType(event));
+		//1.系统启动事件
 //				0 = {LoggingApplicationListener@2610}
 //				1 = {BackgroundPreinitializer@2079}
 //				2 = {DelegatingApplicationListener@2080}
 //				3 = {LiquibaseServiceLocatorApplicationListener@2086}
+		//2.应用环境配置加载完成事件
+//		0 = {ConfigFileApplicationListener@2409}
+//		该监听器非常核心，主要用来处理项目配置。项目中的 properties 和yml文件都是其内部类所加载。
+//		1 = {AnsiOutputApplicationListener@2410}
+//		2 = {LoggingApplicationListener@2008}
+//		3 = {ClasspathLoggingApplicationListener@2411}
+//		4 = {BackgroundPreinitializer@2009}
+//		5 = {MyApplicationListener@2010}
+//		6 = {DelegatingApplicationListener@2011}
+//		7 = {FileEncodingApplicationListener@2412}
 		for (final ApplicationListener<?> listener : getApplicationListeners(event, type)) {
 			Executor executor = getTaskExecutor();
 			if (executor != null) {

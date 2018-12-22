@@ -336,12 +336,14 @@ public class SpringApplication {
 		//用来设置java.awt.headless 属性是true 还是false, java.awt.headless是J2SE的一种模式用于在缺少显示屏、键盘或者鼠标时的系统配置，很多监控工具如jconsole 需要将该值设置为true.
 		//一般是在程序开始激活headless模式，告诉程序，现在你要工作在Headless mode下，就不要指望硬件帮忙了，你得自力更生，依靠系统的计算能力模拟出这些特性来:
 		configureHeadlessProperty();
+		//1.启动监听器
 		SpringApplicationRunListeners listeners = getRunListeners(args);
 		//renho ApplicationStartingEvent
 		listeners.starting();
 		try {
 			ApplicationArguments applicationArguments = new DefaultApplicationArguments(
 					args);
+			//2.构造容器环境
 			ConfigurableEnvironment environment = prepareEnvironment(listeners,
 					applicationArguments);
 			configureIgnoreBeanInfo(environment);
@@ -381,8 +383,21 @@ public class SpringApplication {
 			SpringApplicationRunListeners listeners,
 			ApplicationArguments applicationArguments) {
 		// Create and configure the environment
+//		根据不同类型创建不同实例
+//		switch (this.webApplicationType) {
+//			case SERVLET:
+//				会完成一系列初始化动作，主要就是将运行机器的系统变量和环境变量，加入到其父类AbstractEnvironment定义的对象MutablePropertySources中
+//				return new StandardServletEnvironment();
+//			case REACTIVE:
+//				return new StandardReactiveWebEnvironment();
+//			default:
+//				return new StandardEnvironment();
+//		}
+
 		ConfigurableEnvironment environment = getOrCreateEnvironment();
+		//配置
 		configureEnvironment(environment, applicationArguments.getSourceArgs());
+		//发布环境已准备事件，这是第二次发布事件(系统环境初始化完成的事件)
 		listeners.environmentPrepared(environment);
 		bindToSpringApplication(environment);
 		if (!this.isCustomEnvironment) {
@@ -539,11 +554,14 @@ public class SpringApplication {
 	protected void configureEnvironment(ConfigurableEnvironment environment,
 			String[] args) {
 		if (this.addConversionService) {
+		    //获取各种转换服务
 			ConversionService conversionService = ApplicationConversionService
 					.getSharedInstance();
+			//设置到环境中
 			environment.setConversionService(
 					(ConfigurableConversionService) conversionService);
 		}
+        //MutablePropertySources类中propertySourceList已经存在的属性为commandLineArgs、servletConfigInitParams、servletContextInitParams、jndiProperties（如果存在）、systemProperties、systemEnvironment、defaultProperties（如果存在）
 		configurePropertySources(environment, args);
 		configureProfiles(environment, args);
 	}
