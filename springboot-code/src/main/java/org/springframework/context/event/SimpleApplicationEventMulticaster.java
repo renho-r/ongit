@@ -150,6 +150,13 @@ public class SimpleApplicationEventMulticaster extends AbstractApplicationEventM
 //		5 = {MyApplicationListener@2010}
 //		6 = {DelegatingApplicationListener@2011}
 //		7 = {FileEncodingApplicationListener@2412}
+		//3.启动完成
+//		0 = {BackgroundPreinitializer@6884}
+//		1 = {DelegatingApplicationListener@6885}
+		//4.org.springframework.boot.context.event.ApplicationReadyEvent[source=org.springframework.boot.SpringApplication@5f69e2b]
+//		0 = {SpringApplicationAdminMXBeanRegistrar@6897}
+//		1 = {BackgroundPreinitializer@6898}
+//		2 = {DelegatingApplicationListener@6899}
 		for (final ApplicationListener<?> listener : getApplicationListeners(event, type)) {
 			Executor executor = getTaskExecutor();
 			if (executor != null) {

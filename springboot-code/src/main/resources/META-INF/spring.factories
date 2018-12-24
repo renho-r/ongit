@@ -1,2 +1,2 @@
 # Application Listeners
-org.springframework.context.ApplicationListener=com.renho.springbootcode.listener.MyApplicationListener
+#org.springframework.context.ApplicationListener=com.renho.springbootcode.listener.MyApplicationListener

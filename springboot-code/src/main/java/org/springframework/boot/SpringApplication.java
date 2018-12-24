@@ -343,25 +343,36 @@ public class SpringApplication {
 		try {
 			ApplicationArguments applicationArguments = new DefaultApplicationArguments(
 					args);
-			//2.构造容器环境
+			//2.构造容器环境发布环境准备完成事件
 			ConfigurableEnvironment environment = prepareEnvironment(listeners,
 					applicationArguments);
+			//设置需要忽略的bean key=spring.beaninfo.ignore
 			configureIgnoreBeanInfo(environment);
+			//打印banner
 			Banner printedBanner = printBanner(environment);
+			//3.创建容器 org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext
+			//会使用org.springframework.beans.factory.support.DefaultListableBeanFactory
 			context = createApplicationContext();
+			//4.实例化SpringBootExceptionReporter.class，用来支持报告关于启动的错误
 			exceptionReporters = getSpringFactoriesInstances(
 					SpringBootExceptionReporter.class,
 					new Class[] { ConfigurableApplicationContext.class }, context);
+			//5.准备容器
+			//将启动类注入容器，为后续开启自动化配置奠定基础
 			prepareContext(context, environment, listeners, applicationArguments,
 					printedBanner);
+			//6.刷新容器 spring
 			refreshContext(context);
+			//7.刷新容器后的扩展接口 空实现 可扩展
 			afterRefresh(context, applicationArguments);
 			stopWatch.stop();
 			if (this.logStartupInfo) {
 				new StartupInfoLogger(this.mainApplicationClass)
 						.logStarted(getApplicationLog(), stopWatch);
 			}
+			//SpringApplicationRunListeners ApplicationStartedEvent
 			listeners.started(context);
+//			调用Spring容器中的ApplicationRunner和CommandLineRunner接口的实现类 与springboot1.x区别
 			callRunners(context, applicationArguments);
 		}
 		catch (Throwable ex) {
@@ -399,11 +410,23 @@ public class SpringApplication {
 		configureEnvironment(environment, applicationArguments.getSourceArgs());
 		//发布环境已准备事件，这是第二次发布事件(系统环境初始化完成的事件)
 		listeners.environmentPrepared(environment);
+//		propertySourceList = {CopyOnWriteArrayList@2984}  size = 5
+//		0 = {PropertySource$StubPropertySource@2931} "StubPropertySource {name='servletConfigInitParams'}"
+//		1 = {PropertySource$StubPropertySource@2932} "StubPropertySource {name='servletContextInitParams'}"
+//		2 = {MapPropertySource@2933} "MapPropertySource {name='systemProperties'}"
+//		3 = {SystemEnvironmentPropertySourceEnvironmentPostProcessor$OriginAwareSystemEnvironmentPropertySource@2934} "OriginAwareSystemEnvironmentPropertySource {name='systemEnvironment'}"
+//		4 = {RandomValuePropertySource@2935} "RandomValuePropertySource {name='random'}"
+//		5 = {OriginTrackedMapPropertySource@2936} "OriginTrackedMapPropertySource {name='applicationConfig: [classpath:/application.properties]'}"
+//		6 = {OriginTrackedMapPropertySource@2937} "OriginTrackedMapPropertySource {name='applicationConfig: [classpath:/application.yml]'}"
+		//序号小的会覆盖大的
+		//将获取到的environment中的spring.main配置绑定到SpringApplication的source中。
 		bindToSpringApplication(environment);
+		// 如果是非web环境，将环境转换成StandardEnvironment
 		if (!this.isCustomEnvironment) {
 			environment = new EnvironmentConverter(getClassLoader())
 					.convertEnvironmentIfNecessary(environment, deduceEnvironmentClass());
 		}
+		// 配置PropertySources对它自己的递归依赖
 		ConfigurationPropertySources.attach(environment);
 		return environment;
 	}
@@ -422,28 +445,52 @@ public class SpringApplication {
 	private void prepareContext(ConfigurableApplicationContext context,
 			ConfigurableEnvironment environment, SpringApplicationRunListeners listeners,
 			ApplicationArguments applicationArguments, Banner printedBanner) {
+		//设置容器环境，包括各种变量
 		context.setEnvironment(environment);
+		//执行容器后置处理--扩展
 		postProcessApplicationContext(context);
+		//执行容器中的ApplicationContextInitializer（包括 spring.factories和自定义的实例）所有initializer的initialize方法
 		applyInitializers(context);
+		//发送容器已经准备好的事件，通知各监听器
+		//事件: org.springframework.boot.context.event.ApplicationContextInitializedEvent[source=org.springframework.boot.SpringApplication@6179e425]
 		listeners.contextPrepared(context);
+		//打印log
 		if (this.logStartupInfo) {
 			logStartupInfo(context.getParent() == null);
 			logStartupProfileInfo(context);
 		}
 		// Add boot specific singleton beans
+		//注册启动参数bean，这里将容器指定的参数封装成bean，注入容器
+
 		ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+		//注册单例，需要实例对象
 		beanFactory.registerSingleton("springApplicationArguments", applicationArguments);
+		//设置banner
 		if (printedBanner != null) {
 			beanFactory.registerSingleton("springBootBanner", printedBanner);
 		}
 		if (beanFactory instanceof DefaultListableBeanFactory) {
+			//允许bean定义覆盖
 			((DefaultListableBeanFactory) beanFactory)
 					.setAllowBeanDefinitionOverriding(this.allowBeanDefinitionOverriding);
 		}
 		// Load the sources
+		//获取我们的启动类指定的参数，可以是多个
 		Set<Object> sources = getAllSources();
 		Assert.notEmpty(sources, "Sources must not be empty");
+		//加载我们的启动类，将启动类注入容器
+//		this.includeFilters = {LinkedList@4170}  size = 3
+//		0 = {AnnotationTypeFilter@4272}
+//		annotationType = {Class@4291} "interface org.springframework.stereotype.Component"
+//		1 = {AnnotationTypeFilter@4273}
+//		annotationType = {Class@4294} "interface javax.annotation.ManagedBean"
+//		2 = {AnnotationTypeFilter@4274}
+//		annotationType = {Class@4297} "interface javax.inject.Named"
+//		ClassExcludeFilter
+//		this.classNames = {HashSet@3894}  size = 1
+//		0 = "com.renho.springbootcode.SpringbootCodeApplication"
 		load(context, sources.toArray(new Object[0]));
+		//发布容器已加载事件。 org.springframework.boot.context.event.ApplicationPreparedEvent[source=org.springframework.boot.SpringApplication@3401a114]
 		listeners.contextLoaded(context);
 	}
 
