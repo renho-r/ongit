@@ -19,5 +19,11 @@ public class App {
         Stream.of(applicationContext.getBeanDefinitionNames()).forEach(log::info);
         log.info("-------------------------------------->");
         applicationContext.getBeansOfType(MyBean.class).forEach(log::info);
+        log.info(String.valueOf(applicationContext.containsBean("com.renho.spring5code.myimport.MyImportBean")));
+        log.info(String.valueOf(applicationContext.containsBean("myImportBeanByMyImportBeanDefinitionRegistrar")));
+
+        log.info(applicationContext.getBean("&myFactoryBean").getClass().toString());
+        log.info(applicationContext.getBean("myFactoryBean").getClass().toString());
+        ((AnnotationConfigApplicationContext) applicationContext).close();
     }
 }
