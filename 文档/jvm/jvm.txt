@@ -1,0 +1,4 @@
+jstack
+jmap
+
+jmap -dump:format=b, file=heapdump.phrof pid

@@ -8,13 +8,13 @@ import com.renho.test.eventtest.event.ActionLogic;
 public class TestMain {
 
 	/**
-	 * 
+	 *
 	 * @param args
 	 */
 
 	@SuppressWarnings("resource")
 	public static void main(String[] args) {
-		ApplicationContext ctx = new FileSystemXmlApplicationContext("/src/springbean/event.xml");
+		ApplicationContext ctx = new FileSystemXmlApplicationContext("classpath:springbean/event.xml");
 		ActionLogic logic = (ActionLogic) ctx.getBean("actionLogic");
 		logic.execute();
 	}

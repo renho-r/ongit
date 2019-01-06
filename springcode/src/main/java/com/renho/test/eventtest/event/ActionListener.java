@@ -12,12 +12,13 @@ import com.renho.bean.pojo.Person;
 public class ActionListener implements ApplicationListener {
 
 	private List<Person> list = new ArrayList<Person>();
-	
+
 	public ActionListener() {
 		list.add(new Person("admin", "apass"));
 		list.add(new Person("renho", "rpass"));
+		System.out.println("ActionListener");
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void onApplicationEvent(ApplicationEvent event) {
 		System.out.println("ActionListener:onApplicationEvent");
