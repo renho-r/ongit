@@ -1,0 +1,7 @@
+1.consul启动
+    ./consul agent -server -bootstrap-expect 1 -data-dir /tmp/consul -bind 192.168.111.130 -client 0.0.0.0 -ui
+2.api
+    https://www.consul.io/api/agent.html
+    2.1 List Services
+        curl http://192.168.111.130:8500/v1/agent/services
+    2.2
