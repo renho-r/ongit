@@ -19,13 +19,13 @@ public class Test {
 			
 			OutputStream out = socket.getOutputStream();
 			
-			/*响应头 start*/
+			/*???? start*/
 			out.write("HTTP/1.1 200 OK \r\n".getBytes());
 			out.write("Content-Type: text/html;charset=utf-8\r\n".getBytes());
 			out.write("\r\n".getBytes());
-			/*响应头end*/
+			/*????end*/
 			
-			/*响应正文 start*/
+			/*??????? start*/
 			File file = new File("F:\\workspace\\ongit\\renhoServer\\WebRoot\\", "index.html");
 			if (file.exists()) {
 				FileInputStream fis = new FileInputStream(file);
@@ -37,7 +37,7 @@ public class Test {
 				}
 				fis.close();
 			}
-			/*响应正文 end*/
+			/*??????? end*/
 			out.close();
 			socket.close();
 		}
