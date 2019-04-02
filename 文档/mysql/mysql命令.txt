@@ -95,3 +95,27 @@
 	SET character_set_client = utf8 ; 
 	SET character_set_connection = utf8 ; 
   set character_set_results=utf8;
+16.隔离级别
+  查看
+    -- SELECT @@tx_isolation;
+    SELECT @@global.transaction_isolation;
+    SELECT @@transaction_isolation;
+  设置事务的隔离 级别：
+    set  [glogal | session]  transaction isolation level 隔离级别名称;
+    set tx_isolation=’隔离级别名称;’
+
+    set global transaction isolation level read uncommitted;
+    SET transaction_isolation='read-uncommitted';
+
+    set global transaction isolation level read committed;
+    SET transaction_isolation='read-committed';
+
+    set global transaction isolation level repeatable read;
+    SET transaction_isolation='repeatable-read';
+
+    set global transaction isolation level serializable;
+    SET transaction_isolation='serializable';
+  开启事务
+    start transaction;
+    rollback;
+    commit;

@@ -29,6 +29,8 @@
 	--network renho --ip 172.22.0.100 \
 	--restart=unless-stopped \
 	-d nginx
+9.查看ip
+    docker inspect -f '{{.Name}} - {{.NetworkSettings.IPAddress }}' $(docker ps -aq)
 
 
  netstat -anp|grep 2375
