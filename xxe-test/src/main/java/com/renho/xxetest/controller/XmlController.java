@@ -41,5 +41,12 @@ public class XmlController {
         in.close();
         return username;
     }
-
+    //界面发送
+    /*<?xml version="1.0" encoding="utf-8"?>
+    <!DOCTYPE entity [
+    <!ENTITY file SYSTEM "file:///F:\workspace\ongit\spring-boot-demo\spring-boot-demo-mybatis\src\main\resources\application.yml">
+    ]>
+    <xml>
+    <username>&file;</username>
+    </xml>*/
 }
