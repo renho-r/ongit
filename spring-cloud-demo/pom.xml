@@ -18,6 +18,12 @@
     <modules>
         <module>eureka-server</module>
         <module>zuul-server</module>
+        <module>my-service</module>
+        <module>my-common</module>
+        <module>ribbon-server</module>
+        <module>feign-server</module>
+        <module>histrix-server</module>
+        <module>eureka-client</module>
     </modules>
 
     <properties>
@@ -48,13 +54,13 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
+    <!--<build>-->
+        <!--<plugins>-->
+            <!--<plugin>-->
+                <!--<groupId>org.springframework.boot</groupId>-->
+                <!--<artifactId>spring-boot-maven-plugin</artifactId>-->
+            <!--</plugin>-->
+        <!--</plugins>-->
+    <!--</build>-->
 
 </project>

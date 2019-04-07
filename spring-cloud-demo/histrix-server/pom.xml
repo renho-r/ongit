@@ -8,14 +8,14 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.renho</groupId>
-    <artifactId>zuul-server</artifactId>
+    <artifactId>histrix-server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>zuul-server</name>
+    <name>histrix-server</name>
     <packaging>pom</packaging>
     <description>Demo project for Spring Boot</description>
 
     <modules>
-        <module>zuul-server-simple</module>
+        <module>histrix-server-simple</module>
     </modules>
 
     <properties>
@@ -26,21 +26,9 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-eureka</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

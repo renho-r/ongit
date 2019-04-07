@@ -1,0 +1,11 @@
+server:
+  port: 9200
+spring:
+  application:
+    name: feign-server
+  zipkin:
+    base-url: http://127.0.0.1:10000
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://192.168.0.150:8761/eureka/

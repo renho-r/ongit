@@ -4,47 +4,36 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.renho</groupId>
-        <artifactId>spring-cloud-demo</artifactId>
+        <artifactId>histrix-server</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>com.renho</groupId>
-    <artifactId>zuul-server</artifactId>
+    <artifactId>histrix-server-simple</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>zuul-server</name>
-    <packaging>pom</packaging>
+    <name>histrix-server-simple</name>
+    <packaging>jar</packaging>
     <description>Demo project for Spring Boot</description>
-
-    <modules>
-        <module>zuul-server-simple</module>
-    </modules>
 
     <properties>
         <java.version>1.8</java.version>
-        <spring-cloud.version>Edgware.SR5</spring-cloud.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-zuul</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-sleuth</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.renho</groupId>
+            <artifactId>my-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 
