@@ -10,4 +10,4 @@ eureka:
       defaultZone: http://myserver:8761/eureka/
 server:
   port: 8763
-
+debug: true

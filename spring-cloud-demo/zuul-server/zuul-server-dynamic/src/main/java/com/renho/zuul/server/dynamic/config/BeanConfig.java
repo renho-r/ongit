@@ -1,5 +1,6 @@
-package com.renho.zuul.server.dynamic;
+package com.renho.zuul.server.dynamic.config;
 
+import com.renho.zuul.server.dynamic.routelocator.MyZuulServerRouteLocator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
@@ -15,8 +16,10 @@ public class BeanConfig {
     ServerProperties server;
 
     @Bean
-    public LogServerRouteLocator getRouteLocator() {
-        return new LogServerRouteLocator(this.server.getServletPath(), this.zuulProperties);
+    public MyZuulServerRouteLocator getRouteLocator() {
+        this.zuulProperties.setPrefix("/api");
+        this.zuulProperties.setStripPrefix(true);
+        return new MyZuulServerRouteLocator(this.server.getServletPath(), this.zuulProperties);
     }
 
 }
