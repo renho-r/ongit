@@ -1,0 +1,23 @@
+server:
+  port: 9000
+debug: true
+zuul:
+  prefix: /api
+  strip-prefix: true
+  routes:
+    user:
+      path: /user/**
+      serviceId: user-service
+      stripPrefix: false
+    product:
+      path: /product/**
+      url: http://127.0.0.1:8773
+      stripPrefix: false
+    lb-user:
+      path: /lb/**
+      serviceId: lb-user-service
+      stripPrefix: true
+    feign-user:
+      path: /feign/**
+      serviceId: feign-server
+      stripPrefix: true
