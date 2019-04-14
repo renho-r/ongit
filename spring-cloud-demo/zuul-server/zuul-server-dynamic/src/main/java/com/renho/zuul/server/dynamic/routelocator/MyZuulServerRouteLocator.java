@@ -46,11 +46,11 @@ public class MyZuulServerRouteLocator extends SimpleRouteLocator implements Refr
         path = "/api/product/**";
         zr = new ZuulRoute();
         zr.setServiceId("PRODUCT-SERVICE");
-        zr.setId("product");
+        zr.setId("/api/product");
         zr.setPath(path);
 //        zr.setUrl("http://127.0.0.1:8773");
         zr.setStripPrefix(false);
-
+//
         routesMap.put(path, zr);
 
         return routesMap;

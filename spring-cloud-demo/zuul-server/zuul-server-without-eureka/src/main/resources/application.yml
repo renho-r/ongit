@@ -21,3 +21,6 @@ zuul:
       path: /feign/**
       serviceId: feign-server
       stripPrefix: true
+lb-user-service:
+    ribbon:
+      listOfServers: http://127.0.0.1:8763

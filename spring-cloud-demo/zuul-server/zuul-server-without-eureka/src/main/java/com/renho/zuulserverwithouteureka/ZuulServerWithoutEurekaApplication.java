@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.netflix.zuul.EnableZuulServer;
 
-//@EnableZuulProxy
-@EnableZuulServer
+@EnableZuulProxy
+//@EnableZuulServer
 @SpringBootApplication
 public class ZuulServerWithoutEurekaApplication {
 
