@@ -9,15 +9,15 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://myserver:8761/eureka/
-zuul:
-  routes:
-    product:
-      path: /product/**
-      serviceId: p-service
-      stripPrefix: false
-p-service:
-  ribbon:
-    listOfServers: http://127.0.0.1:8773
+#zuul:
+#  routes:
+#    product:
+#      path: /product/**
+#      serviceId: p-service
+#      stripPrefix: false
+#p-service:
+#  ribbon:
+#    listOfServers: http://127.0.0.1:8773
 management:
   security:
     enabled: false

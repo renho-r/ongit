@@ -50,7 +50,24 @@ public class MyZuulServerRouteLocator extends SimpleRouteLocator implements Refr
         zr.setPath(path);
 //        zr.setUrl("http://127.0.0.1:8773");
         zr.setStripPrefix(false);
-//
+        routesMap.put(path, zr);
+
+        path = "/api/zuul/**";
+        zr = new ZuulRoute();
+        zr.setServiceId("ZUUL-SERVICE-CONFIG");
+        zr.setId("/api/zuul");
+        zr.setPath(path);
+        zr.setUrl("http://127.0.0.1:9000");
+        zr.setStripPrefix(true);
+        routesMap.put(path, zr);
+
+        path = "/api/**";
+        zr = new ZuulRoute();
+        zr.setServiceId("ZUUL-SERVICE");
+        zr.setId("/api");
+        zr.setPath(path);
+//        zr.setUrl("http://127.0.0.1:8773");
+        zr.setStripPrefix(false);
         routesMap.put(path, zr);
 
         return routesMap;

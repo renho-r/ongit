@@ -27,10 +27,10 @@ public class RibbonConfigController {
     @GetMapping("/ribbon/product/{name}")
     public Object ribbon(@PathVariable("name") String name) {
         Object result;
-        ServiceInstance instance = loadBalancerClient.choose("product-service");
+        ServiceInstance instance = loadBalancerClient.choose("PRODUCT-SERVICE");
         System.out.println("host:" + instance.getHost() + ",port:" + instance.getPort() + ",serviceId=" + instance.getServiceId() + ",uri=" + instance.getUri());
         result = this.balanceRestTemplate.getForObject("http://" + instance.getServiceId() + "/product/info/" + name, Object.class);
-        instance = ribbonLoadBalancerClient.choose("user-service");
+        instance = ribbonLoadBalancerClient.choose("USER-SERVICE");
         System.out.println("host:" + instance.getHost() + ",port:" + instance.getPort() + ",serviceId=" + instance.getServiceId() + ",uri=" + instance.getUri());
         System.out.println("=============");
         return result;
