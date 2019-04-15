@@ -24,6 +24,7 @@
         <module>feign-server</module>
         <module>histrix-server</module>
         <module>eureka-client</module>
+        <module>test</module>
     </modules>
 
     <properties>
