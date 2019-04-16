@@ -1,4 +1,4 @@
-package com.renho.springbootcode.starter;
+package com.renho.my.starter;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

@@ -1,7 +1,6 @@
 package com.renho.springbootcode.listener;
 
 import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.GenericApplicationListener;
 import org.springframework.core.ResolvableType;
 
@@ -15,7 +14,7 @@ public class MyApplicationListener implements GenericApplicationListener {
 
     @Override
     public void onApplicationEvent(ApplicationEvent event) {
-        System.out.println("MyApplicationListener onApplicationEvent");
+        System.out.println("MyApplicationListener onApplicationEvent: " + event);
     }
 
     /**

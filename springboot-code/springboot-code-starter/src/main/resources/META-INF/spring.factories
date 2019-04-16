@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.renho.springbootcode.starter.MyAutoConfiguration
+com.renho.my.starter.MyAutoConfiguration

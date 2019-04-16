@@ -6,6 +6,13 @@ package com.renho.springbootcode.domain.pojo;
  */
 public class TbUser {
 
+    public TbUser() {}
+
+    public TbUser(Long id, String userName) {
+        this.id = id;
+        this.userName = userName;
+    }
+
     private Long id;
     private String userName;
 

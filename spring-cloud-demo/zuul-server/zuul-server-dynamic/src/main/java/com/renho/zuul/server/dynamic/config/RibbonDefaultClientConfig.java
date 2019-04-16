@@ -7,8 +7,12 @@ import com.netflix.client.config.IClientConfig;
 import com.netflix.discovery.EurekaClient;
 import com.netflix.loadbalancer.*;
 import com.netflix.niws.loadbalancer.DiscoveryEnabledNIWSServerList;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.netflix.ribbon.*;
 import org.springframework.cloud.netflix.ribbon.eureka.DomainExtractingServerList;
@@ -24,7 +28,7 @@ import javax.inject.Provider;
 @Configuration
 @EnableConfigurationProperties
 @ExcludeComponent
-public class RibbonDefaultClientConfig {
+public class RibbonDefaultClientConfig/* implements BeanFactoryPostProcessor*/ {
 
     public static final int DEFAULT_CONNECT_TIMEOUT = 1000;
     public static final int DEFAULT_READ_TIMEOUT = 1000;
@@ -156,4 +160,11 @@ public class RibbonDefaultClientConfig {
         }
     }
 
+    private ConfigurableListableBeanFactory beanFactory;
+
+//    @Override
+//    public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
+//        this.beanFactory = beanFactory;
+//        ((DefaultListableBeanFactory) this.beanFactory).removeBeanDefinition("ribbonRule");
+//    }
 }

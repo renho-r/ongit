@@ -1,4 +1,4 @@
-package com.renho.springbootcode.starter;
+package com.renho.my.starter;
 
 /**
  * @author: xxxxx
