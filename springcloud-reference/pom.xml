@@ -7,6 +7,8 @@
         <module>Customizing-the-BootstrapPropertySources</module>
         <module>RefreshScope</module>
         <module>ServiceRegistry</module>
+        <module>Standalone-Eureka-Server</module>
+        <module>Eureka-Client</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
