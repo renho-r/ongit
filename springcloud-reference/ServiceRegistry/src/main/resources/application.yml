@@ -1,0 +1,18 @@
+refresh.scope.param: 1000
+management:
+  port: 54001
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*" #暴露所有端点 默认是info,health
+server:
+  port: 8080
+spring:
+  application:
+    name: eureka-client-serviceregistry
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://myserver:8761/eureka/

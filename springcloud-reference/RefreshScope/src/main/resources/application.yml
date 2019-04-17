@@ -1,0 +1,14 @@
+refresh.scope.param: 1000
+management:
+  port: 54001
+  security:
+    enabled: false
+endpoints:
+  # 启用pause端点
+  pause:
+    enabled: true
+  # 启用restart端点，之所以要启用restart端点，是因为pause端点的启用依赖restart端点的启用
+  restart:
+    enabled: true
+server:
+  port: 8080
