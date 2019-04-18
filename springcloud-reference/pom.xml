@@ -9,6 +9,7 @@
         <module>ServiceRegistry</module>
         <module>Standalone-Eureka-Server</module>
         <module>Eureka-Client</module>
+        <module>Hystrix-Simple</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>

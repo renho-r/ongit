@@ -1,8 +1,8 @@
 server:
-  port: 8763
+  port: 8765
 spring:
   application:
-    name: eureka-client
+    name: hystrix-client
 management:
   security:
     enabled: false
@@ -23,24 +23,4 @@ eureka:
 #    com.netflix: DEBUG
 endpoints:
   health:
-    path: /myhealth
-
-
-#server:
-#  port: 8763
-#eureka:
-#  instance:
-##    statusPageUrlPath: /info
-#    healthCheckUrlPath: /healthaaaaaaaaaaaaa
-#    preferIpAddress: true
-##    instance-id: http://192.168.21.100:8763
-#    ip-address: 192.168.21.100
-#  client:
-#    serviceUrl:
-#      defaultZone: http://192.168.21.100:8761/eureka/
-#    healthcheck:
-#      enabled: true
-#spring:
-#  application:
-#    name: eureka-client
-
+    path: /health
