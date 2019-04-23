@@ -5,6 +5,7 @@ import reactor.core.publisher.Flux;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
 
@@ -40,6 +41,12 @@ public class FluxTest {
                 item.complete();
             }
             return list;
+        }).subscribe(System.out::println);
+
+        Flux.generate(FluxTest::new, (a, b) -> {
+            System.out.println(a);
+            b.complete();
+            return a;
         }).subscribe(System.out::println);
     }
 
