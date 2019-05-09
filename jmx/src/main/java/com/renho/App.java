@@ -12,6 +12,8 @@ import java.io.IOException;
  */
 public class App {
 
+    //-Djava.rmi.server.hostname=192.168.21.100 -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false
+
     public static void main( String[] args ) throws MalformedObjectNameException, IOException, AttributeNotFoundException, InvalidAttributeValueException, ReflectionException, InstanceNotFoundException, MBeanException, IntrospectionException {
 
         JMXServiceURL serviceURL = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:1099/jmxrmi");
