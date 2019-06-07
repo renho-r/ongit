@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4ace3fd3-7361-420a-b305-2d4f01a4b995" name="Default" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/../reactor3/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../reactor3/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../spring-webflux/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
@@ -31,6 +32,9 @@
       <change beforePath="$PROJECT_DIR$/../文档/spring/._spring事务.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../文档/spring/springcloud/springcloud.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../文档/vue/vue.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../文档/vue/vue.txt" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/../spring-cloud/spring-cloud-demo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-cloud/spring-cloud-demo/.idea/workspace.xml" afterDir="false" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -148,7 +152,10 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+<<<<<<< HEAD
       <pane id="Scope" />
+=======
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -161,6 +168,10 @@
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+<<<<<<< HEAD
+=======
+      <pane id="Scope" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -323,8 +334,12 @@
       <workItem from="1544258215499" duration="270000" />
       <workItem from="1544621499216" duration="74000" />
       <workItem from="1545316304138" duration="74000" />
+<<<<<<< HEAD
       <workItem from="1555555969651" duration="1221000" />
       <workItem from="1556375020355" duration="100000" />
+=======
+      <workItem from="1555334302562" duration="37000" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
     </task>
     <task id="LOCAL-00001" summary="20180314_renho_commit_springboot">
       <created>1521020860260</created>
@@ -337,7 +352,11 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="15525000" />
+=======
+    <option name="totallyTimeSpent" value="14241000" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -351,7 +370,11 @@
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <layout>
+<<<<<<< HEAD
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17803837" />
+=======
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17784877" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
       <window_info id="Structure" order="1" weight="0.24973376" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -372,7 +395,11 @@
       <window_info anchor="bottom" id="Messages" order="10" weight="0.3697561" />
       <window_info anchor="bottom" id="Java Enterprise" order="11" weight="0.3297561" />
       <window_info anchor="bottom" id="Version Control" order="12" />
+<<<<<<< HEAD
       <window_info anchor="bottom" id="Run Dashboard" order="13" visible="true" weight="0.3583691" />
+=======
+      <window_info anchor="bottom" id="Run Dashboard" order="13" visible="true" weight="0.3463035" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
       <window_info anchor="bottom" id="Database Changes" order="14" show_stripe_button="false" />
       <window_info anchor="bottom" id="Tail" order="15" />
       <window_info anchor="bottom" id="Docker" order="16" show_stripe_button="false" />

@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f41db032-0511-4087-bd0a-17c06ab843c0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/../../spring-boot-demo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../spring-boot-demo/.idea/workspace.xml" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/../../spring-cloud-demo/ribbon-server/ribbon-server-simple/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../../spring-cloud-demo/ribbon-server/ribbon-server-simple/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../spring-webflux/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../spring-webflux/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../springboot2-oauth2/oauth/oauth-server-jwt/src/main/java/com/renho/oauth/config/OauthServerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../springboot2-oauth2/oauth/oauth-server-jwt/src/main/java/com/renho/oauth/config/OauthServerConfig.java" afterDir="false" />
@@ -17,6 +18,9 @@
       <change beforePath="$PROJECT_DIR$/../../文档/spring/._spring事务.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../../文档/spring/springcloud/springcloud.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../../文档/vue/vue.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../文档/vue/vue.txt" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -56,6 +60,7 @@
     <select />
   </component>
   <component name="FileEditorManager">
+<<<<<<< HEAD
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/pom.xml">
@@ -65,6 +70,9 @@
         </entry>
       </file>
     </leaf>
+=======
+    <leaf />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -147,11 +155,10 @@
       <select />
     </treeState>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="16" />
-    <option name="y" value="187" />
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
     <option name="width" value="1920" />
-    <option name="height" value="1100" />
+    <option name="height" value="1120" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -159,8 +166,11 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+<<<<<<< HEAD
       <pane id="PackagesPane" />
       <pane id="Scope" />
+=======
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -172,6 +182,11 @@
           <select />
         </subPane>
       </pane>
+<<<<<<< HEAD
+=======
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -390,17 +405,31 @@
       <workItem from="1554101955941" duration="12000" />
       <workItem from="1554170244128" duration="1361000" />
       <workItem from="1554363516982" duration="857000" />
+<<<<<<< HEAD
       <workItem from="1557799250220" duration="83000" />
+=======
+      <workItem from="1554724672764" duration="22000" />
+      <workItem from="1555334348321" duration="2000" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="59047000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21108742" />
+=======
+    <option name="totallyTimeSpent" value="58988000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="23" width="1920" height="1120" extended-state="0" />
+    <layout>
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2172524" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
