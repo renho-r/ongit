@@ -1,0 +1,116 @@
+主机1: net-0 ip: 172.16.117.130 192.168.0.115
+主机1: net-0 ip: 172.16.117.131 192.168.0.116
+
+
+1.上传openvswitch-2.5.8.tar.gz
+2. 安装openvswitch
+	安装依赖
+	sudo yum -y install openssl-devel gcc make python-devel openssl-devel kernel-devel graphviz kernel-debug-devel autoconf automake rpm-build redhat-rpm-config libtool net-tools
+	mkdir -p ~/rpmbuild/SOURCES
+	cp openvswitch-2.5.8.tar.gz ~/rpmbuild/SOURCES/ 
+	cd ~/rpmbuild/SOURCES
+	tar xvfz openvswitch-2.5.8.tar.gz
+	sed 's/openvswitch-kmod, //g' openvswitch-2.5.8/rhel/openvswitch.spec > openvswitch-2.5.8/rhel/openvswitch_no_kmod.spec
+	rpmbuild -bb --nocheck openvswitch-2.5.8/rhel/openvswitch_no_kmod.spec
+	yum localinstall -y ~/rpmbuild/RPMS/x86_64/openvswitch-2.5.8-1.x86_64.rpm
+
+	sudo mkdir /etc/openvswitch
+	setenforce 0
+	sudo systemctl start openvswitch.service
+	sudo systemctl status openvswitch.service -l
+
+3.安装bridge-utils
+	sudo yum install -y bridge-utils
+
+4.安装docker
+	yum install -y yum-utils device-mapper-persistent-data lvm2
+	yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+	yum install -y docker-ce
+	systemctl start docker
+5.配置docker加速
+	sudo mkdir -p /etc/docker
+	sudo tee /etc/docker/daemon.json <<-'EOF'
+	{
+	  "registry-mirrors": ["https://6n3qqtu3.mirror.aliyuncs.com"]
+	}
+	EOF
+	sudo systemctl daemon-reload
+	sudo systemctl restart docker
+	docker pull centos:7
+6.115配置
+	配置ip转发
+	# 测试时不起作用 sysctl -w net.ipv4.ip_forward=1
+		vi /etc/sysctl.d/99-sysctl.conf 
+		添加：
+			net.ipv4.ip_forward = 1
+		sysctl -p
+	通过ovs-vsctl创建ob0网桥并绑定IP
+		ovs-vsctl add-br ob0
+		ovs-vsctl add-port ob0 gre0 -- set Interface gre0 type=gre options:remote_ip=192.168.0.115
+	通过brctl创建kbr0网桥和ob0关联，并删除docker0网桥的关联：
+		brctl addbr kbr0
+		brctl addif kbr0 ob0
+		ip link set dev docker0 down
+		ip link del dev docker0
+	创建 /etc/sysconfig/network-scripts/ifcfg-kbr0 文件，内容如下：
+		vi /etc/sysconfig/network-scripts/ifcfg-kbr0
+
+		DEVICE=kbr0
+		ONBOOT=yes
+		BOOTPROTO=static
+		IPADDR=172.17.2.1
+		NETMASK=255.255.255.0
+		GATEWAY=172.17.2.0
+		USERCTL=no
+		TYPE=Bridge
+		IPV6INIT=no
+	创建 /etc/sysconfig/network-scripts/route-eno16777736 文件（eno16777736为实际网卡）
+		vi /etc/sysconfig/network-scripts/route-eno16777736
+		172.17.1.0/24 via 192.168.0.116 dev eno16777736
+	重启reboot
+
+5.116配置
+	配置ip转发
+	# 测试时不起作用 sysctl -w net.ipv4.ip_forward=1
+		vi /etc/sysctl.d/99-sysctl.conf 
+		添加：
+			net.ipv4.ip_forward = 1
+		sysctl -p
+	sudo ovs-vsctl add-br obr0
+	sudo ovs-vsctl add-port obr0 gre0 -- set Interface gre0 type=gre options:remote_ip=192.168.0.116
+	sudo brctl addbr kbr0
+	sudo brctl addif kbr0 obr0
+	sudo ip link set dev docker0 down
+	sudo ip link del dev docker0
+
+	vi /etc/sysconfig/network-scripts/ifcfg-kbr0
+
+	DEVICE=kbr0
+	ONBOOT=yes
+	BOOTPROTO=static
+	IPADDR=172.17.1.1
+	NETMASK=255.255.255.0
+	GATEWAY=172.17.1.0
+	USERCTL=no
+	TYPE=Bridge
+	IPV6INIT=no
+
+	vi /etc/sysconfig/network-scripts/route-eno16777736
+	172.17.2.0/24 via 192.168.0.115 dev eno16777736
+	service network restart
+
+6.修改docker使用kbr0
+	vi /usr/lib/systemd/system/docker.service
+	-b kbr0
+	重启docker
+7.docker容器固定ip
+wget https://github.com/jpetazzo/pipework/archive/master.zip 
+unzip master.zip 
+cp pipework-master/pipework  /usr/local/bin/ 
+chmod +x /usr/local/bin/pipework
+
+新建不设置网络容器
+docker run --name ip100 --net=none -it centos:7
+docker start ip100
+pipework kbr0 ip100 172.17.2.100/24@172.17.2.1
+每次容器启动需要执行
