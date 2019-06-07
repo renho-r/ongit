@@ -1,8 +1,7 @@
-package com.renho.reactor3.creator;
+package com.renho.reactor3.generate;
 
 import reactor.core.publisher.Flux;
 
-import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -12,10 +11,13 @@ import java.util.stream.Stream;
  * @since: 1.0.0
  */
 
+/**
+ * 同步地， 逐个地 产生值的方法
+ */
 public class FluxGenerate {
 
     public static void main(String[] args) {
-
+        Flux<String> flux;
 //        Flux<String> flux = Flux.generate(
 //                () -> 0,
 //                (state, sink) -> {
@@ -39,7 +41,7 @@ public class FluxGenerate {
 //                    }
 //                    return state;
 //                }, (state) -> System.out.println("state: " + state));
-//        flux.log().subscribe(System.out::println);
+//        flux.subscribe(System.out::println);
 
 
 //        Flux.range(1, 6).log()
@@ -62,7 +64,7 @@ public class FluxGenerate {
                 })
                 .map(i -> {
                     System.out.println("2 map");
-                    return i*i;
+                    return i * i;
                 })
                 .filter(i -> {
                     System.out.println("3 filter");
@@ -72,6 +74,5 @@ public class FluxGenerate {
                 .forEach(i -> {
                     System.out.println("4 foreach");
                 });
-
     }
 }
