@@ -25,3 +25,5 @@ cnpm install --save file-loader
 cnpm install --save less less-loader
 cnpm install --save screenfull
 cnpm install --save nprogress nprogress/nprogress.css
+cnpm install --save babel-cli
+npm install vue-schart -S

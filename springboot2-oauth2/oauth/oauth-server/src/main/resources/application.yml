@@ -4,8 +4,8 @@ spring:
   datasource:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://myserver:3306/test
-    username: renho
-    password: x
+    username: root
+    password: root123
   mvc:
     view:
       prefix: classpath:/templates/

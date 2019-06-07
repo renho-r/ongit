@@ -14,7 +14,7 @@
     <form id="confirmationForm" name="confirmationForm"
           action="../oauth/authorize" method="post">
     <#list authorizationRequest.scope as scop>
-<input type="hidden" name="scope.${scop}" value="true"/>
+        <input type="hidden" name="scope.${scop}" value="true"/>
     </#list>
         <input name="user_oauth_approval" value="true" type="hidden"/>
         <input type="hidden" id="csrf_token" name="${_csrf.parameterName}" value="${_csrf.token}"/>

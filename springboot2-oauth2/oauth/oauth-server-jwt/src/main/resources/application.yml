@@ -3,9 +3,9 @@ spring:
     name: oauth
   datasource:
     driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://ip:3306/test
-    username: 
-    password: 
+    url: jdbc:mysql://myserver:3306/test?useSSL=false
+    username: root
+    password: root123
   mvc:
     view:
       prefix: classpath:/templates/
@@ -13,9 +13,10 @@ spring:
     static-path-pattern: /static/**
   redis:
     remote: true        #cachecloud 获取
-    host: 
+    host: myserver
     port: 6379
-    password: 
+    password:
+    database: 1
 server:
 #  servlet:
 #    context-path: /auth
@@ -37,3 +38,4 @@ urls:
   - /loggers/**
   - /mobile/token
   - /login
+debug: true

@@ -1,6 +1,7 @@
 1.docker远程
 	vi /usr/lib/systemd/system/docker.service
 	ExecStart中增加-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+    vi /etc/sysconfig/docker
 
 2.创建
 	docker run -p 8761:8761 -t renho/spring-cloud-demo-eureka-server-docker
@@ -146,3 +147,33 @@ rm -rf /var/lib/docker/image/devicemapper/imagedb/*/sha256/54514d54a4a5*
 
 
 ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+
+
+docker最新
+systemctl stop docker
+rpm -qa | grep docker
+yum erase docker \
+                  docker-client \
+                  docker-client-latest \
+                  docker-common \
+                  docker-latest \
+                  docker-latest-logrotate \
+                  docker-logrotate \
+                  docker-selinux \
+                  docker-engine-selinux \
+                  docker-engine \
+                  docker-ce
+
+find /etc/systemd -name '*docker*' -exec rm -f {} \;
+find /etc/systemd -name '*docker*' -exec rm -f {} \;
+find /lib/systemd -name '*docker*' -exec rm -f {} \;
+rm -rf /var/lib/docker   #删除以前已有的镜像和容器,非必要
+rm -rf /var/run/docker  
+yum install -y yum-utils  device-mapper-persistent-data lvm2
+yum-config-manager \
+--add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+yum list docker-ce --showduplicates | sort -r
+yum install docker-ce -y
+systemctl start docker
+systemctl enable docker
