@@ -25,7 +25,7 @@ public class Main {
 		});
 		System.out.println();
 		FunctionalDefaultMethods fdm = new FunctionalDefaultMethods() {
-			
+
 			@Override
 			public void method() {
 				System.out.println(11111);

@@ -7,10 +7,68 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e611d000-c2ac-497a-88fe-6eded1994b7a" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/../designpatterns/src/com/renho/behavior/command/ConcreteCommand1.java" beforeDir="false" afterPath="$PROJECT_DIR$/../designpatterns/src/com/renho/behavior/command/ConcreteCommand1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../dubbo-demo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../dubbo-demo/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../httpclient/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../httpclient/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java8/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../java8/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../java8/src/com/renho/lambda/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/../java8/src/com/renho/lambda/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jcip/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../jcip/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../leetcode/src/main/java/com/renho/LouTi.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../leetcode/src/main/java/com/renho/Solution.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../leetcode/src/main/java/com/renho/t2/Client.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../leetcode/src/test/java/com/renho/AppTest.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/renho/test/eventtest/TestMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/renho/test/eventtest/TestMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/renho/test/eventtest/event/ActionListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/renho/test/eventtest/event/ActionListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/renho/test/eventtest/event/ActionLogic.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/renho/test/eventtest/event/ActionLogic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/springcode.iml" beforeDir="false" afterPath="$PROJECT_DIR$/springcode.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/renho/bean/pojo/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/renho/bean/pojo/Person.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/._pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/artifacts/springrestful_war.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/artifacts/springrestful_war.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/artifacts/springrestful_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/artifacts/springrestful_war_exploded.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__antlr_antlr_2_7_7.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__antlr_antlr_2_7_7.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__com_alibaba_druid_1_1_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__com_alibaba_druid_1_1_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__com_fasterxml_classmate_1_3_0.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__com_fasterxml_classmate_1_3_0.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__javax_servlet_jsp_jsp_api_2_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__javax_servlet_jsp_jsp_api_2_1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__javax_servlet_servlet_api_2_5.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__javax_servlet_servlet_api_2_5.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__mysql_mysql_connector_java_6_0_6.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__mysql_mysql_connector_java_6_0_6.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_8_10.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_8_10.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_hibernate_common_hibernate_commons_annotations_5_0_1_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_hibernate_common_hibernate_commons_annotations_5_0_1_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_hibernate_hibernate_core_5_2_10_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_hibernate_hibernate_core_5_2_10_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_hibernate_javax_persistence_hibernate_jpa_2_1_api_1_0_0_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_hibernate_javax_persistence_hibernate_jpa_2_1_api_1_0_0_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_javassist_javassist_3_20_0_GA.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_javassist_javassist_3_20_0_GA.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_jboss_jandex_2_0_3_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_jboss_jandex_2_0_3_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_3_0_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_3_0_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_jboss_spec_javax_transaction_jboss_transaction_api_1_2_spec_1_0_1_Final.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_jboss_spec_javax_transaction_jboss_transaction_api_1_2_spec_1_0_1_Final.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_aop_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_aop_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_aspects_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_aspects_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_beans_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_beans_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_context_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_context_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_context_support_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_context_support_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_core_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_core_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_expression_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_expression_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_instrument_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_instrument_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_instrument_tomcat_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_instrument_tomcat_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_jdbc_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_jdbc_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_jms_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_jms_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_messaging_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_messaging_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_orm_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_orm_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_oxm_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_oxm_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_test_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_test_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_tx_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_tx_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_web_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_web_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_webmvc_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_webmvc_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_webmvc_portlet_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_webmvc_portlet_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_websocket_4_3_10_RELEASE.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/libraries/Maven__org_springframework_spring_websocket_4_3_10_RELEASE.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/springrestful.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/springrestful.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/src/main/java/com/renho/spring/controller/._Renho.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/src/main/java/com/renho/spring/controller/._UserControllor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/src/main/java/com/renho/spring/controller/UserControllor.java" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/src/main/java/com/renho/spring/controller/UserControllor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/src/main/resources/config/._applicationContext.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/src/main/resources/config/._spring-datasource.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/src/main/resources/config/applicationContext.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/src/main/resources/config/applicationContext.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springrestful/src/main/webapp/WEB-INF/._web.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/tomcat/性能测试.md" beforeDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/build/classes/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -21,7 +79,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -45,6 +103,15 @@
         <option value="$PROJECT_DIR$/src/main/java/com/renho/test/eventtest/TestMain.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/renho/test/eventtest/event/ActionListener.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/renho/test/eventtest/event/ActionLogic.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/bean/pojo/Person.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/renho/bean/Student.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/renho/bean/Composite.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/renho/CircularReference.java" />
+        <option value="$PROJECT_DIR$/src/test/resources/circularreference.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/bean/pojo/Singleton.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/bean/pojo/Prototype.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/test/Sp.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/applicationContextFor.xml" />
       </list>
     </option>
   </component>
@@ -79,6 +146,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
@@ -101,25 +169,75 @@
             <path>
               <item name="springcode" type="b2602c69:ProjectViewProjectNode" />
               <item name="springcode" type="462c0819:PsiDirectoryNode" />
-              <item name="target" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="springcode" type="b2602c69:ProjectViewProjectNode" />
               <item name="springcode" type="462c0819:PsiDirectoryNode" />
-              <item name="target" type="462c0819:PsiDirectoryNode" />
-              <item name="classes" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="springcode" type="b2602c69:ProjectViewProjectNode" />
+              <item name="springcode" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="renho" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="springcode" type="b2602c69:ProjectViewProjectNode" />
+              <item name="springcode" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="renho" type="462c0819:PsiDirectoryNode" />
+              <item name="bean" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="springcode" type="b2602c69:ProjectViewProjectNode" />
+              <item name="springcode" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="renho" type="462c0819:PsiDirectoryNode" />
+              <item name="bean" type="462c0819:PsiDirectoryNode" />
+              <item name="pojo" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="springcode" type="b2602c69:ProjectViewProjectNode" />
+              <item name="springcode" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="renho" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="springcode" type="b2602c69:ProjectViewProjectNode" />
+              <item name="springcode" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="resources" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1545385452951" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1562571750782" />
     <property name="go.gopath.indexing.explicitly.defined" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -128,14 +246,15 @@
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="F:\workspace\ongit\springcode\src\main\resources" />
       <recent name="$PROJECT_DIR$/src/main/resources" />
       <recent name="$PROJECT_DIR$/src/main/webapp" />
       <recent name="$PROJECT_DIR$/src/main/java" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="F:\workspace\ongit\springcode\src\main\resources" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -150,20 +269,20 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.TestMain">
+  <component name="RunManager" selected="Application.Sp">
     <configuration default="true" type="Applet">
       <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.renho.test.beanpostprocessor.Test" />
+    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.renho.test.Client" />
       <module name="springcode" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.renho.test.beanpostprocessor.*" />
+          <option name="PATTERN" value="com.renho.test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -171,13 +290,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.renho.test.eventtest.TestMain" />
+    <configuration name="ProgrammeIOC" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.renho.test.ProgrammeIOC" />
       <module name="springcode" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.renho.test.eventtest.*" />
+          <option name="PATTERN" value="com.renho.test.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Sp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.renho.test.Sp" />
+      <module name="springcode" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.renho.test.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -216,23 +349,6 @@
       <option name="PACKAGE_NAME" value="com.renho.test" />
       <option name="MAIN_CLASS_NAME" value="com.renho.test.Test" />
       <option name="METHOD_NAME" value="mainTest" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="Test.otherTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="springcode" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.renho.test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.renho.test" />
-      <option name="MAIN_CLASS_NAME" value="com.renho.test.Test" />
-      <option name="METHOD_NAME" value="otherTest" />
       <option name="TEST_OBJECT" value="method" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
       <method v="2">
@@ -338,20 +454,20 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Test" />
-      <item itemvalue="Application.TestMain" />
       <item itemvalue="Application.TestXmlBeanFactory" />
+      <item itemvalue="Application.ProgrammeIOC" />
+      <item itemvalue="Application.Client" />
+      <item itemvalue="Application.Sp" />
       <item itemvalue="JUnit.Test.mainTest" />
-      <item itemvalue="JUnit.Test.otherTest" />
       <item itemvalue="Tomcat Server.springcode" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.TestMain" />
-        <item itemvalue="Application.Test" />
-        <item itemvalue="Application.TestXmlBeanFactory" />
+        <item itemvalue="Application.Sp" />
+        <item itemvalue="Application.Client" />
+        <item itemvalue="Application.ProgrammeIOC" />
         <item itemvalue="JUnit.Test.mainTest" />
-        <item itemvalue="JUnit.Test.otherTest" />
+        <item itemvalue="Application.TestXmlBeanFactory" />
       </list>
     </recent_temporary>
   </component>
@@ -372,33 +488,52 @@
       <workItem from="1533011509773" duration="2028000" />
       <workItem from="1545186141725" duration="12000" />
       <workItem from="1545376632935" duration="1866000" />
+      <workItem from="1561964313554" duration="2576000" />
+      <workItem from="1562317330462" duration="711000" />
+      <workItem from="1562388893921" duration="3836000" />
+      <workItem from="1562567011649" duration="1056000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Test_mainTest - 2017.09.11 at 11h 48m 20s.xml">
-      <configuration name="Test.mainTest" configurationId="JUnit" />
+    <history-entry file="CircularReference_CircularReferenceTest - 2019.07.01 at 15h 23m 02s.xml">
+      <configuration name="CircularReference.CircularReferenceTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="Test_mainTest - 2017.09.11 at 15h 17m 40s.xml">
-      <configuration name="Test.mainTest" configurationId="JUnit" />
+    <history-entry file="CircularReference_CircularReferenceTest - 2019.07.01 at 15h 35m 52s.xml">
+      <configuration name="CircularReference.CircularReferenceTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="Test_mainTest - 2017.09.11 at 15h 20m 50s.xml">
-      <configuration name="Test.mainTest" configurationId="JUnit" />
+    <history-entry file="CircularReference_CircularReferenceTest - 2019.07.01 at 15h 36m 54s.xml">
+      <configuration name="CircularReference.CircularReferenceTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="Test_mainTest - 2017.09.11 at 15h 21m 56s.xml">
-      <configuration name="Test.mainTest" configurationId="JUnit" />
+    <history-entry file="CircularReference_CircularReferenceTest - 2019.07.01 at 15h 37m 32s.xml">
+      <configuration name="CircularReference.CircularReferenceTest" configurationId="JUnit" />
     </history-entry>
-    <history-entry file="Test_otherTest - 2017.09.11 at 15h 21m 30s.xml">
-      <configuration name="Test.otherTest" configurationId="JUnit" />
+    <history-entry file="CircularReference_CircularReferenceTest - 2019.07.01 at 15h 38m 20s.xml">
+      <configuration name="CircularReference.CircularReferenceTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="CircularReference_CircularReferenceTest - 2019.07.01 at 15h 38m 27s.xml">
+      <configuration name="CircularReference.CircularReferenceTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="CircularReference_CircularReferenceTest - 2019.07.01 at 15h 38m 36s.xml">
+      <configuration name="CircularReference.CircularReferenceTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="CircularReference_CircularReferenceTest - 2019.07.01 at 15h 39m 05s.xml">
+      <configuration name="CircularReference.CircularReferenceTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="CircularReference_CircularReferenceTest - 2019.07.01 at 15h 39m 27s.xml">
+      <configuration name="CircularReference.CircularReferenceTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="Test_mainTest - 2019.07.05 at 17h 03m 41s.xml">
+      <configuration name="Test.mainTest" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="14850000" />
+    <option name="totallyTimeSpent" value="23029000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18176973" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18976545" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.1904762" />
       <window_info id="Designer" order="2" />
       <window_info id="Image Layers" order="3" />
@@ -408,15 +543,15 @@
       <window_info id="Web" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2553648" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.41309014" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.45386267" />
+      <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49946696" weight="0.37982833" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Application Servers" order="7" />
       <window_info anchor="bottom" id="Spring" order="8" />
       <window_info anchor="bottom" id="Terminal" order="9" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50053304" side_tool="true" weight="0.38197425" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.46995708" />
       <window_info anchor="bottom" id="Java Enterprise" order="12" />
       <window_info anchor="bottom" id="Version Control" order="13" />
@@ -440,307 +575,31 @@
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/renho/bean/pojo/Person.java</url>
+          <line>8</line>
+          <properties />
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/renho/test/beanpostprocessor/BeanPostProcessorImpl.java</url>
+          <line>10</line>
+          <properties />
+          <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/renho/test/beanpostprocessor/BeanPostProcessorImpl.java</url>
+          <line>17</line>
+          <properties />
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
   <component name="editorHistoryManager">
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-webmvc/4.3.10.RELEASE/spring-webmvc-4.3.10.RELEASE.jar!/org/springframework/web/servlet/DispatcherServlet.class" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-webmvc/4.3.10.RELEASE/spring-webmvc-4.3.10.RELEASE-sources.jar!/org/springframework/web/servlet/DispatcherServlet.java" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/4.3.10.RELEASE/spring-web-4.3.10.RELEASE-sources.jar!/org/springframework/web/context/ContextLoaderListener.java" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-web/4.3.10.RELEASE/spring-web-4.3.10.RELEASE-sources.jar!/org/springframework/web/context/ContextLoader.java" />
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-webmvc/4.3.10.RELEASE/spring-webmvc-4.3.10.RELEASE-sources.jar!/org/springframework/web/servlet/FrameworkServlet.java" />
-    <entry file="uml://JAVA/org.springframework.web.servlet.DispatcherServlet">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>JAVA</ID>
-          <OriginalElement>org.springframework.web.servlet.DispatcherServlet</OriginalElement>
-          <nodes>
-            <node x="738.6474358974358" y="0.0">javax.servlet.ServletConfig</node>
-            <node x="226.39743589743586" y="400.0">org.springframework.web.servlet.DispatcherServlet</node>
-            <node x="609.0" y="160.0">javax.servlet.http.HttpServlet</node>
-            <node x="428.64743589743586" y="240.0">org.springframework.web.servlet.HttpServletBean</node>
-            <node x="225.99999999999997" y="160.0">org.springframework.context.EnvironmentAware</node>
-            <node x="599.5" y="80.0">javax.servlet.GenericServlet</node>
-            <node x="412.0" y="160.0">org.springframework.core.env.EnvironmentCapable</node>
-            <node x="626.6474358974358" y="0.0">javax.servlet.Servlet</node>
-            <node x="161.95512820512818" y="80.0">org.springframework.beans.factory.Aware</node>
-            <node x="225.89743589743586" y="320.0">org.springframework.web.servlet.FrameworkServlet</node>
-            <node x="0.0" y="160.0">org.springframework.context.ApplicationContextAware</node>
-            <node x="488.64743589743586" y="0.0">java.io.Serializable</node>
-          </nodes>
-          <notes />
-          <edges>
-            <edge source="org.springframework.context.ApplicationContextAware" target="org.springframework.beans.factory.Aware">
-              <point x="0.0" y="-15.0" />
-              <point x="103.0" y="135.0" />
-              <point x="183.95512820512818" y="135.0" />
-              <point x="-22.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.web.servlet.FrameworkServlet" target="org.springframework.web.servlet.HttpServletBean">
-              <point x="39.75" y="-15.0" />
-              <point x="345.14743589743586" y="295.0" />
-              <point x="504.14743589743586" y="295.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="javax.servlet.GenericServlet" target="java.io.Serializable">
-              <point x="-46.33333333333337" y="-15.0" />
-              <point x="622.6666666666666" y="55.0" />
-              <point x="547.6474358974359" y="55.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.web.servlet.HttpServletBean" target="org.springframework.context.EnvironmentAware">
-              <point x="-50.33333333333337" y="-15.0" />
-              <point x="453.8141025641025" y="215.0" />
-              <point x="309.0" y="215.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.context.EnvironmentAware" target="org.springframework.beans.factory.Aware">
-              <point x="0.0" y="-15.0" />
-              <point x="309.0" y="135.0" />
-              <point x="227.95512820512818" y="135.0" />
-              <point x="22.0" y="15.0" />
-            </edge>
-            <edge source="javax.servlet.http.HttpServlet" target="javax.servlet.GenericServlet">
-              <point x="0.0" y="-15.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.web.servlet.HttpServletBean" target="org.springframework.core.env.EnvironmentCapable">
-              <point x="0.0" y="-15.0" />
-              <point x="504.14743589743586" y="215.0" />
-              <point x="500.5" y="215.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="javax.servlet.GenericServlet" target="javax.servlet.ServletConfig">
-              <point x="46.33333333333337" y="-15.0" />
-              <point x="715.3333333333334" y="55.0" />
-              <point x="805.1474358974358" y="55.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="javax.servlet.GenericServlet" target="javax.servlet.Servlet">
-              <point x="0.0" y="-15.0" />
-              <point x="669.0" y="55.0" />
-              <point x="672.6474358974358" y="55.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.web.servlet.FrameworkServlet" target="org.springframework.context.ApplicationContextAware">
-              <point x="-39.75" y="-15.0" />
-              <point x="265.64743589743586" y="295.0" />
-              <point x="103.0" y="295.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.web.servlet.HttpServletBean" target="javax.servlet.http.HttpServlet">
-              <point x="50.33333333333337" y="-15.0" />
-              <point x="554.4807692307693" y="215.0" />
-              <point x="669.0" y="215.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.web.servlet.DispatcherServlet" target="org.springframework.web.servlet.FrameworkServlet">
-              <point x="0.0" y="-15.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-          </edges>
-          <settings layout="Hierarchic Group" zoom="1.0" x="3.0" y="188.0" />
-          <SelectedNodes>
-            <node>javax.servlet.http.HttpServlet</node>
-          </SelectedNodes>
-          <Categories />
-          <SCOPE>All</SCOPE>
-          <VISIBILITY>private</VISIBILITY>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-webmvc/4.3.10.RELEASE/spring-webmvc-4.3.10.RELEASE-sources.jar!/org/springframework/web/servlet/handler/SimpleUrlHandlerMapping.java" />
-    <entry file="uml://JAVA/org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>JAVA</ID>
-          <OriginalElement>org.springframework.web.servlet.handler.SimpleUrlHandlerMapping</OriginalElement>
-          <nodes>
-            <node x="497.25" y="240.0">org.springframework.core.Ordered</node>
-            <node x="376.3333333333333" y="80.0">org.springframework.web.context.ServletContextAware</node>
-            <node x="240.25" y="240.0">org.springframework.web.context.support.WebApplicationObjectSupport</node>
-            <node x="69.25" y="240.0">org.springframework.web.servlet.HandlerMapping</node>
-            <node x="0.0" y="320.0">org.springframework.web.servlet.handler.MatchableHandlerMapping</node>
-            <node x="300.5208333333333" y="0.0">org.springframework.beans.factory.Aware</node>
-            <node x="122.70833333333331" y="400.0">org.springframework.web.servlet.handler.AbstractUrlHandlerMapping</node>
-            <node x="148.83333333333331" y="160.0">org.springframework.context.support.ApplicationObjectSupport</node>
-            <node x="129.20833333333331" y="480.0">org.springframework.web.servlet.handler.SimpleUrlHandlerMapping</node>
-            <node x="257.5833333333333" y="320.0">org.springframework.web.servlet.handler.AbstractHandlerMapping</node>
-            <node x="150.33333333333331" y="80.0">org.springframework.context.ApplicationContextAware</node>
-          </nodes>
-          <notes />
-          <edges>
-            <edge source="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" target="org.springframework.web.servlet.handler.AbstractUrlHandlerMapping">
-              <point x="0.0" y="-15.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.context.ApplicationContextAware" target="org.springframework.beans.factory.Aware">
-              <point x="0.0" y="-15.0" />
-              <point x="253.33333333333331" y="55.0" />
-              <point x="322.5208333333333" y="55.0" />
-              <point x="-22.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.web.servlet.handler.AbstractUrlHandlerMapping" target="org.springframework.web.servlet.handler.AbstractHandlerMapping">
-              <point x="55.5" y="-15.0" />
-              <point x="289.2083333333333" y="375.0" />
-              <point x="359.5833333333333" y="375.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.web.context.support.WebApplicationObjectSupport" target="org.springframework.context.support.ApplicationObjectSupport">
-              <point x="-59.25" y="-15.0" />
-              <point x="299.5" y="215.0" />
-              <point x="253.33333333333331" y="215.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.web.servlet.handler.AbstractHandlerMapping" target="org.springframework.web.servlet.HandlerMapping">
-              <point x="-68.0" y="-15.0" />
-              <point x="291.5833333333333" y="295.0" />
-              <point x="182.5" y="295.0" />
-              <point x="37.75" y="15.0" />
-            </edge>
-            <edge source="org.springframework.web.context.ServletContextAware" target="org.springframework.beans.factory.Aware">
-              <point x="-5.6843418860808015E-14" y="-15.0" />
-              <point x="465.83333333333326" y="55.0" />
-              <point x="366.5208333333333" y="55.0" />
-              <point x="22.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.web.servlet.handler.MatchableHandlerMapping" target="org.springframework.web.servlet.HandlerMapping">
-              <point x="0.0" y="-15.0" />
-              <point x="-37.75" y="15.0" />
-            </edge>
-            <edge source="org.springframework.context.support.ApplicationObjectSupport" target="org.springframework.context.ApplicationContextAware">
-              <point x="0.0" y="-15.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.web.servlet.handler.AbstractHandlerMapping" target="org.springframework.core.Ordered">
-              <point x="68.0" y="-15.0" />
-              <point x="427.5833333333333" y="295.0" />
-              <point x="547.25" y="295.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.web.servlet.handler.AbstractHandlerMapping" target="org.springframework.web.context.support.WebApplicationObjectSupport">
-              <point x="0.0" y="-15.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.web.context.support.WebApplicationObjectSupport" target="org.springframework.web.context.ServletContextAware">
-              <point x="59.25" y="-15.0" />
-              <point x="418.0" y="215.0" />
-              <point x="465.8333333333333" y="215.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-            <edge source="org.springframework.web.servlet.handler.AbstractUrlHandlerMapping" target="org.springframework.web.servlet.handler.MatchableHandlerMapping">
-              <point x="-55.5" y="-15.0" />
-              <point x="178.20833333333331" y="375.0" />
-              <point x="107.0" y="375.0" />
-              <point x="0.0" y="15.0" />
-            </edge>
-          </edges>
-          <settings layout="Hierarchic Group" zoom="1.0" x="-134.0" y="210.0" />
-          <SelectedNodes>
-            <node>org.springframework.web.servlet.handler.SimpleUrlHandlerMapping</node>
-          </SelectedNodes>
-          <Categories />
-          <SCOPE>All</SCOPE>
-          <VISIBILITY>private</VISIBILITY>
-        </state>
-      </provider>
-    </entry>
-    <entry file="uml://JAVA/org.springframework.web.servlet.View">
-      <provider selected="true" editor-type-id="UmlEditorProvider">
-        <state>
-          <ID>JAVA</ID>
-          <OriginalElement>org.springframework.web.servlet.View</OriginalElement>
-          <nodes>
-            <node x="" y="">org.springframework.web.servlet.View</node>
-          </nodes>
-          <notes />
-          <edges />
-          <settings layout="Hierarchic Group" zoom="1.0" x="40.0" y="15.0" />
-          <SelectedNodes />
-          <Categories />
-          <SCOPE>All</SCOPE>
-          <VISIBILITY>private</VISIBILITY>
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-webmvc/4.3.10.RELEASE/spring-webmvc-4.3.10.RELEASE-sources.jar!/org/springframework/web/servlet/View.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/Client.java" />
-    <entry file="file://$PROJECT_DIR$/springcode.iml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-306">
-          <caret line="6" column="73" selection-start-line="6" selection-start-column="73" selection-end-line="6" selection-end-column="73" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/index.jsp">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/aop/annotation/Renho.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" column="18" selection-start-line="2" selection-start-column="18" selection-end-line="2" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/spring-mvc.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/springbean/factorymethod.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/springbean/applicationContext-beforeAdvice.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/springbean/applicationContext-auto.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/springbean/applicationContext-aop-annotation.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-webmvc/4.3.10.RELEASE/spring-webmvc-4.3.10.RELEASE-sources.jar!/org/springframework/web/servlet/HttpServletBean.java" />
-    <entry file="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/web.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="23" column="21" lean-forward="true" selection-start-line="23" selection-start-column="21" selection-end-line="23" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/springbean/applicationContext.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
-          <caret line="25" column="54" selection-start-line="25" selection-start-column="54" selection-end-line="25" selection-end-column="54" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/bean/dao/PersonDAO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/bean/pojo/LazyinitPerson.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/aop/auto/TestLog.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="80">
-          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/aop/auto/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/factorymethod/FactoryBeanTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="64">
@@ -776,31 +635,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="4" column="30" selection-start-line="4" selection-start-column="30" selection-end-line="4" selection-end-column="30" />
-          <folding>
-            <element signature="e#88#89#0" expanded="true" />
-            <element signature="e#164#165#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/ProgrammeIOC.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="7" column="13" selection-start-line="7" selection-start-column="13" selection-end-line="7" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/Test.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="32" column="38" selection-start-line="32" selection-start-column="38" selection-end-line="32" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/init/BeanFactoryUtil.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="64">
@@ -815,38 +649,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/what/Client.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="336">
-          <caret line="23" column="23" lean-forward="true" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/bean/pojo/Person.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="32">
-          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/resources/springbean/superbeans.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="80">
           <caret line="5" column="53" lean-forward="true" selection-start-line="5" selection-start-column="53" selection-end-line="5" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/springbean/beans.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="12" column="8" lean-forward="true" selection-start-line="12" selection-start-column="8" selection-end-line="12" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/beanpostprocessor/BeanPostProcessorImpl.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="5" column="63" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="63" />
         </state>
       </provider>
     </entry>
@@ -920,6 +726,264 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="448">
           <caret line="28" column="21" selection-start-line="28" selection-start-column="21" selection-end-line="28" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spring配置文件.jpg">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/what/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="336">
+          <caret line="23" column="23" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/spring-mvc.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="66">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/applicationContext.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/springbean/beans.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="96">
+          <caret line="6" column="23" selection-start-line="6" selection-start-column="14" selection-end-line="6" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/springframework/spring-context/4.3.10.RELEASE/spring-context-4.3.10.RELEASE.jar!/org/springframework/context/support/AbstractRefreshableApplicationContext.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="82" selection-start-line="82" selection-end-line="82" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/springframework/spring-context/4.3.10.RELEASE/spring-context-4.3.10.RELEASE.jar!/org/springframework/context/support/PostProcessorRegistrationDelegate.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="56" selection-start-line="56" selection-end-line="56" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/springframework/spring-beans/4.3.10.RELEASE/spring-beans-4.3.10.RELEASE.jar!/org/springframework/beans/factory/support/RootBeanDefinition.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="183">
+          <caret line="97" selection-start-line="97" selection-end-line="97" />
+          <folding>
+            <element signature="e#3520#3521#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/springframework/spring-context/4.3.10.RELEASE/spring-context-4.3.10.RELEASE.jar!/org/springframework/context/support/ClassPathXmlApplicationContext.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="61">
+          <caret line="43" selection-start-line="43" selection-end-line="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/springframework/spring-context/4.3.10.RELEASE/spring-context-4.3.10.RELEASE.jar!/org/springframework/context/support/AbstractApplicationContext.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="61">
+          <caret line="480" selection-start-line="480" selection-end-line="480" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/springframework/spring-beans/4.3.10.RELEASE/spring-beans-4.3.10.RELEASE.jar!/org/springframework/beans/factory/support/DefaultListableBeanFactory.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="61">
+          <caret line="578" selection-start-line="578" selection-end-line="578" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/springframework/spring-beans/4.3.10.RELEASE/spring-beans-4.3.10.RELEASE.jar!/org/springframework/beans/factory/support/DefaultSingletonBeanRegistry.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="61">
+          <caret line="125" column="24" selection-start-line="125" selection-end-line="126" />
+          <folding>
+            <element signature="e#3963#3964#0" expanded="true" />
+            <element signature="e#4019#4020#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/springframework/spring-beans/4.3.10.RELEASE/spring-beans-4.3.10.RELEASE.jar!/org/springframework/beans/factory/support/AbstractAutowireCapableBeanFactory.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="61">
+          <caret line="765" selection-start-line="765" selection-end-line="765" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/springframework/spring-beans/4.3.10.RELEASE/spring-beans-4.3.10.RELEASE.jar!/org/springframework/beans/factory/support/SimpleInstantiationStrategy.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="79">
+          <caret line="59" selection-start-line="59" selection-end-line="59" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/springframework/spring-beans/4.3.10.RELEASE/spring-beans-4.3.10.RELEASE.jar!/org/springframework/beans/BeanUtils.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="79">
+          <caret line="75" selection-start-line="75" selection-end-line="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Program Files/Java/jdk1.8.0_162/src.zip!/java/lang/reflect/Constructor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="79">
+          <caret line="422" selection-start-line="422" selection-end-line="422" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Program Files/Java/jdk1.8.0_162/jre/lib/rt.jar!/sun/reflect/DelegatingConstructorAccessorImpl.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="71">
+          <caret line="17" selection-start-line="17" selection-end-line="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/Program Files/Java/jdk1.8.0_162/jre/lib/rt.jar!/sun/reflect/NativeConstructorAccessorImpl.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="71">
+          <caret line="33" column="33" selection-start-line="33" selection-start-column="33" selection-end-line="33" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/springframework/spring-beans/4.3.10.RELEASE/spring-beans-4.3.10.RELEASE.jar!/org/springframework/beans/factory/support/AbstractBeanFactory.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="177">
+          <caret line="192" selection-start-line="192" selection-end-line="192" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/dev/apache-maven-3.5.3/repository/org/springframework/spring-beans/4.3.10.RELEASE/spring-beans-4.3.10.RELEASE.jar!/org/springframework/beans/factory/support/BeanDefinitionValueResolver.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="224" selection-start-line="224" selection-end-line="224" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/renho/bean/Composite.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="8" column="31" selection-start-line="8" selection-start-column="31" selection-end-line="8" selection-end-column="31" />
+          <folding>
+            <element signature="e#197#198#0" expanded="true" />
+            <element signature="e#239#240#0" expanded="true" />
+            <element signature="e#278#279#0" expanded="true" />
+            <element signature="e#310#311#0" expanded="true" />
+            <element signature="e#363#364#0" expanded="true" />
+            <element signature="e#405#406#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/resources/circularreference.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="464">
+          <caret line="29" column="73" selection-start-line="29" selection-start-column="73" selection-end-line="29" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/renho/CircularReference.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="23" column="37" selection-start-line="23" selection-start-column="37" selection-end-line="23" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/ProgrammeIOC.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="17" column="33" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/bean/pojo/Person.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="128">
+          <caret line="8" selection-start-line="8" selection-end-line="8" />
+          <folding>
+            <element signature="e#159#160#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/Client.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="112">
+          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+          <folding>
+            <element signature="e#88#89#0" expanded="true" />
+            <element signature="e#164#165#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/beanpostprocessor/BeanPostProcessorImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="80">
+          <caret line="5" column="63" selection-start-line="5" selection-start-column="46" selection-end-line="5" selection-end-column="63" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/test/Sp.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="17" column="33" lean-forward="true" selection-start-line="17" selection-start-column="33" selection-end-line="17" selection-end-column="33" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/applicationContextFor.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="14" column="75" lean-forward="true" selection-start-line="14" selection-start-column="75" selection-end-line="14" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/bean/pojo/Prototype.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="9" column="31" selection-start-line="9" selection-start-column="31" selection-end-line="9" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/bean/pojo/Singleton.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="432">
+          <caret line="37" lean-forward="true" selection-start-line="37" selection-end-line="37" />
+          <folding>
+            <element signature="e#235#236#0" expanded="true" />
+            <element signature="e#277#278#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/renho/bean/pojo/LazyinitPerson.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="32">
+          <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
         </state>
       </provider>
     </entry>
