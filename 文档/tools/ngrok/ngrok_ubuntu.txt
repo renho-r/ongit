@@ -1,0 +1,7 @@
+sudo apt-get update
+sudo apt-get install git
+
+sudo apt-get update
+sudo apt-get install golang-go
+
+git clone https://github.com/inconshreveable/ngrok.git
