@@ -1,8 +1,11 @@
 package com.renho.aes;
 
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 /**
@@ -92,6 +95,18 @@ public class AESUtil {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static String getRandomKey(int length) throws NoSuchAlgorithmException {
+        //实例化
+        KeyGenerator kgen = null;
+        kgen = KeyGenerator.getInstance("AES");
+        //设置密钥长度
+        kgen.init(length);
+        //生成密钥
+        SecretKey skey = kgen.generateKey();
+        //返回密钥的二进制编码
+        return Base64.getEncoder().encodeToString(skey.getEncoded());
     }
 
     public static void main(String[] args) {
