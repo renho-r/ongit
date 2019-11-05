@@ -35,7 +35,13 @@ public enum  FileClient {
                     ThreadFactory threadFactory = new FileSyncThreadFactory();
                     RejectedExecutionHandler rejectedExecutionHandler = new FileSyncRejectedExecutionHandler();
                     BlockingQueue queue = new LinkedBlockingQueue(fileSyncConfig.getWorkerCount());
-                    executor = new ThreadPoolExecutor(fileSyncConfig.getCorePoolSize(), fileSyncConfig.getMaximumPoolSize(), fileSyncConfig.getKeepAliveTime(), fileSyncConfig.getUnit(), queue, threadFactory, rejectedExecutionHandler);
+                    executor = new ThreadPoolExecutor(fileSyncConfig.getWorkerCount(),
+                            fileSyncConfig.getWorkerCount(),
+                            0,
+                            TimeUnit.SECONDS,
+                            queue,
+                            threadFactory,
+                            rejectedExecutionHandler);
                     results = new ArrayList<>();
                     inited = true;
                 }
@@ -43,11 +49,12 @@ public enum  FileClient {
         }
     }
 
-    public void isDone() {
-        if (inited && 0==results.size()) {
-            return true;
-        }
-        return false;
+    public boolean isRunning() {
+        return null != executor;
+    }
+
+    public boolean isDone() {
+        return inited && 0==results.size();
     }
 
     public void shutdown() {

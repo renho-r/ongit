@@ -13,11 +13,7 @@ public class FileSyncUtil {
     public static FileSyncConfig initFileConfig() {
 
         FileSyncConfig fileSyncConfig = new FileSyncConfig();
-        fileSyncConfig.setCorePoolSize(1);
-        fileSyncConfig.setMaximumPoolSize(5);
-        fileSyncConfig.setKeepAliveTime(120);
-        fileSyncConfig.setUnit(TimeUnit.SECONDS);
-        fileSyncConfig.setWorkerCount(200);
+        fileSyncConfig.setWorkerCount(5);
 
         return fileSyncConfig;
     }

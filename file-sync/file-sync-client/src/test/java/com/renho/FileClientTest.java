@@ -19,7 +19,7 @@ public class FileClientTest {
         FileClient.INSTANCE.init();
         FileClient.INSTANCE.init();
 
-        File dirFile = new File("g://tmp");
+        File dirFile = new File("d://dev");
         File[] files = dirFile.listFiles();
         FileClient.INSTANCE.upload(Arrays.asList(files));
 
