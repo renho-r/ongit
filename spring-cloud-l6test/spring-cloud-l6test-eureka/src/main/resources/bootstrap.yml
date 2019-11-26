@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: eureka
+  profiles:
+    active: dev
+server:
+  port: 9999
+info:
+  name: eureka
+---
+#dev配置
+spring:
+  profiles: dev
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    prefer-ip-address: true
+    leaseRenewalIntervalInSeconds: 3
+    ip-address: 127.0.0.1
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    registryFetchIntervalSeconds: 5
+    instanceInfoReplicationIntervalSeconds: 5
+    initialInstanceInfoReplicationIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: http://${eureka.instance.ip-address}:9999/eureka/
+  server:
+    enableSelfPreservation: false
+---
+spring:
+  profiles: prod
