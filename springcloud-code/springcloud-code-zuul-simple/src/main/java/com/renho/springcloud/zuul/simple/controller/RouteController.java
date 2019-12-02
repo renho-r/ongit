@@ -65,4 +65,16 @@ public class RouteController {
         return this.getAll();
     }
 
+    @RequestMapping("/delete")
+    public Map<String, String> delete() {
+        ZuulProperties.ZuulRoute route = new ZuulProperties.ZuulRoute();
+        route.setId("/api/test/**");
+        route.setPath("/api/test/**");
+        route.setServiceId("test-service");
+        route.setStripPrefix(true);
+
+        RouteDatabase.INSTANCE.remove(route);
+        return this.getAll();
+    }
+
 }

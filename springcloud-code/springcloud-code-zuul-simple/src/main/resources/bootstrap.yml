@@ -10,7 +10,7 @@ eureka:
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
     ip-address: 127.0.0.1
   client:
-    registryFetchIntervalSeconds: 30
+    registryFetchIntervalSeconds: 300
     instanceInfoReplicationIntervalSeconds: 30
     initialInstanceInfoReplicationIntervalSeconds: 30
     serviceUrl:
@@ -18,13 +18,19 @@ eureka:
 zuul:
   routes:
     test-service:
+      strip-prefix: true
+      path: /api/test/**
+      service-id: test-service
+    my-service:
       strip-prefix: false
       path: /api/info/**
-      service-id: test-service
-#    test-service1:
-#      path: /api/test/**
-#      url: http://localhost:9001
-# 加载所有的端点/默认只加载了 info / health
+      service-id: my-service
+ribbon:
+  eureka:
+    enabled: false
+my-service:
+  ribbon:
+    listOfServers: http://localhost:9001/,http://localhost:9003/
 management:
   endpoints:
     web:

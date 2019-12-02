@@ -2,10 +2,14 @@ spring:
   application:
     name: oauth
   datasource:
-    driverClassName: com.mysql.jdbc.Driver
-    url: jdbc:mysql://myserver:3306/test?useSSL=false
-    username: root
-    password: root123
+#    driverClassName: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://myserver:3306/test?useSSL=false
+#    username: root
+#    password: root123
+    url: jdbc:postgresql://myserver:5432/oauth2
+    username: kong
+    password: kong
+    driverClassName: org.postgresql.Driver
   mvc:
     view:
       prefix: classpath:/templates/
@@ -16,7 +20,7 @@ spring:
     host: myserver
     port: 6379
     password:
-    database: 1
+    database: 2
 server:
 #  servlet:
 #    context-path: /auth

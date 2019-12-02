@@ -12,6 +12,10 @@ public enum RouteDatabase {
 
     INSTANCE;
 
+    private RouteDatabase() {
+        System.out.printf("%s\n", this.db);
+    }
+
     private ConcurrentHashMap<String, ZuulProperties.ZuulRoute> db = new ConcurrentHashMap();
 
     public ConcurrentHashMap routes() {
@@ -19,7 +23,10 @@ public enum RouteDatabase {
     }
 
     public ZuulProperties.ZuulRoute put(ZuulProperties.ZuulRoute route) {
-        return db.put(route.getPath(), route);
+        return this.db.put(route.getPath(), route);
     }
 
+    public ZuulProperties.ZuulRoute remove(ZuulProperties.ZuulRoute route) {
+        return this.db.remove(route.getPath());
+    }
 }

@@ -15,7 +15,7 @@ public class Watch {
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 
-		Path path = Paths.get("E:\\renho\\workspace\\ongit\\nio\\data");
+		Path path = Paths.get("F:\\workspace\\ongit\\nio\\data");
 		Watch watch = new Watch();
 		watch.watchRNDir(path);
 	}

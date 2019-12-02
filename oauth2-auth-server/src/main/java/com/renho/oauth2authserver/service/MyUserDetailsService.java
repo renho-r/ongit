@@ -1,13 +1,18 @@
 package com.renho.oauth2authserver.service;
 
-import com.renho.oauth2authserver.model.User;
-import org.springframework.data.redis.core.RedisTemplate;
+import com.renho.oauth2authserver.domain.po.UserPO;
+import com.renho.oauth2authserver.mapper.IUserMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author: xxxxx
@@ -16,17 +21,15 @@ import javax.annotation.Resource;
 @Service("userDetailService")
 public class MyUserDetailsService implements UserDetailsService {
 
-    @Resource
-    private RedisTemplate<String, User> redisTemplate;
+    @Autowired
+    private IUserMapper userMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        User user = redisTemplate.opsForValue().get("oauth2:user:" + username);
-        if (null == user) {
-            throw new RuntimeException("no user!");
-        }
-        return user;
+        UserPO user = userMapper.findByUsername(username);
+        List<GrantedAuthority> grantedAuthoritys = new ArrayList<>();
+        grantedAuthoritys.add(new SimpleGrantedAuthority("*"));
+        return new User(user.getUsername(), "{noop}" + user.getPassword(), grantedAuthoritys);
     }
 
 }
