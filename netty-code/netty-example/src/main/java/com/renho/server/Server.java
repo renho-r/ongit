@@ -4,8 +4,10 @@ import com.renho.server.codec.OrderFrameDecoder;
 import com.renho.server.codec.OrderFrameEncoder;
 import com.renho.server.codec.OrderProtocolDecoder;
 import com.renho.server.codec.OrderProtocolEncoder;
+import com.renho.server.handler.AuthHandler;
 import com.renho.server.handler.MetricsHandler;
 import com.renho.server.handler.OrderServerProcessHandler;
+import com.renho.server.handler.ServerIdleCheckHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -62,11 +64,11 @@ public class Server {
             GlobalTrafficShapingHandler globalTrafficShapingHandler = new GlobalTrafficShapingHandler(eventLoopGroupForTrafficShaping, 10 * 1024 * 1024, 10 * 1024 * 1024);
 
             //ipfilter
-            IpSubnetFilterRule ipSubnetFilterRule = new IpSubnetFilterRule("127.1.1.1", 16, IpFilterRuleType.REJECT);
+            IpSubnetFilterRule ipSubnetFilterRule = new IpSubnetFilterRule("127.0.0.1", 8, IpFilterRuleType.REJECT);
             RuleBasedIpFilter ruleBasedIpFilter = new RuleBasedIpFilter(ipSubnetFilterRule);
 
             //auth
-//            AuthHandler authHandler = new AuthHandler();
+            AuthHandler authHandler = new AuthHandler();
 
             //ssl
             SelfSignedCertificate selfSignedCertificate = new SelfSignedCertificate();
@@ -105,7 +107,7 @@ public class Server {
 
 //                    pipeline.addLast("flushEnhance", new FlushConsolidationHandler(10, true));
 
-//                    pipeline.addLast("auth", authHandler);
+                    pipeline.addLast("auth", authHandler);
 
                     pipeline.addLast(businessGroup, new OrderServerProcessHandler());
                 }
