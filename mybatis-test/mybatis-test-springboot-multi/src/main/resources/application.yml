@@ -1,0 +1,26 @@
+spring:
+  #db
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.0.105:3306/mybatis?characterEncoding=utf8
+    username: root
+    password: root123
+mybatis-plus:
+  global-config:
+    db-config:
+      id-type: auto
+      field-strategy: not_empty
+      table-underline: true
+      db-type: mysql
+      logic-delete-value: 1 # 逻辑已删除值(默认为 1)
+      logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
+  mapper-locations: classpath:/mapper/*.xml
+my:
+  sync:
+    always: true
+#    sch: "0/10 * * * * ? "
+#    cache:
+#      count: 1000
+##      threshold: 0 #只能是0
+#    worker:
+#      count: 100
