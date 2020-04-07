@@ -13,7 +13,7 @@
     <name>dubbox-demo Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <properties>
-        <spring.version>4.1.6.RELEASE</spring.version>
+        <spring.version>5.2.5.RELEASE</spring.version>
     </properties>
     <dependencies>
         <dependency>
