@@ -30,7 +30,7 @@
 
         <!--版本信息-->
         <!-- spring版本 -->
-        <springframework.version>3.2.1.RELEASE</springframework.version>
+        <springframework.version>5.2.5.RELEASE</springframework.version>
 
         <!-- junit版本 -->
         <junit.version>4.9</junit.version>
