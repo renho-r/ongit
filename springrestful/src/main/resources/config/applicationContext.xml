@@ -18,6 +18,7 @@
 	<context:property-placeholder location="classpath*:properties/*.properties" />
   	<context:annotation-config />
   	<context:component-scan base-package="com.renho.spring"/>
+	<aop:aspectj-autoproxy expose-proxy="true"></aop:aspectj-autoproxy>
 	<import resource="spring-datasource.xml"/>
 	<import resource="spring-hibernate.xml" />
 	<import resource="spring-transaction.xml" />

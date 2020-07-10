@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="spring-boot-demo-jpa" />
         <module name="spring-boot-demo-mybatis" />
+        <module name="spring-boot-demo-jpa" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
+    <bytecodeTargetLevel target="8">
       <module name="spring-boot-demo" target="1.8" />
       <module name="spring-boot-demo-jpa" target="1.8" />
       <module name="spring-boot-demo-mybatis" target="1.8" />

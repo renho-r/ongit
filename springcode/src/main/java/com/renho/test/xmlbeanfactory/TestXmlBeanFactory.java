@@ -40,10 +40,7 @@ public class TestXmlBeanFactory {
 		System.out.println("getAliases:" + xbf.getAliases("person").length);
 		System.out.println("renho:" + xbf.getBean("person"));
 		PersonDAO personDAO = (PersonDAO) xbf.getBean("personDAO");
-		String personName = personDAO.getPerson().getPersonName();
-		System.out.println(personName);
-		
+
 		PersonDAO perDao = xbf.getBean("personDAO", PersonDAO.class);
-		System.out.println(perDao.getPerson().getPersonName());
 	}
 }

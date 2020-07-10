@@ -14,8 +14,8 @@ public class ActionListener implements ApplicationListener {
 	private List<Person> list = new ArrayList<Person>();
 	
 	public ActionListener() {
-		list.add(new Person("admin", "apass"));
-		list.add(new Person("renho", "rpass"));
+//		list.add(new Person("admin", "apass"));
+//		list.add(new Person("renho", "rpass"));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -24,10 +24,10 @@ public class ActionListener implements ApplicationListener {
 		if (event instanceof MyActionEvent) {
 			List<Person> gList = (List<Person>) event.getSource();
 			for(Person p:gList) {
-				System.out.println("name:" + p.getName() + "--password:" + p.getPassword());
+//				System.out.println("name:" + p.getName() + "--password:" + p.getPassword());
 			}
 			for(Person p:list) {
-				System.out.println("name:" + p.getName() + "--password:" + p.getPassword());
+//				System.out.println("name:" + p.getName() + "--password:" + p.getPassword());
 			}
 		}
 	}

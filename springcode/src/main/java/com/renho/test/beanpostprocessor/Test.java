@@ -13,16 +13,11 @@ public class Test {
 		XmlBeanFactory supXbf = new XmlBeanFactory(new ClassPathResource("springbean/superbeans.xml"));
 		XmlBeanFactory xbf = new XmlBeanFactory(new ClassPathResource("springbean/beans.xml"), supXbf);
 		
-		//·ÇApplicationContext±ØĞëÏÔÊ¾×¢²á
+		//éApplicationContextå¿…é¡»æ˜¾ç¤ºæ³¨å†Œ
 		BeanPostProcessor beanPostProcessor = new BeanPostProcessorImpl();
 		xbf.addBeanPostProcessor(beanPostProcessor);
 				
 		PersonDAO personDAO = (PersonDAO) xbf.getBean("personDAO");
-		String personName = personDAO.getPerson().getPersonName();
-		System.out.println(personName);
-		
-		PersonDAO perDao = xbf.getBean("personDAO", PersonDAO.class);
-		System.out.println(perDao.getPerson().getPersonName());
 	}
 
 }
