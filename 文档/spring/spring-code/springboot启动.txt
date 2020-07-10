@@ -1,0 +1,103 @@
+SpringApplication.run(SpringbootCodeSimpleApplication.class, args):ConfigurableApplicationContext
+    run(new Class<?>[] { primarySource }, args):ConfigurableApplicationContext
+        new SpringApplication(primarySources):SpringApplication
+            this(null, primarySources)
+                new SpringApplication(ResourceLoader resourceLoader, Class<?>... primarySources)
+                    //通过classpath推测应用类型，会根据一些定义的class，判断应用中是否存在来判断
+                    this.webApplicationType = WebApplicationType.deduceFromClasspath():WebApplicationType
+                        return WebApplicationType.SERVLET;
+                    getSpringFactoriesInstances(org.springframework.context.ApplicationContextInitializer.class):Collection<T> 
+                        SpringFactoriesLoader.loadFactoryNames(type, classLoader)
+                            //通过\META-INF\spring.factories加载
+                            loadSpringFactories(classLoader).getOrDefault(factoryClassName, Collections.emptyList()):List<String>
+                            //创建对象createSpringFactoriesInstances
+                            List<T> instances = createSpringFactoriesInstances(type, parameterTypes, classLoader, args, names);
+                            AnnotationAwareOrderComparator.sort(instances)
+                                0 = {DelegatingApplicationContextInitializer@2128} 
+                                1 = {SharedMetadataReaderFactoryContextInitializer@2129} 
+                                2 = {ContextIdApplicationContextInitializer@2101} 
+                                3 = {ConfigurationWarningsApplicationContextInitializer@2078} 
+                                4 = {ServerPortInfoApplicationContextInitializer@2130} 
+                                5 = {ConditionEvaluationReportLoggingListener@2131} 
+                    setInitializers((Collection) getSpringFactoriesInstances(ApplicationContextInitializer.class));
+                        SpringApplication.initializers = :Collection<T> 
+                    setListeners((Collection) getSpringFactoriesInstances(ApplicationListener.class))
+                        0 = {ConfigFileApplicationListener@2073} 
+                        1 = {AnsiOutputApplicationListener@2074} 
+                        2 = {LoggingApplicationListener@2075} 
+                        3 = {ClasspathLoggingApplicationListener@2076} 
+                        4 = {BackgroundPreinitializer@2077} 
+                        5 = {DelegatingApplicationListener@2078} 
+                        6 = {ParentContextCloserApplicationListener@2079} 
+                        7 = {ClearCachesApplicationListener@2080} 
+                        8 = {FileEncodingApplicationListener@2081} 
+                        9 = {LiquibaseServiceLocatorApplicationListener@2082}
+                        //通过调用栈获取main类名称 
+                    this.mainApplicationClass = deduceMainApplicationClass();
+        run(args):ConfigurableApplicationContext
+            //awt相关
+            configureHeadlessProperty();
+            SpringApplicationRunListeners listeners = getRunListeners(args);
+                Class<?>[] types = new Class<?>[] { SpringApplication.class, String[].class };
+                return new SpringApplicationRunListeners(logger, getSpringFactoriesInstances(SpringApplicationRunListener.class, types, this, args));
+                0 = {EventPublishingRunListener@2327}
+            listeners.starting()
+                for (SpringApplicationRunListener listener : this.listeners) {
+                    listener.starting();
+                    EventPublishingRunListener.starting
+                    //发布ApplicationStartingEvent事件
+                    this.initialMulticaster.multicastEvent(new ApplicationStartingEvent(this.application, this.args));
+                        //ResolvableType泛型
+                        SimpleApplicationEventMulticaster.multicastEvent(event, resolveDefaultEventType(event))
+                            for (final ApplicationListener<?> listener : getApplicationListeners(event, type)) {
+                                //getApplicationListeners(event, type)通过supportsEvent(supportsEventType && supportsSourceType)选择需要监听事件的listener
+                                Executor executor = getTaskExecutor();
+                                if (executor != null) {
+                                    executor.execute(() -> invokeListener(listener, event));
+                                }
+                                else {
+                                    invokeListener(listener, event);
+
+                                }
+                            }
+                }
+            ConfigurableEnvironment environment = prepareEnvironment(listeners, applicationArguments);
+                ConfigurableEnvironment environment = getOrCreateEnvironment():StandardServletEnvironment
+                    0 = {PropertySource$StubPropertySource@2871} "StubPropertySource {name='servletConfigInitParams'}"
+                    1 = {PropertySource$StubPropertySource@2872} "StubPropertySource {name='servletContextInitParams'}"
+                    2 = {MapPropertySource@2873} "MapPropertySource {name='systemProperties'}"
+                    3 = {SystemEnvironmentPropertySource@2874} "SystemEnvironmentPropertySource {name='systemEnvironment'}"
+                configureEnvironment(environment, applicationArguments.getSourceArgs());
+                    ConversionService conversionService = ApplicationConversionService.getSharedInstance();
+                    environment.setConversionService((ConfigurableConversionService) conversionService);
+                    configurePropertySources(environment, args);//do nothing
+                    configureProfiles(environment, args);
+                //发布事件，会加载配置参数主要ConfigFileApplicationListener
+                listeners.environmentPrepared(environment);
+                //将获取到的environment中的spring.main配置绑定到SpringApplication的source中
+                bindToSpringApplication(environment);
+                if (!this.isCustomEnvironment) {
+                    environment = new EnvironmentConverter(getClassLoader()).convertEnvironmentIfNecessary(environment, deduceEnvironmentClass());
+                }
+                ConfigurationPropertySources.attach(environment);
+            configureIgnoreBeanInfo(environment);
+            Banner printedBanner = printBanner(environment);
+            context = createApplicationContext();
+                //根据webApplicationType判断org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext
+            exceptionReporters = getSpringFactoriesInstances(SpringBootExceptionReporter.class, new Class[] { ConfigurableApplicationContext.class }, context);
+            prepareContext(context, environment, listeners, applicationArguments, printedBanner);
+                context.setEnvironment(environment);
+                postProcessApplicationContext(context);
+                循环初始化继承ApplicationContextInitializer接口的类
+                applyInitializers(context);
+                // 遍历调用SpringApplicationRunListener的contextPrepared方法。目前只是将这个事件广播器注册到Spring容器中
+                listeners.contextPrepared(context);
+                // Add boot specific singleton beans
+                ConfigurableListableBeanFactory beanFactory = context.getBeanFactory(): org.springframework.beans.factory.support.DefaultListableBeanFactory
+                beanFactory.registerSingleton("springApplicationArguments", applicationArguments);
+                load(context, sources.toArray(new Object[0]));
+                    BeanDefinitionLoader loader = createBeanDefinitionLoader(getBeanDefinitionRegistry(context), sources);
+                //发布ApplicationPreparedEvent
+                listeners.contextLoaded(context)
+            //刷新容器
+            refreshContext(context);

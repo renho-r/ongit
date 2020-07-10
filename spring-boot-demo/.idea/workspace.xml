@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+<<<<<<< HEAD
     <list default="true" id="a77572e9-c66d-41a4-8ddd-f1f0de23bec9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_core_8_5_27.xml" beforeDir="false" />
@@ -319,6 +320,42 @@
       <change beforePath="$PROJECT_DIR$/../springrestful/src/main/resources/config/applicationContext.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../springrestful/src/main/resources/config/applicationContext.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../springrestful/src/main/webapp/._.DS_Store" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../springrestful/src/main/webapp/WEB-INF/._web.xml" beforeDir="false" />
+=======
+    <list default="true" id="4ace3fd3-7361-420a-b305-2d4f01a4b995" name="Default" comment="">
+<<<<<<< HEAD
+      <change beforePath="$PROJECT_DIR$/../reactor3/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../reactor3/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-webflux/.mvn/wrapper/MavenWrapperDownloader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-webflux/.mvn/wrapper/maven-wrapper.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-webflux/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-webflux/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-webflux/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-webflux/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-webflux/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-webflux/src/main/java/com/renho/springwebflux/SpringWebfluxApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-webflux/spring-webflux-annotation/src/main/java/com/renho/springwebflux/SpringWebfluxApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-webflux/src/main/java/com/renho/springwebflux/controller/HelloWorldController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-webflux/spring-webflux-annotation/src/main/java/com/renho/springwebflux/controller/HelloWorldController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-webflux/src/main/java/com/renho/springwebflux/controller/SseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-webflux/spring-webflux-annotation/src/main/java/com/renho/springwebflux/controller/SseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-webflux/src/main/java/com/renho/springwebflux/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-webflux/spring-webflux-annotation/src/main/java/com/renho/springwebflux/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-webflux/src/main/java/com/renho/springwebflux/domain/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-webflux/spring-webflux-annotation/src/main/java/com/renho/springwebflux/domain/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-webflux/src/main/java/com/renho/springwebflux/exception/ResourceNotFoundException.java" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-webflux/spring-webflux-annotation/src/main/java/com/renho/springwebflux/exception/ResourceNotFoundException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-webflux/src/main/java/com/renho/springwebflux/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-webflux/spring-webflux-annotation/src/main/java/com/renho/springwebflux/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-webflux/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-webflux/spring-webflux-annotation/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-webflux/src/test/java/com/renho/springwebflux/SpringWebfluxApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-webflux/spring-webflux-annotation/src/test/java/com/renho/springwebflux/SpringWebfluxApplicationTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springboot2-oauth2/oauth/oauth-server-jwt/src/main/java/com/renho/oauth/config/OauthServerConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../springboot2-oauth2/oauth/oauth-server-jwt/src/main/java/com/renho/oauth/config/OauthServerConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springboot2-oauth2/oauth/oauth-server-jwt/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../springboot2-oauth2/oauth/oauth-server-jwt/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springboot2-oauth2/oauth/oauth-server-jwt/src/main/resources/templates/user/authorize.ftl" beforeDir="false" afterPath="$PROJECT_DIR$/../springboot2-oauth2/oauth/oauth-server-jwt/src/main/resources/templates/user/authorize.ftl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springboot2-oauth2/oauth/oauth-server/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../springboot2-oauth2/oauth/oauth-server/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../springboot2-oauth2/share/share-manage/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../springboot2-oauth2/share/share-manage/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/docker/docker-swarm.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../文档/docker/docker-swarm.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/docker/docker.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../文档/docker/docker.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/spring/._spring-aop.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/spring/._spring.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/spring/._spring事务.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/spring/springcloud/springcloud.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/vue/vue.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../文档/vue/vue.txt" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/../spring-cloud/spring-cloud-demo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-cloud/spring-cloud-demo/.idea/workspace.xml" afterDir="false" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
     </list>
     <ignored path="$PROJECT_DIR$/classes/" />
     <ignored path="$PROJECT_DIR$/spring-boot-demo-mybatis/target/" />
@@ -330,6 +367,7 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
   <component name="DefaultGradleProjectSettings">
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
@@ -380,15 +418,85 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="81">
               <caret line="7" column="5" lean-forward="true" selection-start-line="7" selection-start-column="5" selection-end-line="7" selection-end-column="5" />
+=======
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="230">
+              <caret line="59" column="25" selection-start-line="59" selection-start-column="25" selection-end-line="59" selection-end-column="25" />
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+<<<<<<< HEAD
+=======
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
+<<<<<<< HEAD
+=======
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/App.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/Example.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/springboot/controller/SampleController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/springboot/controller/User.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/springboot/dao/A.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/springboot/service/A.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/springboot/controller/A.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/springboot/domain/po/User.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/static/scripts/test.js" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/springboot/configuration/A.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/springboot/dao/UserRepositoty.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/springboot/service/UserService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/springboot/configuration/JpaConfiguration.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/springboot/A.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/application.yml" />
+        <option value="$PROJECT_DIR$/src/main/resources/templates/user/index.html" />
+        <option value="$PROJECT_DIR$/src/main/java/com/renho/springboot/entity/User.java" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/Entry.java" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/controller/A.java" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-jpa/src/main/java/com/renho/springboot/jpa/configuration/JpaConfiguration.java" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/entity/User.java" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/service/UserService.java" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/service/UserServiceImpl.java" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-mybatis/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/configuration/Entry.java" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/controller/UserController.java" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/service/IUserService.java" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/service/impl/UserServiceImpl.java" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/mapper/UserMapper.java" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/resources/mapping/UserMapper.xml" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-jpa/pom.xml" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/resources/application.yml" />
+        <option value="$PROJECT_DIR$/spring-boot-demo-jpa/src/main/resources/application.yml" />
+      </list>
+    </option>
+  </component>
+  <component name="JsFlowSettings">
+    <service-enabled>true</service-enabled>
+    <exe-path />
+    <annotation-enable>false</annotation-enable>
+    <other-services-enabled>true</other-services-enabled>
+    <auto-save>true</auto-save>
+  </component>
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -403,11 +511,34 @@
       </MavenImportingSettings>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="260" />
     <option name="y" value="25" />
     <option name="width" value="1400" />
     <option name="height" value="1000" />
+=======
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="spring-boot-demo" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="spring-boot-demo" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="y" value="23" />
+    <option name="width" value="1920" />
+    <option name="height" value="1100" />
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -415,7 +546,14 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+<<<<<<< HEAD
       <pane id="Scope" />
+=======
+<<<<<<< HEAD
+      <pane id="Scope" />
+=======
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -423,6 +561,7 @@
               <item name="spring-boot-demo" type="b2602c69:ProjectViewProjectNode" />
               <item name="spring-boot-demo" type="462c0819:PsiDirectoryNode" />
             </path>
+<<<<<<< HEAD
             <path>
               <item name="spring-boot-demo" type="b2602c69:ProjectViewProjectNode" />
               <item name="spring-boot-demo" type="462c0819:PsiDirectoryNode" />
@@ -596,11 +735,20 @@
               <item name="autoconfigure" type="462c0819:PsiDirectoryNode" />
               <item name="jdbc" type="462c0819:PsiDirectoryNode" />
             </path>
+=======
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
           </expand>
           <select />
         </subPane>
       </pane>
       <pane id="PackagesPane" />
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+=======
+      <pane id="Scope" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -613,12 +761,36 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+<<<<<<< HEAD
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
+=======
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1543128402159" />
+    <property name="go.gopath.indexing.explicitly.defined" value="true" />
+    <property name="last_directory_selection" value="$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/service" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="/usr/local/bin/node" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15634921" />
+    <property name="project.structure.side.proportion" value="0.2614488" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/resources" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.renho.springboot.mybatis.entity" />
+      <recent name="com.renho" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/spring-boot-demo-jpa/src/main" />
+    </key>
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -632,8 +804,31 @@
       </list>
     </option>
   </component>
+<<<<<<< HEAD
   <component name="RunManager">
     <configuration name="Entry" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+=======
+  <component name="RunManager" selected="Spring Boot.Entry">
+    <configuration default="true" type="Applet">
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Entry (1)" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
       <module name="spring-boot-demo-mybatis" />
       <extension name="coverage">
         <pattern>
@@ -646,9 +841,66 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+<<<<<<< HEAD
     <recent_temporary>
       <list>
         <item itemvalue="Spring Boot.Entry" />
+=======
+    <configuration name="Entry" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="spring-boot-demo-jpa" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.renho.springboot.jpa.configuration.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.renho.springboot.jpa.configuration.Entry" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Entry" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="spring-boot-demo-mybatis" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.renho.springboot.mybatis.configuration.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.renho.springboot.mybatis.configuration.Entry" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="TestNG">
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <properties />
+      <listeners />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file enabled="true" id="idea.log" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Spring Boot.Entry" />
+      <item itemvalue="Spring Boot.Entry (1)" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.Entry" />
+        <item itemvalue="Spring Boot.Entry (1)" />
+        <item itemvalue="Spring Boot.Entry" />
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
       </list>
     </recent_temporary>
   </component>
@@ -661,17 +913,57 @@
       <created>1591688146351</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
+<<<<<<< HEAD
       <updated>1591688146351</updated>
       <workItem from="1591688147475" duration="1297000" />
+=======
+      <updated>1521011442471</updated>
+      <workItem from="1521011444014" duration="6437000" />
+      <workItem from="1521018041582" duration="365000" />
+      <workItem from="1521018417424" duration="1722000" />
+      <workItem from="1521020147500" duration="3522000" />
+      <workItem from="1534170309599" duration="1017000" />
+      <workItem from="1543037589856" duration="578000" />
+      <workItem from="1543038225115" duration="7000" />
+      <workItem from="1543038236155" duration="44000" />
+      <workItem from="1543128339342" duration="94000" />
+      <workItem from="1544258215499" duration="270000" />
+      <workItem from="1544621499216" duration="74000" />
+      <workItem from="1545316304138" duration="74000" />
+<<<<<<< HEAD
+      <workItem from="1555555969651" duration="1221000" />
+      <workItem from="1556375020355" duration="100000" />
+=======
+      <workItem from="1555334302562" duration="37000" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
     <option name="totallyTimeSpent" value="1297000" />
+=======
+<<<<<<< HEAD
+    <option name="totallyTimeSpent" value="15525000" />
+=======
+    <option name="totallyTimeSpent" value="14241000" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <layout>
+<<<<<<< HEAD
       <window_info id="Designer" />
       <window_info id="Image Layers" />
       <window_info id="Capture Tool" />
@@ -688,12 +980,27 @@
       <window_info anchor="bottom" id="Java Enterprise" />
       <window_info anchor="bottom" id="Database Changes" />
       <window_info anchor="bottom" id="Version Control" />
+=======
+<<<<<<< HEAD
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17803837" />
+=======
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.17784877" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
+      <window_info id="Structure" order="1" weight="0.24973376" />
+      <window_info id="Designer" order="2" />
+      <window_info id="Image Layers" order="3" />
+      <window_info id="UI Designer" order="4" />
+      <window_info id="Favorites" order="5" side_tool="true" />
+      <window_info id="Capture Tool" order="6" />
+      <window_info id="Web" order="7" side_tool="true" />
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3583691" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+<<<<<<< HEAD
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="Maven" />
       <window_info anchor="right" id="Palette" />
@@ -705,11 +1012,48 @@
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" visible="true" weight="0.15458423" />
+=======
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.3297561" />
+      <window_info anchor="bottom" id="Spring" order="7" weight="0.3297561" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.3297561" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5021299" side_tool="true" weight="0.3297561" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.3697561" />
+      <window_info anchor="bottom" id="Java Enterprise" order="11" weight="0.3297561" />
+      <window_info anchor="bottom" id="Version Control" order="12" />
+<<<<<<< HEAD
+      <window_info anchor="bottom" id="Run Dashboard" order="13" visible="true" weight="0.3583691" />
+=======
+      <window_info anchor="bottom" id="Run Dashboard" order="13" visible="true" weight="0.3463035" />
+>>>>>>> 3e9f7c48d100ccbdb6b2f41053cfa379de24d25c
+      <window_info anchor="bottom" id="Database Changes" order="14" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Tail" order="15" />
+      <window_info anchor="bottom" id="Docker" order="16" show_stripe_button="false" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="right" id="Palette" order="3" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Maven Projects" order="5" visible="true" weight="0.12193823" />
+      <window_info anchor="right" id="Database" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Theme Preview" order="8" />
+      <window_info anchor="right" id="Bean Validation" order="9" />
+      <window_info anchor="right" id="Key Promoter X" order="10" />
+      <window_info anchor="right" id="Maven" order="11" />
+      <window_info anchor="right" id="SciView" order="12" />
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
     </layout>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+<<<<<<< HEAD
+=======
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="20180314_renho_commit_springboot" />
+    <option name="LAST_COMMIT_MESSAGE" value="20180314_renho_commit_springboot" />
+  </component>
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
@@ -766,6 +1110,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="file://$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/configuration/Entry.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="206">
@@ -774,12 +1119,17 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/controller/UserController.java">
+=======
+    <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.4.5/mybatis-3.4.5.jar!/org/apache/ibatis/type/JdbcType.class" />
+    <entry file="file://$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/service/IUserService.java">
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-78">
           <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-autoconfigure/1.5.10.RELEASE/spring-boot-autoconfigure-1.5.10.RELEASE-sources.jar!/org/springframework/boot/autoconfigure/jdbc/DataSourceAutoConfiguration.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-1925">
@@ -793,6 +1143,9 @@
       </provider>
     </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-jdbc/4.3.14.RELEASE/spring-jdbc-4.3.14.RELEASE.jar!/org/springframework/jdbc/datasource/DataSourceUtils.class">
+=======
+    <entry file="file://$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/mapper/UserMapper.java">
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
           <caret line="39" selection-start-line="39" selection-end-line="39" />
@@ -837,6 +1190,7 @@
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
     <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.4.5/mybatis-3.4.5.jar!/org/apache/ibatis/session/defaults/DefaultSqlSession.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="112">
@@ -852,6 +1206,9 @@
       </provider>
     </entry>
     <entry file="jar://$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.4.5/mybatis-3.4.5.jar!/org/apache/ibatis/executor/BaseExecutor.class">
+=======
+    <entry file="file://$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/controller/UserController.java">
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="129">
           <caret line="133" selection-start-line="133" selection-end-line="133" />
@@ -893,6 +1250,27 @@
           <folding>
             <element signature="e#1380#1410#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/configuration/Entry.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="14" column="1" selection-start-line="14" selection-start-column="1" selection-end-line="14" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/spring-boot-demo-mybatis/src/main/java/com/renho/springboot/mybatis/service/impl/UserServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="15" column="39" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="59" column="25" selection-start-line="59" selection-start-column="25" selection-end-line="59" selection-end-column="25" />
         </state>
       </provider>
     </entry>

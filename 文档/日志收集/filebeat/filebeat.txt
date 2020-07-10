@@ -1,0 +1,2 @@
+./filebeat -e -c filebeat.yml 
+./filebeat -e -c filebeat.yml -d "publish"

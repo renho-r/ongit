@@ -1,0 +1,53 @@
+package com.renho.hystrix;
+
+import com.netflix.discovery.converters.Auto;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @author: xxxxx
+ * @since: 1.0.0
+ */
+@SpringBootApplication
+@EnableCircuitBreaker
+@RestController
+public class HystrixSimpleApplication {
+
+    @Autowired
+    private StoreIntegration storeIntegration;
+
+    public static void main(String[] args) {
+        SpringApplication.run(HystrixSimpleApplication.class, args);
+    }
+
+    @RequestMapping("/hystrix")
+    public Object hystrix() {
+        return storeIntegration.getStores(null);
+    }
+
+    @Component
+    public class StoreIntegration {
+
+        @HystrixCommand(fallbackMethod = "defaultStores")
+        public Object getStores(Map<String, Object> parameters) {
+            //do stuff that might fail
+            return 1/0;
+        }
+
+        public Object defaultStores(Map<String, Object> parameters) {
+            return new HashMap(){{
+                put("code", "err");
+            }}/* something useful */;
+        }
+    }
+}

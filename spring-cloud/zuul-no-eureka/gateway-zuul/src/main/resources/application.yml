@@ -1,0 +1,25 @@
+server:
+  port: 9000
+zuul:
+  host:
+   connect-timeout-millis: 5000
+   socket-timeout-millis: 20000
+  routes:
+    user-service:
+      path: /api/user/**
+      serviceId: user-service
+#      url: http://localhost:9002
+      stripPrifix: false
+#      sensitiveHeaders:
+    info-service:
+      path: /api/info/**
+      url: http://localhost:9001/info
+      stripPrifix: true
+      sensitiveHeaders:
+debug: true
+ribbon:
+  eureka:
+    enabled: false
+user-service:
+  ribbon:
+    listOfServers: http://localhost:9002,http://localhost:9003

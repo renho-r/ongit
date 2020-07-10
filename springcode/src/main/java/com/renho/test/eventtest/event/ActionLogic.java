@@ -12,9 +12,15 @@ import com.renho.bean.pojo.Person;
 public class ActionLogic implements ApplicationContextAware {
 
 	private ApplicationContext applicationContext;
+
+	public ActionLogic() {
+		System.out.println("ActionLogic");
+	}
+
 	public void setApplicationContext(ApplicationContext applicationContext)
 			throws BeansException {
 		this.applicationContext = applicationContext;
+		System.out.println("setApplicationContext");
 	}
 
 	public void execute() {

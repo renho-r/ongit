@@ -1,0 +1,12 @@
+{
+	"theme": "Spacegray.sublime-theme",
+	"color_scheme": "Packages/Theme - Spacegray/base16-ocean.dark.tmTheme",
+	"font_size": 11,
+	"ignored_packages":
+	[
+		"Vintage"
+	],
+	"tabs_small": true,
+	"word_wrap": false,
+	"spacegray_fileicons": true
+}

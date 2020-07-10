@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.renho.springbootcode.mapper.TbUserMapper">
+
+    <resultMap id="BaseResultMap" type="com.renho.springbootcode.domain.pojo.TbUser">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="user_name" property="userName" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, user_name
+    </sql>
+
+    <select id="findAllUser" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_user
+    </select>
+    <insert id="insert" parameterType="TbUser" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO tb_user(id, user_name) VALUES(#{id}, #{userName})
+    </insert>
+</mapper>

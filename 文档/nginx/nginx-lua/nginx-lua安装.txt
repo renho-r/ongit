@@ -1,0 +1,61 @@
+1.安装LuaJIT
+	1.1下载上传 LuaJIT-2.0.5.tar.gz
+	1.2解压安装
+		tar -zxvf LuaJIT-2.0.5.tar.gz
+		make install PREFIX=/usr/local
+2.下载上传lua-nginx-module-0.10.13.zip ngx_devel_kit-0.3.0.zip
+	unzip lua-nginx-module-0.10.13.zip
+	unzip ngx_devel_kit-0.3.0.zip
+3.安装nginx
+	3.1下载上传 nginx-1.12.2.tar.gz
+	3.2解压安装
+		tar -zxvf nginx-1.12.2.tar.gz
+		./configure --prefix=/root/nginx-lua --add-module=/root/nginx-log/lua-nginx-module-0.10.13 --add-module=/root/nginx-log/ngx_devel_kit-0.3.0 
+		make
+		make install
+4.配置
+	echo "/usr/local/lib" >> /etc/ld.so.conf.d/usr_local_lib.conf
+	ldconfig
+
+
+
+		--add-module=/root/nginx-log/echo-nginx-module-0.61
+5.安装cjson
+	vi .bash_profile
+	export LUAJIT_LIB=/usr/local/lib
+	export LUAJIT_INC=/usr/local/include/luajit-2.0
+
+	vi Makefile
+	LUA_INCLUDE_DIR = $(PREFIX)/include/luajit-2.0
+
+
+tar -zxvf LuaJIT-2.0.5.tar.gz 
+make
+make install
+
+echo "/usr/local/lib" >> /etc/ld.so.conf.d/usr_local_lib.conf
+ldconfig
+
+export LUAJIT_LIB=/usr/local/lib
+export LUAJIT_INC=/usr/local/include/luajit-2.0
+
+./configure --prefix=/root/nginx-lua --add-module=/root/nginx-log/lua-nginx-module-0.10.13 --add-module=/root/nginx-log/ngx_devel_kit-0.3.0 --add-module=/root/nginx-log/echo-nginx-module-0.61
+
+
+Makefile
+LUA_INCLUDE_DIR = $(PREFIX)/include/luajit-2.0
+
+make --prefix=
+
+nginx.conf #user  nobody;
+
+
+
+logstash
+	bin/logstash -e 'input { stdin { } } output { stdout {} }'
+	bin/logstash -f first-pipeline.conf --config.test_and_exit
+	bin/logstash -f first-pipeline.conf --config.reload.automatic
+
+filebeat
+	./filebeat -e -c filebeat.yml 
+	./filebeat -e -c filebeat.yml -d "publish"

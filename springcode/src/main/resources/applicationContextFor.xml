@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+            http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
+
+  	<bean id="singletonA" class="com.renho.bean.pojo.Singleton" scope="singleton" lazy-init="true">
+		<!--<constructor-arg name="singleton" ref="singletonB"/>-->
+		<property name="prototype" ref="prototypeA"/>
+		<!--<constructor-arg name="prototype" ref="prototypeA"/>-->
+	</bean>
+
+	<bean id="singletonB" class="com.renho.bean.pojo.Singleton" scope="singleton" lazy-init="true">
+		<!--<constructor-arg name="prototype" ref="prototype"/>-->
+		<property name="singleton" ref="singletonA"/>
+	</bean>
+
+	<bean id="prototypeA" class="com.renho.bean.pojo.Prototype" scope="prototype">
+		<!--<constructor-arg name="singleton" ref="singletonA"/>-->
+		<!--<property name="singleton" ref="singletonA"/>-->
+		<constructor-arg name="prototype" ref="prototypeB"/>
+	</bean>
+
+	<bean id="prototypeB" class="com.renho.bean.pojo.Prototype" scope="prototype">
+		<!--<constructor-arg name="singleton" ref="singletonA"/>-->
+		<property name="prototype" ref="prototypeA"/>
+		<!--<constructor-arg name="prototype" ref="prototypeA"/>-->
+	</bean>
+
+</beans>

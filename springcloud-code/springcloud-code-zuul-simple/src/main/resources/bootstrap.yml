@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: zuul
+server:
+  port: 9000
+eureka:
+  instance:
+    prefer-ip-address: true
+    leaseRenewalIntervalInSeconds: 30
+    instance-id: ${spring.cloud.client.ip-address}:${server.port}
+    ip-address: 127.0.0.1
+  client:
+    registryFetchIntervalSeconds: 300
+    instanceInfoReplicationIntervalSeconds: 30
+    initialInstanceInfoReplicationIntervalSeconds: 30
+    serviceUrl:
+      defaultZone: http://${eureka.instance.ip-address}:9999/eureka/ #eureka服务地址
+zuul:
+  routes:
+    test-service:
+      strip-prefix: true
+      path: /api/test/**
+      service-id: test-service
+    my-service:
+      strip-prefix: false
+      path: /api/info/**
+      service-id: my-service
+ribbon:
+  eureka:
+    enabled: false
+my-service:
+  ribbon:
+    listOfServers: http://localhost:9001/,http://localhost:9003/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+    health:
+      show-details: always
+#logging:
+#  level:
+#    root: debug

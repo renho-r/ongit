@@ -1,0 +1,21 @@
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: localhost
+#    preferIpAddress: true
+  server:
+#    renewalPercentThreshold: 0
+    #关闭保护
+    enableSelfPreservation: false
+    #清理服务时间默认90s
+    evictionIntervalTimerInMs: 10000
+    useReadOnlyResponseCache: false
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://localhost:${server.port}/eureka/
+logging:
+  level:
+    com.netflix: DEBUG

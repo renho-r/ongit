@@ -1,0 +1,28 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: zuul-service
+  zipkin:
+    base-url: http://127.0.0.1:10000
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://myserver:8761/eureka/
+#zuul:
+#  routes:
+#    product:
+#      path: /product/**
+#      serviceId: p-service
+#      stripPrefix: false
+#p-service:
+#  ribbon:
+#    listOfServers: http://127.0.0.1:8773
+management:
+  security:
+    enabled: false
+  endpoints:
+    web:
+      exposure:
+        include: "*" #暴露所有端点 默认是info,health
+debug: true

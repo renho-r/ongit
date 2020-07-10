@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <!--<bean id="compositeA" class="com.renho.bean.Composite">-->
+        <!--<constructor-arg ref="compositeB"></constructor-arg>-->
+    <!--</bean>-->
+    <!--<bean id="compositeB" class="com.renho.bean.Composite">-->
+        <!--<constructor-arg ref="compositeA"></constructor-arg>-->
+    <!--</bean>-->
+
+    <!--<bean id="compositeA" class="com.renho.bean.Composite">-->
+        <!--<property name="composite" ref="compositeB"></property>-->
+    <!--</bean>-->
+    <!--<bean id="compositeB" class="com.renho.bean.Composite">-->
+        <!--<property name="composite" ref="compositeA"></property>-->
+    <!--</bean>-->
+
+    <!--<bean id="compositeA" class="com.renho.bean.Composite" scope="prototype">-->
+        <!--<property name="composite" ref="compositeB"></property>-->
+    <!--</bean>-->
+    <!--<bean id="compositeB" class="com.renho.bean.Composite" scope="prototype">-->
+        <!--<property name="composite" ref="compositeA"></property>-->
+    <!--</bean>-->
+
+    <!--<bean id="compositeA" class="com.renho.bean.Composite" scope="prototype"></bean>-->
+
+    <!--<bean id="compositeA" class="com.renho.bean.Composite"></bean>-->
+    <bean id="compositeA" class="com.renho.bean.Composite" scope="request"></bean>
+</beans>

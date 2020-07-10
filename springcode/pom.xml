@@ -185,6 +185,9 @@
                     <include>**/*.xml</include>
                     <include>**/*.properties</include>
                     <include>**/*.lua</include>
+                    <include>**/*.xsd</include>
+                    <include>**/*.handlers</include>
+                    <include>**/*.schema</include>
                 </includes>
             </resource>
         </resources>

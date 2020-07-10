@@ -7,6 +7,13 @@
 	<artifactId>jcip</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
+	<dependencies>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+	</dependencies>
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>

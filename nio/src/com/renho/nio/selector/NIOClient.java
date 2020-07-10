@@ -29,7 +29,7 @@ public class NIOClient {
 
 	/**
 	 * * // 采用轮询的方式监听selector上是否有需要处理的事件，如果有，则进行处理 * @throws // IOException
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	@SuppressWarnings("rawtypes")
@@ -70,13 +70,13 @@ public class NIOClient {
 		String msg = new String(data).trim();
 		System.out.println("client receive msg from server:" + msg);
 		ByteBuffer outBuffer = ByteBuffer.wrap(msg.getBytes());
-		channel.write(outBuffer);
+//		channel.write(outBuffer);
 
 	}
 
 	/**
 	 * * // 启动客户端测试 * @throws IOException
-	 * 
+	 *
 	 * @throws Exception
 	 */
 	public static void main(String[] args) throws Exception {

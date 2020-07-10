@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: ribbon-server
+  cloud:
+    loadbalancer:
+      retry:
+        enabled: true
+server:
+  port: 9100
+ribbon:
+  eureka:
+    enabled: false
+USER-SERVICE:
+  ribbon:
+    listOfServers: http://127.0.0.1:8763,http://127.0.0.1:8765
+    ReadTimeout: 6000
+    ConnectTimeout: 6000
+    MaxAutoRetries: 1
+    MaxAutoRetriesNextServer: 2
+    OkToRetryOnAllOperations: true

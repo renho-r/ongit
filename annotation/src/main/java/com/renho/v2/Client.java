@@ -2,13 +2,10 @@ package com.renho.v2;
 
 import com.renho.v2.po.UserInfo;
 import com.renho.v2.annotation.FormatAnnotation.*;
-import org.apache.commons.lang3.StringUtils;
+import com.sun.deploy.util.StringUtils;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author renho
@@ -30,7 +27,7 @@ public class Client {
         List<Field> hasAnnotationFields = filterAnnotation(fields, Index.class);
         sortByAnnValue(hasAnnotationFields, Index.class);
         List<Object> indexList = getFormatIndex(hasAnnotationFields, Index.class, t);
-        System.out.println(StringUtils.join(indexList.toArray(), "|"));
+        System.out.println(StringUtils.join(Arrays.asList(indexList.toArray()), "|"));
     }
 
     private List<Object> getFormatIndex(List<Field> hasAnnotationFields, Class<Index> iClass, Object obj) throws IllegalAccessException {

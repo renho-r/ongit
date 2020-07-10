@@ -1,0 +1,46 @@
+server:
+  port: 8763
+spring:
+  application:
+    name: eureka-client
+management:
+  security:
+    enabled: false
+eureka:
+  instance:
+    #表明客户端需要将心跳发送到服务器端，以表明它还活着。如果心跳停止的时间超过了服务器设置的等待时间，那么服务器端将会从它的服务列表中删除该实例，从而将流量排除在该实例之外。默认30s
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 15
+#    healthCheckUrlPath: /healtha
+#    health-check-url: http://localhost:8777/healthb
+  client:
+    healthcheck:
+      enabled: true
+    serviceUrl:
+      defaultZone: http://myserver:8761/eureka/
+#logging:
+#  level:
+#    com.netflix: DEBUG
+endpoints:
+  health:
+    path: /myhealth
+
+
+#server:
+#  port: 8763
+#eureka:
+#  instance:
+##    statusPageUrlPath: /info
+#    healthCheckUrlPath: /healthaaaaaaaaaaaaa
+#    preferIpAddress: true
+##    instance-id: http://192.168.21.100:8763
+#    ip-address: 192.168.21.100
+#  client:
+#    serviceUrl:
+#      defaultZone: http://192.168.21.100:8761/eureka/
+#    healthcheck:
+#      enabled: true
+#spring:
+#  application:
+#    name: eureka-client
+

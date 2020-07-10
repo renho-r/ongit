@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:lang="http://www.springframework.org/schema/lang"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:renho="http://renho.me/schema/renho"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+
+		http://renho.me/schema/renho http://renho.me/schema/renho.xsd">
+    <!-- 上述Beans中须引用自定义标签的xsd信息 -->
+
+    <renho:application id="applicationTest" name="nameTest" version="1.0" />
+
+    <renho:registry id="registry" address="127.0.0.1" port="8080" />
+
+</beans>

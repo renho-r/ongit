@@ -13,3 +13,15 @@ setAcl / world:anyone:crwda
 
 setAcl /dubbo digest:test:V28q/NynI4JI3Rk54h0r8O5kMug=:crwda
 setAcl /dubbo world:anyone:crwda
+
+搭建集群
+1.复制3份zoo.cfg,或者3台主机
+    主要修改内容
+    dataDir=/home/oracle/software/zookeeper_1/data
+    clientPort=2181
+    server.1=127.0.0.1:2888:3888
+    server.2=127.0.0.1:4888:5888
+    server.3=127.0.0.1:6888:7888
+2.dataDir下新建myid文件内容为server.*的*值
+3.启动./zkServer.sh start ../conf/zoo_1.cfg
+4.查看./zkServer.sh status ../conf/zoo_1.cfg

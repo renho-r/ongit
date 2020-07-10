@@ -1,0 +1,31 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+  datasource:
+    url: jdbc:postgresql://myserver:5432/oauth2
+    username: kong
+    password: kong
+    driverClassName: org.postgresql.Driver
+  mvc:
+    view:
+      prefix: classpath:/templates/
+      suffix: .html
+    static-path-pattern: /static/**
+security:
+  oauth2:
+    client:
+      client-id: r
+      client-secret: rr
+      scope: all
+      access-token-uri: http://localhost:8000/oauth/token
+      user-authorization-uri: http://localhost:8000/oauth/authorize
+    resource:
+      token-info-uri: http://localhost:8000/oauth/check_token
+server:
+  port: 8000
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.renho.auth.domain.po

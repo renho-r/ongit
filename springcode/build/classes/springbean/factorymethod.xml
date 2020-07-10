@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="logic" class="com.renho.test.factorymethod.LogicImpl"/>
+	<bean id="loginAction" class="com.renho.test.factorymethod.LoginAction" factory-method="createInstance">
+		<constructor-arg ref="logic"></constructor-arg>
+	</bean>
+	
+	<bean id="factoryBean" class="com.renho.test.factorymethod.FactoryBeanTest"/>
+	<bean id="person" class="com.renho.bean.pojo.Person"/>
+	<bean id="personDAO" factory-bean="factoryBean" factory-method="getInstance">
+		<constructor-arg value="1"></constructor-arg>
+		<constructor-arg ref="person"></constructor-arg>
+	</bean>
+	
+</beans>

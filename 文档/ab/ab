@@ -1,0 +1,7 @@
+ab -n1000 -c 10 http://127.0.0.1:8182/e3646150000/mJC1539945619029/renho/api/http/auth/log
+
+
+ab -n1000 -c 10 -p /root/post.txt -T application/json http://127.0.0.1:9090/api/http/auth/log
+
+ab -n1000 -c 10 -p /root/post.txt -T application/json http://127.0.0.1:8182/req/e3646150000/mJC1539945619029/VOc1539947801537/renho/test
+ab -n1 -c 1 -p /root/post.txt -T application/json http://127.0.0.1:8182/e3646150000/mJC1539945619029/renho/api/http/auth/log

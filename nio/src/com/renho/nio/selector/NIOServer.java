@@ -70,7 +70,11 @@ public class NIOServer {
 		SocketChannel channel = (SocketChannel) key.channel();
 		// 穿件读取的缓冲区
 		ByteBuffer buffer = ByteBuffer.allocate(10);
-		channel.read(buffer);
+		int len = channel.read(buffer);
+		if (-1 == len) {
+			channel.close();
+			return;
+		}
 		byte[] data = buffer.array();
 		String msg = new String(data).trim();
 		System.out.println("server receive from client: " + msg);

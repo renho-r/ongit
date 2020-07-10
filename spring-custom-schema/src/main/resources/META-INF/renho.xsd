@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:beans="http://www.springframework.org/schema/beans"
+            xmlns:tool="http://www.springframework.org/schema/tool"
+
+            xmlns="http://renho.me/schema/renho"
+            targetNamespace="http://renho.me/schema/renho">
+    <!-- xmlns 和  targetNamespace 写成自己的存放地址-->
+
+    <!-- 模拟dubbo，描述当前namespace作用 -->
+    <xsd:annotation>
+        <xsd:documentation>
+            <![CDATA[ Namespace support for the yf services provided by yf framework. ]]></xsd:documentation>
+    </xsd:annotation>
+
+    <!-- xsd:complexType 定义一个type，及其属性attribute， annotation和documentation联合起来只作说明  -->
+    <xsd:complexType name="applicationType">
+        <!-- 定义属性id， id值唯一 -->
+        <xsd:attribute name="id" type="xsd:ID">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[ The unique identifier for a bean. ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="name" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[ The application name. ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="version" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[ The application version. ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <!-- 定义标签属性registry type-->
+    <xsd:complexType name="registryType">
+        <xsd:attribute name="id" type="xsd:ID">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[ The unique identifier for a bean. ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="address" type="xsd:string" use="required">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[ The registry address. ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="port" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation><![CDATA[ The registry default port. ]]></xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+
+    <!-- 定义标签application，并指明其对应的type，示例 <yf:application></yf:application> -->
+    <xsd:element name="application" type="applicationType">
+        <xsd:annotation>
+            <xsd:documentation><![CDATA[ The application config ]]></xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+    <xsd:element name="registry" type="registryType">
+        <xsd:annotation>
+            <xsd:documentation><![CDATA[ The registry config ]]></xsd:documentation>
+        </xsd:annotation>
+    </xsd:element>
+
+</xsd:schema>
