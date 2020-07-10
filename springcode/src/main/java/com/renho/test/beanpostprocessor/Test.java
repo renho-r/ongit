@@ -14,6 +14,8 @@ public class Test {
 		XmlBeanFactory xbf = new XmlBeanFactory(new ClassPathResource("springbean/beans.xml"), supXbf);
 		
 		//·ÇApplicationContext±ØÐëÏÔÊ¾×¢²á
+		BeanPostProcessor instantiationAwareBeanPostProcessorImpl = new InstantiationAwareBeanPostProcessorImpl();
+		xbf.addBeanPostProcessor(instantiationAwareBeanPostProcessorImpl);
 		BeanPostProcessor beanPostProcessor = new BeanPostProcessorImpl();
 		xbf.addBeanPostProcessor(beanPostProcessor);
 				

@@ -10,5 +10,4 @@
  		</property>
  	</bean>
  	<bean class="com.renho.test.beanpostprocessor.BeanPostProcessorImpl"/>
-	<bean class="com.renho.test.beanpostprocessor.InstantiationAwareBeanPostProcessorImpl"/>
 </beans>

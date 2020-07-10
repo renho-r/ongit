@@ -6,6 +6,10 @@ public class PersonDAO {
 
 	private Person person;
 
+	public PersonDAO() {
+		System.out.println("");
+	}
+
 	public Person getPerson() {
 		return person;
 	}
