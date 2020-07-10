@@ -18,8 +18,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private FilterUrlsPropertiesConifg filterUrlsPropertiesConifg;
-    @Autowired
     private UserDetailsService userDetailsService;
 
     @Bean
@@ -39,9 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 http.formLogin().loginPage("/login")
                         .and()
                         .authorizeRequests();
-        for (String url : filterUrlsPropertiesConifg.getAnon()) {
-            registry.antMatchers(url).permitAll();
-        }
+        registry.antMatchers("login", "noauth").permitAll();
         registry.anyRequest().authenticated()
                 .and()
                 .csrf().disable();

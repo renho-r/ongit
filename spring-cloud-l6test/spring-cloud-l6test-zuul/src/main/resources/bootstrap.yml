@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: zuul
+server:
+  port: 9000
+zuul:
+  host:
+    connect-timeout-millis: 60000
+    socket-timeout-millis: 60000
+  sensitive-headers:
+  PreMatchClientDigestFilter:
+    pre:
+      disable: true
+  UrlAccessFilter:
+    pre:
+      disable: true
+    data:
+      startLoad: true
+eureka:
+  instance:
+    prefer-ip-address: true
+    leaseRenewalIntervalInSeconds: 3
+  client:
+    registryFetchIntervalSeconds: 5
+    instanceInfoReplicationIntervalSeconds: 5
+    initialInstanceInfoReplicationIntervalSeconds: 5
+    serviceUrl:
+      defaultZone: http://localhost:9999/eureka/
+debug: true

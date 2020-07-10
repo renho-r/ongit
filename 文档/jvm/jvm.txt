@@ -2,3 +2,18 @@ jstack
 jmap
 
 jmap -dump:format=b, file=heapdump.phrof pid
+
+1.查看机器资源信息
+    top
+    键盘输入1，查逻辑内核
+    查看线程信息: top -Hp 进程id
+    转16进制: printf "%x\n" 2747
+2.查看jvm线程信息
+    jstack 进程id 查看jvm进程信息
+3.查看gc情况
+    jstat -gc 38302 1000
+    gc诱因: jstat -gccause 38302
+4.堆内存信息
+    jmap 38302
+    jmap -heap 38302
+    jmap -histo:live 38302

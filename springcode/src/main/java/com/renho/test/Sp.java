@@ -13,10 +13,14 @@ public class Sp {
 
     public static void main(String[] args) {
 
-        ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContextFor.xml");
+//        ApplicationContext ac = new ClassPathXmlApplicationContext("applicationContextFor.xml");
+//        ClassPathXmlApplicationContext  ac = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ClassPathXmlApplicationContext  ac = new ClassPathXmlApplicationContext("renhonamespace/renho.xml");
 
-        ac.getBean("singletonA");
-        ac.getBean("prototypeA");
+        ac.setValidating(false);
+        ac.refresh();
+        ac.getBean("renhoPerson");
+//        ac.getBean("prototypeA");
 
 //        Prototype prototype = (Prototype) ac.getBean("prototype");
 //

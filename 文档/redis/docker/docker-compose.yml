@@ -1,0 +1,118 @@
+# docker-compose.yml文件的版本
+version: "3"
+# 管理的服务
+services:
+  redis1:
+    # 指定镜像
+    image: redis:4
+    container_name: redis1
+    ports:
+      # 端口映射
+      - 6380:6379
+    volumes:
+      # 目录映射
+      - "${REDIS1_DIR}/conf:/etc/redis"
+      - "${REDIS1_DIR}/data:/data"
+    command:
+      # 执行的命令
+      redis-server /etc/redis/redis.conf
+    networks:
+      net-redis:
+        ipv4_address: 172.30.0.2
+    #tty: true
+  redis2:
+    # 指定镜像
+    image: redis:4
+    container_name: redis2
+    ports:
+      # 端口映射
+      - 6381:6379
+    volumes:
+      # 目录映射
+      - "${REDIS2_DIR}/conf:/etc/redis"
+      - "${REDIS2_DIR}/data:/data"
+    command:
+      # 执行的命令
+      redis-server /etc/redis/redis.conf
+    networks:
+      net-redis:
+        ipv4_address: 172.30.0.3
+    #tty: true
+  redis3:
+    # 指定镜像
+    image: redis:4
+    container_name: redis3
+    ports:
+      # 端口映射
+      - 6382:6379
+    volumes:
+      # 目录映射
+      - "${REDIS3_DIR}/conf:/etc/redis"
+      - "${REDIS3_DIR}/data:/data"
+    command:
+      # 执行的命令
+      redis-server /etc/redis/redis.conf
+    networks:
+      net-redis:
+        ipv4_address: 172.30.0.4
+    #tty: true
+  redis-sentinel1:
+    # 指定镜像
+    image: redis:4
+    container_name: redis-sentinel1
+    ports:
+      # 端口映射
+      - 26380:26379
+    volumes:
+      # 目录映射
+      - "${REDIS1_DIR}/conf:/etc/redis"
+      - "${REDIS1_DIR}/data:/data"
+    command:
+      # 执行的命令
+      redis-sentinel /etc/redis/sentinel.conf
+    networks:
+      net-redis:
+        ipv4_address: 172.30.0.5
+    #tty: true
+  redis-sentinel2:
+    # 指定镜像
+    image: redis:4
+    container_name: redis-sentinel2
+    ports:
+      # 端口映射
+      - 26381:26379
+    volumes:
+      # 目录映射
+      - "${REDIS2_DIR}/conf:/etc/redis"
+      - "${REDIS2_DIR}/data:/data"
+    command:
+      # 执行的命令
+      redis-sentinel /etc/redis/sentinel.conf
+    networks:
+      net-redis:
+        ipv4_address: 172.30.0.6
+    #tty: true
+  redis-sentinel3:
+    # 指定镜像
+    image: redis:4
+    container_name: redis-sentinel3
+    ports:
+      # 端口映射
+      - 26382:26379
+    volumes:
+      # 目录映射
+      - "${REDIS3_DIR}/conf:/etc/redis"
+      - "${REDIS3_DIR}/data:/data"
+    command:
+      # 执行的命令
+      redis-sentinel /etc/redis/sentinel.conf
+    networks:
+      net-redis:
+        ipv4_address: 172.30.0.7
+networks:
+  net-redis:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.30.0.0/24

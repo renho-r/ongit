@@ -1,22 +1,20 @@
 package com.renho.oauth2authserver.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
-import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
-import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+
+import javax.sql.DataSource;
 
 /**
  * @author: renho
@@ -27,14 +25,11 @@ import org.springframework.security.oauth2.provider.token.store.redis.RedisToken
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
-    @Qualifier("authenticationManagerBean")
-    private AuthenticationManager myAuthenticationProvider;
-    @Autowired
-    private RedisConnectionFactory redisConnectionFactory;
-    @Autowired
-    private ClientDetailsService myClientDetailsService;
+    private AuthenticationManager authenticationManager;
     @Autowired
     private UserDetailsService userDetailsService;
+    @Autowired
+    private DataSource dataSource;
 
     /**
      允许表单验证，浏览器直接发送post请求即可获取tocken
@@ -51,12 +46,12 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception{
-        clients.withClientDetails(myClientDetailsService);
+        clients.jdbc(dataSource);
     }
 
     @Bean
     public TokenStore tokenStore(){
-        return new RedisTokenStore(redisConnectionFactory);
+        return new JdbcTokenStore(dataSource);
     }
 
     /**
@@ -66,25 +61,10 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         //授权方式提供者，判断授权有效性
         endpoints
-                .authenticationManager(myAuthenticationProvider)
+                .authenticationManager(authenticationManager)
                 .userDetailsService(userDetailsService)
                 .accessTokenConverter(jwtAccessTokenConverter())
                 .tokenStore(tokenStore());
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new PasswordEncoder() {
-            @Override
-            public String encode(CharSequence rawPassword) {
-                return rawPassword.toString();
-            }
-
-            @Override
-            public boolean matches(CharSequence rawPassword, String encodedPassword) {
-                return encodedPassword.equals(rawPassword.toString());
-            }
-        };
     }
 
     @Bean

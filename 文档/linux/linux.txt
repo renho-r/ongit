@@ -154,3 +154,4 @@ Centos6.5
 
 分割文件:split -l 1000 xml_data renho
 合并文件:cat renho* >> collect.txt
+overcommit

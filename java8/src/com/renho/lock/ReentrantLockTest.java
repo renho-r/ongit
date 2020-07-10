@@ -1,5 +1,6 @@
 package com.renho.lock;
 
+<<<<<<< HEAD
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -29,6 +30,16 @@ public class ReentrantLockTest {
         t.start();
         TimeUnit.SECONDS.sleep(3);
         lock.unlock();
+=======
+/**
+ * @author: renho
+ * @since: 1.0.0
+ */
+public class ReentrantLockTest {
+
+    public static void main(String[] args) {
+
+>>>>>>> 6997397a7f75bd3e5b9ef0dcf835840fff208b23
     }
 
 }
