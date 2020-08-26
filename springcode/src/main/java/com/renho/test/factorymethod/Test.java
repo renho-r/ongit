@@ -16,6 +16,5 @@ public class Test {
 		//LoginAction loginAction = (LoginAction) defaultListableBeanFactory.getBean("loginAction");
 		//loginAction.execute();
 		PersonDAO personDAO = (PersonDAO) defaultListableBeanFactory.getBean("personDAO");
-		System.out.println(personDAO.getPerson().getPersonName());
 	}
 }

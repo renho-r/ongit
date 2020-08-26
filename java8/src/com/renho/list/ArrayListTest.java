@@ -1,10 +1,26 @@
 package com.renho.list;
 
+<<<<<<< HEAD
+=======
 import java.lang.reflect.Field;
+>>>>>>> 6997397a7f75bd3e5b9ef0dcf835840fff208b23
 import java.util.ArrayList;
 import java.util.List;
 
 /**
+<<<<<<< HEAD
+ * @author renho
+ * @since: 2019/11/6
+ */
+public class ArrayListTest {
+
+    public static void main(String[] args) {
+        List<Integer> list = new ArrayList<>(0);
+        list.add(1);
+        list.add(2);
+    }
+
+=======
  * @author: renho
  * @since: 1.0.0
  */
@@ -38,4 +54,5 @@ public class ArrayListTest {
         Object[] elementData = (Object[])f.get(list);
         System.out.println("elementData.length:" + elementData.length + ", size:" + list.size());
     }
+>>>>>>> 6997397a7f75bd3e5b9ef0dcf835840fff208b23
 }

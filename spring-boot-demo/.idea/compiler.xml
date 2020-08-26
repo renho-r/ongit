@@ -10,7 +10,11 @@
         <module name="spring-boot-demo-jpa" />
       </profile>
     </annotationProcessing>
+<<<<<<< HEAD
     <bytecodeTargetLevel target="11">
+=======
+    <bytecodeTargetLevel target="8">
+>>>>>>> 0b2d391269a86ea901c36d7bd84b871bd8513774
       <module name="spring-boot-demo" target="1.8" />
       <module name="spring-boot-demo-jpa" target="1.8" />
       <module name="spring-boot-demo-mybatis" target="1.8" />

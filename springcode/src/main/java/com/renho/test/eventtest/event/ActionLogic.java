@@ -26,8 +26,6 @@ public class ActionLogic implements ApplicationContextAware {
 	public void execute() {
 
 		List<Person> list = new ArrayList<Person>();
-		list.add(new Person("admin", "apass0"));
-		list.add(new Person("renho", "rpass0"));
 		MyActionEvent event = new MyActionEvent(list);
 		this.applicationContext.publishEvent(event);
 //		this.applicationContext.

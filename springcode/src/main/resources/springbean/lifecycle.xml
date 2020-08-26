@@ -7,6 +7,24 @@
             http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
 
+<<<<<<< HEAD
+    <bean id="beanPostProcessor" class="com.renho.test.beanlifecycle.lifecyclecomponent.MyBeanPostProcessor">
+    </bean>
+
+    <bean id="instantiationAwareBeanPostProcessor" class="com.renho.test.beanlifecycle.lifecyclecomponent.MyInstantiationAwareBeanPostProcessor">
+    </bean>
+
+    <bean id="beanFactoryPostProcessor" class="com.renho.test.beanlifecycle.lifecyclecomponent.MyBeanFactoryPostProcessor">
+    </bean>
+
+    <bean id="cat" class="com.renho.bean.pojo.Cat" />
+
+    <bean id="person" class="com.renho.bean.pojo.Person" init-method="myInit" destroy-method="myDestory" scope="singleton" p:name="张三" p:address="广州" p:phone="1234567" >
+        <property name="cat" ref="cat"/>
+    </bean>
+
+</beans>
+=======
     <bean id="beanPostProcessor" class="com.renho.lifecycle.MyBeanPostProcessor">
     </bean>
 
@@ -21,3 +39,4 @@
           p:phone="15900000000" />
 
 </beans>
+>>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
