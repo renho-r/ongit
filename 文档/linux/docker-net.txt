@@ -1,0 +1,84 @@
+00001010.00000000.00000000.00000000
+
+10.0.0.0/30
+00001010.00000000.00000000.00000000
+00001010.00000000.00000000.00000001
+00001010.00000000.00000000.00000010
+00001010.00000000.00000000.00000011
+
+11111111.11111111.11111111.11111100
+网络: 10.0.0.0/30
+掩码: 255.255.255.252
+广播: 10.0.0.3
+
+10.0.0.0/29
+00001010.00000000.00000000.00000000
+00001010.00000000.00000000.00000001
+00001010.00000000.00000000.00000010
+00001010.00000000.00000000.00000011
+
+00001010.00000000.00000000.00000100
+00001010.00000000.00000000.00000101
+00001010.00000000.00000000.00000110
+00001010.00000000.00000000.00000111
+
+11111111.11111111.11111111.11111100
+网络: 10.0.0.0/29
+掩码: 255.255.255.252
+广播: 10.0.0.7
+
+
+
+docker network create -d bridge --subnet 10.0.0.0/30 net-0-30
+docker network create -d bridge --subnet 10.0.0.4/30 net-4-30
+
+docker run --privileged -itd centos:7
+docker run --privileged --network=net-0-30 -itd --name=net-2 centos:7
+docker run --privileged --network=net-4-30 -itd --name=net-6 centos:7
+
+docker inspect --format=''  net-2
+docker inspect --format=''  net-6
+
+yum install bridge-utils
+
+brctl show
+brctl show br-c50fd2e58954
+
+brctl addif br-2ef054f10e76 br-c50fd2e58954
+
+
+ip link add name veth1 mtu 1500 type veth peer name veth2 mtu 1500
+ip link set veth1 master br-2ef054f10e76
+ip link set veth1 up
+
+ip link set veth2 master br-c50fd2e58954
+ip link set veth2 up
+
+https://blog.csdn.net/taiyangdao/article/details/88844558
+
+DOCKER-ISOLATION-STAGE-2
+
+iptables -nvL --line-number
+iptables -L DOCKER-ISOLATION-STAGE-2 -–line-number
+iptables -nvL DOCKER-ISOLATION-STAGE-2 --line-number
+
+iptables -D DOCKER-ISOLATION-STAGE-2 1
+
+Chain DOCKER-ISOLATION-STAGE-1 (1 references)
+num   pkts bytes target     prot opt in     out     source               destination
+1     4037  250K DOCKER-ISOLATION-STAGE-2  all  --  br-929df9fa8b2c !br-929df9fa8b2c  0.0.0.0/0            0.0.0.0/0
+2     3799  221K DOCKER-ISOLATION-STAGE-2  all  --  br-0abe456f48d5 !br-0abe456f48d5  0.0.0.0/0            0.0.0.0/0
+3     5907  299K DOCKER-ISOLATION-STAGE-2  all  --  docker0 !docker0  0.0.0.0/0            0.0.0.0/0
+4    40500   67M RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0
+
+br-929df9fa8b2c----in到非br-929df9fa8b2c走DOCKER-ISOLATION-STAGE-2
+
+Chain DOCKER-ISOLATION-STAGE-2 (3 references)
+num   pkts bytes target     prot opt in     out     source               destination
+1     1160 97440 DROP       all  --  *      br-0abe456f48d5  0.0.0.0/0            0.0.0.0/0
+2    20649 1080K RETURN     all  --  *      *       0.0.0.0/0            0.0.0.0/0
+
+br-0abe456f48d5---in丢弃
+
+
+ping时请求in是br-929df9fa8b2c， 响应in是br-0abe456f48d5，请求能发过去，响应发不回来

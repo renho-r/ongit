@@ -1,0 +1,5 @@
+sudo route -n add -net 172.17.0.4 -netmask 255.255.255.0 192.168.0.105
+
+sudo route delete -net 172.17.0.0/24
+
+netstat -nr
