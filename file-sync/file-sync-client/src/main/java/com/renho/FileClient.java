@@ -43,7 +43,7 @@ public enum  FileClient {
         }
     }
 
-    public void isDone() {
+    public boolean isDone() {
         if (inited && 0==results.size()) {
             return true;
         }

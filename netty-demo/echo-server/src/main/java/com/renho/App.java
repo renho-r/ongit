@@ -11,7 +11,7 @@ import java.util.ServiceLoader;
  */
 public class App {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
 
         ServiceLoader<IEchoServer> serviceLoader = ServiceLoader.load(IEchoServer.class);
         Iterator<IEchoServer> it = serviceLoader.iterator();

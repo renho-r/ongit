@@ -26,14 +26,16 @@ public class NettyEchoHandler extends ChannelInboundHandlerAdapter {
         System.out.println("channelRead：" + msg);
         try {
             ByteBuf byteBuf = (ByteBuf) msg;
-            String msgStr = byteBuf.toString(CharsetUtil.UTF_8);
+            String msgStr = byteBuf.toString(CharsetUtil.UTF_8).trim();
             System.out.println("channelRead：" + msgStr);
 
-            String back = "[echo]" + msgStr;
-            ctx.writeAndFlush(back);
+            String back = "[echo]" + msgStr + "\n";
+            byte[] backs = back.getBytes();
+            ByteBuf backBuf = Unpooled.buffer(back.length());
+            backBuf.writeBytes(backs);
+            ctx.writeAndFlush(backBuf);
 
             if ("bye".equalsIgnoreCase(msgStr)) {
-                ctx.close();
             }
         } finally {
             ReferenceCountUtil.release(msg);

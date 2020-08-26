@@ -1,8 +1,13 @@
 package com.renho.springboot.mybatis.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+
+@TableName("spring_boot_user")
 public class User {
 
     private Long id;
+    @TableField("name")
     private String name;
     private String password;
 
