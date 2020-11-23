@@ -1,0 +1,3 @@
+FROM tomcat:9-jdk8
+
+ADD ./linux-performance-46 /usr/local/tomcat/webapps/linux-performance-46

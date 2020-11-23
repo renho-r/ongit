@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Value;
 public class Person implements BeanFactoryAware, BeanNameAware, InitializingBean, DisposableBean {
 
 	private String name;
-<<<<<<< HEAD
 	private String address;
 	private int phone;
 	private Cat cat;
@@ -20,15 +19,17 @@ public class Person implements BeanFactoryAware, BeanNameAware, InitializingBean
 
 	@Value("${renho: 'ttt'}")
 	private String renho;
-=======
 	private String password;
->>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
 
 	public Person() {
 		System.out.println("【构造器】调用Person的构造器实例化");
 	}
 
-<<<<<<< HEAD
+	public Person(String name, String address) {
+		this.name = name;
+		this.address = address;
+	}
+
 	public String getRenho() {
 		return renho;
 	}
@@ -44,15 +45,10 @@ public class Person implements BeanFactoryAware, BeanNameAware, InitializingBean
 	public void setCat(Cat cat) {
 		System.out.println("【注入属性】注入属性cat");
 		this.cat = cat;
-=======
-	public Person(String name, String password) {
-		this.name = name;
-		this.password = password;
 	}
 
 	public String getPersonName() {
 		return "personName:renho";
->>>>>>> 4ccc284a86f8313770f03de4d90a746fb9a76e4b
 	}
 
 	public String getName() {

@@ -1,6 +1,7 @@
 package com.renho.test.one;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author: xxxxx
@@ -50,6 +51,8 @@ public class Account {
 
         t1.join();
         t2.join();
+
+        AtomicInteger
 
     }
 

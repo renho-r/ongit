@@ -1,0 +1,105 @@
+package com.renho.idgenerator.core.db;
+
+import com.renho.idgenerator.core.db.entity.po.Sequence;
+import com.renho.idgenerator.core.db.mapper.SequenceMapper;
+import com.renho.idgenerator.core.db.sequenceoperater.IDbSequenceOperater;
+import com.renho.idgenerator.core.db.sequenceoperater.operater.MysqlSequenceOperaterImpl;
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+import org.apache.ibatis.mapping.Environment;
+import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.session.SqlSessionFactoryBuilder;
+import org.apache.ibatis.transaction.TransactionFactory;
+import org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Execution;
+
+import org.junit.jupiter.api.parallel.ExecutionMode;
+
+import java.util.concurrent.ConcurrentHashMap;
+
+public class IdKeeperTest {
+
+    private static SqlSessionFactory sqlSessionFactory;
+    private static HikariConfig hikariConfig;
+    private static HikariDataSource hikariDataSource;
+    private static Sequence sequence;
+    private static IdKeeper idKeeper;
+    private static IDbSequenceOperater dbSequenceOperaterService;
+    private final static ConcurrentHashMap<Long, Long> UNI = new ConcurrentHashMap();
+
+    @BeforeAll
+    public static void setUp() {
+
+        hikariConfig = new HikariConfig();
+        hikariConfig.setDriverClassName("com.mysql.cj.jdbc.Driver");
+        hikariConfig.setJdbcUrl("jdbc:mysql://myserver:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8");
+        hikariConfig.setUsername("root");
+        hikariConfig.setPassword("root123");
+        hikariDataSource = new HikariDataSource(hikariConfig);
+
+        TransactionFactory transactionFactory = new JdbcTransactionFactory();
+        Environment environment = new Environment("development", transactionFactory, hikariDataSource);
+        Configuration configuration = new Configuration(environment);
+        configuration.addMapper(SequenceMapper.class);
+        sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
+
+        sequence = new Sequence();
+        sequence.setStart(1L);
+        sequence.setMax(Long.MAX_VALUE);
+        sequence.setIncrement(1);
+        sequence.setName("renho");
+
+        idKeeper = new IdKeeper(sequence, null);
+
+        System.out.println("start ...");
+
+    }
+
+    @Test
+    public void testInit() {
+
+        SqlSession session = IdKeeperTest.sqlSessionFactory.openSession(true);
+        SequenceMapper sequenceMapper = session.getMapper(SequenceMapper.class);
+        MysqlSequenceOperaterImpl mysqlSequenceOperaterServiceImpl = new MysqlSequenceOperaterImpl();
+        mysqlSequenceOperaterServiceImpl.setSequenceMapper(sequenceMapper);
+//        this.idKeeper.setDbSequenceOperater(mysqlSequenceOperaterServiceImpl);
+
+//        this.idKeeper.init();
+    }
+
+    @RepeatedTest(1) //10为当前用例执行的次数
+    @Execution(ExecutionMode.CONCURRENT)  //CONCURRENT表示支持多线程
+    public void testNext() {
+        testInit();
+        System.out.println(this.idKeeper.hashCode() + ": " + Thread.currentThread().getName());
+        for (int i=0; i<100; i++) {
+
+            SqlSession session = IdKeeperTest.sqlSessionFactory.openSession(true);
+
+            SequenceMapper sequenceMapper = session.getMapper(SequenceMapper.class);
+            MysqlSequenceOperaterImpl mysqlSequenceOperaterServiceImpl = new MysqlSequenceOperaterImpl();
+            mysqlSequenceOperaterServiceImpl.setSequenceMapper(sequenceMapper);
+//            this.idKeeper.setDbSequenceOperater(mysqlSequenceOperaterServiceImpl);
+
+            Long id = this.idKeeper.next();
+            session.close();
+//            System.out.println(id);
+            if (UNI.containsKey(id)) {
+                throw new RuntimeException("no uni ...");
+            }
+            UNI.put(id, id);
+        }
+        System.out.println("done ...");
+    }
+
+    @AfterAll
+    public static void result() {
+        System.out.println("UNI size: " + UNI.size());
+    }
+}
