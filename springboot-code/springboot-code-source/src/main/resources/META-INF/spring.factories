@@ -1,2 +1,4 @@
 # Application Listeners
 org.springframework.context.ApplicationListener=com.renho.springbootcode.listener.MyApplicationListener
+org.springframework.context.ApplicationContextInitializer=com.renho.springbootcode.initializer.MyApplicationContextInitializer
+org.springframework.boot.SpringApplicationRunListener=com.renho.springbootcode.listener.MySpringApplicationRunListener
