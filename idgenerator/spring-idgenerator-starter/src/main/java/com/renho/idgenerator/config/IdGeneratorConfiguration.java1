@@ -1,0 +1,169 @@
+package com.renho.idgenerator.config;
+
+import com.renho.idgenerator.core.IIdGenerator;
+import com.renho.idgenerator.core.db.DbIdGenerator;
+import com.renho.idgenerator.core.db.config.DbIdGeneratorConfig;
+import com.renho.idgenerator.core.db.mapper.SequenceMapper;
+import com.renho.idgenerator.core.db.sequenceoperater.IDbSequenceOperater;
+import com.renho.idgenerator.core.db.sequenceoperater.operater.MysqlSequenceOperaterImpl;
+import com.renho.idgenerator.core.ext.sf.IWorkerIdPolicy;
+import com.renho.idgenerator.core.ext.sf.SnowFlakeIdGenerator;
+import com.renho.idgenerator.core.ext.sf.config.SnowFlakeConfig;
+import com.renho.idgenerator.core.ext.workeridpolicy.MacIpWorkerIpPolicy;
+import lombok.Data;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigureAfter;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
+import org.springframework.util.StringUtils;
+
+import static com.renho.idgenerator.config.IdGeneratorProperties.SnowFlakeIdGeneratorProperties.WORKER_SEQUENCE;
+
+/**
+ * @author renho
+ * @date 2020/10/26
+ */
+@Data
+@Configuration
+@EnableConfigurationProperties(IdGeneratorProperties.class)
+public class IdGeneratorConfiguration {
+
+    @Autowired
+    private IdGeneratorProperties idGeneratorProperties;
+
+
+    @Configuration
+    @ConditionalOnClass(SqlSessionFactory.class)
+    class DbAutoConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean
+        @ConditionalOnProperty(prefix = IdGeneratorProperties.IDGENERATOR_PREFIX + ".db", name = "enabled", havingValue = "true", matchIfMissing = true)
+        public IDbSequenceOperater dbSequenceOperater(SequenceMapper sequenceMapper) {
+            System.out.println("init bean");
+            MysqlSequenceOperaterImpl mysqlSequenceOperater = new MysqlSequenceOperaterImpl();
+            mysqlSequenceOperater.setSequenceMapper(sequenceMapper);
+            return mysqlSequenceOperater;
+        }
+
+        @Bean
+        @ConditionalOnMissingBean//(name = "idGenerator")
+        @ConditionalOnProperty(prefix = IdGeneratorProperties.IDGENERATOR_PREFIX + ".db", name = "enabled", havingValue = "true", matchIfMissing = true)
+        public IIdGenerator idGenerator(IDbSequenceOperater dbSequenceOperater) {
+
+            DbIdGeneratorConfig dbIdGeneratorConfig = getDbIdGeneratorConfig();
+            DbIdGenerator dbIdGenerator = new DbIdGenerator();
+            dbIdGenerator.setDbSequenceOperater(dbSequenceOperater);
+            dbIdGenerator.setDbIdGeneratorConfig(dbIdGeneratorConfig);
+            return dbIdGenerator;
+        }
+    }
+
+    @Configuration
+    @AutoConfigureAfter(DbAutoConfiguration.class)
+    class SnowFlakeAutoConfiguration {
+
+        @Bean
+        @ConditionalOnMissingBean
+        @ConditionalOnProperty(prefix = IdGeneratorProperties.IDGENERATOR_PREFIX + ".sf", name = "enabled", havingValue = "true")
+        public IWorkerIdPolicy workerIdPolicy() {
+            return new MacIpWorkerIpPolicy();
+        }
+
+        @Bean
+        @ConditionalOnProperty(prefix = IdGeneratorProperties.IDGENERATOR_PREFIX + ".sf", name = "enabled", havingValue = "true")
+        public IIdGenerator snowFlakeIdGenerator(IWorkerIdPolicy workerIdPolicy) {
+
+            SnowFlakeConfig snowFlakeConfig = getSnowFlakeConfig();
+            snowFlakeConfig.setWorkerIdPolicy(workerIdPolicy);
+            SnowFlakeIdGeneratorImpl snowFlakeIdGenerator = new SnowFlakeIdGeneratorImpl();
+            snowFlakeIdGenerator.setSnowFlakeConfig(snowFlakeConfig);
+            snowFlakeIdGenerator.init();
+
+            return snowFlakeIdGenerator;
+        }
+    }
+
+    private DbIdGeneratorConfig getDbIdGeneratorConfig() {
+        DbIdGeneratorConfig dbIdGeneratorConfig = new DbIdGeneratorConfig();
+        String seqName = this.idGeneratorProperties.getDb().getSequenceName();
+        if (StringUtils.isEmpty(seqName)) {
+            seqName = IdGeneratorProperties.GEN_SEQ_NAME;
+        }
+        dbIdGeneratorConfig.setSequenceName(seqName);
+        Long start = this.idGeneratorProperties.getDb().getStart();
+        if (null == start) {
+            start = 1L;
+        }
+        dbIdGeneratorConfig.setStart(start);
+        Integer increment = this.idGeneratorProperties.getDb().getIncrement();
+        if (null == increment) {
+            increment = 20;
+        }
+        dbIdGeneratorConfig.setIncrement(increment);
+        Long max = this.idGeneratorProperties.getDb().getMax();
+        if (null == max) {
+            max = Long.MAX_VALUE;
+        }
+        dbIdGeneratorConfig.setMax(max);
+        if (start >= max) {
+            throw new RuntimeException("序列开始值(start)不能大于或等于最大值(max)!");
+        }
+        return dbIdGeneratorConfig;
+    }
+
+    private SnowFlakeConfig getSnowFlakeConfig() {
+        SnowFlakeConfig snowFlakeConfig = new SnowFlakeConfig();
+        // id长度: et(18) st(16)
+        String bit = this.idGeneratorProperties.getSf().getBit();
+        if (StringUtils.isEmpty(bit)) {
+            bit = "et";
+        }
+        snowFlakeConfig.setBit(bit);
+        // 机器位数 workerIdBits和sequenceBits 相加之和必须是15
+        Long workerIdBits = this.idGeneratorProperties.getSf().getWorkerIdBits();
+        if (null == workerIdBits) {
+            workerIdBits = 5L;
+        }
+        snowFlakeConfig.setWorkerIdBits(workerIdBits);
+        Long sequenceBits = this.idGeneratorProperties.getSf().getSequenceBits();
+        if (null == sequenceBits) {
+            sequenceBits = 10L;
+        }
+        if (WORKER_SEQUENCE != (workerIdBits + sequenceBits)) {
+            throw new RuntimeException("workerIdBits + sequenceBits 必须等于 15 ");
+        }
+        snowFlakeConfig.setSequenceBits(sequenceBits);
+        Boolean dynamicWorkId = this.idGeneratorProperties.getSf().getDynamicWorkId();
+        if (null == dynamicWorkId) {
+            dynamicWorkId = false;
+        }
+        snowFlakeConfig.setDynamicWorkId(dynamicWorkId);
+        // 机器编号，要求全局唯一
+        Long workerId = this.idGeneratorProperties.getSf().getWorkerId();
+        Long maxWorkerId = -1L ^ (-1L << workerIdBits);
+        if (!dynamicWorkId) {
+            if (null == workerId) {
+                throw new RuntimeException("workerId不能为空!");
+            }
+            if (workerId < 0 ) {
+                throw new RuntimeException("workerId 不能小于 0 !");
+            }
+            if (workerId > maxWorkerId) {
+                throw new RuntimeException("workerId 不能超过 " + maxWorkerId );
+            }
+        } else {
+            snowFlakeConfig.setWorkerIdPolicy(new MacIpWorkerIpPolicy());
+            workerId = -1L;
+        }
+        snowFlakeConfig.setWorkerId(workerId);
+        return snowFlakeConfig;
+    }
+}

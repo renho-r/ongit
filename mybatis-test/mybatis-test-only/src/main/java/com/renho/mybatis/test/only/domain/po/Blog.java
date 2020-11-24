@@ -11,7 +11,8 @@ public class Blog {
 
     private Integer id;
     private String name;
-    private String addr;
+    private String address;
     private String desc;
+    private Long createTime;
 
 }

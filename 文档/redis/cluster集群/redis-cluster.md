@@ -94,3 +94,27 @@ ruby redis-trib.rb  create --replicas 1 192.168.111.139:7000 192.168.111.139:700
 ./redis-cli -c -p 7000 cluster nodes
 ```
 
+# 9. redis5.0新增redis-cli方式
+
+Redis Cluster 在5.0之后取消了ruby脚本 **redis-trib.rb**的支持（手动命令行添加集群的方式不变），集合到redis-cli里，避免了再安装ruby的相关环境。
+
+```conf
+#redis.conf
+cluster-enabled yes
+#每个节点必须不同
+cluster-config-file 154-6379.conf
+cluster-require-full-coverage yes
+#需要设置
+cluster-announce-ip 172.150.0.2
+#必须10000 + port
+cluster-announce-bus-port 16379
+```
+
+```shell
+redis-cli --cluster create 172.154.0.2:6379 172.152.0.2:6379 172.150.0.2:6379
+```
+
+```shell
+redis-cli -c -p 6379 -h 172.154.0.2
+```
+

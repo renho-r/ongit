@@ -179,3 +179,7 @@ yum list docker-ce --showduplicates | sort -r
 yum install docker-ce -y
 systemctl start docker
 systemctl enable docker
+
+
+
+--cap-add=SYS_PTRACE

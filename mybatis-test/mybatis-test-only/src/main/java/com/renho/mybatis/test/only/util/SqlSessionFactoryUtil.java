@@ -1,6 +1,9 @@
 package com.renho.mybatis.test.only.util;
 
 import com.renho.mybatis.test.only.config.MyConfiguration;
+import com.renho.mybatis.test.only.ext.objectfactory.ExampleObjectFactory;
+import com.renho.mybatis.test.only.ext.plugin.ExamplePlugin;
+import com.renho.mybatis.test.only.ext.typehandler.ExampleTypeHandler;
 import com.renho.mybatis.test.only.mapper.BlogMapper;
 import org.apache.ibatis.datasource.pooled.PooledDataSourceFactory;
 import org.apache.ibatis.io.Resources;
@@ -58,6 +61,10 @@ public class SqlSessionFactoryUtil {
         Environment environment = new Environment("development", transactionFactory, dataSource);
         Configuration configuration = new Configuration(environment);
         configuration.addMapper(BlogMapper.class);
+        configuration.getTypeHandlerRegistry().register(ExampleTypeHandler.class);
+        configuration.setObjectFactory(new ExampleObjectFactory());
+        configuration.addInterceptor(new ExamplePlugin());
+        configuration.setMapUnderscoreToCamelCase(true);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
         return sqlSessionFactory;
     }
@@ -66,9 +73,10 @@ public class SqlSessionFactoryUtil {
         public static DataSource getBlogDataSource() {
             Properties properties = new Properties();
             properties.setProperty("driver", "com.mysql.jdbc.Driver");
-            properties.setProperty("url", "jdbc:mysql://192.168.0.105:3306/mybatis");
+            properties.setProperty("url", "jdbc:mysql://myserver:3306/test");
             properties.setProperty("username", "root");
             properties.setProperty("password", "root123");
+            properties.setProperty("poolMaximumActiveConnections", "1");
             PooledDataSourceFactory pooledDataSourceFactory = new PooledDataSourceFactory();
             pooledDataSourceFactory.setProperties(properties);
             DataSource dataSource = pooledDataSourceFactory.getDataSource();

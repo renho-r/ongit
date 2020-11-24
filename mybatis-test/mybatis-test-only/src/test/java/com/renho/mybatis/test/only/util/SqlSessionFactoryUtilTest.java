@@ -1,9 +1,7 @@
 package com.renho.mybatis.test.only.util;
 
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.junit.Test;
-
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
 /**
  * @author: renho

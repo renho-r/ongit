@@ -10,7 +10,7 @@ public class Test {
 
     public static void main(String[] args) {
         AnnotationConfigApplicationContext acac = new AnnotationConfigApplicationContext(Test.class.getPackage().getName());
-        acac.getBean("singleOneBean");PrototypeTwoBean
+        acac.getBean("singleOneBean");
         acac.getBean("prototypeOneBean");
     }
 

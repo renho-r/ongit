@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.renho.idgenerator.config.DbIdGeneratorAutoConfiguration,\
+com.renho.idgenerator.config.SfIdGeneratorAutoConfiguration

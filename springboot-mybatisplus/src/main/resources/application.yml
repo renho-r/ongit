@@ -1,0 +1,31 @@
+# DataSource Config
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://myserver:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root123
+mybatis:
+  mapper-locations : classpath:com/renho/test/mybatisplus/common/core/idgenerator/dao/SeqSaveMapper.xml
+  typeAliasesPackage : com.renho.test.mybatisplus.common.ext.idgenerator.dto,com.renho.test.mybatisplus.common.core.idgenerator.dto
+  configuration:
+    map-underscore-to-camel-case : true
+mybatis-plus:
+  mapper-locations:
+    - com/mp/mapper/*
+  global-config:
+    db-config:
+      id-type: ASSIGN_ID
+      # ASSIGN_UUID
+redis:
+  password: null
+  clusterNodes: 172.154.0.2:6379,172.152.0.2:6379,172.150.0.2:6379
+#全局序列服务参数
+idgenerator:
+  sf:
+    #18:et 16:st
+    bit: et
+    #机器位数 workerIdBits和sequenceBits 相加之和必须是15
+    workerIdBits: 10
+    #递增位数
+    sequenceBits: 5

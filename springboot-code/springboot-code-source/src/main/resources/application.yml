@@ -17,3 +17,6 @@ mybatis:
 #  path: /Users/renho/mlog
 #  level:
 #    root: debug
+env:
+  renho:
+    post-processor: ${server.port}

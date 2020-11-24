@@ -338,7 +338,7 @@ public class SpringApplication {
 		configureHeadlessProperty();
 		//1.启动监听器
 		SpringApplicationRunListeners listeners = getRunListeners(args);
-		//renho ApplicationStartingEvent
+		// 会发布 ApplicationStartingEvent事件
 		listeners.starting();
 		try {
 			ApplicationArguments applicationArguments = new DefaultApplicationArguments(
@@ -447,7 +447,7 @@ public class SpringApplication {
 			ApplicationArguments applicationArguments, Banner printedBanner) {
 		//设置容器环境，包括各种变量
 		context.setEnvironment(environment);
-		//执行容器后置处理--扩展
+		//
 		postProcessApplicationContext(context);
 		//执行容器中的ApplicationContextInitializer（包括 spring.factories和自定义的实例）所有initializer的initialize方法
 		applyInitializers(context);

@@ -21,22 +21,23 @@ public class BlogServiceImpl implements IBlogService {
 
     @Override
     public Blog selectOne(int id) {
-        SqlSession session = this.sqlSessionFactory.openSession();
-        BlogMapper mapper = session.getMapper(BlogMapper.class);
-        Blog blog = mapper.selectBlog(101);
-//        Blog blog = session.selectOne("com.renho.mybatis.test.only.mapper.BlogMapper.selectBlog", id);
+        Blog blog;
+        try (SqlSession session = this.sqlSessionFactory.openSession()) {
+            BlogMapper mapper = session.getMapper(BlogMapper.class);
+            blog = mapper.selectBlog(id);
+    //        Blog blog = session.selectOne("com.renho.mybatis.test.only.mapper.BlogMapper.selectBlog", id);
+        }
         return blog;
     }
 
     @Override
     public int insert(Blog blog) {
-        SqlSession session = this.sqlSessionFactory.openSession(true);
-        BlogMapper mapper = session.getMapper(BlogMapper.class);
-        mapper.insert(blog);
-        mapper.insert(blog);
-        mapper.insert(blog);
-        mapper.insert(blog);
-        return 0;
+        try (SqlSession session = this.sqlSessionFactory.openSession(true)) {
+            BlogMapper mapper = session.getMapper(BlogMapper.class);
+            blog.setCreateTime(System.currentTimeMillis());
+            mapper.insert(blog);
+        }
+        return blog.getId();
     }
 
 }

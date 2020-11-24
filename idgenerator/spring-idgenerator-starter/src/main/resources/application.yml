@@ -1,0 +1,23 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://myserver:3306/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8
+    username: root
+    password: root123
+sys:
+  idgenerator:
+    db:
+      enabled: false
+#      sequence_name: tttttt
+#      start: 1
+#      increment: 20
+#      max: 99999999
+#    redis:
+#      enabled: false
+    sf:
+      enabled: true
+#      defaultBit: et
+      workerIdBits: 8
+#      sequenceBits: 1
+      workerId: 11
+      dynamicWorkId: true

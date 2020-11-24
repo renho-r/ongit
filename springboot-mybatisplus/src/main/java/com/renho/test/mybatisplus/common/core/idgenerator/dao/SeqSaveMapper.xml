@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.renho.test.mybatisplus.common.core.idgenerator.dao.SeqSaveMapper">
+
+    <resultMap id="LeafAlloc" type="com.renho.test.mybatisplus.common.core.idgenerator.dto.LeafAlloc">
+        <result property="bizTag" column="biz_tag" javaType="java.lang.String"></result>
+        <result property="step" column="step" javaType="java.lang.Integer"></result>
+        <result property="maxId" column="max_id" javaType="java.lang.Long"></result>
+        <result property="startIndex" column="start_index" javaType="java.lang.Integer"></result>
+    </resultMap>
+
+    <delete id="deleteSeq" parameterType="java.lang.String">
+          delete from LEAF_SEQUENCE where biz_tag = #{bizTag}
+    </delete>
+
+    <insert id="insertSeq" parameterType="com.renho.test.mybatisplus.common.core.idgenerator.dto.LeafAlloc" >
+      insert into LEAF_SEQUENCE (BIZ_TAG,STEP,MAX_ID,START_INDEX)
+            VALUES (#{bizTag},#{step},#{maxId},#{startIndex})
+    </insert>
+
+    <select id="getSeqAll" resultType="java.lang.String">
+        SELECT biz_tag FROM LEAF_SEQUENCE
+    </select>
+
+    <select id="getSeqInfoAll" resultType="com.renho.test.mybatisplus.common.core.idgenerator.dto.LeafAlloc">
+        SELECT biz_tag, step, max_id, start_index FROM LEAF_SEQUENCE
+    </select>
+
+    <select id="getSeq" parameterType="String"  resultType="com.renho.test.mybatisplus.common.core.idgenerator.dto.LeafAlloc">
+        SELECT * FROM LEAF_SEQUENCE WHERE biz_tag = #{bizTag}
+    </select>
+
+    <select id="getSeqByName" parameterType="String"  resultType="com.renho.test.mybatisplus.common.core.idgenerator.dto.LeafAlloc">
+        SELECT * FROM LEAF_SEQUENCE WHERE biz_tag = #{bizTag}
+    </select>
+
+    <update id="updateSeq" parameterType = "com.renho.test.mybatisplus.common.core.idgenerator.dto.LeafAlloc">
+        UPDATE LEAF_SEQUENCE SET STEP=#{step}, MAX_ID=#{maxId}, START_INDEX = #{startIndex}
+        WHERE biz_tag = #{bizTag}
+    </update>
+
+    <update id="updateSeqByName" parameterType = "com.renho.test.mybatisplus.common.core.idgenerator.dto.LeafAlloc">
+        UPDATE LEAF_SEQUENCE SET STEP=#{step}, MAX_ID=#{maxId}
+        WHERE biz_tag = #{bizTag}
+    </update>
+
+    <update id="updateSeqToZero" parameterType = "com.renho.test.mybatisplus.common.core.idgenerator.dto.LeafAlloc">
+        UPDATE LEAF_SEQUENCE SET START_INDEX=#{maxId}, MAX_ID=#{maxId}
+        WHERE biz_tag = #{bizTag}
+    </update>
+
+</mapper>

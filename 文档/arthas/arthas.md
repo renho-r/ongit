@@ -14,3 +14,7 @@ jad com.alibaba.dubbo.rpc.Protocol$Adaptive
 
 help
 
+```shell
+trace com.wondersgroup.osf.framework.core.idgenerator.db.DbIdGenerator get
+trace com.wondersgroup.osf.framework.core.idgenerator.db.IdKeeper next
+```
