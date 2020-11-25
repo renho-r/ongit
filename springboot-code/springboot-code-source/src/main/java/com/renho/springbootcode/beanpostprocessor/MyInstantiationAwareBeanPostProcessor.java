@@ -14,31 +14,41 @@ import org.springframework.stereotype.Component;
 public class MyInstantiationAwareBeanPostProcessor implements InstantiationAwareBeanPostProcessor {
     @Override
     public Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException {
-        LogUtil.mark();
+        if ("myImportBean".equals(beanName)) {
+            LogUtil.mark();
+        }
         return null;
     }
 
     @Override
     public boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException {
-        LogUtil.mark();
+        if ("myImportBean".equals(beanName)) {
+            LogUtil.mark();
+        }
         return true;
     }
 
     @Override
     public PropertyValues postProcessProperties(PropertyValues pvs, Object bean, String beanName) throws BeansException {
-        LogUtil.mark();
+        if ("myImportBean".equals(beanName)) {
+            LogUtil.mark();
+        }
         return pvs;
     }
 
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        LogUtil.mark();
+        if ("myImportBean".equals(beanName)) {
+            LogUtil.mark();
+        }
         return bean;
     }
 
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        LogUtil.mark();
+        if ("myImportBean".equals(beanName)) {
+            LogUtil.mark();
+        }
         return bean;
     }
 }

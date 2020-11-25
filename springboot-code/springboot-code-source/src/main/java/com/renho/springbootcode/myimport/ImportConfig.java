@@ -1,5 +1,6 @@
 package com.renho.springbootcode.myimport;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.stereotype.Component;
 
@@ -8,6 +9,12 @@ import org.springframework.stereotype.Component;
  * @since: 1.0.0
  */
 @Component
-@Import(MyImportBean.class)
+//@Import(MyImportBean.class)
 public class ImportConfig {
+
+    @Bean
+    public MyImportBean myImportBean() {
+        return new MyImportBean();
+    }
+
 }
