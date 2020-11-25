@@ -76,9 +76,9 @@ public class RenhoRegistrar implements ImportBeanDefinitionRegistrar, ResourceLo
         private void process(Set<BeanDefinitionHolder> beanDefinitions) {
             beanDefinitions.forEach(System.out::println);
             beanDefinitions.forEach(holder -> {
-
-                GenericBeanDefinition bd = (GenericBeanDefinition) holder.getBeanDefinition();
-                bd.setBeanClass(FactoryBean.class);
+                GenericBeanDefinition definition = (GenericBeanDefinition) holder.getBeanDefinition();
+                definition.getConstructorArgumentValues().addGenericArgumentValue(definition.getBeanClassName());
+                definition.setBeanClass(RenhoFactoryBean.class);
             });
         }
     }
