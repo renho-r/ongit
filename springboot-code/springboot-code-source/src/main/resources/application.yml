@@ -20,3 +20,12 @@ mybatis:
 env:
   renho:
     post-processor: ${server.port}
+nacos:
+  config:
+    bootstrap:
+      enable: true
+    server-addr: myserver:8848
+    namespace: 691dba8f-7d60-4ae8-9b8c-06c4ca5574fd
+    group: mygroup
+    type: yaml
+    data-id: renho-dev.yaml
