@@ -30,14 +30,23 @@ public class BlogServiceImplTest {
     public void selectOne() {
         Blog blog = this.blogService.selectOne(1);
         System.out.println(blog);
+        blog = this.blogService.selectOne(1);
+        System.out.println(blog);
     }
 
-    @RepeatedTest(3)
+//    @RepeatedTest(3)
+    @Test
     public void insert() {
         Blog blog = new Blog();
         blog.setName(UUID.randomUUID().toString().replaceAll("-", ""));
         blog.setDesc("desc: " + blog.getName());
         int id = this.blogService.insert(blog);
+        System.out.println(blog);
+        blog.setId(null);
+        id = this.blogService.insert(blog);
+        System.out.println(blog);
+        blog.setId(null);
+        id = this.blogService.insert(blog);
         System.out.println(blog);
     }
 }

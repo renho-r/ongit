@@ -1,6 +1,7 @@
 package com.renho.mybatis.test.only.util;
 
 import com.renho.mybatis.test.only.config.MyConfiguration;
+import com.renho.mybatis.test.only.ext.configuration.RenhoConfiguration;
 import com.renho.mybatis.test.only.ext.objectfactory.ExampleObjectFactory;
 import com.renho.mybatis.test.only.ext.plugin.ExamplePlugin;
 import com.renho.mybatis.test.only.ext.typehandler.ExampleTypeHandler;
@@ -26,9 +27,23 @@ import java.util.Properties;
 public class SqlSessionFactoryUtil {
 
     public static SqlSessionFactory getSqlSessionFactory() {
-
-        return getSqlSessionFactoryWithoutXml();
+        return getSqlSessionFactoryWithRenho();
+//        return getSqlSessionFactoryWithoutXml();
 //        return getSqlSessionFactoryExtension();
+    }
+
+    private static SqlSessionFactory getSqlSessionFactoryWithRenho() {
+        DataSource dataSource = BlogDataSourceFactory.getBlogDataSource();
+        TransactionFactory transactionFactory = new JdbcTransactionFactory();
+        Environment environment = new Environment("development", transactionFactory, dataSource);
+        Configuration configuration = new RenhoConfiguration(environment);
+        configuration.addMapper(BlogMapper.class);
+        configuration.getTypeHandlerRegistry().register(ExampleTypeHandler.class);
+        configuration.setObjectFactory(new ExampleObjectFactory());
+        configuration.addInterceptor(new ExamplePlugin());
+        configuration.setMapUnderscoreToCamelCase(true);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(configuration);
+        return sqlSessionFactory;
     }
 
     public static SqlSessionFactory getSqlSessionFactoryExtension() {

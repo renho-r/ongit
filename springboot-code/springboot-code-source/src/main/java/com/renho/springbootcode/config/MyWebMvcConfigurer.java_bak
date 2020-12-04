@@ -1,0 +1,22 @@
+package com.renho.springbootcode.config;
+
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
+
+/**
+ * @author renho
+ * @date 2020/11/27
+ */
+//@Configuration
+public class MyWebMvcConfigurer extends WebMvcConfigurationSupport {
+
+    /**
+     * 导致 部分 HandlerMapping失效
+     * @return
+     */
+    @Override
+    protected RequestMappingHandlerMapping createRequestMappingHandlerMapping() {
+        return new MyRequestMappingHandlerMapping();
+    }
+}

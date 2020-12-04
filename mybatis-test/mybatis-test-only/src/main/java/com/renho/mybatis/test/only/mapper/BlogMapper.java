@@ -5,6 +5,7 @@ import com.renho.mybatis.test.only.ext.sqlfactory.BlogSqlFactory;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * @author: renho
@@ -12,7 +13,10 @@ import org.apache.ibatis.annotations.Options;
  */
 public interface BlogMapper {
 
+    @Select("select * from blog where id = #{id}")
     Blog selectBlog(int id);
+
+    Blog selectBlogInXml(int id);
 
     @InsertProvider(type = BlogSqlFactory.class, method = "insertSql")
     @Options(useGeneratedKeys = true)
