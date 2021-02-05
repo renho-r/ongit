@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: service
+  cloud:
+    nacos:
+      discovery:
+        server-addr: myserver:8848

@@ -6,11 +6,11 @@ spring:
     url: jdbc:mysql://myserver:3306/test
     username: root
     password: root123
-  mvc:
-    view:
-      prefix: classpath:/templates/
-      suffix: .html
-    static-path-pattern: /static/**
+#  mvc:
+#    view:
+#      prefix: classpath:/templates/
+#      suffix: .html
+#    static-path-pattern: /static/**
 server:
 #  servlet:
 #    context-path: /auth

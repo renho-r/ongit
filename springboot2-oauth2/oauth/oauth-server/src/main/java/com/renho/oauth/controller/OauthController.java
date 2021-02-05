@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author: renho
  * @since: 1.0.0
  */
-@Controller
+//@Controller
 public class OauthController {
 
     @RequestMapping("/login")
     public String login() {
-        return "user/login";
+        return "login";
     }
 
 //    @RequestMapping("/oauth/confirm_access")
