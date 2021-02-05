@@ -1,21 +1,12 @@
 package com.renho.springbootcode.config;
 
-import com.alibaba.fastjson.support.spring.FastJsonJsonView;
 import com.renho.springbootcode.controller.RenhoController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerAdapter;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
-import org.springframework.web.servlet.view.JstlView;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
-import org.springframework.web.servlet.view.script.ScriptTemplateView;
-import org.springframework.web.servlet.view.tiles3.TilesView;
-import org.springframework.web.servlet.view.xml.MappingJackson2XmlView;
-import org.springframework.web.servlet.view.xslt.XsltView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 
 /**
  * @author renho

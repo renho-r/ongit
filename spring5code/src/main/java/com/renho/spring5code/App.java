@@ -2,6 +2,7 @@ package com.renho.spring5code;
 
 import com.renho.spring5code.configuration.MyConfiguration;
 import com.renho.spring5code.module.MyBean;
+import com.renho.spring5code.service.IMyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -24,6 +25,9 @@ public class App {
 
         log.info(applicationContext.getBean("&myFactoryBean").getClass().toString());
         log.info(applicationContext.getBean("myFactoryBean").getClass().toString());
+
+        IMyService myService = (IMyService) applicationContext.getBean("myService");
+
         ((AnnotationConfigApplicationContext) applicationContext).close();
     }
 }
