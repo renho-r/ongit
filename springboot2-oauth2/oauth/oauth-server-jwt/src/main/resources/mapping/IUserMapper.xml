@@ -23,7 +23,7 @@
     <select id="findByUsername" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
-        from "user"
+        from user
         where username = #{username}
     </select>
 </mapper>

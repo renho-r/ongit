@@ -1,6 +1,7 @@
 package com.renho.lambda;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 public class Main {
 
@@ -32,6 +33,24 @@ public class Main {
 			}
 		};
 		fdm.defaultMethod();
+		fdm.method();
+
+		String value = Arrays.asList("a", "b", "c").stream().filter(t -> "renho".equals(t)).findFirst().orElse(null);
+		System.out.println(value);
+
+		System.out.println("------------------->");
+		Optional<String> optional = Optional.of("renho");
+//		Optional<String> optional = Optional.ofNullable(null);
+		String result = null;
+		result = optional.orElse("orElse");
+		System.out.println(result);
+		result = optional.get();
+		System.out.println(result);
+		result = optional.orElseThrow(RuntimeException::new);
+		System.out.println(result);
+		result = optional.isPresent() + "";
+		System.out.println(result);
+
 	}
 
 }

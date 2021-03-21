@@ -12,6 +12,7 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.A
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
@@ -50,7 +51,8 @@ public class OauthServerConfig extends AuthorizationServerConfigurerAdapter {
 //                .scopes("all")
 //                .authorizedGrantTypes("authorization_code", "password", "refresh_token")
 //                .autoApprove(true);//猜猜这是啥意思
-        clients.jdbc(dataSource);
+//        clients.jdbc(dataSource);
+        clients.withClientDetails(new JdbcClientDetailsService(dataSource));
     }
 
     @Override

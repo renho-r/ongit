@@ -8,7 +8,7 @@ import java.io.Serializable;
  * @since: 1.0.0
  */
 @Entity
-@Table(name="USER")
+@Table(name="user")
 public class UserPO implements Serializable {
 
     @Id
