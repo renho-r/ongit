@@ -1,0 +1,6 @@
+spring:
+  redis:
+    host: myserver
+    port: 6379
+    cluster:
+      nodes: 10.1.93.197:6389
