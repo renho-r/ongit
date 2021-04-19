@@ -10,7 +10,11 @@ show variables like '%query_cache%';
 show variables like '%buffer_pool%';
 
 show variables like '%slow_query_log%';
+show global variables like '%slow_query_log%';
+show global variables like 'long_query_time';
 
+set global slow_query_log =off;
+set global long_query_time =10;
 reset query cache;
 
 show full processlist;  
