@@ -11,21 +11,21 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 
     public MyBeanPostProcessor() {
         super();
-        System.out.println("这是BeanPostProcessor实现类构造器！！");
+        System.out.println("杩欐槸BeanPostProcessor瀹炵幇绫绘瀯閫犲櫒锛侊紒");
         // TODO Auto-generated constructor stub
     }
 
     @Override
     public Object postProcessAfterInitialization(Object arg0, String arg1)
             throws BeansException {
-        System.out.println("BeanPostProcessor接口方法postProcessAfterInitialization对属性进行更改！");
+        System.out.println("BeanPostProcessor鎺ュ彛鏂规硶postProcessAfterInitialization瀵瑰睘鎬ц繘琛屾洿鏀癸紒");
         return arg0;
     }
 
     @Override
     public Object postProcessBeforeInitialization(Object arg0, String arg1)
             throws BeansException {
-        System.out.println("BeanPostProcessor接口方法postProcessBeforeInitialization对属性进行更改！");
+        System.out.println("BeanPostProcessor鎺ュ彛鏂规硶postProcessBeforeInitialization瀵瑰睘鎬ц繘琛屾洿鏀癸紒");
         return arg0;
     }
 }

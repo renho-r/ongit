@@ -11,16 +11,16 @@ public class BeanLifeCycle {
 
     public static void main(String[] args) {
 
-        System.out.println("ÏÖÔÚ¿ªÊ¼³õÊ¼»¯ÈİÆ÷");
+        System.out.println("ç°åœ¨å¼€å§‹åˆå§‹åŒ–å®¹å™¨");
 
         ApplicationContext factory = new ClassPathXmlApplicationContext("springbean/lifecycle.xml");
-        System.out.println("ÈİÆ÷³õÊ¼»¯³É¹¦");
-        //µÃµ½Preson£¬²¢Ê¹ÓÃ
+        System.out.println("å®¹å™¨åˆå§‹åŒ–æˆåŠŸ");
+        //å¾—åˆ°Presonï¼Œå¹¶ä½¿ç”¨
         Person person = factory.getBean("person",Person.class);
         System.out.println(person);
         System.out.printf("%s\n", person.getClass().getName());
-
-        System.out.println("ÏÖÔÚ¿ªÊ¼¹Ø±ÕÈİÆ÷£¡");
+//        ((ClassPathXmlApplicationContext)factory).start();
+        System.out.println("ç°åœ¨å¼€å§‹å…³é—­å®¹å™¨ï¼");
         ((ClassPathXmlApplicationContext)factory).registerShutdownHook();
     }
 }

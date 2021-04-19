@@ -6,6 +6,7 @@
        xsi:schemaLocation="
             http://www.springframework.org/schema/beans
             http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+    <bean id="myLifeCycle" class="com.renho.lifecycle.MyLifecycle" />
 
     <bean id="beanPostProcessor" class="com.renho.test.beanlifecycle.lifecyclecomponent.MyBeanPostProcessor">
     </bean>
@@ -18,7 +19,7 @@
 
     <bean id="cat" class="com.renho.bean.pojo.Cat" />
 
-    <bean id="person" class="com.renho.bean.pojo.Person" init-method="myInit" destroy-method="myDestory" scope="singleton" p:name="张三" p:address="广州" p:phone="1234567" >
-        <property name="cat" ref="cat"/>
+    <bean id="person" class="com.renho.lifecycle.Person" init-method="myInit" destroy-method="myDestory" scope="singleton" p:name="张三" p:address="广州" p:phone="1234567" >
+<!--        <property name="cat" ref="cat"/>-->
     </bean>
 </beans>

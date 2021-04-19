@@ -13,13 +13,13 @@ public class MyBeanFactoryPostProcessor implements BeanFactoryPostProcessor {
 
     public MyBeanFactoryPostProcessor() {
         super();
-        System.out.println("这是BeanFactoryPostProcessor实现类构造器！！");
+        System.out.println("杩欐槸BeanFactoryPostProcessor瀹炵幇绫绘瀯閫犲櫒锛侊紒");
     }
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory arg0)
             throws BeansException {
-        System.out.println("BeanFactoryPostProcessor调用postProcessBeanFactory方法");
+        System.out.println("BeanFactoryPostProcessor璋冪敤postProcessBeanFactory鏂规硶");
         BeanDefinition bd = arg0.getBeanDefinition("person");
         bd.getPropertyValues().addPropertyValue("phone", "110");
 

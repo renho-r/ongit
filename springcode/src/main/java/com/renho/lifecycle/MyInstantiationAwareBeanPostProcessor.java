@@ -15,31 +15,31 @@ public class MyInstantiationAwareBeanPostProcessor extends
 
     public MyInstantiationAwareBeanPostProcessor() {
         super();
-        System.out.println("这是InstantiationAwareBeanPostProcessorAdapter实现类构造器！！");
+        System.out.println("杩欐槸InstantiationAwareBeanPostProcessorAdapter瀹炵幇绫绘瀯閫犲櫒锛侊紒");
     }
 
-    // 接口方法、实例化Bean之前调用
+    // 鎺ュ彛鏂规硶銆佸疄渚嬪寲Bean涔嬪墠璋冪敤
     @Override
     public Object postProcessBeforeInstantiation(Class beanClass,
                                                  String beanName) throws BeansException {
-        System.out.println("InstantiationAwareBeanPostProcessor调用postProcessBeforeInstantiation方法");
+        System.out.println("InstantiationAwareBeanPostProcessor璋冪敤postProcessBeforeInstantiation鏂规硶");
         return null;
     }
 
-    // 接口方法、实例化Bean之后调用
+    // 鎺ュ彛鏂规硶銆佸疄渚嬪寲Bean涔嬪悗璋冪敤
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName)
             throws BeansException {
-        System.out.println("InstantiationAwareBeanPostProcessor调用postProcessAfterInitialization方法");
+        System.out.println("InstantiationAwareBeanPostProcessor璋冪敤postProcessAfterInitialization鏂规硶");
         return bean;
     }
 
-    // 接口方法、设置某个属性时调用
+    // 鎺ュ彛鏂规硶銆佽缃煇涓睘鎬ф椂璋冪敤
     @Override
     public PropertyValues postProcessPropertyValues(PropertyValues pvs,
                                                     PropertyDescriptor[] pds, Object bean, String beanName)
             throws BeansException {
-        System.out.println("InstantiationAwareBeanPostProcessor调用postProcessPropertyValues方法");
+        System.out.println("InstantiationAwareBeanPostProcessor璋冪敤postProcessPropertyValues鏂规硶");
         return pvs;
     }
 }

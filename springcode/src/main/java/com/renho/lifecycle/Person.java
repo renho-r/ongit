@@ -18,7 +18,7 @@ public class Person implements BeanFactoryAware, BeanNameAware,
     private String beanName;
 
     public Person() {
-        System.out.println("¡¾¹¹ÔìÆ÷¡¿µ÷ÓÃPersonµÄ¹¹ÔìÆ÷ÊµÀı»¯");
+        System.out.println("ã€æ„é€ å™¨ã€‘è°ƒç”¨Personçš„æ„é€ å™¨å®ä¾‹åŒ–");
     }
 
     public String getName() {
@@ -26,7 +26,7 @@ public class Person implements BeanFactoryAware, BeanNameAware,
     }
 
     public void setName(String name) {
-        System.out.println("¡¾×¢ÈëÊôĞÔ¡¿×¢ÈëÊôĞÔname");
+        System.out.println("ã€æ³¨å…¥å±æ€§ã€‘æ³¨å…¥å±æ€§name");
         this.name = name;
     }
 
@@ -35,7 +35,7 @@ public class Person implements BeanFactoryAware, BeanNameAware,
     }
 
     public void setAddress(String address) {
-        System.out.println("¡¾×¢ÈëÊôĞÔ¡¿×¢ÈëÊôĞÔaddress");
+        System.out.println("ã€æ³¨å…¥å±æ€§ã€‘æ³¨å…¥å±æ€§address");
         this.address = address;
     }
 
@@ -44,7 +44,7 @@ public class Person implements BeanFactoryAware, BeanNameAware,
     }
 
     public void setPhone(int phone) {
-        System.out.println("¡¾×¢ÈëÊôĞÔ¡¿×¢ÈëÊôĞÔphone");
+        System.out.println("ã€æ³¨å…¥å±æ€§ã€‘æ³¨å…¥å±æ€§phone");
         this.phone = phone;
     }
 
@@ -54,39 +54,39 @@ public class Person implements BeanFactoryAware, BeanNameAware,
                 + phone + "]";
     }
 
-    // ÕâÊÇBeanFactoryAware½Ó¿Ú·½·¨
+    // è¿™æ˜¯BeanFactoryAwareæ¥å£æ–¹æ³•
     @Override
     public void setBeanFactory(BeanFactory arg0) throws BeansException {
-        System.out.println("¡¾BeanFactoryAware½Ó¿Ú¡¿µ÷ÓÃBeanFactoryAware.setBeanFactory()");
+        System.out.println("ã€BeanFactoryAwareæ¥å£ã€‘è°ƒç”¨BeanFactoryAware.setBeanFactory()");
         this.beanFactory = arg0;
     }
 
-    // ÕâÊÇBeanNameAware½Ó¿Ú·½·¨
+    // è¿™æ˜¯BeanNameAwareæ¥å£æ–¹æ³•
     @Override
     public void setBeanName(String arg0) {
-        System.out.println("¡¾BeanNameAware½Ó¿Ú¡¿µ÷ÓÃBeanNameAware.setBeanName()");
+        System.out.println("ã€BeanNameAwareæ¥å£ã€‘è°ƒç”¨BeanNameAware.setBeanName()");
         this.beanName = arg0;
     }
 
-    // ÕâÊÇInitializingBean½Ó¿Ú·½·¨
+    // è¿™æ˜¯InitializingBeanæ¥å£æ–¹æ³•
     @Override
     public void afterPropertiesSet() throws Exception {
-        System.out.println("¡¾InitializingBean½Ó¿Ú¡¿µ÷ÓÃInitializingBean.afterPropertiesSet()");
+        System.out.println("ã€InitializingBeanæ¥å£ã€‘è°ƒç”¨InitializingBean.afterPropertiesSet()");
     }
 
-    // ÕâÊÇDiposibleBean½Ó¿Ú·½·¨
+    // è¿™æ˜¯DiposibleBeanæ¥å£æ–¹æ³•
     @Override
     public void destroy() throws Exception {
-        System.out.println("¡¾DiposibleBean½Ó¿Ú¡¿µ÷ÓÃDiposibleBean.destory()");
+        System.out.println("ã€DiposibleBeanæ¥å£ã€‘è°ƒç”¨DiposibleBean.destory()");
     }
 
-    // Í¨¹ı<bean>µÄinit-methodÊôĞÔÖ¸¶¨µÄ³õÊ¼»¯·½·¨
+    // é€šè¿‡<bean>çš„init-methodå±æ€§æŒ‡å®šçš„åˆå§‹åŒ–æ–¹æ³•
     public void myInit() {
-        System.out.println("¡¾init-method¡¿µ÷ÓÃ<bean>µÄinit-methodÊôĞÔÖ¸¶¨µÄ³õÊ¼»¯·½·¨");
+        System.out.println("ã€init-methodã€‘è°ƒç”¨<bean>çš„init-methodå±æ€§æŒ‡å®šçš„åˆå§‹åŒ–æ–¹æ³•");
     }
 
-    // Í¨¹ı<bean>µÄdestroy-methodÊôĞÔÖ¸¶¨µÄ³õÊ¼»¯·½·¨
+    // é€šè¿‡<bean>çš„destroy-methodå±æ€§æŒ‡å®šçš„åˆå§‹åŒ–æ–¹æ³•
     public void myDestory() {
-        System.out.println("¡¾destroy-method¡¿µ÷ÓÃ<bean>µÄdestroy-methodÊôĞÔÖ¸¶¨µÄ³õÊ¼»¯·½·¨");
+        System.out.println("ã€destroy-methodã€‘è°ƒç”¨<bean>çš„destroy-methodå±æ€§æŒ‡å®šçš„åˆå§‹åŒ–æ–¹æ³•");
     }
 }
