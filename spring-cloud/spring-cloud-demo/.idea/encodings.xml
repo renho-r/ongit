@@ -4,21 +4,57 @@
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-client" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-client-amqp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-client-amqp/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-client-amqp/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-client-eureka" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-client-eureka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-client-eureka/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-client/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-server" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-server-eureka" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-server-eureka/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-server-eureka/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-config-server/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-client" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-client/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-client/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-feign" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-feign-hystric" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-feign-hystric/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-feign-hystric/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-feign/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-feign/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon-hystrix" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon-hystrix/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon-hystrix/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-server" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-server-config" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-server-config/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-server-config/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-server-docker" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-server-docker/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-server-docker/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-server/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-service-hi-docker" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-service-hi-docker/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-eureka-service-hi-docker/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-zipkin-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-zipkin-server/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-zipkin-server/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-zipkin-service-hi" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-zipkin-service-hi/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-zipkin-service-hi/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-zipkin-service-miya" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-zipkin-service-miya/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-zipkin-service-miya/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/spring-cloud-demo-zuul" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-zuul/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/spring-cloud-demo-zuul/src/main/resources" charset="UTF-8" />
   </component>
 </project>

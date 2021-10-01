@@ -2,29 +2,124 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="da8d1b8b-64a7-4ef0-a4c4-6e4294d4c706" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/../jcip/data/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../jcip/data/log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../jcip/src/com/renho/test/one/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/../jcip/src/com/renho/test/one/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../leetcode/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../leetcode/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../logback-test/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../logback-test/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../logback-test/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../logback-test/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../logback-test/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../logback-test/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../logback-test/logback-test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../logback-test/logback-test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../logback-test/src/main/resources/logback.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../logback-test/src/main/resources/logback4.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../logback-test/target/classes/com/renho/App.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../logback-test/target/classes/logback.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../logback-test/target/classes/logback2.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../logback-test/target/test-classes/com/renho/AppTest.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../spring-cloud/spring-cloud-demo/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-cloud/spring-cloud-demo/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../spring-cloud/spring-cloud-demo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-cloud/spring-cloud-demo/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../spring-cloud/spring-cloud-demo/spring-cloud-demo-eureka-service-hi-docker/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../spring-cloud/spring-cloud-demo/spring-cloud-demo-eureka-service-hi-docker/src/main/resources/application.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/renho/lifecycle/BeanLifeCycle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/renho/lifecycle/BeanLifeCycle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/renho/lifecycle/MyBeanFactoryPostProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/renho/lifecycle/MyBeanFactoryPostProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/renho/lifecycle/MyBeanPostProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/renho/lifecycle/MyBeanPostProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/renho/lifecycle/MyInstantiationAwareBeanPostProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/renho/lifecycle/MyInstantiationAwareBeanPostProcessor.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/renho/lifecycle/Person.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/renho/lifecycle/Person.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/springbean/lifecycle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/springbean/lifecycle.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../文档/docker/docker.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../文档/docker/docker.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../文档/docker/docker连接到物理路由.md" beforeDir="false" afterPath="$PROJECT_DIR$/../文档/docker/docker连接到物理路由.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/linux/linux_cmd.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../文档/linux/linux_cmd.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/activemq安全性.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/activemq.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/broker-localhost.cert" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/broker.ks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/broker.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/client.ks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/client.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/credentials-enc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/credentials.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/groups.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/java.security" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/jetty-realm.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/jetty.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/jmx.access" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/jmx.password" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/log4j.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/logging.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/login.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/mq/conf/users.properties" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../文档/mysql/my.cnf" beforeDir="false" afterPath="$PROJECT_DIR$/../文档/mysql/my.cnf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../文档/mysql/mysql命令.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../文档/mysql/mysql命令.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/._Centos7安装Rabbitmq - CSDN博客.htm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客.htm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/100x100.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/1_zhouyongku.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/20170913101427008" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/201709141012233739.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/201709141014327293.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_fuck487.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_hongchenlingtian.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_huangxinchen520.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_l18637220680.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_linglong0820.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_long690276759.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_lxhjh.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_mx472756841.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_slovyz.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_testcs_dn.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_tony308001970.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_wh211212.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_wk022.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_yunfeng482.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_zhousenshan.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/MathJax.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/adClosefeedbackUpgrade.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/adx(1).php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/adx.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/avatar.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/bd_logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/blog_ver.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/bootstrap.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/bootstrap.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/btn_cancel.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/btn_submit.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/bwocoltlyzdec.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/cm.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/cnick.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/csdn_logo.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/cxpdpmumfaedgm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/default.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/hlfjifjlzizreblfjzb.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/hm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/html2017.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/iconfont.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/index(1).css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/jquery-1.9.1.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/load.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/login.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/markdown_views.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/pixel" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/popupbox.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/pr.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/prettify.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/prettify.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/s(1).html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/s.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/saved_resource.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/share.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/share_style0_16.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/skin2017.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/style(1).css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/style(2).css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/style(3).css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/tracking.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/tracking_for_recommend.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=132211719,67278528&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=141833063,225593059&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=1809881562,1844773471&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=218023967,2981160963&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=2437265852,2726373697&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=263010212,3154310354&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=272474760,3184223397&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=292069272,2266120897&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=405937612,2375436052&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=4175082571,2821565688&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=4223419949,1258454671&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=454917049,3332216669&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=603290286,1009815903&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=610227653,3897368120&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/wxLogin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../文档/rabbitmq/rabbitmq.txt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../文档/redis/cluster集群/redis-cluster.md" beforeDir="false" afterPath="$PROJECT_DIR$/../文档/redis/cluster集群/redis-cluster.md" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -69,6 +164,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Global Libraries" />
@@ -76,7 +172,7 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="File.Encoding" />
   </component>
-  <component name="RunManager" selected="Application.BeanLifeCycle">
+  <component name="RunManager" selected="Application.BeanLifeCycleTest">
     <configuration name="BeanLifeCycle" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.renho.lifecycle.BeanLifeCycle" />
       <module name="springcode" />
@@ -105,8 +201,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.BeanLifeCycle" />
         <item itemvalue="Application.BeanLifeCycleTest" />
+        <item itemvalue="Application.BeanLifeCycle" />
       </list>
     </recent_temporary>
   </component>
@@ -122,7 +218,8 @@
       <updated>1603347612930</updated>
       <workItem from="1603347615049" duration="1726000" />
       <workItem from="1603368414826" duration="7000" />
-      <workItem from="1618824427557" duration="1691000" />
+      <workItem from="1618824427557" duration="2328000" />
+      <workItem from="1626930953749" duration="1900000" />
     </task>
     <servers />
   </component>
@@ -138,46 +235,46 @@
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state width="419" height="646" key="DebuggerActiveHint/0.0.1920.1050@0.0.1920.1050" timestamp="1618825453888" />
-    <state width="1877" height="429" key="GridCell.Tab.0.bottom" timestamp="1618826030052">
+    <state width="1877" height="237" key="GridCell.Tab.0.bottom" timestamp="1626934237361">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="429" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1618826030052" />
-    <state width="1877" height="429" key="GridCell.Tab.0.center" timestamp="1618826030052">
+    <state width="1877" height="237" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1626934237361" />
+    <state width="1877" height="237" key="GridCell.Tab.0.center" timestamp="1626934237360">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="429" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1618826030052" />
-    <state width="1877" height="429" key="GridCell.Tab.0.left" timestamp="1618826030052">
+    <state width="1877" height="237" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1626934237360" />
+    <state width="1877" height="237" key="GridCell.Tab.0.left" timestamp="1626934237360">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="429" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1618826030052" />
-    <state width="1877" height="429" key="GridCell.Tab.0.right" timestamp="1618826030052">
+    <state width="1877" height="237" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1626934237360" />
+    <state width="1877" height="237" key="GridCell.Tab.0.right" timestamp="1626934237361">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="429" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1618826030052" />
-    <state width="1877" height="429" key="GridCell.Tab.1.bottom" timestamp="1618826030053">
+    <state width="1877" height="237" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1626934237361" />
+    <state width="1877" height="237" key="GridCell.Tab.1.bottom" timestamp="1626934237361">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="429" key="GridCell.Tab.1.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1618826030053" />
-    <state width="1877" height="429" key="GridCell.Tab.1.center" timestamp="1618826030053">
+    <state width="1877" height="237" key="GridCell.Tab.1.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1626934237361" />
+    <state width="1877" height="237" key="GridCell.Tab.1.center" timestamp="1626934237361">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="429" key="GridCell.Tab.1.center/0.0.1920.1050@0.0.1920.1050" timestamp="1618826030053" />
-    <state width="1877" height="429" key="GridCell.Tab.1.left" timestamp="1618826030052">
+    <state width="1877" height="237" key="GridCell.Tab.1.center/0.0.1920.1050@0.0.1920.1050" timestamp="1626934237361" />
+    <state width="1877" height="237" key="GridCell.Tab.1.left" timestamp="1626934237361">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="429" key="GridCell.Tab.1.left/0.0.1920.1050@0.0.1920.1050" timestamp="1618826030052" />
-    <state width="1877" height="429" key="GridCell.Tab.1.right" timestamp="1618826030053">
+    <state width="1877" height="237" key="GridCell.Tab.1.left/0.0.1920.1050@0.0.1920.1050" timestamp="1626934237361" />
+    <state width="1877" height="237" key="GridCell.Tab.1.right" timestamp="1626934237361">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state width="1877" height="429" key="GridCell.Tab.1.right/0.0.1920.1050@0.0.1920.1050" timestamp="1618826030053" />
+    <state width="1877" height="237" key="GridCell.Tab.1.right/0.0.1920.1050@0.0.1920.1050" timestamp="1626934237361" />
     <state x="440" y="99" key="SettingsEditor" timestamp="1618824768504">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
     <state x="440" y="99" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1618824768504" />
-    <state x="663" y="243" width="594" height="564" key="find.popup" timestamp="1618825019656">
+    <state x="663" y="243" width="606" height="564" key="find.popup" timestamp="1626931000829">
       <screen x="0" y="0" width="1920" height="1050" />
     </state>
-    <state x="663" y="243" width="594" height="564" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1618825019656" />
+    <state x="663" y="243" width="606" height="564" key="find.popup/0.0.1920.1050@0.0.1920.1050" timestamp="1626931000829" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -256,6 +353,16 @@
           <url>jar://$MAVEN_REPOSITORY$/org/springframework/spring-context/4.3.10.RELEASE/spring-context-4.3.10.RELEASE-sources.jar!/org/springframework/context/support/AbstractApplicationContext.java</url>
           <line>879</line>
           <option name="timeStamp" value="24" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/renho/test/beanlifecycle/lifecyclecomponent/MyBeanFactoryPostProcessor.java</url>
+          <line>13</line>
+          <option name="timeStamp" value="25" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/renho/test/beanlifecycle/lifecyclecomponent/MyBeanFactoryPostProcessor.java</url>
+          <line>19</line>
+          <option name="timeStamp" value="26" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

@@ -92,6 +92,11 @@ ruby redis-trib.rb  create --replicas 1 192.168.111.139:7000 192.168.111.139:700
 ./redis-cli -c -p 7000
 >cluster nodes
 ./redis-cli -c -p 7000 cluster nodes
+./redis-cli --cluster info 127.0.0.1:6389
+./redis-cli -p 7000
+	cluster nodes
+	cluster info
+./redis-cli -c --cluster call 127.0.0.1:6389 keys \*
 ```
 
 # 9. redis5.0新增redis-cli方式
@@ -116,5 +121,11 @@ redis-cli --cluster create 172.154.0.2:6379 172.152.0.2:6379 172.150.0.2:6379
 
 ```shell
 redis-cli -c -p 6379 -h 172.154.0.2
+```
+
+```shell
+redis-cli -c -p 6379 -h 172.154.0.2
+cluster nodes
+cluster info
 ```
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="renhoDao" class="com.renho.dao.impl.RenhoDAOImpl"></bean>
+	<bean id="renhoService" class="com.renho.service.impl.RenhoServiceImpl">
+		<property name="renhoDAO" ref="renhoDao"/>
+	</bean>
+	<bean id="renhoController" class="com.renho.controller.RenhoController">
+		<property name="renhoService" ref="renhoService"/>
+	</bean>
+</beans>

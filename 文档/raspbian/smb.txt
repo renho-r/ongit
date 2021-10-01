@@ -1,0 +1,9 @@
+apt install samba samba-common
+smbpasswd -a ubuntu
+smbpasswd -e ubuntu
+vi /etc/samba/smb.conf
+
+公开共享，不用用户名密码，要设置文件夹777权限
+
+
+smbpasswd ubuntu

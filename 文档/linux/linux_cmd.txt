@@ -42,3 +42,10 @@
 	diff conf_8/server.xml conf_9/server.xml -y -w
 21.文件查找
 	grep -n "port" server.xml
+22.screen
+	screen -S ngrok
+	screen -ls
+	screen -r ngrok #回到yourname这个session
+	screen -d ngrok #远程detach某个session
+	screen -d -r ngrok #结束当前session并回到yourname这个session
+	ctr + a + d后台运行

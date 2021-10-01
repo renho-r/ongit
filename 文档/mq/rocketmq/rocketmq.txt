@@ -1,0 +1,13 @@
+1. 启动nameserver
+nohup sh mqnamesrv &
+
+2. 启动broker
+nohup ./mqbroker -n 192.168.0.105:9876 &
+nohup ./mqbroker -c ../conf/broker.conf &
+
+3. 测试
+export NAMESRV_ADDR=192.168.0.105:9876
+sh tools.sh org.apache.rocketmq.example.quickstart.Producer
+
+4.停止
+./mqshutdown broker

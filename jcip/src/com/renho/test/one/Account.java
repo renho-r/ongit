@@ -52,8 +52,6 @@ public class Account {
         t1.join();
         t2.join();
 
-        AtomicInteger
-
     }
 
 }

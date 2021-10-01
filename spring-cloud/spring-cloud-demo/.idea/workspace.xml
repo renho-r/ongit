@@ -2,52 +2,126 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="01cac5cd-5491-47ab-8f65-30b2f5af7a43" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../jcip/data/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../jcip/data/log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../jcip/src/com/renho/test/one/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../jcip/src/com/renho/test/one/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../leetcode/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../leetcode/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../logback-test/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../logback-test/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../logback-test/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../logback-test/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../logback-test/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../logback-test/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../logback-test/logback-test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../../logback-test/logback-test.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-config-client-amqp/spring-cloud-demo-config-client-amqp.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-config-client-eureka/spring-cloud-demo-config-client-eureka.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-config-client/spring-cloud-demo-config-client.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-config-server-eureka/spring-cloud-demo-config-server-eureka.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-config-server/spring-cloud-demo-config-server.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-eureka-client/spring-cloud-demo-eureka-client.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-eureka-feign-hystric/spring-cloud-demo-eureka-feign-hystric.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-eureka-feign/spring-cloud-demo-eureka-feign.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon-hystrix/spring-cloud-demo-eureka-ribbon-hystrix.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon/spring-cloud-demo-eureka-ribbon.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-eureka-server-config/spring-cloud-demo-eureka-server-config.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-eureka-server-docker/spring-cloud-demo-eureka-server-docker.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-eureka-server-docker/src/main/docker/dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/spring-cloud-demo-eureka-server-docker/src/main/docker/dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-eureka-server/spring-cloud-demo-eureka-server.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-eureka-service-hi-docker/spring-cloud-demo-eureka-service-hi-docker.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-zipkin-server/spring-cloud-demo-zipkin-server.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-zipkin-service-hi/spring-cloud-demo-zipkin-service-hi.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-zipkin-service-miya/spring-cloud-demo-zipkin-service-miya.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-zuul/spring-cloud-demo-zuul.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/spring-cloud-demo.iml" beforeDir="false" afterPath="$PROJECT_DIR$/spring-cloud-demo.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../文档/influxdb/influxdb.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/spring-cloud-demo-eureka-service-hi-docker/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/spring-cloud-demo-eureka-service-hi-docker/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../springcode/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../springcode/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/docker/docker.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../文档/docker/docker.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/docker/docker连接到物理路由.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../文档/docker/docker连接到物理路由.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/linux/linux_cmd.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../文档/linux/linux_cmd.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/activemq安全性.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/activemq.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/broker-localhost.cert" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/broker.ks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/broker.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/client.ks" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/client.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/credentials-enc.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/credentials.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/groups.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/java.security" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/jetty-realm.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/jetty.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/jmx.access" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/jmx.password" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/log4j.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/logging.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/login.config" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mq/conf/users.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mysql/my.cnf" beforeDir="false" afterPath="$PROJECT_DIR$/../../文档/mysql/my.cnf" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/mysql/mysql命令.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../文档/mysql/mysql命令.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/._Centos7安装Rabbitmq - CSDN博客.htm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客.htm" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/100x100.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/1_zhouyongku.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/20170913101427008" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/201709141012233739.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/201709141014327293.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_fuck487.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_hongchenlingtian.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_huangxinchen520.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_l18637220680.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_linglong0820.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_long690276759.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_lxhjh.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_mx472756841.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_slovyz.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_testcs_dn.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_tony308001970.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_wh211212.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_wk022.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_yunfeng482.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/2_zhousenshan.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/MathJax.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/adClosefeedbackUpgrade.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/adx(1).php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/adx.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/avatar.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/bd_logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/blog_ver.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/bootstrap.min.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/bootstrap.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/btn_cancel.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/btn_submit.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/bwocoltlyzdec.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/cm.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/cnick.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/csdn_logo.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/cxpdpmumfaedgm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/default.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/hlfjifjlzizreblfjzb.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/hm.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/html2017.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/iconfont.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/index(1).css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/jquery-1.9.1.min.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/load.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/login.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/main.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/markdown_views.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/pixel" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/popupbox.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/pr.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/prettify.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/prettify.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/s(1).html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/s.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/saved_resource.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/share.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/share_style0_16.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/skin2017.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/style(1).css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/style(2).css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/style(3).css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/style.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/tracking.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/tracking_for_recommend.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=132211719,67278528&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=141833063,225593059&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=1809881562,1844773471&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=218023967,2981160963&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=2437265852,2726373697&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=263010212,3154310354&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=272474760,3184223397&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=292069272,2266120897&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=405937612,2375436052&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=4175082571,2821565688&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=4223419949,1258454671&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=454917049,3332216669&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=603290286,1009815903&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/u=610227653,3897368120&amp;fm=76" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/Centos7安装Rabbitmq - CSDN博客_files/wxLogin.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/rabbitmq/rabbitmq.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../文档/redis/cluster集群/redis-cluster.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../文档/redis/cluster集群/redis-cluster.md" afterDir="false" />
     </list>
-    <ignored path="$PROJECT_DIR$/classes/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-eureka-service-hi-docker/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-zipkin-service-miya/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-config-client-amqp/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-eureka-server-config/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-zipkin-service-hi/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-config-client-eureka/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-config-client/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-config-server/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-eureka-server-docker/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-zuul/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-eureka-ribbon-hystrix/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-zipkin-server/target/" />
-    <ignored path="$PROJECT_DIR$/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-eureka-server/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-eureka-feign/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-config-server-eureka/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-eureka-feign-hystric/target/" />
-    <ignored path="$PROJECT_DIR$/spring-cloud-demo-eureka-client/target/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -57,24 +131,14 @@
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
   </component>
-  <component name="FileEditorManager">
-    <leaf />
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/spring-cloud-demo-eureka-server-docker/src/main/docker/dockerfile" />
-      </list>
-    </option>
   </component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
         <option name="localRepository" value="D:\dev\apache-maven-3.5.4\repository" />
-        <option name="mavenHome" value="D:/dev/apache-maven-3.5.4" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../../dev/apache-maven-3.5.4" />
         <option name="userSettingsFile" value="D:\dev\apache-maven-3.5.4\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
@@ -84,22 +148,11 @@
       </MavenImportingSettings>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-7" />
-    <option name="y" value="-7" />
-    <option name="width" value="1295" />
-    <option name="height" value="715" />
-  </component>
+  <component name="ProjectId" id="1r65Y95Cp5bqwVc2zl4jkbDT43o" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="ProjectPane" />
-      <pane id="PackagesPane" />
-    </panes>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
     <property name="RequestMappingsPanelOrder0" value="0" />
@@ -108,10 +161,12 @@
     <property name="RequestMappingsPanelWidth0" value="75" />
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="RequestMappingsPanelWidth2" value="75" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/spring-cloud-demo-eureka-server-docker/src/main/docker/dockerfile" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../spring-cloud-demo" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Project" />
@@ -125,22 +180,37 @@
         <option value="SpringBootApplicationConfigurationType" />
       </set>
     </option>
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-    <option name="contentProportion" value="0.24404761" />
   </component>
-  <component name="RunManager" selected="Docker.euraka-server154">
+  <component name="RunManager" selected="Docker.euraka-server152">
+    <configuration name="ServiceHiApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.renho.ServiceHiApplication" />
+      <module name="spring-cloud-demo-eureka-client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.renho.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="EurekaserverApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
       <module name="spring-cloud-demo-eureka-server-docker" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.renho.EurekaserverApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServiceFeignApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="spring-cloud-demo-eureka-feign" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.renho.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.renho.ServiceFeignApplication" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -152,15 +222,47 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ServiceHiApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true">
+      <module name="spring-cloud-demo-eureka-client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.renho.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.renho.ServiceHiApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="euraka-server152" type="docker-deploy" factoryName="dockerfile" server-name="Docker152">
+      <deployment type="dockerfile">
+        <settings>
+          <option name="imageTag" value="spring-cloud-demo-euraka-server" />
+          <option name="buildCliOptions" value="" />
+          <option name="buildOnly" value="true" />
+          <option name="command" value="" />
+          <option name="containerName" value="" />
+          <option name="contextFolderPath" value="spring-cloud-demo-eureka-server-docker/target" />
+          <option name="entrypoint" value="" />
+          <option name="commandLineOptions" value="" />
+          <option name="sourceFilePath" value="spring-cloud-demo-eureka-server-docker/src/main/docker/dockerfile" />
+        </settings>
+      </deployment>
+      <method v="2">
+        <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="clean package" />
+      </method>
+    </configuration>
     <configuration name="euraka-server154" type="docker-deploy" factoryName="dockerfile" server-name="Docker154">
       <deployment type="dockerfile">
         <settings>
+          <option name="imageTag" value="spring-cloud-demo-euraka-server" />
           <option name="buildCliOptions" value="" />
           <option name="command" value="" />
           <option name="containerName" value="spring-cloud-demo-euraka-server" />
           <option name="contextFolderPath" value="spring-cloud-demo-eureka-server-docker/target" />
           <option name="entrypoint" value="" />
-          <option name="imageTag" value="spring-cloud-demo-euraka-server" />
           <option name="portBindings">
             <list>
               <DockerPortBindingImpl>
@@ -180,12 +282,12 @@
     <configuration name="euraka-server156" type="docker-deploy" factoryName="dockerfile" server-name="Docker156">
       <deployment type="dockerfile">
         <settings>
+          <option name="imageTag" value="spring-cloud-demo-euraka-server" />
           <option name="buildCliOptions" value="" />
           <option name="command" value="" />
           <option name="containerName" value="spring-cloud-demo-euraka-server" />
           <option name="contextFolderPath" value="spring-cloud-demo-eureka-server-docker/target" />
           <option name="entrypoint" value="" />
-          <option name="imageTag" value="spring-cloud-demo-euraka-server" />
           <option name="portBindings">
             <list>
               <DockerPortBindingImpl>
@@ -203,11 +305,21 @@
       </method>
     </configuration>
     <list>
+      <item itemvalue="Application.ServiceHiApplication" />
       <item itemvalue="Docker.euraka-server156" />
       <item itemvalue="Docker.euraka-server154" />
+      <item itemvalue="Docker.euraka-server152" />
       <item itemvalue="Spring Boot.EurekaserverApplication" />
       <item itemvalue="Spring Boot.ServiceHiApplication" />
+      <item itemvalue="Spring Boot.ServiceFeignApplication" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ServiceHiApplication" />
+        <item itemvalue="Spring Boot.ServiceHiApplication" />
+        <item itemvalue="Spring Boot.ServiceFeignApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -221,139 +333,51 @@
       <updated>1594479746306</updated>
       <workItem from="1594479747475" duration="5305000" />
       <workItem from="1594714315611" duration="250000" />
+      <workItem from="1618283746458" duration="113000" />
+      <workItem from="1618308749131" duration="16000" />
+      <workItem from="1618310865958" duration="898000" />
+      <workItem from="1619165638052" duration="17000" />
+      <workItem from="1619170761481" duration="1856000" />
+      <workItem from="1632236682277" duration="4306000" />
+      <workItem from="1632574470727" duration="2669000" />
     </task>
     <servers />
   </component>
-  <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5555000" />
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
-    <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25266525" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info id="Designer" order="2" />
-      <window_info id="Image Layers" order="3" />
-      <window_info id="Capture Tool" order="4" />
-      <window_info id="UI Designer" order="5" />
-      <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info id="Web" order="7" side_tool="true" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.68240345" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="8" />
-      <window_info anchor="bottom" id="Docker" order="9" visible="true" weight="0.31545064" />
-      <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.32939914" />
-      <window_info anchor="bottom" id="Java Enterprise" order="12" />
-      <window_info anchor="bottom" id="Database Changes" order="13" />
-      <window_info anchor="bottom" id="Version Control" order="14" />
-      <window_info anchor="bottom" id="Run Dashboard" order="15" weight="0.44313306" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="Maven" order="3" />
-      <window_info anchor="right" id="Palette" order="4" />
-      <window_info anchor="right" id="Capture Analysis" order="5" />
-      <window_info anchor="right" id="Database" order="6" />
-      <window_info anchor="right" id="Palette&#9;" order="7" />
-      <window_info anchor="right" id="Theme Preview" order="8" />
-      <window_info anchor="right" id="Bean Validation" order="9" />
-    </layout>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+    <option name="version" value="2" />
   </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/spring-cloud-demo-eureka-server-docker/src/main/java/com/renho/EurekaserverApplication.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="8" column="13" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/spring-cloud-demo-eureka-server-docker/src/main/docker/dockerfile">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="14" selection-start-column="14" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-  </component>
-  <component name="masterDetails">
-    <states>
-      <state key="ArtifactsStructureConfigurable.UI">
-        <settings>
-          <artifact-editor />
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="FacetStructureConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="GlobalLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="JdkListConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ModuleStructureConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-      <state key="ProjectLibrariesConfigurable.UI">
-        <settings>
-          <splitter-proportions>
-            <option name="proportions">
-              <list>
-                <option value="0.2" />
-              </list>
-            </option>
-          </splitter-proportions>
-        </settings>
-      </state>
-    </states>
+  <component name="WindowStateProjectService">
+    <state x="723" y="246" key="#Docker152" timestamp="1632573624324">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="723" y="246" key="#Docker152/0.0.1920.1050@0.0.1920.1050" timestamp="1632573624324" />
+    <state x="414" y="180" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1632575515623">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="414" y="180" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1050@0.0.1920.1050" timestamp="1632575515623" />
+    <state x="740" y="280" key="FileChooserDialogImpl" timestamp="1632574337666">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="740" y="280" key="FileChooserDialogImpl/0.0.1920.1050@0.0.1920.1050" timestamp="1632574337666" />
+    <state width="1877" height="717" key="GridCell.Tab.0.bottom" timestamp="1632588561993">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="717" key="GridCell.Tab.0.bottom/0.0.1920.1050@0.0.1920.1050" timestamp="1632588561993" />
+    <state width="1877" height="717" key="GridCell.Tab.0.center" timestamp="1632588561992">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="717" key="GridCell.Tab.0.center/0.0.1920.1050@0.0.1920.1050" timestamp="1632588561992" />
+    <state width="1877" height="717" key="GridCell.Tab.0.left" timestamp="1632588561992">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="717" key="GridCell.Tab.0.left/0.0.1920.1050@0.0.1920.1050" timestamp="1632588561992" />
+    <state width="1877" height="717" key="GridCell.Tab.0.right" timestamp="1632588561992">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state width="1877" height="717" key="GridCell.Tab.0.right/0.0.1920.1050@0.0.1920.1050" timestamp="1632588561992" />
+    <state x="440" y="99" key="SettingsEditor" timestamp="1632236693903">
+      <screen x="0" y="0" width="1920" height="1050" />
+    </state>
+    <state x="440" y="99" key="SettingsEditor/0.0.1920.1050@0.0.1920.1050" timestamp="1632236693903" />
   </component>
 </project>

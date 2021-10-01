@@ -1,77 +1,77 @@
-1.¿ØÖÆÌ¨µÇÂ¼mysql
-	mysql -uroot -p
-	mysql -hÖ÷»úµØÖ· -uÓÃ»§Ãû -pÓÃ»§ÃÜÂë
-	mysql -h 10.1.249.*** -u aidns -p
-2.ÏÔÊ¾µ±Ç°ÒÑ¾­´æÔÚµÄÊı¾İ¿â 
-	show databases;
-3.´ò¿ª¿â
-	use Êı¾İ¿âÃû
-4.ÏÔÊ¾¿âÖĞµÄÊı¾İ±í
-	show tables;
-5.ÏÔÊ¾Êı¾İ±íµÄ½á¹¹:
-¡¡describe ±íÃû;
-6.½¨¿â:
-¡¡create database ¿âÃû;
-7.½¨±í:
-¡¡use ¿âÃû;
-¡¡create table ±íÃû (×Ö¶ÎÉè¶¨ÁĞ±í);
-8.É¾¿âºÍÉ¾±í:
-¡¡drop database ¿âÃû;
-¡¡drop table ±íÃû;
-9.½«±íÖĞ¼ÇÂ¼Çå¿Õ:
-¡¡delete from ±íÃû;
-10.ÏÔÊ¾±íÖĞµÄ¼ÇÂ¼:
-¡¡select * from ±íÃû;
-11.µ¼³ö
-	mysqldump -u ÓÃ»§Ãû -p Êı¾İ¿âÃû > µ¼³öµÄÎÄ¼şÃû
-	11.1µ¼³öÈ«¿â±¸·İµ½±¾µØµÄÄ¿Â¼
-		mysqldump -u$USER -p$PASSWD -h127.0.0.1 -P3306 --routines --default-character-set=utf8 --lock-all-tables --add-drop-database -A > db.all.sql
-  11.2µ¼³öÖ¸¶¨¿âµ½±¾µØµÄÄ¿Â¼(ÀıÈçmysql¿â)
+1.æ§åˆ¶å°ç™»å½•mysql
+  mysql -uroot -p
+  mysql -hä¸»æœºåœ°å€ -uç”¨æˆ·å -pç”¨æˆ·å¯†ç 
+  mysql -h 10.1.249.*** -u aidns -p
+2.æ˜¾ç¤ºå½“å‰å·²ç»å­˜åœ¨çš„æ•°æ®åº“ 
+  show databases;
+3.æ‰“å¼€åº“
+  use æ•°æ®åº“å
+4.æ˜¾ç¤ºåº“ä¸­çš„æ•°æ®è¡¨
+  show tables;
+5.æ˜¾ç¤ºæ•°æ®è¡¨çš„ç»“æ„:
+ã€€describe è¡¨å;
+6.å»ºåº“:
+ã€€create database åº“å;
+7.å»ºè¡¨:
+ã€€use åº“å;
+ã€€create table è¡¨å (å­—æ®µè®¾å®šåˆ—è¡¨);
+8.åˆ åº“å’Œåˆ è¡¨:
+ã€€drop database åº“å;
+ã€€drop table è¡¨å;
+9.å°†è¡¨ä¸­è®°å½•æ¸…ç©º:
+ã€€delete from è¡¨å;
+10.æ˜¾ç¤ºè¡¨ä¸­çš„è®°å½•:
+ã€€select * from è¡¨å;
+11.å¯¼å‡º
+  mysqldump -u ç”¨æˆ·å -p æ•°æ®åº“å > å¯¼å‡ºçš„æ–‡ä»¶å
+  11.1å¯¼å‡ºå…¨åº“å¤‡ä»½åˆ°æœ¬åœ°çš„ç›®å½•
+    mysqldump -u$USER -p$PASSWD -h127.0.0.1 -P3306 --routines --default-character-set=utf8 --lock-all-tables --add-drop-database -A > db.all.sql
+  11.2å¯¼å‡ºæŒ‡å®šåº“åˆ°æœ¬åœ°çš„ç›®å½•(ä¾‹å¦‚mysqlåº“)
     mysqldump -u$USER -p$PASSWD -h127.0.0.1 -P3306 --routines --default-character-set=utf8 --databases mysql > db.sql
-  11.3µ¼³öÄ³¸ö¿âµÄ±íµ½±¾µØµÄÄ¿Â¼(ÀıÈçmysql¿âµÄuser±í)
+  11.3å¯¼å‡ºæŸä¸ªåº“çš„è¡¨åˆ°æœ¬åœ°çš„ç›®å½•(ä¾‹å¦‚mysqlåº“çš„userè¡¨)
     mysqldump -u$USER -p$PASSWD -h127.0.0.1 -P3306 --routines --default-character-set=utf8 --tables mysql user> db.table.sql
-  11.4µ¼³öÖ¸¶¨¿âµÄ±í(½öÊı¾İ)µ½±¾µØµÄÄ¿Â¼(ÀıÈçmysql¿âµÄuser±í,´ø¹ıÂËÌõ¼ş)
+  11.4å¯¼å‡ºæŒ‡å®šåº“çš„è¡¨(ä»…æ•°æ®)åˆ°æœ¬åœ°çš„ç›®å½•(ä¾‹å¦‚mysqlåº“çš„userè¡¨,å¸¦è¿‡æ»¤æ¡ä»¶)
     mysqldump -u$USER -p$PASSWD -h127.0.0.1 -P3306 --routines --default-character-set=utf8 --no-create-db --no-create-info --tables mysql user --where="host='localhost'"> db.table.sql
-    -c ´ø×Ö¶ÎÃû³Æ
-  11.5µ¼³öÄ³¸ö¿âµÄËùÓĞ±í½á¹¹
+    -c å¸¦å­—æ®µåç§°
+  11.5å¯¼å‡ºæŸä¸ªåº“çš„æ‰€æœ‰è¡¨ç»“æ„
     mysqldump -u$USER -p$PASSWD -h127.0.0.1 -P3306 --routines --default-character-set=utf8 --no-data --databases mysql > db.nodata.sql
-  11.6µ¼³öÄ³¸ö²éÑ¯sqlµÄÊı¾İÎªtxt¸ñÊ½ÎÄ¼şµ½±¾µØµÄÄ¿Â¼(¸÷Êı¾İÖµÖ®¼äÓÃ"ÖÆ±í·û"·Ö¸ô)
-    ÀıÈçsqlÎª'select user,host,password from mysql.user;'
+  11.6å¯¼å‡ºæŸä¸ªæŸ¥è¯¢sqlçš„æ•°æ®ä¸ºtxtæ ¼å¼æ–‡ä»¶åˆ°æœ¬åœ°çš„ç›®å½•(å„æ•°æ®å€¼ä¹‹é—´ç”¨"åˆ¶è¡¨ç¬¦"åˆ†éš”)
+    ä¾‹å¦‚sqlä¸º'select user,host,password from mysql.user;'
     mysql -u$USER -p$PASSWD -h127.0.0.1 -P3306 --default-character-set=utf8 --skip-column-names -B -e 'select user,host,password from mysql.user;' > mysql_user.txt
-  11.7µ¼³öÄ³¸ö²éÑ¯sqlµÄÊı¾İÎªtxt¸ñÊ½ÎÄ¼şµ½MySQL·şÎñÆ÷.
-    µÇÂ¼MySQL,½«Ä¬ÈÏµÄÖÆ±í·û»»³É¶ººÅ.(ÊÊÓ¦csv¸ñÊ½ÎÄ¼ş).
-    Ö¸¶¨µÄÂ·¾¶,mysqlÒªÓĞĞ´µÄÈ¨ÏŞ.×îºÃÓÃtmpÄ¿Â¼,ÎÄ¼şÓÃÍêÖ®ºó,ÔÙÉ¾³ı!
+  11.7å¯¼å‡ºæŸä¸ªæŸ¥è¯¢sqlçš„æ•°æ®ä¸ºtxtæ ¼å¼æ–‡ä»¶åˆ°MySQLæœåŠ¡å™¨.
+    ç™»å½•MySQL,å°†é»˜è®¤çš„åˆ¶è¡¨ç¬¦æ¢æˆé€—å·.(é€‚åº”csvæ ¼å¼æ–‡ä»¶).
+    æŒ‡å®šçš„è·¯å¾„,mysqlè¦æœ‰å†™çš„æƒé™.æœ€å¥½ç”¨tmpç›®å½•,æ–‡ä»¶ç”¨å®Œä¹‹å,å†åˆ é™¤!
     SELECT user,host,password FROM mysql.user INTO OUTFILE '/tmp/mysql_user.csv' FIELDS TERMINATED BY ',';
   11.8
     mysqldump -u -p -h -P3306 --skip-quote-names --compact --no-create-info --skip-extended-insert --skip-add-locks -c --tables db tables > C:/Users/renho/Desktop/init.sql
-12.µ¼Èë
-  12.1»Ö¸´È«¿âÊı¾İµ½MySQL,ÒòÎª°üº¬mysql¿âµÄÈ¨ÏŞ±í,µ¼ÈëÍê³ÉĞèÒªÖ´ĞĞFLUSH PRIVILEGES;ÃüÁî
-    µÚÒ»ÖÖ·½·¨:
-    	mysql -u$USER -p$PASSWD -h127.0.0.1 -P3306 --default-character-set=utf8 < db.all.sql
-    µÚ¶şÖÖ·½·¨:
-    	µÇÂ¼MySQL,Ö´ĞĞsourceÃüÁî,ºóÃæµÄÎÄ¼şÃûÒªÓÃ¾ø¶ÔÂ·¾¶.
-    	......
-    	mysql> source /tmp/db.all.sql;
-  12.2»Ö¸´Ä³¸ö¿âµÄÊı¾İ(mysql¿âµÄuser±í)
-    µÚÒ»ÖÖ·½·¨:
-    	mysql -u$USER -p$PASSWD -h127.0.0.1 -P3306 --default-character-set=utf8 mysql < db.table.sql
-    µÚ¶şÖÖ·½·¨:
-    	µÇÂ¼MySQL,Ö´ĞĞsourceÃüÁî,ºóÃæµÄÎÄ¼şÃûÒªÓÃ¾ø¶ÔÂ·¾¶.
-    	mysql -u$USER -p$PASSWD -h127.0.0.1 -P3306 --default-character-set=utf8
-    	......
-    	mysql> use mysql;
-    	mysql> source /tmp/db.table.sql;
-  12.3»Ö¸´MySQL·şÎñÆ÷ÉÏÃæµÄtxt¸ñÊ½ÎÄ¼ş(ĞèÒªFILEÈ¨ÏŞ,¸÷Êı¾İÖµÖ®¼äÓÃ"ÖÆ±í·û"·Ö¸ô)
+12.å¯¼å…¥
+  12.1æ¢å¤å…¨åº“æ•°æ®åˆ°MySQL,å› ä¸ºåŒ…å«mysqlåº“çš„æƒé™è¡¨,å¯¼å…¥å®Œæˆéœ€è¦æ‰§è¡ŒFLUSH PRIVILEGES;å‘½ä»¤
+    ç¬¬ä¸€ç§æ–¹æ³•:
+      mysql -u$USER -p$PASSWD -h127.0.0.1 -P3306 --default-character-set=utf8 < db.all.sql
+    ç¬¬äºŒç§æ–¹æ³•:
+      ç™»å½•MySQL,æ‰§è¡Œsourceå‘½ä»¤,åé¢çš„æ–‡ä»¶åè¦ç”¨ç»å¯¹è·¯å¾„.
+      ......
+      mysql> source /tmp/db.all.sql;
+  12.2æ¢å¤æŸä¸ªåº“çš„æ•°æ®(mysqlåº“çš„userè¡¨)
+    ç¬¬ä¸€ç§æ–¹æ³•:
+      mysql -u$USER -p$PASSWD -h127.0.0.1 -P3306 --default-character-set=utf8 mysql < db.table.sql
+    ç¬¬äºŒç§æ–¹æ³•:
+      ç™»å½•MySQL,æ‰§è¡Œsourceå‘½ä»¤,åé¢çš„æ–‡ä»¶åè¦ç”¨ç»å¯¹è·¯å¾„.
+      mysql -u$USER -p$PASSWD -h127.0.0.1 -P3306 --default-character-set=utf8
+      ......
+      mysql> use mysql;
+      mysql> source /tmp/db.table.sql;
+  12.3æ¢å¤MySQLæœåŠ¡å™¨ä¸Šé¢çš„txtæ ¼å¼æ–‡ä»¶(éœ€è¦FILEæƒé™,å„æ•°æ®å€¼ä¹‹é—´ç”¨"åˆ¶è¡¨ç¬¦"åˆ†éš”)
     mysql -u$USER -p$PASSWD -h127.0.0.1 -P3306 --default-character-set=utf8
     ......
     mysql> use mysql;
     mysql> LOAD DATA INFILE '/tmp/mysql_user.txt' INTO TABLE user ;
-  12.4»Ö¸´MySQL·şÎñÆ÷ÉÏÃæµÄcsv¸ñÊ½ÎÄ¼ş(ĞèÒªFILEÈ¨ÏŞ,¸÷Êı¾İÖµÖ®¼äÓÃ"¶ººÅ"·Ö¸ô)
+  12.4æ¢å¤MySQLæœåŠ¡å™¨ä¸Šé¢çš„csvæ ¼å¼æ–‡ä»¶(éœ€è¦FILEæƒé™,å„æ•°æ®å€¼ä¹‹é—´ç”¨"é€—å·"åˆ†éš”)
     mysql -u$USER -p$PASSWD -h127.0.0.1 -P3306 --default-character-set=utf8
     ......
     mysql> use mysql;
     mysql> LOAD DATA INFILE '/tmp/mysql_user.csv' INTO TABLE user FIELDS TERMINATED BY ',';
-  12.5»Ö¸´±¾µØµÄtxt»òcsvÎÄ¼şµ½MySQL
+  12.5æ¢å¤æœ¬åœ°çš„txtæˆ–csvæ–‡ä»¶åˆ°MySQL
     mysql -u$USER -p$PASSWD -h127.0.0.1 -P3306 --default-character-set=utf8
     ......
     mysql> use mysql;
@@ -79,30 +79,31 @@
     mysql> LOAD DATA LOCAL INFILE '/tmp/mysql_user.csv' INTO TABLE user;
     # csv
     mysql> LOAD DATA LOCAL INFILE '/tmp/mysql_user.csv' INTO TABLE user FIELDS TERMINATED BY ',';
-13.ĞÂ½¨ÓÃ»§
-	mysql>create user renho identified by '****';	
-	ÊÚÈ¨
-		mysql>grant OPTION on *.* to renho;
-		mysql>grant all on *.* to renho;
-	¸ü¸ÄÃÜÂë
-		mysql>set password for renho=password('renho');
-		mysql> update mysql.user set password=password('renho')  where user='renho'
-14.É¾³ıÓÃ»§
-	mysql>drop user renho;
-	»ØÊÕÈ¨ÏŞ
-		mysql>revoke select on *.* from renho;  //Èç¹ûÈ¨ÏŞ²»´æÔÚ»á±¨´í
-15.ÃüÁîĞĞÁ¬½Ó
-	SET character_set_client = utf8 ; 
-	SET character_set_connection = utf8 ; 
+13.æ–°å»ºç”¨æˆ·
+  mysql>create user renho identified by '****'; 
+  æˆæƒ
+    mysql>grant OPTION on *.* to renho;
+    mysql>grant all on *.* to renho;
+    mysql>grant select, update, insert, update on scms.* to 'myself'@'%';
+  æ›´æ”¹å¯†ç 
+    mysql>set password for renho=password('renho');
+    mysql> update mysql.user set password=password('renho')  where user='renho'
+14.åˆ é™¤ç”¨æˆ·
+  mysql>drop user renho;
+  å›æ”¶æƒé™
+    mysql>revoke select on *.* from renho;  //å¦‚æœæƒé™ä¸å­˜åœ¨ä¼šæŠ¥é”™
+15.å‘½ä»¤è¡Œè¿æ¥
+  SET character_set_client = utf8 ; 
+  SET character_set_connection = utf8 ; 
   set character_set_results=utf8;
-16.¸ôÀë¼¶±ğ
-  ²é¿´
+16.éš”ç¦»çº§åˆ«
+  æŸ¥çœ‹
     -- SELECT @@tx_isolation;
     SELECT @@global.transaction_isolation;
     SELECT @@transaction_isolation;
-  ÉèÖÃÊÂÎñµÄ¸ôÀë ¼¶±ğ£º
-    set  [glogal | session]  transaction isolation level ¸ôÀë¼¶±ğÃû³Æ;
-    set tx_isolation=¡¯¸ôÀë¼¶±ğÃû³Æ;¡¯
+  è®¾ç½®äº‹åŠ¡çš„éš”ç¦» çº§åˆ«ï¼š
+    set  [glogal | session]  transaction isolation level éš”ç¦»çº§åˆ«åç§°;
+    set tx_isolation=â€™éš”ç¦»çº§åˆ«åç§°;â€™
 
     set global transaction isolation level read uncommitted;
     SET transaction_isolation='read-uncommitted';
@@ -115,7 +116,7 @@
 
     set global transaction isolation level serializable;
     SET transaction_isolation='serializable';
-  ¿ªÆôÊÂÎñ
+  å¼€å¯äº‹åŠ¡
     start transaction;
     rollback;
     commit;

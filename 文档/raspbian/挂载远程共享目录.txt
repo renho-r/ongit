@@ -1,0 +1,9 @@
+1 安装CIFS Utils包
+    sudo apt-get install cifs-utils
+2 创建挂载点
+    sudo mkdir /mnt/nas_share
+3 挂载远程
+    mount -t cifs //192.168.0.105/share /mnt/nas_share -o username='username',password='password',vers=1.0
+4 /etc/fstab
+    /dev/sda2 /media/root/新加卷 ntfs defaults 0 0
+    //192.168.0.105/share /mnt/nas_share cifs username=username,password=password,vers=1.0

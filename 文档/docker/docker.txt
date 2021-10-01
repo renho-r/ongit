@@ -20,7 +20,7 @@
 
 	docker rmi $(docker images -f "dangling=true" -q)
 7.新建网络
-	docker network create --subnet=172.22.0.0/16 renho
+	docker network create --subnet=10.19.96.0/24 renho
 
 8.docker nginx
 	docker cp 19b951:/etc/nginx/ /home/pi/docker-nginx
@@ -32,8 +32,39 @@
 	--network renho --ip 172.22.0.100 \
 	--restart=unless-stopped \
 	-d nginx
+
+    docker run \
+    --privileged=true \
+    --name centos7 \
+    --hostname pi156-centos7 \
+    --net renho \
+    --ip 172.0.156.2 \
+    -v /root/centos7:/data \
+    --restart=unless-stopped \
+    -d ajeetraina/centos7-arm:latest \
+    /usr/sbin/init
+
+  docker run \
+  --privileged=true \
+  --name redis \
+  --hostname redis \
+  --net renho-ip \
+  --ip 192.168.0.73 \
+  -v /root/redis/redis.conf:/etc/redis/redis.conf \
+  -v /root/redis/data:/data \
+  -d redis \
+  redis-server /etc/redis/redis.conf
 9.查看ip
     docker inspect -f '{{.Name}} - {{.NetworkSettings.IPAddress }}' $(docker ps -aq)
+10.清除不使用的volume
+    docker volume ls -qf dangling=true
+    docker volume rm $(docker volume ls -qf dangling=true)
+11.容器打包成镜像
+    docker commit -a "renho" -m "centos7_jdk8" 5c88cad0c55c  centos7_jdk8 
+    docker save -o centos7_jdk8.tar centos7_jdk8
+    docker load --input centos7_jdk8.tar
+
+
 
 
  netstat -anp|grep 2375
@@ -183,3 +214,6 @@ systemctl enable docker
 
 
 --cap-add=SYS_PTRACE
+
+
+/lib/systemd/system/docker.service
